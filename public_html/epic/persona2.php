@@ -8,11 +8,17 @@
 		<main>
 			<!-- persona section -->
 			<section>
-				<h1>Persona</h1>
-				<h2></h2>
+				<h1>Persona 2</h1>
+				<h2>Pepe</h2>
 				<!-- add new p as needed -->
 				<!-- persona trait goes in the strong tags, in front of the : (e.g. <strong>Needs:</strong>) -->
-				<p><strong>:</strong></p>
+				<p><strong>Name: </strong> Pepe<br>
+					<strong>Technology:</strong> Android smart phone with default Chrome browser.<br>
+					<strong>Comfortable: </strong>
+
+
+				</p>
+				<
 			</section>
 			<!-- summary section -->
 			<section>
