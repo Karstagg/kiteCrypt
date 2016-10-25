@@ -29,7 +29,7 @@
 				<h1>Summary</h1>
 				<!-- make new li as needed for summary items-->
 				<ul>
-					<li>Wants to mprove customer experience by providing timely and secure correspondence.</li>
+					<li>Wants to improve customer experience by providing timely and secure correspondence.</li>
 				</ul>
 			</section>
 		</main>
