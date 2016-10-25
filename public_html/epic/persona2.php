@@ -9,6 +9,7 @@
 			<!-- persona section -->
 			<section>
 				<h1>Persona 2</h1>
+				<img src="img/kitecrypt-pepe.jpg" alt="Picture of Pepe">
 				<h2>Pepe</h2>
 				<!-- add new p as needed -->
 				<!-- persona trait goes in the strong tags, in front of the : (e.g. <strong>Needs:</strong>) -->
