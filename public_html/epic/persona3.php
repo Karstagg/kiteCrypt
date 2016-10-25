@@ -33,7 +33,7 @@
 					<li>Tech expert</li>
 					<li>Network security specialist</li>
 					<li>likes encryption</li>
-					<li>needs to communicate securely and reliably without fear</li>
+					<li>needs to communicate securely and reliably without fear </li>
 				</ul>
 			</section>
 		</main>
