@@ -2,16 +2,15 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<link rel="stylesheet" href="../css/css-epic.css" type="text/css" />
+		<link rel="stylesheet" href="../epic/css/css-epic.css" type="text/css" />
 	</head>
 	<body>
 		<main>
 			<!-- persona section -->
 			<section>
 				<h1>Persona</h1>
-				<div class="img">
 				<img src="img/kitecrypt-janice.jpg" alt="Picture of Janice">
-				</div>
+
 				<h2>Janice</h2>
 				<!-- add new p as needed -->
 				<!-- persona trait goes in the strong tags, in front of the : (e.g. <strong>Needs:</strong>) -->
