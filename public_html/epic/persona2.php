@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 	<head>
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="../epic/css/css-epic.css" type="text/css" />
@@ -23,13 +23,14 @@
 					<li>Web Apps</li>
 				</ul>
 				<p><strong>Career:</strong> Artist, who runs a Art Gallary</p>
-				<p><stong>Needs:</stong> Securely Communicate PIT to Janice his accountant his PII.<br>
+				<p><strong>Needs:</strong> Securely Communicate PIT to Janice his accountant his PII.<br>
 					<ul>
 						<li>Social Security Number</li>
 						<li>Bank Infomation</li>
 						<li>Tax Infomation</li>
 						<li>Financial Infomation</li>
-				</ul></p>
+				</ul>
+				</p>
 			</section>
 			<!-- summary section -->
 			<section>
