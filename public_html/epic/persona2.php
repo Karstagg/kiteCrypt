@@ -21,11 +21,14 @@
 					<li>MS Office</li>
 					<li>Web Apps</li>
 				</ul>
-
-
-
-
-
+				<p><strong>Career:</strong> Artist, who runs a Art Gallary</p>
+				<p><stong>Needs:</stong> Securely Communicate PIT to Janice his accountant his PII.<br>
+					<ul>
+						<li>Social Security Number</li>
+						<li>Bank Infomation</li>
+						<li>Tax Infomation</li>
+						<li>Financial Infomation</li>
+				</ul></p>
 			</section>
 			<!-- summary section -->
 			<section>
