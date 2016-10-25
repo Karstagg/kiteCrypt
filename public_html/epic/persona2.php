@@ -12,13 +12,20 @@
 				<h2>Pepe</h2>
 				<!-- add new p as needed -->
 				<!-- persona trait goes in the strong tags, in front of the : (e.g. <strong>Needs:</strong>) -->
-				<p><strong>Name: </strong> Pepe<br>
-					<strong>Technology:</strong> Android smart phone with default Chrome browser.<br>
-					<strong>Comfortable: </strong>
+				<p><strong>Name: </strong> Pepe<br></p>
+				<p><strong>Technology:</strong> Android smart phone with default Chrome browser.<br></p>
+				<p><strong>Experience Level:</strong>
+					<ul>
+					<li>Internet</li>
+					<li>Email</li>
+					<li>MS Office</li>
+					<li>Web Apps</li>
+				</ul>
 
 
-				</p>
-				<
+
+
+
 			</section>
 			<!-- summary section -->
 			<section>
