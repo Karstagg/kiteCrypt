@@ -2,11 +2,12 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<link rel="stylesheet" href="" type="text/css" />
+		<link rel="stylesheet" href="../epic/css/css-epic.css" type="text/css" />
 	</head>
 	<body>
 		<main>
 			<!-- persona section -->
+			<img src="img/kitecrypt-james.jpg" alt="Picture of James">
 			<section>
 				<h1>Persona</h1>
 				<h2>James</h2>

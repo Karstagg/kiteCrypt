@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<link rel="stylesheet" href="../css/css-epic.css" type="text/css" />
+		<link rel="stylesheet" href="../epic/css/css-epic.css" type="text/css" />
 	</head>
 	<body>
 		<main>
