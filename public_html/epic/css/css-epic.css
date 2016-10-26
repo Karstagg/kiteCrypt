@@ -18,3 +18,7 @@ header { /*for sections*/
 	margin: 0 auto;
 	padding-top: 50px;
 }
+
+div.img {
+	width: 50%;
+}
