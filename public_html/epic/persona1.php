@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<link rel="stylesheet" href="../epic/css/css-epic.css" type="text/css" />
+		<link rel="stylesheet" href="css/css-epic.css" type="text/css" />
 	</head>
 	<body>
 		<main>
@@ -33,6 +33,11 @@
 				<ul>
 					<li>Wants to improve customer experience by providing timely and secure correspondence.</li>
 				</ul>
+			</section>
+			<section>
+				<h1>Use Case</h1>
+				<!-- make new li as needed for summary items-->
+				<p>Janice is acting as Pepe's accountant. SHe needs to send him imprtant information regarding his finances. SHe knows she is more skilled with computers than Pepe, so she needs something easy to use. She goes to kiteCrypt to send this info.</p>
 			</section>
 		</main>
 	</body>
