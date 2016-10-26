@@ -2,11 +2,14 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<link rel="stylesheet" href="" type="text/css" />
+		<div class="img">
+		<link rel="stylesheet" href="../epic/css/css-epic.css" type="text/css" />
+		</div>
 	</head>
 	<body>
 		<main>
 			<!-- persona section -->
+			<img src="img/kitecrypt-james.jpg" alt="Picture of James">
 			<section>
 				<h1>Persona</h1>
 				<h2>James</h2>
@@ -35,6 +38,11 @@
 					<li>likes encryption</li>
 					<li>needs to communicate securely and reliably without fear </li>
 				</ul>
+			</section>
+			<section>
+				<h1>Use Case</h1>
+				<P>James wants an easy way to securely chat/transfer files with his friends and peers. He logs into kiteCrypt and immediately
+				strikes up a conversation with his friend and transfers a file to a coworker.</P>
 			</section>
 		</main>
 	</body>

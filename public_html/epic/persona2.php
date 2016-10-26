@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 	<head>
 		<meta charset="utf-8">
-		<link rel="stylesheet" href="../css/css-epic.css" type="text/css" />
+		<link rel="stylesheet" href="../epic/css/css-epic.css" type="text/css" />
 	</head>
 	<body>
 		<main>
 			<!-- persona section -->
 			<section>
 				<h1>Persona 2</h1>
+				<div class="img">
 				<img src="img/kitecrypt-pepe.jpg" alt="Picture of Pepe">
+				</div>
 				<h2>Pepe</h2>
 				<!-- add new p as needed -->
 				<!-- persona trait goes in the strong tags, in front of the : (e.g. <strong>Needs:</strong>) -->
@@ -26,11 +28,15 @@
 				<p><strong>Needs:</strong> Securely Communicate PIT to Janice his accountant his PII.<br>
 					<ul>
 						<li>Social Security Number</li>
-						<li>Bank Information</li>
-						<li>Tax Information</li>
+						<li>Bank Infomation</li>
+						<li>Tax Infomation</li>
 						<li>Financial Infomation</li>
 				</ul>
-			</section>
+				</p>
+				</section>
+			<!--User Case -->
+			<h2>Use Case</h2>
+			<p>Pepe needs an easy way to receive and send sensative financial information to his accountant. Pepe is not technically savy, so he needs  an easy to use interface. Pepe logs into KiteCrypt to connect with Janice.</p>
 			<!-- summary section -->
 			<section>
 				<h1>Summary</h1>
