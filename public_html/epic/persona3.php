@@ -37,6 +37,11 @@
 					<li>needs to communicate securely and reliably without fear </li>
 				</ul>
 			</section>
+			<section>
+				<h1>Use Case</h1>
+				<P>James wants an easy way to securely chat/transfer files with his friends and peers. He logs into kiteCrypt and immediately
+				strikes up a conversation with his friend and transfers a file to a coworker.</P>
+			</section>
 		</main>
 	</body>
 </html>
