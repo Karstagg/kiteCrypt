@@ -36,7 +36,10 @@
 			</section>
 			<!-- use case section -->
 			<section>
-				<h1>Use Case</h1>
+					<!--User Case -->
+				<h3>Use Case</h3>
+				<p>Pepe needs an easy way to receive and send sensative financial information to his accountant. Pepe is not technically savy, so he needs  an easy to use interface. Pepe logs into KiteCrypt to connect with Janice.</p>
+				<!-- summary section -->
 				<!-- make new li as needed for summary items-->
 				<ul>
 					<li>Wants to feel his personal and financial information is not at risk of being released as he corresponds with his account.</li>
