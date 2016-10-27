@@ -15,11 +15,10 @@
 				<h2>User Stories</h2>
 
 				<ul>
-					<li>An accountant needs to send sensitive account information to a customer</li>
-					<li>An admin needs to suspend the account of a user</li>
-					<li>A user wants to securely chat with their family</li>
-					<li></li>
-					<li>test</li>
+					<li>User wants to send secure sensitive information to colleges, customers, vendors, and etc.</li>
+					<li>The want a simple website interface that is more secure than email.</li>
+					<li>User does not want to download software to their phone in order to use secure communications</li>
+					<li>User sends messages back and forth to their contacts</li>
 				</ul>
 			</section>
 			<!-- summary section -->
