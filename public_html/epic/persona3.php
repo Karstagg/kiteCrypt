@@ -38,6 +38,18 @@
 					<li>needs to communicate securely and reliably without fear </li>
 				</ul>
 			</section>
+			<section>
+				<h1>Use Case</h1>
+				<p>James doesn't trust main stream messengers like facebook for his private conversations, he want to be able to have conversations with his friends without having to worry that anyone else will ever read it. James and a few of his friends end up signing up for kiteCrypt. They log in and within just a few seconds are sending encrypted messages to eachother.</p>
+			</section>
+			<section>
+				<h1>Interaction Flow</h1>
+				<ol>
+					<li>James creates an account with kiteCrypt and logs in</li>
+					<li>James inputs his friends' user names and a secure channel is created</li>
+					<li>James and his friends chat for a while and then James logs out.</li>
+				</ol>
+			</section>
 		</main>
 	</body>
 </html>
