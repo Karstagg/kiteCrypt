@@ -20,5 +20,9 @@ header { /*for sections*/
 }
 
 div.img {
+
+	/* Center the image. */
+	display: block;
+	margin: auto;
 	width: 50%;
 }
