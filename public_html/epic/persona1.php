@@ -11,7 +11,7 @@
 			<!-- persona section -->
 			<section>
 				<h1>Persona</h1>
-				<img src="img/kitecrypt-janice.jpg" alt="Picture of Janice">
+				<img class = "persona-picture" src="img/kitecrypt-janice.jpg" alt="Picture of Janice">
 
 				<h2>Janice</h2>
 				<!-- add new p as needed -->
@@ -28,9 +28,9 @@
 					<li>Confirmation receipt</li>
 				</ul>
 			</section>
-			<!-- summary section -->
+			<!-- use case section -->
 			<section>
-				<h1>Summary</h1>
+				<h1>Use Case</h1>
 				<!-- make new li as needed for summary items-->
 				<ul>
 					<li>Wants to improve customer experience by providing timely and secure correspondence.</li>

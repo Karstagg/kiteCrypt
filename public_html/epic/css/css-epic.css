@@ -19,6 +19,13 @@ header { /*for sections*/
 	padding-top: 50px;
 }
 
-div.img {
+.persona-picture {
+
+	/* Have the image resize automatically as the size of the browser window changes. */
+	height: 0.25vh;
+
+	/* Center the image. */
+	display: block;
+	margin: auto;
 	width: 50%;
 }

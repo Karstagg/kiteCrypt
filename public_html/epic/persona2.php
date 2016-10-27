@@ -25,7 +25,7 @@
 					<li>Web Apps</li>
 				</ul>
 				<p><strong>Career:</strong> Artist, who runs a Art Gallary</p>
-				<p><strong>Needs:</strong> Securely Communicate PIT to Janice his accountant his PII.<br>
+				<p><strong>Needs:</strong> Securely Communicate personally identifiable information to Janice (his accountant).<br>
 					<ul>
 						<li>Social Security Number</li>
 						<li>Bank Infomation</li>
@@ -33,16 +33,13 @@
 						<li>Financial Infomation</li>
 				</ul>
 				</p>
-				</section>
-			<!--User Case -->
-			<h3>Use Case</h3>
-				<p>Pepe needs an easy way to receive and send sensative financial information to his accountant. Pepe is not technically savy, so he needs  an easy to use interface. Pepe logs into KiteCrypt to connect with Janice.</p>
-			<!-- summary section -->
+			</section>
+			<!-- use case section -->
 			<section>
-				<h1>Summary</h1>
+				<h1>Use Case</h1>
 				<!-- make new li as needed for summary items-->
 				<ul>
-					<li></li>
+					<li>Wants to feel his personal and financial information is not at risk of being released as he corresponds with his account.</li>
 				</ul>
 			</section>
 		</main>
