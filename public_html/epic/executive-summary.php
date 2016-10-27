@@ -8,7 +8,7 @@
 	<body>
 		<main>
 			<!-- executive summary -->
-			<p>kiteCrypt is a secure file storage and file transfer site for our insecure world. For a reasonable fee, users can get an acount on our site. Their account will allow them to store files and data on our site, as well as transfer files to others through a secure link. kiteCrypt is usable from any device with an internet connection and a web browser. Files and data may be stored on the site indefinitely, or scheduled for deletion at a specified time.</p>
+			<p>kiteCrypt is a secure chat site for our insecure world. For a reasonable fee, users can get an account on our site. Their account will allow them to correspond by chat with others through a secure link. kiteCrypt is usable from any device with an internet connection and a web browser.</p>
 		</main>
 	</body>
 </html>
