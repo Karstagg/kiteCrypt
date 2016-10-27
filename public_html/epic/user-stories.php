@@ -17,7 +17,7 @@
 				<ul>
 					<li>An accountant needs to send sensitive account information to a customer</li>
 					<li>An admin needs to suspend the account of a user</li>
-					<li> </li>
+					<li>A user wants to securely chat with their family</li>
 					<li> </li>
 					<li> </li>
 				</ul>
