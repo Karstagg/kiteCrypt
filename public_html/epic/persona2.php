@@ -33,10 +33,7 @@
 						<li>Financial Infomation</li>
 				</ul>
 				</p>
-				</section>
-			<!--User Case -->
-			<h2>Use Case</h2>
-			<p>Pepe needs an easy way to receive and send sensative financial information to his accountant. Pepe is not technically savy, so he needs  an easy to use interface. Pepe logs into KiteCrypt to connect with Janice.</p>
+			</section>
 			<!-- summary section -->
 			<section>
 				<h1>Summary</h1>
