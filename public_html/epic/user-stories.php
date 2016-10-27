@@ -12,24 +12,14 @@
 			<!-- persona section -->
 			<section>
 
-				<h1> TEST TEST TEST</h1>
-
 				<h2>User Stories</h2>
-				<ul>
-					<li> </li>
-					<li> </li>
-					<li> </li>
-					<li> </li>
-					<li> </li>
-				</ul>
 
-				<h2>Admin Stories</h2>
 				<ul>
-					<li> </li>
-					<li> </li>
-					<li> </li>
-					<li> </li>
-					<li> </li>
+					<li>An accountant needs to send sensitive account information to a customer</li>
+					<li>An admin needs to suspend the account of a user</li>
+					<li>A user wants to securely chat with their family</li>
+					<li></li>
+					<li>test</li>
 				</ul>
 			</section>
 			<!-- summary section -->
