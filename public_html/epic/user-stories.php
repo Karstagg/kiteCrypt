@@ -34,7 +34,7 @@
 				<ul>
 					<li>User navigates to KiteCrypt.com</li>
 					<li>User enters login credentials</li>
-					<li></li>
+					<li>User enters randomized passphrase to add Friend</li>
 					<li>User navigates a friend list and selects Friend</li>
 					<li>Chat window opens, allowing  him to send and receive messages to Friend</li>
 					<li>Chat histories are preserved, but encrypted</li>
