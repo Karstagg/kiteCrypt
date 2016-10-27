@@ -11,7 +11,7 @@
 			<!-- persona section -->
 			<section>
 				<img class="persona-picture" src="img/kitecrypt-james.jpg" alt="Picture of James">
-				<h1>Persona</h1>
+				<h1>Persona </h1>
 
 
 				<h2>James</h2>
