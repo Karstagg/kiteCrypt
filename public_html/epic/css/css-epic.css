@@ -22,8 +22,7 @@ header { /*for sections*/
 .persona-picture {
 
 	/* Have the image resize automatically as the size of the browser window changes. */
-	max-width: 100%;
-	height: auto;
+	height: 0.25vh;
 
 	/* Center the image. */
 	display: block;
