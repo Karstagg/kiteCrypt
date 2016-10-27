@@ -15,8 +15,8 @@
 				<h2>User Stories</h2>
 
 				<ul>
-					<li> </li>
-					<li> </li>
+					<li>An accountant needs to send sensitive account information to a customer</li>
+					<li>An admin needs to suspend the account of a user</li>
 					<li> </li>
 					<li> </li>
 					<li> </li>
