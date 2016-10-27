@@ -19,7 +19,7 @@ header { /*for sections*/
 	padding-top: 50px;
 }
 
-img {
+.persona-picture {
 
 	/* Have the image resize automatically as the size of the browser window changes. */
 	max-width: 100%;

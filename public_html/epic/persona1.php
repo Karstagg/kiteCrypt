@@ -11,7 +11,7 @@
 			<!-- persona section -->
 			<section>
 				<h1>Persona</h1>
-				<img src="img/kitecrypt-janice.jpg" alt="Picture of Janice">
+				<img class = "persona-picture" src="img/kitecrypt-janice.jpg" alt="Picture of Janice">
 
 				<h2>Janice</h2>
 				<!-- add new p as needed -->
