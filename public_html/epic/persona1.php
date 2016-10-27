@@ -28,9 +28,9 @@
 					<li>Confirmation receipt</li>
 				</ul>
 			</section>
-			<!-- summary section -->
+			<!-- use case section -->
 			<section>
-				<h1>Summary</h1>
+				<h1>Use Case</h1>
 				<!-- make new li as needed for summary items-->
 				<ul>
 					<li>Wants to improve customer experience by providing timely and secure correspondence.</li>
