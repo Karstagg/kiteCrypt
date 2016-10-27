@@ -19,7 +19,11 @@ header { /*for sections*/
 	padding-top: 50px;
 }
 
-div.img {
+img {
+
+	/* Have the image resize automatically as the size of the browser window changes. */
+	max-width: 100%;
+	height: auto;
 
 	/* Center the image. */
 	display: block;
