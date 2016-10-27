@@ -6,12 +6,16 @@ body {
 	background: linear-gradient(to bottom, #ffffff 0%, #ff5500 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ff5500', GradientType=0); /* IE6-9 */
 }
-section { /*for sections*/
+
+/*
+section {
 	width: 35%;
 	text-align: center;
 	margin: 0 auto;
 	padding-top: 50px;
 }
+*/
+
 header { /*for sections*/
 	width: 35%;
 	text-align: center;
@@ -21,7 +25,7 @@ header { /*for sections*/
 
 .persona-picture {
 
-	/* Have the image resize automatically as the size of the browser window changes. */
+	/* Resize image */
 	height: 0.25vh;
 
 	/* Center the image. */
