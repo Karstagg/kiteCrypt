@@ -37,7 +37,7 @@
 			<section>
 				<h1>Use Case</h1>
 				<!-- make new li as needed for summary items-->
-				<p>Janice is acting as Pepe's accountant. SHe needs to send him imprtant information regarding his finances. SHe knows she is more skilled with computers than Pepe, so she needs something easy to use. She goes to kiteCrypt to send this info.</p>
+				<p>Janice is acting as Pepe's accountant. She needs to send him important information regarding his finances. SHe knows she is more skilled with computers than Pepe, so she needs something easy to use. She goes to kiteCrypt to send this info.</p>
 			</section>
 		</main>
 	</body>
