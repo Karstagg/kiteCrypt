@@ -11,6 +11,8 @@
 			<!-- persona section -->
 			<section>
 				<h1>Persona</h1>
+				<img src="img/kitecrypt-james.jpg" alt="Picture of James">
+
 				<h2>James</h2>
 				<!-- add new p as needed -->
 				<!-- persona trait goes in the strong tags, in front of the : (e.g. <strong>Needs:</strong>) -->
@@ -26,9 +28,9 @@
 					<li>zero knowledge</li>
 				</ul>
 			</section>
-			<!-- summary section -->
+			<!-- use case section -->
 			<section>
-				<h1>Summary</h1>
+				<h1>Use Case</h1>
 				<!-- make new li as needed for summary items-->
 				<ul>
 					<li>James</li>
