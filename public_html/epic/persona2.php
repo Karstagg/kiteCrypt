@@ -25,7 +25,7 @@
 					<li>Web Apps</li>
 				</ul>
 				<p><strong>Career:</strong> Artist, who runs a Art Gallary</p>
-				<p><strong>Needs:</strong> Securely Communicate personally identifiable information (PII) to Janice (his accountant).<br>
+				<p><strong>Needs:</strong> Securely Communicate personally identifiable information to Janice (his accountant).<br>
 					<ul>
 						<li>Social Security Number</li>
 						<li>Bank Infomation</li>
