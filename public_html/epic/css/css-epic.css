@@ -24,12 +24,9 @@ header { /*for sections*/
 }
 
 .persona-picture {
-	alignment: center;
-	border-radius: 10px;
 
 	/* Resize image */
-	max-width: 100%;
-	height: auto;
+	height: 25vh;
 
 	/* Center the image. */
 	display: block;
