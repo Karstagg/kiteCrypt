@@ -11,7 +11,15 @@ $pusher = new Pusher(
 	$options
 );
 
-$data['message'] = 'hello world';
-// $pusher->trigger('test_channel', 'my_event', $data);
+
+
+
+
+$text = $_POST['message'];
+$data['message'] = $text;
 $pusher->trigger('notifications', 'new_notification', $data);
+
+
+
+
 ?>
