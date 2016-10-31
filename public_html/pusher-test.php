@@ -12,5 +12,6 @@ $pusher = new Pusher(
 );
 
 $data['message'] = 'hello world';
-$pusher->trigger('test_channel', 'my_event', $data);
+// $pusher->trigger('test_channel', 'my_event', $data);
+$pusher->trigger('notifications', 'new_notification', $data);
 ?>
