@@ -25,6 +25,8 @@ notificationsChannel.bind('new_notification', function(notification) {
 	$('div.notification').text(message);
 });
 
+function sendNotification() {
 
+}
 
 
