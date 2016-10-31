@@ -23,7 +23,7 @@ var notificationsChannel = pusher.subscribe('notifications');
 notificationsChannel.bind('new_notification', function(notification) {
 	var message = notification.message;
 	$('div.notification').text(message);
-}
+})
 
 
 
