@@ -17,3 +17,14 @@ channel.bind('my_event', function(data) {
 function sendMessage() {
 	alert("This is your message...it's not sent from Pusher, though.");
 }
+
+var notificationsChannel = pusher.subscribe('notifications');
+
+notificationsChannel.bind('new_notification', function(notification) {
+	var message = notification.message;
+	$('div.notification').text(message);
+}
+
+
+
+
