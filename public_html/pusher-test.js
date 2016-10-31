@@ -15,5 +15,5 @@ channel.bind('my_event', function(data) {
 });
 
 function sendMessage() {
-	alert("This is your message.");
+	alert("This is your message...it's not sent from Pusher, though.");
 }
