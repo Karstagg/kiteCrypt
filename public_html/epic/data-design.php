@@ -11,6 +11,7 @@
 			<!-- data design -->
 			<section>
 
+
 				<img src="img/kiteCryptERD.svg" alt="kiteCrypt ERD" width="30%" height="auto">
 
 			</section>
