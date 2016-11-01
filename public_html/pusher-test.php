@@ -5,12 +5,13 @@ $options = array(
 	'encrypted' => true
 );
 $pusher = new Pusher(
-	'851db8e6f3fad558a9be',
-	'7db06581169b419c5ae5',
-	'265177',
+	'56185da42a6c0488ff26',
+	'74c183dcbcd5c95c33f2',
+	'265174',
 	$options
 );
-
 $data['message'] = 'hello world';
-$pusher->trigger('test_channel', 'my_event', $data);
+
+$pusher->trigger('notifications', 'new_notification', $data);
+
 ?>

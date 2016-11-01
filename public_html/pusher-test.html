@@ -8,6 +8,12 @@
 		<script src="pusher-test.js"></script>
 	</head>
 	<body>
-		<button type="submit" onclick="sendMessage()">Get Message</button>
+
+		<input type="text" id="userInput"><br>
+
+
+		<button type="submit" onclick="sendMessage($('#userInput').val())">Get Message</button>
+
+		<div class="notification"></div>
 	</body>
 </html>
