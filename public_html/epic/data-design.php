@@ -35,7 +35,7 @@
 					<ul>
 						<li>inviteInviterId (FOREIGN_KEY)</li>
 						<li>inviteInvitedId (FOREIGN_KEY)</li>
-						<li>inviteDateTime</li>
+						<li>inviteTimestamp</li>
 						<li>invitePassPhrase</li>
 					</ul>
 				</details>
@@ -46,7 +46,7 @@
 						<li>messageMessageId (PRIMARY_KEY AUTO_INCREMENT)</li>
 						<li>messageSenderId (FOREIGN_KEY)</li>
 						<li>messageReceiverId (FOREIGN_KEY)</li>
-						<li>messageDateTime</li>
+						<li>messageTimestamp</li>
 						<li>messageCypherText</li>
 					</ul>
 				</details>
