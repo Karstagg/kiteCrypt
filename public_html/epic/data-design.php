@@ -12,7 +12,7 @@
 			<section>
 
 
-				<img src="img/kiteCryptERD.svg" alt="kiteCrypt ERD" width="30%" height="auto">
+				<img src="img/kiteCryptERD.svg" alt="kiteCrypt ERD" width="80%" height="auto">
 
 			</section>
 		</main>
