@@ -18,7 +18,7 @@
 					<ul>
 						<li>profileId (PRIMARY_KEY AUTO_INCREMENT)</li>
 						<li>profileUserName (UNIQUE)</li>
-						<li>profileKey (UNIQUE)</li>
+						<li>profilePublicKey (UNIQUE)</li>
 					</ul>
 				</details>
 				<h4>Friends *WEAK*</h4>
@@ -33,7 +33,7 @@
 				<details>
 					<summary></summary>
 					<ul>
-						<li>inviteInviteId (FOREIGN_KEY)</li>
+						<li>inviteInviterId (FOREIGN_KEY)</li>
 						<li>inviteInvitedId (FOREIGN_KEY)</li>
 						<li>inviteDateTime</li>
 						<li>invitePassPhrase</li>
@@ -46,8 +46,8 @@
 						<li>messageMessageId (PRIMARY_KEY AUTO_INCREMENT)</li>
 						<li>messageSenderId (FOREIGN_KEY)</li>
 						<li>messageReceiverId (FOREIGN_KEY)</li>
-						<li>messageDateString</li>
-						<li>messageText</li>
+						<li>messageDateTime</li>
+						<li>messageCypherText</li>
 					</ul>
 				</details>
 			</section>
