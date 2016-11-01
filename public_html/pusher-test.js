@@ -19,3 +19,16 @@ notificationsChannel.bind('new_notification', function(notification) {
 function sendMessage(input) {
 	alert(input);
 }
+
+var notificationsChannel = pusher.subscribe('notifications');
+
+notificationsChannel.bind('new_notification', function(notification) {
+	var message = notification.message;
+	$('div.notification').text(message);
+});
+
+function sendNotification() {
+
+}
+
+
