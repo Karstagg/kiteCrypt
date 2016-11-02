@@ -1,4 +1,8 @@
 
+input {
+	margin: 1vh;
+}
+
 .full-width-div {
 	width: 100&;
 }
@@ -8,7 +12,7 @@
 }
 
 .elliptic-curve-parameter {
-	width: 80%;
+	width: 95%;
 }
 
 
