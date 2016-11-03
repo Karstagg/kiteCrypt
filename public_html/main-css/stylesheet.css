@@ -1,20 +1,22 @@
 body {
 	background-color: #AE8093;
-	background-image: url("../media/kite-logo.png");
 	margin-left: auto;
 	margin-right: auto;
 	display: block;
-	background-position: center ;
-	background-repeat: no-repeat;
-	background-attachment: local;
+	/*background-position: center ;*/
+	/*background-repeat: no-repeat;*/
+	/*background-attachment: fixed;*/
 }
-
-/*.img-responsive {*/
-	/*display: block;*/
-	/*margin-left: auto;*/
-	/*margin-right: auto;*/
-	/*z-index: -1;*/
-/*}*/
+.kite{
+	border: 5px solid gray;
+}
+.img-responsive {
+	position: center;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	z-index: -1;
+}
 
 
 /*.element {*/
