@@ -102,9 +102,7 @@
 
 	<body>
 
-	<textarea
-		class="elliptic-curve-parameter" placeholder = "a = coefficient of the x term in y ^ 2 = x ^ 3 + a * x + b"
-	></textarea>
+
 
 		<div class="container">
 
@@ -123,30 +121,46 @@
 			<div class="row">
 
 				<div class="form-group">
-				<div class="col-sm-2">
 
-					<label
-						class="control-label
-						       elliptic-curve-parameter-label
-							   "
-					>
-						a = coefficient of the x term:
-					</label>
-				</div>
+					<div class="col-sm-2">
 
-				<div class="col-sm-10">
+						<label
+							class="control-label
+									 elliptic-curve-parameter-label
+									"
+						>
+							a = coefficient of the x term:
+						</label>
+					</div>
 
-					<textarea
-						class="form-control
-								 elliptic-curve-parameter
-								"
-						name="ecc-a"
-						placeholder="a = coefficient of the x term in: y ^ 2 = x ^ 3 + a * x + b"
-						required="required"
-						wrap="soft"
-					></textarea>
+					<div class="col-sm-10">
 
-				</div>
+						<div class="input-group">
+
+							<textarea
+								class="form-control
+										 elliptic-curve-parameter
+										"
+								name="ecc-a"
+								rows="3"
+								placeholder="a = coefficient of the x term in: y ^ 2 = x ^ 3 + a * x + b"
+								required="required"
+								wrap="soft"
+							></textarea>
+
+								<span
+									class="input-group-addon
+											 btn btn-default
+											"
+									type="button"
+								>
+									Generate a
+								</span>
+
+						</div>
+
+					</div>
+
 				</div>
 
 			</div>
