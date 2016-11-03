@@ -1,8 +1,4 @@
-
-textarea {
-	margin: 1vh;
-}
-
+/*
 .full-width-div {
 	width: 100&;
 }
@@ -10,6 +6,12 @@ textarea {
 .half-width-div {
 	width: 40%;
 }
+*/
+
+textarea {
+	margin: 1vh;
+}
+
 
 .elliptic-curve-parameter {
 	width: 90%;
