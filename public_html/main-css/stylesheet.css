@@ -1,0 +1,23 @@
+body {
+	background-color: #AE8093;
+	background-image: url("../media/kite-logo.png");
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	background-position: center ;
+	background-repeat: no-repeat;
+	background-attachment: local;
+}
+
+/*.img-responsive {*/
+	/*display: block;*/
+	/*margin-left: auto;*/
+	/*margin-right: auto;*/
+	/*z-index: -1;*/
+/*}*/
+
+
+/*.element {*/
+	/*.center-block();*/
+
+/*}*/
