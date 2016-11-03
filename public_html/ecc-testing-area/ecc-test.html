@@ -14,6 +14,19 @@
 		<!-- This tag is optional. It loads the default Bootstrap theme directly from maxcdn. -->
 		<!-- Optional theme -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" />
+		<!-- This is an HTML Conditional Comment. These are conditional statements that are read and executed only by Internet Explorer versions 5 - 9, and are now officially deprecated. We use this block of code to serve up a couple fo specific JavaScript files just for users of older versions of IE. Here, we will load html5shiv.js and respond.js in IE 8 and below. Respond.js enables CSS media query support for IE 6-8. HTML5 shiv enables styling of HTML5 elements in IE8 and below. (IE8 and below does not allow unknown elements to be styled without JavaScript.) -->
+		<!-- HTML5 shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+		<script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		<!-- This loads the jQuery JavaScript library from Google's CDN. jQuery required for many of Bootstrap's built-in functionality. -->
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+		<!-- This is Bootstrap's JavaScript file, which is required if you want to feature many of Bootstrap's built-in components such as modal windows, dropdown menus, and transitions. This file, which is being directly loaded from maxcdn, includes all the Bootstrap components. -->
+		<!-- Latest compiled and minified Bootstrap JavaScript, all compiled plugins included -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 
 
@@ -79,7 +92,7 @@
 
 
 
-		<div class="full-width-div">
+		<div class="container-fluid">
 
 			<h4>Elliptic Curve Parameters</h4>
 
@@ -241,7 +254,7 @@
 
 
 
-		<div class="full-width-div">
+		<div class="half-width-div">
 
 			<h4>Comandante Rochelle (aka #1)</h4>
 
@@ -336,7 +349,7 @@
 
 
 
-		<div class="full-width-div">
+		<div class="container-fluid">
 
 			<h4>Encrypting and Decrypting the Message</h4>
 
