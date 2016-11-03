@@ -94,66 +94,159 @@
 
 		<div class="container-fluid">
 
-			<h4>Elliptic Curve Parameters</h4>
+
+			<div class="row">
+
+				<div class="col-md-12">
+
+					<h4>Elliptic Curve Parameters</h4>
+
+				</div>
+
+			</div>
+
+
+			<div class="row">
+
+				<div class="col-md-2">
+
+					<p>a = coefficient of the x term:</p>
+
+				</div>
+
+				<div class="col-md-10">
+
+					<textarea
+						class="elliptic-curve-parameter"
+						name="ecc-a"
+						placeholder="a = coefficient of the x term"
+						required="required"
+						wrap="soft"
+					>
+					</textarea>
+
+				</div>
+
+			</div>
+
+
+			<div class="row">
+
+				<div class="col-md-2">
+
+					<p>b = value of the constant term:</p>
+
+				</div>
+
+				<div class="col-md-10">
+
+					<textarea
+						class="elliptic-curve-parameter"
+						name="ecc-b"
+						placeholder="b = value of the constant term"
+						required="required"
+						wrap="soft"
+					>
+					</textarea>
+
+				</div>
+
+			</div>
+
+
+			<div class="row">
+
+				<div class="col-md-2">
+
+					<p>p = prime number bounding the field:</p>
+
+				</div>
+
+				<div class="col-md-10">
+
+					<textarea
+						class="elliptic-curve-parameter"
+						name="ecc-p"
+						placeholder="p = prime number bounding the field"
+						required="required"
+						wrap="soft"
+					>
+					</textarea>
+
+				</div>
+
+			</div>
+
+
+			<div class="row">
+
+				<div class="col-md-2">
+
+					<p>n = number of points on the elliptic curve (can be calculated):</p>
+
+				</div>
+
+				<div class="col-md-10">
+
+					<textarea
+						class="elliptic-curve-parameter"
+						name="ecc-n"
+						placeholder="n = number of points on the elliptic curve (can be calculated)"
+						wrap="soft"
+					>
+					</textarea>
+
+				</div>
+
+			</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			<div class="row">
+
+				<div class="col-md-12">
+
+					<p></p>
+
+				</div>
+
+							<div class="row">
+
+							</div>
+
+			<div class="row">
 
 			<span>
-				a = coefficient of the x term:
+				<p></p>
 			</span>
+			</div>
 
-			<textarea
-				class="elliptic-curve-parameter"
-				name="ecc-a"
-				placeholder="a = coefficient of the x term"
-				required="required"
-				wrap="soft"
-			>
-			</textarea>
+				<div class="row">
 
-			<br>
+				</div>
+
+					<div class="row">
 
 			<span>
-				b = value of the constant term:
+				<p></p>
 			</span>
+					</div>
 
-			<textarea
-				class="elliptic-curve-parameter"
-				name="ecc-b"
-				placeholder="b = value of the constant term"
-				required="required"
-				wrap="soft"
-			>
-			</textarea>
+						<div class="row">
 
-			<br>
+						</div>
 
-			<span>
-				p = prime number bounding the field:
-			</span>
-
-			<textarea
-				class="elliptic-curve-parameter"
-				name="ecc-p"
-				placeholder="p = prime number bounding the field"
-				required="required"
-				wrap="soft"
-			>
-			</textarea>
-
-			<br>
-
-			<span>
-				n = number of points on the elliptic curve (can be calculated):
-			</span>
-
-			<textarea
-				class="elliptic-curve-parameter"
-				name="ecc-n"
-				placeholder="n = number of points on the elliptic curve (can be calculated)"
-				wrap="soft"
-			>
-			</textarea>
-
-			<br>
 
 		</div>
 
@@ -161,12 +254,15 @@
 
 		<div class="container">
 
-			<h4>Captain Dylan</h4>
+			<div class="row">
+				<h4>Captain Dylan</h4>
+			</div>
 
-			<span>
-				Pick a number (a secret key) to multiply the (x,y)-point below by:
+			<div class="row">
+				<p>Pick a number (a secret key) to multiply the (x,y)-point below by:</p>
 			</span>
 
+			<div class="row">
 			<textarea
 				class="user-parameter"
 				name="dylans-private-key"
@@ -176,10 +272,9 @@
 			>
 			</textarea>
 
-			<br>
-
+			<div class="row">
 			<span>
-				x of (x,y) on the elliptic curve:
+				<p>x of (x,y) on the elliptic curve:</p>
 			</span>
 
 			<textarea
@@ -194,7 +289,7 @@
 			<br>
 
 			<span>
-				y of (x,y) on the elliptic curve:
+				<p>y of (x,y) on the elliptic curve:</p>
 			</span>
 
 			<textarea
@@ -209,7 +304,7 @@
 			<br>
 
 			<span>
-				The multiplied x-value of the elliptic curve point (will be calculated):
+				<p>The multiplied x-value of the elliptic curve point (will be calculated):</p>
 			</span>
 
 			<textarea
@@ -223,7 +318,7 @@
 			<br>
 
 			<span>
-				The multiplied y-value of the elliptic curve point (will be calculated):
+				<p>The multiplied y-value of the elliptic curve point (will be calculated):</p>
 			</span>
 
 			<textarea
@@ -237,7 +332,7 @@
 			<br>
 
 			<span>
-				The common secret key (will be calculated):
+				<p>The common secret key (will be calculated):</p>
 			</span>
 
 			<textarea
@@ -259,7 +354,7 @@
 			<h4>Comandante Rochelle (aka #1)</h4>
 
 			<span>
-				Pick a number (a secret key) to multiply the (x,y)-point below by:
+				<p>Pick a number (a secret key) to multiply the (x,y)-point below by:</p>
 			</span>
 
 			<textarea
@@ -274,7 +369,7 @@
 			<br>
 
 			<span>
-				x of (x,y) on the elliptic curve:
+				<p>x of (x,y) on the elliptic curve:</p>
 			</span>
 
 			<textarea
@@ -289,7 +384,7 @@
 			<br>
 
 			<span>
-				y of (x,y) on the elliptic curve:
+				<p>y of (x,y) on the elliptic curve:</p>
 			</span>
 
 			<textarea
@@ -304,7 +399,7 @@
 			<br>
 
 			<span>
-				The multiplied x-value of the elliptic curve point (will be calculated):
+				<p>The multiplied x-value of the elliptic curve point (will be calculated):</p>
 			</span>
 
 			<textarea
@@ -318,7 +413,7 @@
 			<br>
 
 			<span>
-				The multiplied y-value of the elliptic curve point (will be calculated):
+				<p>The multiplied y-value of the elliptic curve point (will be calculated):</p>
 			</span>
 
 			<textarea
@@ -332,7 +427,7 @@
 			<br>
 
 			<span>
-				The common secret key (will be calculated):
+				<p>The common secret key (will be calculated):</p>
 			</span>
 
 			<textarea
@@ -354,7 +449,7 @@
 			<h4>Encrypting and Decrypting the Message</h4>
 
 			<span>
-				Message:
+				<p>Message:</p>
 			</span>
 
 			<textarea
@@ -378,7 +473,7 @@
 			<br>
 
 			<span>
-				Cipher text:
+				<p>Cipher text:</p>
 			</span>
 
 			<textarea
@@ -393,7 +488,7 @@
 			<br>
 
 			<span>
-				Decrypted message:
+				<p>Decrypted message:</p>
 			</span>
 
 			<textarea
