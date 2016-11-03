@@ -1,0 +1,127 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.navbar-default {
+	border-color: orange; /* Border color for the entire navbar */
+	border-width: medium; /* Border width for the entire navbar */
+	border-radius: 0; /* Border radii for the entire navbar */
+	color: white; /* Default text color for navbar's brand  */
+	background-color: red; /* Background color for the entire navbar (empty areas mostly, as the navbar's menu items can have their color set independently) */
+	background-image: none; /* Background image for the entire navbar */
+}
+
+.navbar-default .navbar-brand {
+	border-color: orange; /* Border color for the  */
+	border-width: medium; /* Border width for the  */
+	border-radius: 0; /* Border radii for the  */
+	color: white; /* Default text color for navbar's brand  */
+	background-color: black; /* Default color for navbar's brand */
+	background-image: none; /* Default background image for navbar's brand  */
+}
+
+.navbar-default .navbar-brand:hover {
+	border-color: orange; /* Border color for the  */
+	border-width: medium; /* Border width for the  */
+	border-radius: 0; /* Border radii for the  */
+	color: white; /* Text color for navbar's brand when it's hovered over */
+	background-color: brown; /* Background color for navbar's brand when it's hovered over */
+	background-image: none; /* Background image for navbar's brand when it's hovered over */
+}
+
+.navbar-default .navbar-brand:focus {
+	border-color: orange; /* Border color for the  */
+	border-width: medium; /* Border width for the  */
+	border-radius: 0; /* Border radii for the  */
+	color: lime; /* Text color for the navbar's brand when it has the focus */
+	background-color: purple; /* Background color for navbar's brand when it has the focus */
+	background-image: none; /* Background image for the navbar's brand when it has the focus */
+}
+
+
+.navbar-default .navbar-nav > li > a {
+	border-color: orange; /* Border color for the  */
+	border-width: medium; /* Border width for the  */
+	border-radius: 0; /* Border radii for the  */
+	color: yellow; /* Text color for the items in the navbar's menu */
+	background-color: purple; /* Background color for the items in the navbar's menu */
+	background-image: none; /* Background image for the items in the navbar's menu */
+}
+
+.navbar-default .navbar-nav > li > a:hover {
+	border-color: orange; /* Border color for the entire navbar */
+	border-width: medium; /* Border width for the entire navbar */
+	border-radius: 0; /* Border radii for the entire navbar */
+	color: white; /* Default text color for navbar's brand  */
+	background-color: green; /* Hover color for the items in the navbar's menu */
+	background-image: none; /* Background image for the items in the navbar */
+}
+
+.navbar-default .navbar-nav > li > a:focus {
+	border-color: orange; /* Border color for the entire navbar */
+	border-width: medium; /* Border width for the entire navbar */
+	border-radius: 0; /* Border radii for the entire navbar */
+	color: white; /* Default text color for navbar's brand  */
+	background-color: green; /* Hover color for the items in the navbar's menu */
+	background-image: none; /* Background image for the items in the navbar */
+}
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+	border-color: orange; /* Border color for the  */
+	border-width: medium; /* Border width for the  */
+	border-radius: 0; /* Border radii for the  */
+	color: blue; /* Text color for toggle button text */
+	background-color: black; /* Background color for toggle buttons */
+	background-image: none;
+}
+
+.navbar-default .navbar-text {
+	border-color: orange; /* Border color for the  */
+	border-width: medium; /* Border width for the  */
+	border-radius: 0; /* Border radii for the  */
+	color: purple; /*  */
+	background-color: black; /* Background color for toggle buttons */
+	background-image: none;
+}
+
+.navbar-default .navbar-toggle {
+	border-color: orange; /* Border color for the  */
+	border-width: medium; /* Border width for the  */
+	border-radius: 0; /* Border radii for the  */
+	color: purple; /*  */
+	background-color: black; /* Background color for toggle buttons */
+	background-image: none;
+}
+
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+	border-color: orange; /* Border color for the  */
+	border-width: medium; /* Border width for the  */
+	border-radius: 0; /* Border radii for the  */
+	color: purple; /*  */
+	background-color: black; /* Background color for toggle buttons */
+	background-image: none;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+	border-color: orange; /* Border color for the  */
+	border-width: medium; /* Border width for the  */
+	border-radius: 0; /* Border radii for the  */
+	color: purple; /*  */
+	background-color: black; /* Background color for toggle buttons */
+	background-image: none;
+}
