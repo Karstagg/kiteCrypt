@@ -102,7 +102,9 @@
 
 	<body>
 
-
+	<textarea
+		class="elliptic-curve-parameter" placeholder = "a = coefficient of the x term in y ^ 2 = x ^ 3 + a * x + b"
+	></textarea>
 
 		<div class="container">
 
@@ -139,11 +141,10 @@
 								 elliptic-curve-parameter
 								"
 						name="ecc-a"
-						placeholder="a = coefficient of the x term in y ^ 2 = x ^ 3 + a * x + b"
+						placeholder="a = coefficient of the x term in: y ^ 2 = x ^ 3 + a * x + b"
 						required="required"
 						wrap="soft"
-					>
-					</textarea>
+					></textarea>
 
 				</div>
 				</div>
@@ -164,11 +165,10 @@
 					<textarea
 						class="form-control elliptic-curve-parameter-value"
 						name="ecc-b"
-						placeholder="b = value of the constant term"
+						placeholder="b = value of the constant term in: y ^ 2 = x ^ 3 + a * x + b"
 						required="required"
 						wrap="soft"
-					>
-					</textarea>
+					></textarea>
 
 				</div>
 
