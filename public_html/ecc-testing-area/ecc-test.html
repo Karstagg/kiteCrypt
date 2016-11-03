@@ -60,47 +60,335 @@
 
 	</head>
 
+
+
 	<body>
+
+
 
 		<div class="full-width-div">
 
 			<h4>Elliptic Curve Parameters</h4>
 
-			<span>a:</span>
-			<input class="elliptic-curve-parameter" type="text" name="ecc-a" placeholder = "a = coefficient of the x term" required="required">
+			<span>
+				a = coefficient of the x term:
+			</span>
+
+			<textarea
+				class="elliptic-curve-parameter"
+				name="ecc-a"
+				placeholder="a = coefficient of the x term"
+				required="required"
+				wrap="soft"
+			>
+			</textarea>
+
 			<br>
 
-			<span>b:</span>
-			<input class="elliptic-curve-parameter" type="text" name="ecc-b" placeholder = "b = value of the constant term" required="required">
+			<span>
+				b = value of the constant term:
+			</span>
+
+			<textarea
+				class="elliptic-curve-parameter"
+				name="ecc-b"
+				placeholder="b = value of the constant term"
+				required="required"
+				wrap="soft"
+			>
+			</textarea>
+
 			<br>
 
-			<span>p:</span>
-			<input class="elliptic-curve-parameter" type="text" name="ecc-p" placeholder = "p = prime number bounding the field" required="required">
+			<span>
+				p = prime number bounding the field:
+			</span>
+
+			<textarea
+				class="elliptic-curve-parameter"
+				name="ecc-p"
+				placeholder="p = prime number bounding the field"
+				required="required"
+				wrap="soft"
+			>
+			</textarea>
+
 			<br>
 
-			<span>n:</span>
-			<input class="elliptic-curve-parameter" type="text" name="ecc-n" placeholder = "n = number of points on the elliptic curve (optional)">
+			<span>
+				n = number of points on the elliptic curve (can be calculated):
+			</span>
+
+			<textarea
+				class="elliptic-curve-parameter"
+				name="ecc-n"
+				placeholder="n = number of points on the elliptic curve (can be calculated)"
+				wrap="soft"
+			>
+			</textarea>
+
 			<br>
 
 		</div>
+
 
 
 		<div class="half-width-div">
 
 			<h4>Captain Dylan</h4>
 
+			<span>
+				Pick a number (a secret key) to multiply the (x,y)-point below by:
+			</span>
+
+			<textarea
+				class="user-parameter"
+				name="dylans-private-key"
+				placeholder="Pick a number (a secret key) to multiply the (x,y)-point below by."
+				required="required"
+				wrap="soft"
+			>
+			</textarea>
+
+			<br>
+
+			<span>
+				x of (x,y) on the elliptic curve:
+			</span>
+
+			<textarea
+				class="user-parameter"
+				name="dylans-initial-x"
+				placeholder = "The x-value of the point on the elliptic curve"
+				required="required"
+				wrap="soft"
+			>
+			</textarea>
+
+			<br>
+
+			<span>
+				y of (x,y) on the elliptic curve:
+			</span>
+
+			<textarea
+				class="user-parameter"
+				name="dylans-initial-y"
+				placeholder="The y-value of the point on the elliptic curve"
+				required="required"
+				wrap="soft"
+			>
+			</textarea>
+
+			<br>
+
+			<span>
+				The multiplied x-value of the elliptic curve point (will be calculated):
+			</span>
+
+			<textarea
+				class="user-parameter"
+				name="dylans-multiplied-x"
+				placeholder="The multiplied x-value of the elliptic curve point (will be calculated)"
+				wrap="soft"
+			>
+			</textarea>
+
+			<br>
+
+			<span>
+				The multiplied y-value of the elliptic curve point (will be calculated):
+			</span>
+
+			<textarea
+				class="user-parameter"
+				name="dylans-multiplied-y"
+				placeholder="The multiplied y-value of the elliptic curve point (will be calculated)"
+				wrap="soft"
+			>
+			</textarea>
+
+			<br>
+
+			<span>
+				The common secret key (will be calculated):
+			</span>
+
+			<textarea
+				class="user-parameter"
+				name="dylans-common-key"
+				placeholder="The common secret key (will be calculated)"
+				wrap="soft"
+			>
+			</textarea>
+
+			<br>
+
 		</div>
 
 
-		<div class="half-width-div">
 
-			<h4>First Officer Rochelle</h4>
+		<div class="full-width-div">
+
+			<h4>Comandante Rochelle (aka #1)</h4>
+
+			<span>
+				Pick a number (a secret key) to multiply the (x,y)-point below by:
+			</span>
+
+			<textarea
+				class="user-parameter"
+				name="rochelles-private-key"
+				placeholder="Pick a number (a secret key) to multiply the (x,y)-point below by."
+				required="required"
+				wrap="soft"
+			>
+			</textarea>
+
+			<br>
+
+			<span>
+				x of (x,y) on the elliptic curve:
+			</span>
+
+			<textarea
+				class="user-parameter"
+				name="rochelles-initial-x"
+				placeholder="The x-value of the point on the elliptic curve"
+				required="required"
+				wrap="soft"
+			>
+			</textarea>
+
+			<br>
+
+			<span>
+				y of (x,y) on the elliptic curve:
+			</span>
+
+			<textarea
+				class="user-parameter"
+				name="rochelles-initial-y"
+				placeholder = "The y-value of the point on the elliptic curve"
+				required="required"
+				wrap="soft"
+			>
+			</textarea>
+
+			<br>
+
+			<span>
+				The multiplied x-value of the elliptic curve point (will be calculated):
+			</span>
+
+			<textarea
+				class="user-parameter"
+				name="dylans-multiplied-x"
+				placeholder = "The multiplied x-value of the elliptic curve point (will be calculated)"
+				wrap="soft"
+			>
+			</textarea>
+
+			<br>
+
+			<span>
+				The multiplied y-value of the elliptic curve point (will be calculated):
+			</span>
+
+			<textarea
+				class="user-parameter"
+				name="dylans-multiplied-y"
+				placeholder = "The multiplied y-value of the elliptic curve point (will be calculated)"
+				wrap="soft"
+			>
+			</textarea>
+
+			<br>
+
+			<span>
+				The common secret key (will be calculated):
+			</span>
+
+			<textarea
+				class="user-parameter"
+				name="rochelles-common-key"
+				placeholder = "The common secret key (will be calculated)"
+				wrap="soft"
+			>
+			</textarea>
+
+			<br>
 
 		</div>
+
+
+
+		<div class="full-width-div">
+
+			<h4>Encrypting and Decrypting the Message</h4>
+
+			<span>
+				Message:
+			</span>
+
+			<textarea
+				class="message"
+				name="plain-text-message"
+				placeholder="Enter the plain text message, here."
+				required="required"
+				wrap="soft"
+			>
+			</textarea>
+
+			<br>
+
+			<button
+				accesskey="e"
+				value="Encrypt Message"
+				onclick="encryptMessage()"
+			>
+			</button>
+
+			<br>
+
+			<span>
+				Cipher text:
+			</span>
+
+			<textarea
+				class="message"
+				name="cipher-text"
+				placeholder="The cipher text will go here."
+				required="required"
+				wrap="soft"
+			>
+			</textarea>
+
+			<br>
+
+			<span>
+				Decrypted message:
+			</span>
+
+			<textarea
+				class="message"
+				name="decrypted-message"
+				placeholder="The decrypted message will go here."
+				required="required"
+				wrap="soft"
+			>
+			</textarea>
+
+			<br>
+
+		</div>
+
+
 
 
 
 
 
 	</body>
+
 </html>

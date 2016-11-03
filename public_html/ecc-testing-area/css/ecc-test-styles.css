@@ -1,5 +1,5 @@
 
-input {
+textarea {
 	margin: 1vh;
 }
 
@@ -8,11 +8,11 @@ input {
 }
 
 .half-width-div {
-	width: 50%;
+	width: 40%;
 }
 
 .elliptic-curve-parameter {
-	width: 95%;
+	width: 90%;
 }
 
 
