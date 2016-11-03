@@ -109,7 +109,7 @@
 
 			<div class="row">
 
-				<div class="col-md-12">
+				<div class="col-sm-12">
 
 					<h4>Elliptic Curve Parameters</h4>
 
@@ -120,23 +120,31 @@
 
 			<div class="row">
 
-				<div class="col-md-2">
+				<div class="form-group">
+				<div class="col-sm-2">
 
-					<p>a = coefficient of the x term:</p>
-
+					<label
+						class="control-label
+						       elliptic-curve-parameter-label
+							   "
+					>
+						a = coefficient of the x term:
+					</label>
 				</div>
 
-				<div class="col-md-10">
+				<div class="col-sm-10">
 
 					<textarea
-						class="elliptic-curve-parameter"
+						class="form-control
+						       elliptic-curve-parameter"
 						name="ecc-a"
-						placeholder="a = coefficient of the x term"
+						placeholder="a = coefficient of the x term in y ^ 2 = x ^ 3 + a * x + b"
 						required="required"
 						wrap="soft"
 					>
 					</textarea>
 
+				</div>
 				</div>
 
 			</div>
@@ -153,7 +161,7 @@
 				<div class="col-md-10">
 
 					<textarea
-						class="elliptic-curve-parameter"
+						class="form-control elliptic-curve-parameter-value"
 						name="ecc-b"
 						placeholder="b = value of the constant term"
 						required="required"
@@ -177,7 +185,7 @@
 				<div class="col-md-10">
 
 					<textarea
-						class="elliptic-curve-parameter"
+						class="form-control elliptic-curve-parameter"
 						name="ecc-p"
 						placeholder="p = prime number bounding the field"
 						required="required"
@@ -201,7 +209,7 @@
 				<div class="col-md-10">
 
 					<textarea
-						class="elliptic-curve-parameter"
+						class="form-control elliptic-curve-parameter"
 						name="ecc-n"
 						placeholder="n = number of points on the elliptic curve (can be calculated)"
 						wrap="soft"
@@ -366,7 +374,7 @@
 
 			<div class="row">
 			<textarea
-				class="user-parameter"
+				class="form-control user-parameter"
 				name="dylans-private-key"
 				placeholder="Pick a number (a secret key) to multiply the (x,y)-point below by."
 				required="required"
@@ -380,7 +388,7 @@
 			</span>
 
 			<textarea
-				class="user-parameter"
+				class="form-control user-parameter"
 				name="dylans-initial-x"
 				placeholder = "The x-value of the point on the elliptic curve"
 				required="required"
@@ -395,7 +403,7 @@
 			</span>
 
 			<textarea
-				class="user-parameter"
+				class="form-control user-parameter"
 				name="dylans-initial-y"
 				placeholder="The y-value of the point on the elliptic curve"
 				required="required"
@@ -410,7 +418,7 @@
 			</span>
 
 			<textarea
-				class="user-parameter"
+				class="form-control user-parameter"
 				name="dylans-multiplied-x"
 				placeholder="The multiplied x-value of the elliptic curve point (will be calculated)"
 				wrap="soft"
@@ -424,7 +432,7 @@
 			</span>
 
 			<textarea
-				class="user-parameter"
+				class="form-control user-parameter"
 				name="dylans-multiplied-y"
 				placeholder="The multiplied y-value of the elliptic curve point (will be calculated)"
 				wrap="soft"
@@ -438,7 +446,7 @@
 			</span>
 
 			<textarea
-				class="user-parameter"
+				class="form-control user-parameter"
 				name="dylans-common-key"
 				placeholder="The common secret key (will be calculated)"
 				wrap="soft"
@@ -460,7 +468,7 @@
 			</span>
 
 			<textarea
-				class="user-parameter"
+				class="form-control user-parameter"
 				name="rochelles-private-key"
 				placeholder="Pick a number (a secret key) to multiply the (x,y)-point below by."
 				required="required"
@@ -475,7 +483,7 @@
 			</span>
 
 			<textarea
-				class="user-parameter"
+				class="form-control user-parameter"
 				name="rochelles-initial-x"
 				placeholder="The x-value of the point on the elliptic curve"
 				required="required"
@@ -490,7 +498,7 @@
 			</span>
 
 			<textarea
-				class="user-parameter"
+				class="form-control user-parameter"
 				name="rochelles-initial-y"
 				placeholder = "The y-value of the point on the elliptic curve"
 				required="required"
@@ -505,7 +513,7 @@
 			</span>
 
 			<textarea
-				class="user-parameter"
+				class="form-control user-parameter"
 				name="dylans-multiplied-x"
 				placeholder = "The multiplied x-value of the elliptic curve point (will be calculated)"
 				wrap="soft"
@@ -519,7 +527,7 @@
 			</span>
 
 			<textarea
-				class="user-parameter"
+				class="form-control user-parameter"
 				name="dylans-multiplied-y"
 				placeholder = "The multiplied y-value of the elliptic curve point (will be calculated)"
 				wrap="soft"
@@ -533,7 +541,7 @@
 			</span>
 
 			<textarea
-				class="user-parameter"
+				class="form-control user-parameter"
 				name="rochelles-common-key"
 				placeholder = "The common secret key (will be calculated)"
 				wrap="soft"
@@ -555,7 +563,7 @@
 			</span>
 
 			<textarea
-				class="message"
+				class="form-control message"
 				name="plain-text-message"
 				placeholder="Enter the plain text message, here."
 				required="required"
@@ -564,6 +572,10 @@
 			</textarea>
 
 			<br>
+
+			<button class="btn btn-default" onclick="encryptMessage()" accesskey="e">
+				Encrypt Message
+			</button>
 
 			<button
 				accesskey="e"
@@ -579,7 +591,7 @@
 			</span>
 
 			<textarea
-				class="message"
+				class="form-control message"
 				name="cipher-text"
 				placeholder="The cipher text will go here."
 				required="required"
@@ -594,7 +606,7 @@
 			</span>
 
 			<textarea
-				class="message"
+				class="form-control message"
 				name="decrypted-message"
 				placeholder="The decrypted message will go here."
 				required="required"
