@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+
+
+		<!-- Tells the browser that the page is written in UTF-8 unicode. This is for internationalization. -->
+		<meta charset="UTF-8">
+		<!-- This tag is for Internet Explorer, and it allows us to specify what version of IE to render page in. "IE=edge" tells IE to display our content in the highest mode available, which avoids "IE Compatibility Mode" bugs. -->
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<!-- This is the responsive meta tag. This is used to scale and size our content relative to the "viewport" - which is essentially is the visible portion of screen itself. This tag also sets the inital zoom scale to 1:1. This <meta> tag is required when creating a responsive web site. -->
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!-- Bootstrap Latest compiled and minified CSS -->
+		<!-- This loads our Bootstrap CSS file directly from maxcdn. -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+		<!-- This tag is optional. It loads the default Bootstrap theme directly from maxcdn. -->
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" />
+		<!-- The two oss. scripts (below) will go away with Bootstrap 4, so the older versions of Internet Explorer will no longer be supported. -->
+		<!-- This is an HTML Conditional Comment. These are conditional statements that are read and executed only by Internet Explorer versions 5 - 9, and are now officially deprecated. We use this block of code to serve up a couple fo specific JavaScript files just for users of older versions of IE. Here, we will load html5shiv.js and respond.js in IE 8 and below. Respond.js enables CSS media query support for IE 6-8. HTML5 shiv enables styling of HTML5 elements in IE8 and below. (IE8 and below does not allow unknown elements to be styled without JavaScript.) -->
+		<!-- HTML5 shiv and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+		<script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+		<script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		<!-- This loads the minified jQuery JavaScript library from Google's CDN. jQuery required for many of Bootstrap's built-in functionality. -->
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+		<!-- This is Bootstrap's JavaScript file, which is required if you want to feature many of Bootstrap's built-in components such as modal windows, dropdown menus, and transitions. This file, which is being directly loaded from maxcdn, includes all the Bootstrap components. -->
+		<!-- Latest compiled and minified Bootstrap JavaScript, all compiled plugins included -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+
+		<!-- Favicon Statements -->
+		<link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+		<link rel="icon" type="image/png" href="img/favicon-32x32.png" sizes="32x32">
+		<link rel="icon" type="image/png" href="img/favicon-16x16.png" sizes="16x16">
+		<link rel="manifest" href="img/manifest.json">
+		<link rel="mask-icon" href="img/safari-pinned-tab.svg" color="#5bbad5">
+		<link rel="shortcut icon" href="img/favicon.ico">
+		<meta name="msapplication-config" content="img/browserconfig.xml">
+		<meta name="theme-color" content="#ffffff">
+
+
+		<link rel="stylesheet" href="css/bootstrap-navbar-colors.css" type="text/css" />
+
+
+		<title>Bootstrap Navbar Colors</title>
+
+
+	</head>
+
+
+	<body>
+
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="#">Brand</a>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav">
+						<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
+						<li><a href="#">Link</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#">Action</a></li>
+								<li><a href="#">Another action</a></li>
+								<li><a href="#">Something else here</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="#">Separated link</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="#">One more separated link</a></li>
+							</ul>
+						</li>
+					</ul>
+					<form class="navbar-form navbar-left">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Search">
+						</div>
+						<button type="submit" class="btn btn-default">Submit</button>
+					</form>
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="#">Link</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li><a href="#">Action</a></li>
+								<li><a href="#">Another action</a></li>
+								<li><a href="#">Something else here</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="#">Separated link</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div><!-- /.navbar-collapse -->
+			</div><!-- /.container-fluid -->
+		</nav>
+
+
+
+	</body>
+
+
+</html>
