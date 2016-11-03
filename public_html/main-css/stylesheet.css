@@ -1,25 +1,30 @@
-body {
-	background-color: #AE8093;
-	margin-left: auto;
-	margin-right: auto;
-	display: block;
-	/*background-position: center ;*/
-	/*background-repeat: no-repeat;*/
-	/*background-attachment: fixed;*/
-}
-.kite{
-	border: 5px solid gray;
-}
-.img-responsive {
-	position: center;
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	z-index: -1;
-}
-
-
-/*.element {*/
-	/*.center-block();*/
-
+/*body {*/
+	/*background-color: #AE8093;*/
+	/*margin-left: auto;*/
+	/*margin-right: auto;*/
+	/*display: block;*/
+	/*!*background-position: center ;*!*/
+	/*!*background-repeat: no-repeat;*!*/
+	/*!*background-attachment: fixed;*!*/
 /*}*/
+/*.kite{*/
+	/*border: 5px solid gray;*/
+/*}*/
+/*.img-responsive {*/
+	/*position: center;*/
+	/*display: ;*/
+	/*margin-left: auto;*/
+	/*margin-right: auto;*/
+	/*z-index: -1;*/
+/*}*/
+
+body {
+	background-color: #AE8093; /* Set a background color that will be displayed while the background image is loading */
+}
+
+.bg-image {
+	background: url("../media/kite-logo.png") no-repeat center;
+	background-attachment: fixed; /* Background image is fixed in the viewport so that it doesn't move when the content's height is greater than the image's height */
+	/* This is what makes the background image rescale based on the container's size */
+	background-position: center;
+}
