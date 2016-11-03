@@ -41,6 +41,8 @@
 					<li>User interacts with the page, renewing their session</li>
 					<li>User logs off, ending their session</li>
 				</ul>
+
+				<h2>Small change made</h2>
 			</section>
 		</main>
 	</body>
