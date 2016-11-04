@@ -149,7 +149,7 @@ var decryptedMessage;
 /* Elliptic Curve Parameters */
 /*-------------------------------------------------------------------------------*/
 
-function intializeEllipticCurveParameters() {
+function initializeEllipticCurveParameters() {
 
    randomNumber = new SecureRandom();
    
