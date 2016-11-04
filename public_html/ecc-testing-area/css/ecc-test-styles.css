@@ -23,8 +23,8 @@ body {
 }
 
 .control-label {
-	text-align: right; !important
-	vertical-align: top; !important
+	text-align: right;
+	/*vertical-align: top;*/
 }
 
 .navbar-default {
