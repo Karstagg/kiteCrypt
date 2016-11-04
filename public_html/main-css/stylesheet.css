@@ -9,22 +9,22 @@ body, html { /*global body style*/
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-position: 50% 30%;
-	height: 100%;
+	height: 100%; /*body height*/
 }
-.fade-in {
+.fade-in { /*class for on the kiteCrypt title*/
 	height: 0;
 	opacity: 0;
-	animation: fadeIn 5s forwards;
-	animation-delay: 5s;
+	animation: fadeIn 5s forwards; /*run fadeIn animation for 5 seconds*/
+	animation-delay: 5s; /*wait 5 seconds after the page loads to run fadeIn animation*/
 	animation-timing-function: ease-in, ease-out;
 }
-.fade-in-out-2 {
+.fade-in-out-2 { /*class for kiteCrypt title subtext*/
 	height: 0;
 	opacity: 0;
-	animation: fadeInOut 5s forwards;
+	animation: fadeInOut 5s forwards; /*run fadeInOut animation for 5 seconds*/
 	animation-timing-function: ease-in, ease-out;
 }
-@keyframes fadeInOut{ /*animation for header text*/
+@keyframes fadeInOut{ /*Animation that changes opacity from 0 to 1 and back*/
 	0% {
 		opacity: 0;
 	}
@@ -35,7 +35,7 @@ body, html { /*global body style*/
 		opacity: 0;
 	}
 }
-@keyframes fadeIn{
+@keyframes fadeIn{ /*Animation that changes opacity from 0 to 1*/
 	0% {
 		opacity: 0;
 	}
