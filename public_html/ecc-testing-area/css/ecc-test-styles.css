@@ -22,6 +22,9 @@ body {
 	padding-bottom: 20vh;
 }
 
+@grid-float-breakpoint: @screen-md-max;
+@grid-float-breakpoint-max: @screen-md-max;
+
 .navbar-default {
 	border-color: none; /* Border color for the entire navbar */
 	border-width: none; /* Border width for the entire navbar */
@@ -32,21 +35,25 @@ body {
 
 .navbar-default .navbar-brand {
 	float: left;
+	font-weight: bold;
 	color: white; /* Default text color for navbar's brand  */
 	background-color: none; /* Default color for navbar's brand */
 	background-image: url("img/kite-crypt-logo.png"); /* Default background image for navbar's brand  */
 }
 
 .navbar-default .navbar-brand:hover {
+	float: left;
 	font-weight: bold;
 	color: white; /* Text color for navbar's brand when it's hovered over */
-	background-color: rgb(103,17,52); /* Background color for navbar's brand when it's hovered over */
+	background-color: #ae8093; /* Background color for navbar's brand when it's hovered over */
 	background-image: none; /* Background image for navbar's brand when it's hovered over */
 }
 
 .navbar-default .navbar-brand:focus {
-	color: lime; /* Text color for the navbar's brand when it has the focus */
-	background-color: rgb(103,17,52); /* Background color for navbar's brand when it has the focus */
+	float: left;
+	font-weight: bold;
+	color: white; /* Text color for the navbar's brand when it has the focus */
+	background-color: #ae8093; /* Background color for navbar's brand when it has the focus */
 	background-image: none; /* Background image for the navbar's brand when it has the focus */
 }
 
@@ -88,16 +95,16 @@ body {
 	/*color: white; !*  *!*/
 }
 
-.navbar-default .navbar-toggle {
-	border-color: brown; /*  */
+.navbar-default .navbar-header .navbar-toggle {
+	border-color: rgb(103,17,52); /*  */
 	border-width: medium;
 	background-image: none;
 }
 
-.navbar-default .navbar-toggle:hover,
-.navbar-default .navbar-toggle:focus {
-	color:
-	background-color: gray; /*  */
+.navbar-default .navbar-header .navbar-toggle:hover,
+.navbar-default .navbar-header .navbar-toggle:focus {
+	color: white;
+	background-color: rgb(103,17,52); /*  */
 	background-image: none;
 }
 
@@ -123,50 +130,56 @@ body {
 	background-image: none; /* Background image for the items in the navbar's menu */
 }
 
-.navbar-default .dropdown .dropdown-toggle {
+.navbar-default .navbar-nav .dropdown .dropdown-toggle {
 	text-shadow: none;
 	color: white; /* Text color for the items in the navbar's menu */
 	background-color: #ae8093; /* Background color for the items in the navbar's menu */
 	background-image: none; /* Background image for the items in the navbar's menu */
 }
 
-.navbar-default .dropdown .dropdown-toggle:hover,
-.navbar-default .dropdown .dropdown-toggle:focus,
-.navbar-default .dropdown .dropdown-toggle:enabled {
+.navbar-default .navbar-nav .dropdown .dropdown-toggle:hover,
+.navbar-default .navbar-nav .dropdown .dropdown-toggle:focus,
+.navbar-default .navbar-nav .dropdown .dropdown-toggle:enabled {
+	text-shadow: none;
+	color: white; /* Text color for the items in the navbar's menu */
+	background-color: rgb(103,17,52); /* Background color for the items in the navbar's menu */
+	background-image: none; /* Background image for the items in the navbar's menu */
+}
+
+.navbar-default .navbar-nav .dropdown .dropdown-menu {
 	text-shadow: none;
 	color: white; /* Text color for the items in the navbar's menu */
 	background-color: #ae8093; /* Background color for the items in the navbar's menu */
 	background-image: none; /* Background image for the items in the navbar's menu */
 }
 
-.navbar-default .dropdown-menu {
+.navbar-default .navbar-nav .dropdown .dropdown-menu:hover,
+.navbar-default .navbar-nav .dropdown .dropdown-menu:focus,
+.navbar-default .navbar-nav .dropdown .dropdown-menu:enabled {
 	text-shadow: none;
 	color: white; /* Text color for the items in the navbar's menu */
 	background-color: #ae8093; /* Background color for the items in the navbar's menu */
 	background-image: none; /* Background image for the items in the navbar's menu */
 }
 
-.navbar-default .dropdown-menu:hover,
-.navbar-default .dropdown-menu:focus,
-.navbar-default .dropdown-menu:enabled {
+.navbar-default .navbar-nav .dropdown .dropdown-menu li a {
 	text-shadow: none;
 	color: white; /* Text color for the items in the navbar's menu */
 	background-color: #ae8093; /* Background color for the items in the navbar's menu */
 	background-image: none; /* Background image for the items in the navbar's menu */
 }
 
-.navbar-default .dropdown-menu li a {
-	text-shadow: none;
-	color: white; /* Text color for the items in the navbar's menu */
-	background-color: #ae8093; /* Background color for the items in the navbar's menu */
-	background-image: none; /* Background image for the items in the navbar's menu */
-}
-
-.navbar-default .dropdown-menu li a:hover,
-.navbar-default .dropdown-menu li a:focus {
+.navbar-default .navbar-nav .dropdown .dropdown-menu li a:hover,
+.navbar-default .navbar-nav .dropdown .dropdown-menu li a:focus {
 	text-shadow: none;
 	font-weight: bold;
 	color: white; /* Text color for navbar's brand when it's hovered over */
 	background-color: rgb(103,17,52); /* Hover color for the items in the navbar's menu */
 	background-image: none; /* Background image for the items in the navbar */
 }
+
+
+
+
+
+
