@@ -108,8 +108,8 @@ body {
 	background-image: none;
 }
 
-.navbar-default .navbar-toggle .icon-bar {
-	color: black;
+.navbar-default .navbar-header .navbar-toggle .icon-bar {
+	color: white;
 	background-color: white; /*  */
 	background-image: none;
 }
