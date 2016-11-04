@@ -1,30 +1,45 @@
-/*body {*/
-	/*background-color: #AE8093;*/
-	/*margin-left: auto;*/
-	/*margin-right: auto;*/
-	/*display: block;*/
-	/*!*background-position: center ;*!*/
-	/*!*background-repeat: no-repeat;*!*/
-	/*!*background-attachment: fixed;*!*/
-/*}*/
-/*.kite{*/
-	/*border: 5px solid gray;*/
-/*}*/
-/*.img-responsive {*/
-	/*position: center;*/
-	/*display: ;*/
-	/*margin-left: auto;*/
-	/*margin-right: auto;*/
-	/*z-index: -1;*/
-/*}*/
 
-body {
-	background-color: #AE8093; /* Set a background color that will be displayed while the background image is loading */
+body, html { /*global body style*/
+	font-family: sans-serif;
+	text-shadow:0rem 0rem 0.5rem black;
+	color: white;
+	font-size: 1.1rem;
+	background-color: #AE8093;
+	background-image: url("../img/kite-logo.png");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: 50% 30%;
+	height: 100%;
 }
-
-.bg-image {
-	background: url("../media/kite-logo.png") no-repeat center;
-	background-attachment: fixed; /* Background image is fixed in the viewport so that it doesn't move when the content's height is greater than the image's height */
-	/* This is what makes the background image rescale based on the container's size */
-	background-position: center;
+.fade-in {
+	height: 0;
+	opacity: 0;
+	animation: fadeIn 5s forwards;
+	animation-delay: 5s;
+	animation-timing-function: ease-in, ease-out;
+}
+.fade-in-out-2 {
+	height: 0;
+	opacity: 0;
+	animation: fadeInOut 5s forwards;
+	animation-timing-function: ease-in, ease-out;
+}
+@keyframes fadeInOut{ /*animation for header text*/
+	0% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+@keyframes fadeIn{
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }
