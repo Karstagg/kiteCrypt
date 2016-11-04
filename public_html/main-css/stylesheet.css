@@ -1,6 +1,6 @@
 
 body, html { /*global body style*/
-	font-family: sans-serif;
+	font-family: "Quicksand", sans-serif;
 	text-shadow:0rem 0rem 0.5rem black;
 	color: white;
 	font-size: 1.1rem;
@@ -11,17 +11,22 @@ body, html { /*global body style*/
 	background-position: 50% 30%;
 	height: 100%; /*body height*/
 }
+.pulse {
+	animation: pulsate-in 25s forwards;
+	animation-delay: 8s;
+}
 .fade-in { /*class for on the kiteCrypt title*/
+	font-weight: 900;
 	height: 0;
 	opacity: 0;
 	animation: fadeIn 5s forwards; /*run fadeIn animation for 5 seconds*/
-	animation-delay: 5s; /*wait 5 seconds after the page loads to run fadeIn animation*/
+	animation-delay: 8s; /*wait 5 seconds after the page loads to run fadeIn animation*/
 	animation-timing-function: ease-in, ease-out;
 }
 .fade-in-out-2 { /*class for kiteCrypt title subtext*/
 	height: 0;
 	opacity: 0;
-	animation: fadeInOut 5s forwards; /*run fadeInOut animation for 5 seconds*/
+	animation: fadeInOut 8s forwards; /*run fadeInOut animation for 5 seconds*/
 	animation-timing-function: ease-in, ease-out;
 }
 @keyframes fadeInOut{ /*Animation that changes opacity from 0 to 1 and back*/
@@ -41,5 +46,23 @@ body, html { /*global body style*/
 	}
 	100% {
 		opacity: 1;
+	}
+}
+@keyframes pulsate-in{ /*animation for header text*/
+	0% {
+		color: #E80C7A;
+		text-shadow:0rem 0rem 0.5rem white;
+	}
+	25% {
+		color: #E80C7A;
+		text-shadow:0rem 0rem 0.5rem white;
+	}
+	50% {
+		color: white;
+		text-shadow:0rem 0rem 0.5rem #E80C7A;
+	}
+	100% {
+		color: white;
+		text-shadow:0rem 0rem 0.5rem black;
 	}
 }
