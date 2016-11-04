@@ -50,16 +50,16 @@ body, html { /*global body style*/
 }
 @keyframes pulsate-in{ /*animation for header text*/
 	0% {
-		color: #E80C7A;
+		color: #671134;
 		text-shadow:0rem 0rem 0.5rem white;
 	}
 	25% {
-		color: #E80C7A;
+		color: #671134;
 		text-shadow:0rem 0rem 0.5rem white;
 	}
 	50% {
 		color: white;
-		text-shadow:0rem 0rem 0.5rem #E80C7A;
+		text-shadow:0rem 0rem 0.5rem #671134;
 	}
 	100% {
 		color: white;
