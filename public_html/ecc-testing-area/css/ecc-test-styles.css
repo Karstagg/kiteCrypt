@@ -22,8 +22,10 @@ body {
 	padding-bottom: 20vh;
 }
 
-@grid-float-breakpoint: @screen-md-max;
-@grid-float-breakpoint-max: @screen-md-max;
+.control-label {
+	text-align: right; !important
+	vertical-align: top; !important
+}
 
 .navbar-default {
 	border-color: none; /* Border color for the entire navbar */

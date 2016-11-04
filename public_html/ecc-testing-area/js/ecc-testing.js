@@ -151,10 +151,10 @@ var decryptedMessage;
 
 function initializeEllipticCurveParameters() {
 
-   eccA = "A";
-   eccB = "B";
-   eccP = "P";
-   eccN = "N";
+   eccA = "Initial A";
+   eccB = "Initial B";
+   eccP = "Initial P";
+   eccN = "Initial N";
 
    getN("eccA").value = eccA;
    getN("eccB").value = eccB;
@@ -163,6 +163,38 @@ function initializeEllipticCurveParameters() {
 }
 
 
+
+
+function generateX0CoefficientA() {
+
+   eccA = "Generated A";
+
+   getN("eccA").value = eccA;
+}
+
+
+function generateX0CoefficientB() {
+
+   eccB = "Generated B";
+
+   getN("eccB").value = eccB;
+}
+
+
+function generateBoundingPrimeP() {
+
+   eccP = "Generated P";
+
+   getN("eccP").value = eccP;
+}
+
+
+function calculateNumberOfPointsInFieldN() {
+
+   eccN = "Generated N";
+
+   getN("eccN").value = eccN;
+}
 
 
 /*-------------------------------------------------------------------------------*/
@@ -241,7 +273,7 @@ function generateReceiversX() {
 
 function generateReceiversY() {
 
-   receiversY = "Receiver's X";
+   receiversY = "Receiver's Y";
 
    getN("receiversY").value = receiversY;
 }
