@@ -151,12 +151,10 @@ var decryptedMessage;
 
 function initializeEllipticCurveParameters() {
 
-   randomNumber = new SecureRandom();
-   
-   eccA = new SecureRandom();
-   eccB = new SecureRandom();
-   eccP = new SecureRandom();
-   eccN = new SecureRandom();
+   eccA = "A";
+   eccB = "B";
+   eccP = "P";
+   eccN = "N";
 
    getN("eccA").value = eccA;
    getN("eccB").value = eccB;
@@ -173,31 +171,41 @@ function initializeEllipticCurveParameters() {
 
 function generateSendersX() {
 
-   sendersX = new SecureRandom();
+   sendersX = "Sender's X";
+
+   getN("sendersX").value = sendersX;
 }
 
 
 function generateSendersY() {
 
-   sendersY = new SecureRandom();
+   sendersY = "Sender's Y";
+
+   getN("sendersY").value = sendersY;
 }
 
 
 function generateSendersPrivateMultiplier() {
 
-   sendersPrivateMultiplier = new SecureRandom();
+   sendersPrivateMultiplier = "Sender's Multiplier";
+
+   getN("sendersPrivateMultiplier").value = sendersPrivateMultiplier;
 }
 
 
 function calculateSendersMultipliedX() {
 
-   sendersMultipliedX = new SecureRandom();
+   sendersMultipliedX = "Sender's Multiplied X";
+
+   getN("sendersMultipliedX").value = sendersMultipliedX;
 }
 
 
 function calculateSendersMultipliedY() {
 
-   sendersMultipliedY = new SecureRandom();
+   sendersMultipliedY = "Sender's Multiplied Y";
+
+   getN("sendersMultipliedY").value = sendersMultipliedY;
 }
 
 
@@ -209,8 +217,11 @@ function calculateSendersMultipliedY() {
 
 function calculateCommonSecretKey() {
 
-   sendersCommonSecretKey = new SecureRandom();
+   sendersCommonSecretKey = "Common Secret Key";
    receiversCommonSecretKey= sendersCommonSecretKey;
+
+   getN("sendersCommonSecretKey").value = sendersCommonSecretKey;
+   getN("receiversCommonSecretKey").value = receiversCommonSecretKey;
 }
 
 
@@ -222,31 +233,41 @@ function calculateCommonSecretKey() {
 
 function generateReceiversX() {
 
-   receiversX = new SecureRandom();
+   receiversX = "Receiver's X";
+
+   getN("receiversX").value = receiversX;
 }
 
 
 function generateReceiversY() {
 
-   receiversY = new SecureRandom();
+   receiversY = "Receiver's X";
+
+   getN("receiversY").value = receiversY;
 }
 
 
 function generateReceiversPrivateMultiplier() {
 
-   receiversPrivateMultiplier = new SecureRandom();
+   receiversPrivateMultiplier = "Receiver's Multiplier";
+
+   getN("receiversPrivateMultiplier").value = receiversPrivateMultiplier;
 }
 
 
 function calculateReceiversMultipliedX() {
 
-   receiversMultipliedX = new SecureRandom();
+   receiversMultipliedX = "Receiver's Multiplied X";
+
+   getN("receiversMultipliedX").value = receiversMultipliedX;
 }
 
 
 function calculateReceiversMultipliedY() {
 
-   receiversMultipliedY = new SecureRandom();
+   receiversMultipliedY = "Receiver's Multiplied Y";
+
+   getN("receiversMultipliedY").value = receiversMultipliedY;
 }
 
 
@@ -258,14 +279,19 @@ function calculateReceiversMultipliedY() {
 
 function encryptMessage() {
 
-   messagePlainText = new SecureRandom();
-   messageCipherText =  new SecureRandom();
+   messagePlainText = "Message";
+   messageCipherText =  "Cipher Text";
+
+   getN("messagePlainText").value = messagePlainText;
+   getN("messageCipherText").value = messageCipherText;
 }
 
 
 function decryptMessage() {
 
-   decryptedMessage = new SecureRandom();
+   decryptedMessage = "Decrypted Message";
+
+   getN("decryptedMessage").value = decryptedMessage;
 }
 
 
