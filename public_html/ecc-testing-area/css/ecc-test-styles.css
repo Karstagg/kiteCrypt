@@ -23,7 +23,7 @@ body {
 }
 
 .control-label {
-	text-align: right;
+	text-align: right !important;
 	/*vertical-align: top;*/
 }
 
