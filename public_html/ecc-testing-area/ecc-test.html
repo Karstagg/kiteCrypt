@@ -176,7 +176,7 @@
 									class="form-control
 											 elliptic-curve-parameter
 											"
-									name="eccA"
+									id="eccA"
 									placeholder="a = coefficient of the x term in: y ^ 2 = x ^ 3 + a * x + b"
 									required="required"
 									wrap="soft"
@@ -226,7 +226,7 @@
 									class="form-control
 											 elliptic-curve-parameter
 											"
-									name="eccB"
+									id="eccB"
 									placeholder="b = value of the constant term in: y ^ 2 = x ^ 3 + a * x + b"
 									required="required"
 									wrap="soft"
@@ -276,7 +276,7 @@
 									class="form-control
 											 elliptic-curve-parameter
 											"
-									name="eccP"
+									id="eccP"
 									placeholder="p = prime number bounding the field of elliptic curve points"
 									required="required"
 									wrap="soft"
@@ -326,7 +326,7 @@
 									class="form-control
 											 elliptic-curve-parameter
 											"
-									name="ecc-n"
+									id="ecc-n"
 									placeholder="n = number of points on the elliptic curve within the field (can be calculated)"
 									required="required"
 									wrap="soft"
@@ -404,7 +404,7 @@
 											class="form-control
 													 senders-parameter
 													"
-											name="sendersX"
+											id="sendersX"
 											placeholder="The x of the sender's (x,y)-point on the elliptic curve."
 											required="required"
 											wrap="soft"
@@ -454,7 +454,7 @@
 											class="form-control
 													 senders-parameter
 													"
-											name="sendersY"
+											id="sendersY"
 											placeholder="The y of the sender's (x,y)-point on the elliptic curve."
 											required="required"
 											wrap="soft"
@@ -504,7 +504,7 @@
 											class="form-control
 													 senders-parameter
 													"
-											name="sendersPrivateMultiplier"
+											id="sendersPrivateMultiplier"
 											placeholder="Pick a number (a secret key) to multiply the (x,y)-point below by."
 											required="required"
 											wrap="soft"
@@ -554,7 +554,7 @@
 											class="form-control
 													 senders-parameter
 													"
-											name="sendersMultipliedX"
+											id="sendersMultipliedX"
 											placeholder="The multiplied x-value of the elliptic curve point (will be calculated)."
 											required="required"
 											wrap="soft"
@@ -604,7 +604,7 @@
 											class="form-control
 													 senders-parameter
 													"
-											name="sendersMultipliedY"
+											id="sendersMultipliedY"
 											placeholder="The multiplied y-value of the elliptic curve point (will be calculated):"
 											required="required"
 											wrap="soft"
@@ -654,7 +654,7 @@
 											class="form-control
 													 senders-parameter
 													"
-											name="sendersCommonSecretKey"
+											id="sendersCommonSecretKey"
 											placeholder="The common secret key (will be calculated)"
 											required="required"
 											wrap="soft"
@@ -726,7 +726,7 @@
 											class="form-control
 													 receivers-parameter
 													"
-											name="receiversX"
+											id="receiversX"
 											placeholder="The x of the receiver's (x,y)-point on the elliptic curve."
 											required="required"
 											wrap="soft"
@@ -776,7 +776,7 @@
 											class="form-control
 													 receivers-parameter
 													"
-											name="receiversY"
+											id="receiversY"
 											placeholder="The y of the receiver's (x,y)-point on the elliptic curve:"
 											required="required"
 											wrap="soft"
@@ -826,7 +826,7 @@
 											class="form-control
 													 receivers-parameter
 													"
-											name="receiversPrivateMultiplier"
+											id="receiversPrivateMultiplier"
 											placeholder="Pick a number (a secret key) to multiply the (x,y)-point below by."
 											required="required"
 											wrap="soft"
@@ -876,7 +876,7 @@
 											class="form-control
 													 receivers-parameter
 													"
-											name="receiversMultipliedX"
+											id="receiversMultipliedX"
 											placeholder="The multiplied x-value of the elliptic curve point (will be calculated):"
 											required="required"
 											wrap="soft"
@@ -926,7 +926,7 @@
 											class="form-control
 													 receivers-parameter
 													"
-											name="receiversMultipliedY"
+											id="receiversMultipliedY"
 											placeholder="The multiplied y-value of the elliptic curve point (will be calculated):"
 											required="required"
 											wrap="soft"
@@ -976,7 +976,7 @@
 											class="form-control
 													 receivers-parameter
 													"
-											name="receiversCommonSecretKey"
+											id="receiversCommonSecretKey"
 											placeholder="The common secret key (will be calculated)"
 											required="required"
 											wrap="soft"
@@ -1054,7 +1054,7 @@
 									class="form-control
 											 message-parameter
 											"
-									name="messagePlainText"
+									id="messagePlainText"
 									placeholder="Enter the plain text message, here."
 									required="required"
 									wrap="soft"
@@ -1105,7 +1105,7 @@
 									class="form-control
 											 message-parameter
 											"
-									name="messageCipherText"
+									id="messageCipherText"
 									placeholder="The cipher text will go here, after you press the Encrypt button (above)."
 									required="required"
 									wrap="soft"
@@ -1155,7 +1155,7 @@
 									class="form-control
 											 message-parameter
 											"
-									name="decryptedMessage"
+									id="decryptedMessage"
 									placeholder="The plain text of the decrypted message will go here, after you press the Decrypt button (above)."
 									required="required"
 									wrap="soft"

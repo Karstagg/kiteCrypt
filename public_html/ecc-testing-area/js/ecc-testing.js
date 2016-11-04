@@ -120,7 +120,7 @@ decryptedMessage              The plain text of the decrypted message will go he
 var randomNumber;
 
 var eccA;
-var eccA;
+var eccB;
 var eccP;
 var eccN;
 
@@ -277,7 +277,7 @@ function decryptMessage() {
 
 function getN(n) {
 
-   return typeof n == 'object' ? n : document.getElementByName(n);
+   return typeof n == 'object' ? n : document.getElementById(n);
 }
 
 /*
