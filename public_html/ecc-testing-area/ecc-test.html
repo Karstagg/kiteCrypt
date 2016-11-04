@@ -132,7 +132,7 @@
 
 
 
-			<!-- Elliptic Curve container -->
+			<!-- Elliptic Curve Parameters -->
 			<div class="container">
 
 
@@ -354,7 +354,7 @@
 
 
 
-			<!-- Sender and Receiver container -->
+			<!-- Sender and Receiver Parameters -->
 			<div class="container">
 
 
@@ -368,57 +368,9 @@
 
 							<div class="col-md-12">
 
-								<label id="senders-parameters">Sender: Captain Dylan</label>
+								<label id="senders-parameters"></label>
 
-							</div>
-
-						</div>
-
-
-						<div class="row">
-
-							<div class="form-group">
-
-								<div class="col-sm-2">
-
-									<label
-										class="control-label
-												 senders-parameter-label
-												"
-									>
-										Pick a number (a secret key) to multiply the (x,y)-point below by:
-									</label>
-
-								</div>
-
-								<div class="col-sm-10">
-
-									<div class="input-group">
-
-										<textarea
-											class="form-control
-													 senders-parameter
-													"
-											name="senders-private-multiplier"
-											placeholder="Pick a number (a secret key) to multiply the (x,y)-point below by."
-											required="required"
-											wrap="soft"
-										></textarea>
-
-										<span
-											class="input-group-addon
-													 btn
-													 btn-default
-													"
-											type="button"
-											onclick="generateSendersPrivateMultiplier()"
-										>
-											Generate
-										</span>
-
-									</div>
-
-								</div>
+								<h4>Sender: Captain Dylan</h4>
 
 							</div>
 
@@ -449,7 +401,7 @@
 											class="form-control
 													 senders-parameter
 													"
-											name="senders-x"
+											name="sendersX"
 											placeholder="The x of the sender's (x,y)-point on the elliptic curve."
 											required="required"
 											wrap="soft"
@@ -461,7 +413,7 @@
 													 btn-default
 													"
 											type="button"
-											onclick="generateSendersXPoint()"
+											onclick="generateSendersX()"
 										>
 											Generate
 										</span>
@@ -499,8 +451,8 @@
 											class="form-control
 													 senders-parameter
 													"
-											name="senders-y"
-											placeholder="The y of the sender's (x,y)-point on the elliptic curve:"
+											name="sendersY"
+											placeholder="The y of the sender's (x,y)-point on the elliptic curve."
 											required="required"
 											wrap="soft"
 										></textarea>
@@ -512,6 +464,56 @@
 													"
 											type="button"
 											onclick="generateSendersY()"
+										>
+											Generate
+										</span>
+
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
+
+
+						<div class="row">
+
+							<div class="form-group">
+
+								<div class="col-sm-2">
+
+									<label
+										class="control-label
+												 senders-parameter-label
+												"
+									>
+										Pick a number (a secret key) to multiply the (x,y)-point (above) by:
+									</label>
+
+								</div>
+
+								<div class="col-sm-10">
+
+									<div class="input-group">
+
+										<textarea
+											class="form-control
+													 senders-parameter
+													"
+											name="sendersPrivateMultiplier"
+											placeholder="Pick a number (a secret key) to multiply the (x,y)-point below by."
+											required="required"
+											wrap="soft"
+										></textarea>
+
+										<span
+											class="input-group-addon
+													 btn
+													 btn-default
+													"
+											type="button"
+											onclick="generateSendersPrivateMultiplier()"
 										>
 											Generate
 										</span>
@@ -549,8 +551,8 @@
 											class="form-control
 													 senders-parameter
 													"
-											name="senders-multiplied-x"
-											placeholder="The multiplied x-value of the elliptic curve point (will be calculated):"
+											name="sendersMultipliedX"
+											placeholder="The multiplied x-value of the elliptic curve point (will be calculated)."
 											required="required"
 											wrap="soft"
 										></textarea>
@@ -599,7 +601,7 @@
 											class="form-control
 													 senders-parameter
 													"
-											name="senders-multiplied-y"
+											name="sendersMultipliedY"
 											placeholder="The multiplied y-value of the elliptic curve point (will be calculated):"
 											required="required"
 											wrap="soft"
@@ -649,7 +651,7 @@
 											class="form-control
 													 senders-parameter
 													"
-											name="senders-common-secret-key"
+											name="sendersCommonSecretKey"
 											placeholder="The common secret key (will be calculated)"
 											required="required"
 											wrap="soft"
@@ -687,61 +689,14 @@
 
 							<div class="col-md-12">
 
-								<label id="receivers-parameters">Receiver: Comandante Rochelle (aka #1)</label>
+								<label id="receivers-parameters"></label>
+
+								<h4>Receiver: Comandante Rochelle (aka #1)</h4>
 
 							</div>
 
 						</div>
 
-
-						<div class="row">
-
-							<div class="form-group">
-
-								<div class="col-sm-2">
-
-									<label
-										class="control-label
-												 receivers-parameter-label
-												"
-									>
-										Pick a number (a secret key) to multiply the (x,y)-point below by:
-									</label>
-
-								</div>
-
-								<div class="col-sm-10">
-
-									<div class="input-group">
-
-										<textarea
-											class="form-control
-													 receivers-parameter
-													"
-											name="receivers-private-multiplier"
-											placeholder="Pick a number (a secret key) to multiply the (x,y)-point below by."
-											required="required"
-											wrap="soft"
-										></textarea>
-
-										<span
-											class="input-group-addon
-													 btn
-													 btn-default
-													"
-											type="button"
-											onclick="generateReceiversPrivateMultiplier()"
-										>
-											Generate
-										</span>
-
-									</div>
-
-								</div>
-
-							</div>
-
-						</div>
 
 
 						<div class="row">
@@ -768,7 +723,7 @@
 											class="form-control
 													 receivers-parameter
 													"
-											name="receivers-x"
+											name="receiversX"
 											placeholder="The x of the receiver's (x,y)-point on the elliptic curve."
 											required="required"
 											wrap="soft"
@@ -780,7 +735,7 @@
 													 btn-default
 													"
 											type="button"
-											onclick="generateReceiversXPoint()"
+											onclick="generateReceiversX()"
 										>
 											Generate
 										</span>
@@ -818,7 +773,7 @@
 											class="form-control
 													 receivers-parameter
 													"
-											name="receivers-y"
+											name="receiversY"
 											placeholder="The y of the receiver's (x,y)-point on the elliptic curve:"
 											required="required"
 											wrap="soft"
@@ -831,6 +786,56 @@
 													"
 											type="button"
 											onclick="generateReceiversY()"
+										>
+											Generate
+										</span>
+
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
+
+
+						<div class="row">
+
+							<div class="form-group">
+
+								<div class="col-sm-2">
+
+									<label
+										class="control-label
+												 receivers-parameter-label
+												"
+									>
+										Pick a number (a secret key) to multiply the (x,y)-point below by:
+									</label>
+
+								</div>
+
+								<div class="col-sm-10">
+
+									<div class="input-group">
+
+										<textarea
+											class="form-control
+													 receivers-parameter
+													"
+											name="receiversPrivateMultiplier"
+											placeholder="Pick a number (a secret key) to multiply the (x,y)-point below by."
+											required="required"
+											wrap="soft"
+										></textarea>
+
+										<span
+											class="input-group-addon
+													 btn
+													 btn-default
+													"
+											type="button"
+											onclick="generateReceiversPrivateMultiplier()"
 										>
 											Generate
 										</span>
@@ -868,7 +873,7 @@
 											class="form-control
 													 receivers-parameter
 													"
-											name="receivers-multiplied-x"
+											name="receiversMultipliedX"
 											placeholder="The multiplied x-value of the elliptic curve point (will be calculated):"
 											required="required"
 											wrap="soft"
@@ -918,7 +923,7 @@
 											class="form-control
 													 receivers-parameter
 													"
-											name="receivers-multiplied-y"
+											name="receiversMultipliedY"
 											placeholder="The multiplied y-value of the elliptic curve point (will be calculated):"
 											required="required"
 											wrap="soft"
@@ -968,7 +973,7 @@
 											class="form-control
 													 receivers-parameter
 													"
-											name="receivers-common-secret-key"
+											name="receiversCommonSecretKey"
 											placeholder="The common secret key (will be calculated)"
 											required="required"
 											wrap="soft"
@@ -1005,7 +1010,7 @@
 
 
 
-			<!-- Message container -->
+			<!-- Message -->
 			<div class="container">
 
 
@@ -1046,7 +1051,7 @@
 									class="form-control
 											 message-parameter
 											"
-									name="message-plain-text"
+									name="messagePlainText"
 									placeholder="Enter the plain text message, here."
 									required="required"
 									wrap="soft"
@@ -1097,7 +1102,7 @@
 									class="form-control
 											 message-parameter
 											"
-									name="message-cipher-text"
+									name="messageCipherText"
 									placeholder="The cipher text will go here, after you press the Encrypt button (above)."
 									required="required"
 									wrap="soft"
@@ -1147,7 +1152,7 @@
 									class="form-control
 											 message-parameter
 											"
-									name="decrypted-message"
+									name="decryptedMessage"
 									placeholder="The plain text of the decrypted message will go here, after you press the Decrypt button (above)."
 									required="required"
 									wrap="soft"
