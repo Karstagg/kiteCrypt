@@ -1,142 +1,119 @@
 /*
 
-Elliptic Curve Parameters
--------------------------
+ Elliptic Curve Parameters
+ -------------------------
 
-eccA  a = coefficient of the x term in: y ^ 2 = x ^ 3 + a * x + b
+ eccA  a = the coefficient of the x term in: y ^ 2 = x ^ 3 + a * x + b
 
-    generateX0CoefficientA()
-
-eccB  b = value of the constant term in: y ^ 2 = x ^ 3 + a * x + b
-
-    generateX0CoefficientB()
-    
-
-
-eccP  p = prime number bounding the field of elliptic curve points
-
-    generateBoundingPrimeP()
-    
-
-
-eccN  n = number of points on the elliptic curve within the field (can be calculated)
-
-    calculateNumberOfPointsInFieldN()
-    
+ eccB  b = the value of the constant term in: y ^ 2 = x ^ 3 + a * x + b
 
 
 
-Sender's Parameters
--------------------
+ eccP  p = the prime number bounding the field of elliptic curve points
 
-sendersX                    The x of the sender's (x,y)-point on the elliptic curve.
-    
-    generateSendersX()
-
-sendersY                    The y of the sender's (x,y)-point on the elliptic curve.
-    
-    generateSendersY()
-  
-
-
-sendersPrivateMultiplier    Pick a number (a secret key) to multiply the (x,y)-point (above) by.
-    
-    generateSendersPrivateMultiplier()
+ eccN  n = a prime which is the order of the base point G (on the elliptic curve)
 
 
 
-sendersMultipliedX          The multiplied x-value of the elliptic curve point.
-                            
-    calculateSendersMultipliedX()
+ Gx                    The x of the (x,y)-point on the elliptic curve. For precomputed curves (for example, NIST elliptic curves), (x,y) should be furnished with the other curve parameters.
 
-sendersMultipliedY          The multiplied y-value of the elliptic curve point.
-
-    calculateSendersMultipliedY()
-
-
-
-sendersCommonSecretKey      The common secret key (will be calculated)
-
-    calculateCommonSecretKey()
+ Gy                    The y of the (x,y)-point on the elliptic curve. For precomputed curves (for example, NIST elliptic curves), (x,y) should be furnished with the other curve parameters.
 
 
 
 
-Receiver's Parameters
----------------------
+ Sender's Parameters
+ -------------------
 
-receiversX                    The x of the receiver's (x,y)-point on the elliptic curve.
-    
-    generateReceiversX()
+ sendersPrivateMultiplier    Pick a number (a secret key) to multiply the (x,y)-point (above) by.
 
-receiversY                    The y of the receiver's (x,y)-point on the elliptic curve.
-
-    generateReceiversY()
-    
-
-
-receiversPrivateMultiplier    Pick a number (a secret key) to multiply the (x,y)-point (above) by.
-    
-    generateReceiversPrivateMultiplier()
+ generateSendersPrivateMultiplier()
 
 
 
-receiversMultipliedX          The multiplied x-value of the elliptic curve point.
+ sendersMultipliedX          The multiplied x-value of the elliptic curve point.
 
-    calculateReceiversMultipliedX()
+ calculateSendersMultipliedX()
 
-receiversMultipliedY          The multiplied y-value of the elliptic curve point.
+ sendersMultipliedY          The multiplied y-value of the elliptic curve point.
 
-    calculateReceiversMultipliedX()
+ calculateSendersMultipliedY()
 
 
 
-receiversCommonSecretKey      The common secret key (will be calculated)
+ sendersCommonSecretKey      The common secret key (will be calculated)
 
-    calculateCommonSecretKey()
+ calculateCommonSecretKey()
 
 
 
 
-Message
--------
+ Receiver's Parameters
+ ---------------------
 
-messagePlainText              Enter the plain text message, here.
+ receiversPrivateMultiplier    Pick a number (a secret key) to multiply the (x,y)-point (above) by.
 
-    encryptMessage()
-
-messageCipherText             The cipher text will go here, after you press the Encrypt button (above).
-
-    decryptMessage()
-
-decryptedMessage              The plain text of the decrypted message will go here, after you press the Decrypt button (above).
-
-
-*/
+ generateReceiversPrivateMultiplier()
 
 
 
+ receiversMultipliedX          The multiplied x-value of the elliptic curve point.
 
-var randomNumber;
+ calculateReceiversMultipliedX()
+
+ receiversMultipliedY          The multiplied y-value of the elliptic curve point.
+
+ calculateReceiversMultipliedX()
+
+
+
+ receiversCommonSecretKey      The common secret key (will be calculated)
+
+ calculateCommonSecretKey()
+
+
+
+
+ Message
+ -------
+
+ messagePlainText              Enter the plain text message, here.
+
+ encryptMessage()
+
+ messageCipherText             The cipher text will go here, after you press the Encrypt button (above).
+
+ decryptMessage()
+
+ decryptedMessage              The plain text of the decrypted message will go here, after you press the Decrypt button (above).
+
+
+ */
+
+
+
+
+var ellipticCurve;
 
 var eccA;
 var eccB;
 var eccP;
 var eccN;
 
-var sendersX;
-var sendersY;
+var eccGx;
+var eccGy;
+
 var sendersPrivateMultiplier;
 var sendersMultipliedX;
 var sendersMultipliedY;
-var sendersCommonSecretKey;
+var sendersCommonSecretKeyX;
+var sendersCommonSecretKeyY;
 
-var receiversX;
-var receiversY;
 var receiversPrivateMultiplier;
 var receiversMultipliedX;
 var receiversMultipliedY;
-var receiversCommonSecretKey;
+var receiversCommonSecretKeyX;
+var receiversCommonSecretKeyY;
 
 var messagePlainText;
 var messageCipherText;
@@ -145,169 +122,450 @@ var decryptedMessage;
 
 
 
-/*-------------------------------------------------------------------------------*/
-/* Elliptic Curve Parameters */
-/*-------------------------------------------------------------------------------*/
+/*
+ ----------------------------------------------------------------------------
+ Elliptic Curve Parameters
+ ----------------------------------------------------------------------------
+ */
 
-function initializeEllipticCurveParameters() {
+function initializeEllipticCurveParameters(ellipticCurveName) {
 
-   eccA = "Initial A";
-   eccB = "Initial B";
-   eccP = "Initial P";
-   eccN = "Initial N";
+   //eccA = "Initial A";
+   //eccB = "Initial B";
+   //eccP = "Initial P";
+   //eccN = "Initial N";
+
+   if (ellipticCurveName == null) {
+      ellipticCurveName = "secp160r1";
+   }
+
+   ellipticCurve = getSECCurveByName(ellipticCurveName);
+
+   eccA = ellipticCurve.getCurve().getA().toBigInteger().toString();
+   eccB = ellipticCurve.getCurve().getB().toBigInteger().toString();
+   eccP = ellipticCurve.getCurve().getQ().toString();
+   eccN = ellipticCurve.getN().toString();
+
+   eccGx = ellipticCurve.getG().getX().toBigInteger().toString();
+   eccGy = ellipticCurve.getG().getY().toBigInteger().toString();
+
 
    getN("eccA").value = eccA;
    getN("eccB").value = eccB;
    getN("eccP").value = eccP;
    getN("eccN").value = eccN;
+
+   getN("eccGx").value = eccGx;
+   getN("eccGy").value = eccGy;
+
+
+   /*
+    ----------------------------------------------------------------------------
+    Changing the elliptic curve invalidates everything
+    except for the message plain text.
+    ----------------------------------------------------------------------------
+    */
+
+   sendersPrivateMultiplier = "";
+   sendersMultipliedX = "";
+   sendersMultipliedY = "";
+   sendersCommonSecretKeyX = "";
+   sendersCommonSecretKeyY = "";
+
+   receiversPrivateMultiplier = "";
+   receiversMultipliedX = "";
+   receiversMultipliedY = "";
+   receiversCommonSecretKeyX = "";
+   receiversCommonSecretKeyY = "";
+
+   messageCipherText = "";
+   decryptedMessage = "";
+
+
+   getN("sendersPrivateMultiplier").value = sendersPrivateMultiplier;
+   getN("sendersMultipliedX").value = sendersMultipliedX;
+   getN("sendersMultipliedY").value = sendersMultipliedY;
+   getN("sendersCommonSecretKeyX").value = sendersCommonSecretKeyX;
+   getN("sendersCommonSecretKeyY").value = sendersCommonSecretKeyY;
+
+   getN("receiversPrivateMultiplier").value = receiversPrivateMultiplier;
+   getN("receiversMultipliedX").value = receiversMultipliedX;
+   getN("receiversMultipliedY").value = receiversMultipliedY;
+   getN("receiversCommonSecretKeyX").value = receiversCommonSecretKeyX;
+   getN("receiversCommonSecretKeyY").value = receiversCommonSecretKeyY;
+
+   getN("messageCipherText").value = messageCipherText;
+   getN("decryptedMessage").value = decryptedMessage;
+
 }
 
 
 
 
-function generateX0CoefficientA() {
-
-   eccA = "Generated A";
-
-   getN("eccA").value = eccA;
-}
-
-
-function generateX0CoefficientB() {
-
-   eccB = "Generated B";
-
-   getN("eccB").value = eccB;
-}
-
-
-function generateBoundingPrimeP() {
-
-   eccP = "Generated P";
-
-   getN("eccP").value = eccP;
-}
-
-
-function calculateNumberOfPointsInFieldN() {
-
-   eccN = "Generated N";
-
-   getN("eccN").value = eccN;
-}
-
-
-/*-------------------------------------------------------------------------------*/
-/* Sender's Parameters */
-/*-------------------------------------------------------------------------------*/
-
-function generateSendersX() {
-
-   sendersX = "Sender's X";
-
-   getN("sendersX").value = sendersX;
-}
-
-
-function generateSendersY() {
-
-   sendersY = "Sender's Y";
-
-   getN("sendersY").value = sendersY;
-}
-
+/*
+ ----------------------------------------------------------------------------
+ Sender's Parameters
+ ----------------------------------------------------------------------------
+ */
 
 function generateSendersPrivateMultiplier() {
 
-   sendersPrivateMultiplier = "Sender's Multiplier";
+   //sendersPrivateMultiplier = "Sender's Multiplier";
 
+   var randomValue = pick_rand();
+   sendersPrivateMultiplier = randomValue.toString();
    getN("sendersPrivateMultiplier").value = sendersPrivateMultiplier;
+
+
+   /*
+    ----------------------------------------------------------------------------
+    Changing the sender's private multiplier implies
+    the common secret key and the encrypted message.
+    are no longer valid.
+    ----------------------------------------------------------------------------
+    */
+
+   //sendersPrivateMultiplier = "";
+   sendersMultipliedX = "";
+   sendersMultipliedY = "";
+   sendersCommonSecretKeyX = "";
+   sendersCommonSecretKeyY = "";
+
+   //receiversPrivateMultiplier = "";
+   //receiversMultipliedX = "";
+   //receiversMultipliedY = "";
+   receiversCommonSecretKeyX = "";
+   receiversCommonSecretKeyY = "";
+
+   messageCipherText = "";
+   decryptedMessage = "";
+
+
+   //getN("sendersPrivateMultiplier").value = sendersPrivateMultiplier;
+   getN("sendersMultipliedX").value = sendersMultipliedX;
+   getN("sendersMultipliedY").value = sendersMultipliedY;
+   getN("sendersCommonSecretKeyX").value = sendersCommonSecretKeyX;
+   getN("sendersCommonSecretKeyY").value = sendersCommonSecretKeyY;
+
+   //getN("receiversPrivateMultiplier").value = receiversPrivateMultiplier;
+   //getN("receiversMultipliedX").value = receiversMultipliedX;
+   //getN("receiversMultipliedY").value = receiversMultipliedY;
+   getN("receiversCommonSecretKeyX").value = receiversCommonSecretKeyX;
+   getN("receiversCommonSecretKeyY").value = receiversCommonSecretKeyY;
+
+   getN("messageCipherText").value = messageCipherText;
+   getN("decryptedMessage").value = decryptedMessage;
+
 }
 
 
 function calculateSendersMultipliedX() {
 
-   sendersMultipliedX = "Sender's Multiplied X";
+   //sendersMultipliedX = "Sender's Multiplied X";
 
+   sendersPrivateMultiplier = getN("sendersPrivateMultiplier").value
+
+   if (sendersPrivateMultiplier == "") {
+      alert("Please enter (or generate) the sender's private multiplier, first.");
+   }
+
+   var s = new BigInteger(sendersPrivateMultiplier);
+   var G = get_G(ellipticCurve);
+   var sG = G.multiply(s);
+
+   sendersMultipliedX = sG.getX().toBigInteger().toString();
+   sendersMultipliedY = sG.getY().toBigInteger().toString();
+
+   /*
+    ----------------------------------------------------------------------------
+    Changing the sender's private multiplier implies
+    the common secret key and the encrypted message.
+    are no longer valid.
+    ----------------------------------------------------------------------------
+    */
+
+   //sendersPrivateMultiplier = "";
+   //sendersMultipliedX = "";
+   //sendersMultipliedY = "";
+   sendersCommonSecretKeyX = "";
+   sendersCommonSecretKeyY = "";
+
+   //receiversPrivateMultiplier = "";
+   //receiversMultipliedX = "";
+   //receiversMultipliedY = "";
+   receiversCommonSecretKeyX = "";
+   receiversCommonSecretKeyY = "";
+
+   messageCipherText = "";
+   decryptedMessage = "";
+
+
+   //getN("sendersPrivateMultiplier").value = sendersPrivateMultiplier;
    getN("sendersMultipliedX").value = sendersMultipliedX;
+   getN("sendersMultipliedY").value = sendersMultipliedY;
+   getN("sendersCommonSecretKeyX").value = sendersCommonSecretKeyX;
+   getN("sendersCommonSecretKeyY").value = sendersCommonSecretKeyY;
+
+   //getN("receiversPrivateMultiplier").value = receiversPrivateMultiplier;
+   //getN("receiversMultipliedX").value = receiversMultipliedX;
+   //getN("receiversMultipliedY").value = receiversMultipliedY;
+   getN("receiversCommonSecretKeyX").value = receiversCommonSecretKeyX;
+   getN("receiversCommonSecretKeyY").value = receiversCommonSecretKeyY;
+
+   getN("messageCipherText").value = messageCipherText;
+   getN("decryptedMessage").value = decryptedMessage;
+
 }
 
 
 function calculateSendersMultipliedY() {
 
-   sendersMultipliedY = "Sender's Multiplied Y";
+   //sendersMultipliedY = "Sender's Multiplied Y";
 
-   getN("sendersMultipliedY").value = sendersMultipliedY;
+   calculateSendersMultipliedX()
+
 }
 
 
 
 
-/*-------------------------------------------------------------------------------*/
-/* Calculate Common Secret Key */
-/*-------------------------------------------------------------------------------*/
+/*
+ ----------------------------------------------------------------------------
+ Calculate Common Secret Key
+ ----------------------------------------------------------------------------
+ */
 
 function calculateCommonSecretKey() {
 
-   sendersCommonSecretKey = "Common Secret Key";
-   receiversCommonSecretKey= sendersCommonSecretKey;
+   //sendersCommonSecretKey = "Common Secret Key";
+   //receiversCommonSecretKey= sendersCommonSecretKey;
 
-   getN("sendersCommonSecretKey").value = sendersCommonSecretKey;
-   getN("receiversCommonSecretKey").value = receiversCommonSecretKey;
+   //getN("sendersCommonSecretKey").value = sendersCommonSecretKey;
+   //getN("receiversCommonSecretKey").value = receiversCommonSecretKey;
+
+   /*
+    ----------------------------------------------------------------------------
+    Check that 1) the private multipliers and
+    2) the multiplied (x,y)-points
+    are defined for both the sender and the receiver
+    ----------------------------------------------------------------------------
+    */
+
+   sendersPrivateMultiplier = getN("sendersPrivateMultiplier").value;
+
+   if (sendersPrivateMultiplier == "") {
+      alert("Please enter (or generate) the sender's private multiplier, first.");
+   }
+
+   receiversPrivateMultiplier = getN("receiversPrivateMultiplier").value
+
+   if (receiversPrivateMultiplier == "") {
+      alert("Please enter (or generate) the receiver's private multiplier, first.");
+   }
+
+
+   sendersMultipliedX = getN("sendersMultipliedX").value;
+   sendersMultipliedY = getN("sendersMultipliedY").value;
+
+   if (sendersMultipliedX == "" || sendersMultipliedY == "") {
+      calculateSendersMultipliedX();
+   }
+
+
+   receiversMultipliedX = getN("receiversMultipliedX").value;
+   receiversMultipliedY = getN("receiversMultipliedY").value;
+
+   if (receiversMultipliedX == "" || receiversMultipliedY == "") {
+      calculateReceiversMultipliedX();
+   }
+
+
+   /*
+    ----------------------------------------------------------------------------
+    Calculate the new common secret key.
+    ----------------------------------------------------------------------------
+    */
+
+
+   var s = new BigInteger(sendersPrivateMultiplier);
+   var r = new BigInteger(receiversPrivateMultiplier);
+   var G = get_G(ellipticCurve);
+   var sG = G.multiply(s);
+   var rsG = sG.multiply(r);
+
+
+   sendersCommonSecretKeyX = rsG.getX().toBigInteger().toString();
+   sendersCommonSecretKeyY = rsG.getY().toBigInteger().toString();
+
+   receiversCommonSecretKeyX = sendersCommonSecretKeyX;
+   receiversCommonSecretKeyY = sendersCommonSecretKeyY;
+
+   /*
+    ----------------------------------------------------------------------------
+    Everything is valid except for the encrypted message.
+    ----------------------------------------------------------------------------
+    */
+
+   //sendersPrivateMultiplier = "";
+   //sendersMultipliedX = "";
+   //sendersMultipliedY = "";
+   //sendersCommonSecretKeyX = "";
+   //sendersCommonSecretKeyY = "";
+
+   //receiversPrivateMultiplier = "";
+   //receiversMultipliedX = "";
+   //receiversMultipliedY = "";
+   //receiversCommonSecretKeyX = "";
+   //receiversCommonSecretKeyY = "";
+
+   messageCipherText = "";
+   decryptedMessage = "";
+
+
+   //getN("sendersPrivateMultiplier").value = sendersPrivateMultiplier;
+   //getN("sendersMultipliedX").value = sendersMultipliedX;
+   //getN("sendersMultipliedY").value = sendersMultipliedY;
+   getN("sendersCommonSecretKeyX").value = sendersCommonSecretKeyX;
+   getN("sendersCommonSecretKeyY").value = sendersCommonSecretKeyY;
+
+   //getN("receiversPrivateMultiplier").value = receiversPrivateMultiplier;
+   //getN("receiversMultipliedX").value = receiversMultipliedX;
+   //getN("receiversMultipliedY").value = receiversMultipliedY;
+   getN("receiversCommonSecretKeyX").value = receiversCommonSecretKeyX;
+   getN("receiversCommonSecretKeyY").value = receiversCommonSecretKeyY;
+
+   getN("messageCipherText").value = messageCipherText;
+   getN("decryptedMessage").value = decryptedMessage;
+
 }
 
 
 
 
-/*-------------------------------------------------------------------------------*/
-/* Receiver's Parameters */
-/*-------------------------------------------------------------------------------*/
-
-function generateReceiversX() {
-
-   receiversX = "Receiver's X";
-
-   getN("receiversX").value = receiversX;
-}
-
-
-function generateReceiversY() {
-
-   receiversY = "Receiver's Y";
-
-   getN("receiversY").value = receiversY;
-}
-
+/*
+ ----------------------------------------------------------------------------
+ Receiver's Parameters
+ ----------------------------------------------------------------------------
+ */
 
 function generateReceiversPrivateMultiplier() {
 
-   receiversPrivateMultiplier = "Receiver's Multiplier";
+   //receiversPrivateMultiplier = "Receiver's Multiplier";
 
+   var randomValue = pick_rand();
+   receiversPrivateMultiplier = randomValue.toString();
    getN("receiversPrivateMultiplier").value = receiversPrivateMultiplier;
+
+
+   /*
+    ----------------------------------------------------------------------------
+    Changing the sender's private multiplier invalidates
+    the sender's other values, the common secret key, and
+    the encrypted message.
+    ----------------------------------------------------------------------------
+    */
+
+   //sendersPrivateMultiplier = "";
+   //sendersMultipliedX = "";
+   //sendersMultipliedY = "";
+   sendersCommonSecretKey = "";
+
+   //receiversPrivateMultiplier = "";
+   receiversMultipliedX = "";
+   receiversMultipliedY = "";
+   receiversCommonSecretKey = "";
+
+   messageCipherText = "";
+   decryptedMessage = "";
+
+
+   //getN("sendersPrivateMultiplier").value = sendersPrivateMultiplier;
+   //getN("sendersMultipliedX").value = sendersMultipliedX;
+   //getN("sendersMultipliedY").value = sendersMultipliedY;
+   getN("sendersCommonSecretKey").value = sendersCommonSecretKey;
+
+   //getN("receiversPrivateMultiplier").value = receiversPrivateMultiplier;
+   getN("receiversMultipliedX").value = receiversMultipliedX;
+   getN("receiversMultipliedY").value = receiversMultipliedY;
+   getN("receiversCommonSecretKey").value = receiversCommonSecretKey;
+
+   getN("messageCipherText").value = messageCipherText;
+   getN("decryptedMessage").value = decryptedMessage;
+
 }
 
 
 function calculateReceiversMultipliedX() {
 
-   receiversMultipliedX = "Receiver's Multiplied X";
+   //receiversMultipliedX = "Receiver's Multiplied X";
 
+   receiversPrivateMultiplier = getN("receiversPrivateMultiplier").value
+
+   if (receiversPrivateMultiplier == "") {
+      alert("Please enter (or generate) the receiver's private multiplier, first.");
+   }
+
+   var r = new BigInteger(receiversPrivateMultiplier);
+   var G = get_G(ellipticCurve);
+   var rG = G.multiply(r);
+
+   receiversMultipliedX = rG.getX().toBigInteger().toString();
+   receiversMultipliedY = rG.getY().toBigInteger().toString();
+
+   /*
+    ----------------------------------------------------------------------------
+    Changing the receiver's private multiplier implies
+    the common secret key and the encrypted message.
+    are no longer valid.
+    ----------------------------------------------------------------------------
+    */
+
+   //sendersPrivateMultiplier = "";
+   //sendersMultipliedX = "";
+   //sendersMultipliedY = "";
+   sendersCommonSecretKey = "";
+
+   //receiversPrivateMultiplier = "";
+   //receiversMultipliedX = "";
+   //receiversMultipliedY = "";
+   receiversCommonSecretKey = "";
+
+   messageCipherText = "";
+   decryptedMessage = "";
+
+
+   //getN("sendersPrivateMultiplier").value = sendersPrivateMultiplier;
+   //getN("sendersMultipliedX").value = sendersMultipliedX;
+   //getN("sendersMultipliedY").value = sendersMultipliedY;
+   getN("sendersCommonSecretKey").value = sendersCommonSecretKey;
+
+   //getN("receiversPrivateMultiplier").value = receiversPrivateMultiplier;
    getN("receiversMultipliedX").value = receiversMultipliedX;
+   getN("receiversMultipliedY").value = receiversMultipliedY;
+   getN("receiversCommonSecretKey").value = receiversCommonSecretKey;
+
+   getN("messageCipherText").value = messageCipherText;
+   getN("decryptedMessage").value = decryptedMessage;
+
 }
 
 
 function calculateReceiversMultipliedY() {
 
-   receiversMultipliedY = "Receiver's Multiplied Y";
+   //receiversMultipliedY = "Receiver's Multiplied Y";
 
-   getN("receiversMultipliedY").value = receiversMultipliedY;
+   calculateReceiversMultipliedX()
+
 }
 
 
 
 
-/*-------------------------------------------------------------------------------*/
-/* Message */
-/*-------------------------------------------------------------------------------*/
+/*
+ ----------------------------------------------------------------------------
+ Message
+ ----------------------------------------------------------------------------
+ */
 
 function encryptMessage() {
 
@@ -329,50 +587,47 @@ function decryptMessage() {
 
 
 
-/*-------------------------------------------------------------------------------*/
-/* Other Functions */
-/*-------------------------------------------------------------------------------*/
+/*
+ ----------------------------------------------------------------------------
+ Other Functions
+ ----------------------------------------------------------------------------
+ */
 
 function getN(n) {
 
    return typeof n == 'object' ? n : document.getElementById(n);
 }
 
+
+
 /*
-function () {
+ function () {
 
-   randomNumber = new SecureRandom();
-}
-
-
-function () {
-
-   randomNumber = new SecureRandom();
-}
+ randomNumber = new SecureRandom();
+ }
 
 
-function () {
+ function () {
 
-   randomNumber = new SecureRandom();
-}
-
-
-function () {
-
-   randomNumber = new SecureRandom();
-}
+ randomNumber = new SecureRandom();
+ }
 
 
-function () {
+ function () {
 
-   randomNumber = new SecureRandom();
-}
+ randomNumber = new SecureRandom();
+ }
 
 
-function () {
+ function () {
 
-   randomNumber = new SecureRandom();
-}
-*/
-  
-  
+ randomNumber = new SecureRandom();
+ }
+
+
+ function () {
+
+ randomNumber = new SecureRandom();
+ }
+ */
+

@@ -114,7 +114,7 @@
 
 
 
-	<body onLoad="initializeEllipticCurveParameters()">
+	<body onload="initializeEllipticCurveParameters()">
 
 
 
@@ -163,37 +163,22 @@
 										 elliptic-curve-parameter-label
 										"
 							>
-								a = coefficient of the x term:
+								a:
 							</label>
 
 						</div>
 
 						<div class="col-sm-10">
 
-							<div class="input-group">
-
-								<textarea
-									class="form-control
-											 elliptic-curve-parameter
-											"
-									id="eccA"
-									placeholder="a = coefficient of the x term in: y ^ 2 = x ^ 3 + a * x + b"
-									required="required"
-									wrap="soft"
-								></textarea>
-
-								<span
-									class="input-group-addon
-											 btn
-											 btn-default
-											"
-									type="button"
-									onclick="generateX0CoefficientA()"
-								>
-									Generate
-								</span>
-
-							</div>
+							<textarea
+								class="form-control
+										 elliptic-curve-parameter
+										"
+								id="eccA"
+								placeholder="a = the coefficient of the x term in: y ^ 2 = x ^ 3 + a * x + b"
+								required="required"
+								wrap="soft"
+							></textarea>
 
 						</div>
 
@@ -213,37 +198,22 @@
 										 elliptic-curve-parameter-label
 										"
 							>
-								b = value of the constant term:
+								b:
 							</label>
 
 						</div>
 
 						<div class="col-sm-10">
 
-							<div class="input-group">
-
-								<textarea
-									class="form-control
-											 elliptic-curve-parameter
-											"
-									id="eccB"
-									placeholder="b = value of the constant term in: y ^ 2 = x ^ 3 + a * x + b"
-									required="required"
-									wrap="soft"
-								></textarea>
-
-								<span
-									class="input-group-addon
-												 btn
-												 btn-default
-												"
-									type="button"
-									onclick="generateX0CoefficientB()"
-								>
-									Generate
-								</span>
-
-							</div>
+							<textarea
+								class="form-control
+										 elliptic-curve-parameter
+										"
+								id="eccB"
+								placeholder="b = the value of the constant term in: y ^ 2 = x ^ 3 + a * x + b"
+								required="required"
+								wrap="soft"
+							></textarea>
 
 						</div>
 
@@ -263,37 +233,22 @@
 										 elliptic-curve-parameter-label
 										"
 							>
-								p = prime number bounding the field:
+								p:
 							</label>
 
 						</div>
 
 						<div class="col-sm-10">
 
-							<div class="input-group">
-
-								<textarea
-									class="form-control
-											 elliptic-curve-parameter
-											"
-									id="eccP"
-									placeholder="p = prime number bounding the field of elliptic curve points"
-									required="required"
-									wrap="soft"
-								></textarea>
-
-								<span
-									class="input-group-addon
-												 btn
-												 btn-default
-												"
-									type="button"
-									onclick="generateBoundingPrimeP()"
-								>
-									Generate
-								</span>
-
-							</div>
+							<textarea
+								class="form-control
+										 elliptic-curve-parameter
+										"
+								id="eccP"
+								placeholder="p = the prime number bounding the field of elliptic curve points"
+								required="required"
+								wrap="soft"
+							></textarea>
 
 						</div>
 
@@ -313,37 +268,92 @@
 										 elliptic-curve-parameter-label
 										"
 							>
-								n = number of points on the elliptic curve (can be calculated):
+								n:
 							</label>
 
 						</div>
 
 						<div class="col-sm-10">
 
-							<div class="input-group">
+							<textarea
+								class="form-control
+										 elliptic-curve-parameter
+										"
+								id="eccN"
+								placeholder="n = a prime which is the order of the base point G (on the elliptic curve)"
+								required="required"
+								wrap="soft"
+							></textarea>
 
-								<textarea
-									class="form-control
-											 elliptic-curve-parameter
-											"
-									id="eccN"
-									placeholder="n = number of points on the elliptic curve within the field (can be calculated)"
-									required="required"
-									wrap="soft"
-								></textarea>
+						</div>
 
-								<span
-									class="input-group-addon
-												 btn
-												 btn-default
-												"
-									type="button"
-									onclick="calculateNumberOfPointsInFieldN()"
-								>
-									Calculate
-								</span>
+					</div>
 
-							</div>
+				</div>
+
+
+				<div class="row">
+
+					<div class="form-group">
+
+						<div class="col-sm-2">
+
+							<label
+								class="control-label
+										 elliptic-curve-parameter-label
+										"
+							>
+								Gx:
+							</label>
+
+						</div>
+
+						<div class="col-sm-10">
+
+							<textarea
+								class="form-control
+										 elliptic-curve-parameter
+										"
+								id="eccGy"
+								placeholder="Gx = The x of the (x,y)-point on the elliptic curve. For precomputed curves (for example, NIST elliptic curves), (x,y) should be furnished with the other curve parameters."
+								required="required"
+								wrap="soft"
+							></textarea>
+
+						</div>
+
+					</div>
+
+				</div>
+
+
+				<div class="row">
+
+					<div class="form-group">
+
+						<div class="col-sm-2">
+
+							<label
+								class="control-label
+										 elliptic-curve-parameter-label
+										"
+							>
+								Gy:
+							</label>
+
+						</div>
+
+						<div class="col-sm-10">
+
+							<textarea
+								class="form-control
+										 elliptic-curve-parameter
+										"
+								id="eccGy"
+								placeholder="Gy = The y of the (x,y)-point on the elliptic curve. For precomputed curves (for example, NIST elliptic curves), (x,y) should be furnished with the other curve parameters."
+								required="required"
+								wrap="soft"
+							></textarea>
 
 						</div>
 
@@ -391,107 +401,7 @@
 												 senders-parameter-label
 												"
 									>
-										The x of the sender's (x,y)-point on the elliptic curve:
-									</label>
-
-								</div>
-
-								<div class="col-sm-10">
-
-									<div class="input-group">
-
-										<textarea
-											class="form-control
-													 senders-parameter
-													"
-											id="sendersX"
-											placeholder="The x of the sender's (x,y)-point on the elliptic curve."
-											required="required"
-											wrap="soft"
-										></textarea>
-
-										<span
-											class="input-group-addon
-													 btn
-													 btn-default
-													"
-											type="button"
-											onclick="generateSendersX()"
-										>
-											Generate
-										</span>
-
-									</div>
-
-								</div>
-
-							</div>
-
-						</div>
-
-
-						<div class="row">
-
-							<div class="form-group">
-
-								<div class="col-sm-2">
-
-									<label
-										class="control-label
-												 senders-parameter-label
-												"
-									>
-										The y of the sender's (x,y)-point on the elliptic curve:
-									</label>
-
-								</div>
-
-								<div class="col-sm-10">
-
-									<div class="input-group">
-
-										<textarea
-											class="form-control
-													 senders-parameter
-													"
-											id="sendersY"
-											placeholder="The y of the sender's (x,y)-point on the elliptic curve."
-											required="required"
-											wrap="soft"
-										></textarea>
-
-										<span
-											class="input-group-addon
-													 btn
-													 btn-default
-													"
-											type="button"
-											onclick="generateSendersY()"
-										>
-											Generate
-										</span>
-
-									</div>
-
-								</div>
-
-							</div>
-
-						</div>
-
-
-						<div class="row">
-
-							<div class="form-group">
-
-								<div class="col-sm-2">
-
-									<label
-										class="control-label
-												 senders-parameter-label
-												"
-									>
-										Pick a number (a secret key) to multiply the (x,y)-point (above) by:
+										Sender's Private Multiplier:
 									</label>
 
 								</div>
@@ -505,7 +415,7 @@
 													 senders-parameter
 													"
 											id="sendersPrivateMultiplier"
-											placeholder="Pick a number (a secret key) to multiply the (x,y)-point below by."
+											placeholder="Pick a number (a private one) to multiply the (Gx,Gy)-point (above) by."
 											required="required"
 											wrap="soft"
 										></textarea>
@@ -541,7 +451,7 @@
 												 senders-parameter-label
 												"
 									>
-										The multiplied x-value of the elliptic curve point (will be calculated):
+										The sender's public key x:
 									</label>
 
 								</div>
@@ -555,7 +465,7 @@
 													 senders-parameter
 													"
 											id="sendersMultipliedX"
-											placeholder="The multiplied x-value of the elliptic curve point (will be calculated)."
+											placeholder="The sender's public key (k) is the product of the sender's private multiplier (s) and the base point (G) of the elliptic curve: k = s * G ."
 											required="required"
 											wrap="soft"
 										></textarea>
@@ -591,7 +501,7 @@
 												 senders-parameter-label
 												"
 									>
-										The multiplied y-value of the elliptic curve point (will be calculated):
+										The sender's public key y:
 									</label>
 
 								</div>
@@ -605,7 +515,7 @@
 													 senders-parameter
 													"
 											id="sendersMultipliedY"
-											placeholder="The multiplied y-value of the elliptic curve point (will be calculated):"
+											placeholder="The sender's public key (k) is the product of the sender's private multiplier (s) and the base point (G) of the elliptic curve: k = s * G ."
 											required="required"
 											wrap="soft"
 										></textarea>
@@ -641,7 +551,7 @@
 												 senders-parameter-label
 												"
 									>
-										The common secret key (will be calculated):
+										The common secret key x:
 									</label>
 
 								</div>
@@ -654,8 +564,58 @@
 											class="form-control
 													 senders-parameter
 													"
-											id="sendersCommonSecretKey"
-											placeholder="The common secret key (will be calculated)"
+											id="sendersCommonSecretKeyX"
+											placeholder="The common secret key x"
+											required="required"
+											wrap="soft"
+										></textarea>
+
+										<span
+											class="input-group-addon
+													 btn
+													 btn-default
+													"
+											type="button"
+											onclick="calculateCommonSecretKey()"
+										>
+											Calculate
+										</span>
+
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
+
+
+						<div class="row">
+
+							<div class="form-group">
+
+								<div class="col-sm-2">
+
+									<label
+										class="control-label
+												 senders-parameter-label
+												"
+									>
+										The common secret key y:
+									</label>
+
+								</div>
+
+								<div class="col-sm-10">
+
+									<div class="input-group">
+
+										<textarea
+											class="form-control
+													 senders-parameter
+													"
+											id="sendersCommonSecretKeyY"
+											placeholder="The common secret key y"
 											required="required"
 											wrap="soft"
 										></textarea>
@@ -701,7 +661,6 @@
 						</div>
 
 
-
 						<div class="row">
 
 							<div class="form-group">
@@ -713,107 +672,7 @@
 												 receivers-parameter-label
 												"
 									>
-										The x of the receiver's (x,y)-point on the elliptic curve:
-									</label>
-
-								</div>
-
-								<div class="col-sm-10">
-
-									<div class="input-group">
-
-										<textarea
-											class="form-control
-													 receivers-parameter
-													"
-											id="receiversX"
-											placeholder="The x of the receiver's (x,y)-point on the elliptic curve."
-											required="required"
-											wrap="soft"
-										></textarea>
-
-										<span
-											class="input-group-addon
-													 btn
-													 btn-default
-													"
-											type="button"
-											onclick="generateReceiversX()"
-										>
-											Generate
-										</span>
-
-									</div>
-
-								</div>
-
-							</div>
-
-						</div>
-
-
-						<div class="row">
-
-							<div class="form-group">
-
-								<div class="col-sm-2">
-
-									<label
-										class="control-label
-												 receivers-parameter-label
-												"
-									>
-										The y of the receiver's (x,y)-point on the elliptic curve:
-									</label>
-
-								</div>
-
-								<div class="col-sm-10">
-
-									<div class="input-group">
-
-										<textarea
-											class="form-control
-													 receivers-parameter
-													"
-											id="receiversY"
-											placeholder="The y of the receiver's (x,y)-point on the elliptic curve:"
-											required="required"
-											wrap="soft"
-										></textarea>
-
-										<span
-											class="input-group-addon
-													 btn
-													 btn-default
-													"
-											type="button"
-											onclick="generateReceiversY()"
-										>
-											Generate
-										</span>
-
-									</div>
-
-								</div>
-
-							</div>
-
-						</div>
-
-
-						<div class="row">
-
-							<div class="form-group">
-
-								<div class="col-sm-2">
-
-									<label
-										class="control-label
-												 receivers-parameter-label
-												"
-									>
-										Pick a number (a secret key) to multiply the (x,y)-point below by:
+										Receiver's Private Multiplier:
 									</label>
 
 								</div>
@@ -827,7 +686,7 @@
 													 receivers-parameter
 													"
 											id="receiversPrivateMultiplier"
-											placeholder="Pick a number (a secret key) to multiply the (x,y)-point below by."
+											placeholder="Pick a number (a private one) to multiply the (Gx,Gy)-point by."
 											required="required"
 											wrap="soft"
 										></textarea>
@@ -863,7 +722,7 @@
 												 receivers-parameter-label
 												"
 									>
-										The multiplied x-value of the elliptic curve point (will be calculated):
+										The receiver's public key x:
 									</label>
 
 								</div>
@@ -877,7 +736,7 @@
 													 receivers-parameter
 													"
 											id="receiversMultipliedX"
-											placeholder="The multiplied x-value of the elliptic curve point (will be calculated):"
+											placeholder="The receiver's public key (k) is the product of the receiver's private multiplier (r) and the base point (G) of the elliptic curve: k = r * G ."
 											required="required"
 											wrap="soft"
 										></textarea>
@@ -913,7 +772,7 @@
 												 receivers-parameter-label
 												"
 									>
-										The multiplied y-value of the elliptic curve point (will be calculated):
+										The receiver's public key y:
 									</label>
 
 								</div>
@@ -927,7 +786,7 @@
 													 receivers-parameter
 													"
 											id="receiversMultipliedY"
-											placeholder="The multiplied y-value of the elliptic curve point (will be calculated):"
+											placeholder="The receiver's public key (k) is the product of the receiver's private multiplier (r) and the base point (G) of the elliptic curve: k = r * G ."
 											required="required"
 											wrap="soft"
 										></textarea>
@@ -963,7 +822,7 @@
 												 receivers-parameter-label
 												"
 									>
-										The common secret key (will be calculated):
+										The common secret key x:
 									</label>
 
 								</div>
@@ -976,8 +835,8 @@
 											class="form-control
 													 receivers-parameter
 													"
-											id="receiversCommonSecretKey"
-											placeholder="The common secret key (will be calculated)"
+											id="receiversCommonSecretKeyX"
+											placeholder="The common secret key x"
 											required="required"
 											wrap="soft"
 										></textarea>
@@ -1001,6 +860,55 @@
 
 						</div>
 
+
+						<div class="row">
+
+							<div class="form-group">
+
+								<div class="col-sm-2">
+
+									<label
+										class="control-label
+												 receivers-parameter-label
+												"
+									>
+										The common secret key y:
+									</label>
+
+								</div>
+
+								<div class="col-sm-10">
+
+									<div class="input-group">
+
+										<textarea
+											class="form-control
+													 receivers-parameter
+													"
+											id="receiversCommonSecretKeyY"
+											placeholder="The common secret key y"
+											required="required"
+											wrap="soft"
+										></textarea>
+
+										<span
+											class="input-group-addon
+													 btn
+													 btn-default
+													"
+											type="button"
+											onclick="calculateCommonSecretKey()"
+										>
+											Calculate
+										</span>
+
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
 
 					</div>
 
@@ -1083,7 +991,10 @@
 
 						<div class="col-sm-2">
 
-							<label class="control-label message-parameter-label">
+							<label class="control-label
+											  message-parameter-label
+											 "
+							>
 								Cipher text:
 							</label>
 
