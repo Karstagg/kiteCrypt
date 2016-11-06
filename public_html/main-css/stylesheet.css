@@ -8,8 +8,14 @@ body, html { /*global body style*/
 	background-image: url("../img/kite-logo.png");
 	background-repeat: no-repeat;
 	background-attachment: fixed;
-	background-position: 50% 30%;
+	background-position: 50% 10%;
 	height: 100%; /*body height*/
+}
+.pad-down {
+	padding-top: 68%;
+}
+.pad-down2 {
+	padding-top: 5%;
 }
 .pulse {
 	animation: pulsate-in 25s forwards;
@@ -23,11 +29,35 @@ body, html { /*global body style*/
 	animation-delay: 8s; /*wait 5 seconds after the page loads to run fadeIn animation*/
 	animation-timing-function: ease-in, ease-out;
 }
-.fade-in-out-2 { /*class for kiteCrypt title subtext*/
+.fade-in-out { /*class for kiteCrypt title subtext*/
 	height: 0;
 	opacity: 0;
 	animation: fadeInOut 8s forwards; /*run fadeInOut animation for 5 seconds*/
 	animation-timing-function: ease-in, ease-out;
+}
+.fade-in-2 { /*class for kiteCrypt title subtext*/
+	font-weight: 900;
+	height: 0;
+	opacity: 0;
+	animation: fadeIn 5s forwards; /*run fadeIn animation for 5 seconds*/
+	animation-delay: 8s; /*wait 5 seconds after the page loads to run fadeIn animation*/
+	animation-timing-function: ease-in, ease-out;
+}
+.skip-fade-in {
+	font-weight: 900;
+	height: 0;
+	opacity: 1;
+}
+.skip-fade-in-2 {
+	height: 0;
+	opacity: 1;
+}
+.skip-fade-in-out {
+	height: 0;
+	opacity: 0;
+}
+.pulse-now {
+	animation: pulsate-in 25s forwards;
 }
 @keyframes fadeInOut{ /*Animation that changes opacity from 0 to 1 and back*/
 	0% {
@@ -65,4 +95,8 @@ body, html { /*global body style*/
 		color: white;
 		text-shadow:0rem 0rem 0.5rem black;
 	}
+}
+
+a {
+	color: #98171f;
 }
