@@ -22,7 +22,7 @@ body {
 	padding-bottom: 20vh;
 }
 
-.control-label {
+label[class$="-label"] {
 	text-align: right;
 	/*vertical-align: top;*/
 }
