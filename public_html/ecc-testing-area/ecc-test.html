@@ -1109,13 +1109,18 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Elliptic Curves<span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="#elliptic-curve-parameters">Curve 1</a></li>
-								<li><a href="#elliptic-curve-parameters">Curve 2</a></li>
-								<li><a href="#elliptic-curve-parameters">Curve 3</a></li>
+								<li><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve("secp128r1")">NIST P-128 Random 1</a></li>
+								<li><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve("secp160k1")">NIST P-160 Koblitz 1</a></li>
+								<li><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve("secp160r1")">NIST P-160 Random 1</a></li>
+								<li><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve("secp192k1")">NIST P-192 Koblitz 1</a></li>
 								<li role="separator" class="divider"></li>
-								<li><a href="#elliptic-curve-parameters">Curve 4</a></li>
+								<li><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve("secp192r1")">NIST P-192 Random 1</a></li>
+								<li><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve("secp224r1")">NIST P-224 Random 1</a></li>
+								<li><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve("secp256r1")">NIST P-256 Random 1</a></li>
 								<li role="separator" class="divider"></li>
-								<li><a href="#elliptic-curve-parameters">Curve 5</a></li>
+								<li><a href="#elliptic-curve-parameters" onclick="alert("nistP384 is not available at this time.")">NIST P-384</a></li>
+								<li><a href="#elliptic-curve-parameters" onclick="alert("nistP521 is not available at this time.")">NIST P-521</a></li>
+								<li><a href="#elliptic-curve-parameters" onclick="alert("curve25519 is not available at this time.")">Curve 25519</a></li>
 							</ul>
 						</li>
 
