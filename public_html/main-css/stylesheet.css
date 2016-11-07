@@ -1,8 +1,10 @@
-
+/*************************************************************
+Main style
+*************************************************************/
 body, html { /*global body style*/
 	font-family: "Quicksand", sans-serif;
 	text-shadow:0rem 0rem 0.5rem black;
-	color: white;
+	color: #e4e5e4;
 	font-size: 1.1rem;
 	background-color: #AE8093;
 	background-image: url("../img/kite-logo.png");
@@ -11,6 +13,9 @@ body, html { /*global body style*/
 	background-position: 50% 10%;
 	height: 100%; /*body height*/
 }
+/*************************************************************
+styling for title text
+*************************************************************/
 .pad-down {
 	padding-top: 68%;
 }
@@ -59,6 +64,12 @@ body, html { /*global body style*/
 .pulse-now {
 	animation: pulsate-in 25s forwards;
 }
+a {
+	color: #98171f;
+}
+/*************************************************************
+title text animations
+*************************************************************/
 @keyframes fadeInOut{ /*Animation that changes opacity from 0 to 1 and back*/
 	0% {
 		opacity: 0;
@@ -81,22 +92,28 @@ body, html { /*global body style*/
 @keyframes pulsate-in{ /*animation for header text*/
 	0% {
 		color: #671134;
-		text-shadow:0rem 0rem 0.5rem white;
+		text-shadow:0rem 0rem 0.5rem #e4e5e4;
 	}
 	25% {
 		color: #671134;
-		text-shadow:0rem 0rem 0.5rem white;
+		text-shadow:0rem 0rem 0.5rem #e4e5e4;
 	}
 	50% {
-		color: white;
+		color: #e4e5e4;
 		text-shadow:0rem 0rem 0.5rem #671134;
 	}
 	100% {
-		color: white;
+		color: #e4e5e4;
 		text-shadow:0rem 0rem 0.5rem black;
 	}
 }
-
-a {
-	color: #98171f;
+/*************************************************************
+styling for login form
+*************************************************************/
+#login-row {
+	padding-top: 10%;
+}
+.btn-login {
+	color: #e4e5e4;
+	background-color: #98171f;
 }

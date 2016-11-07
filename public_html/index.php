@@ -21,6 +21,19 @@
 							</div>
 						</div>
 					</div>
+					<div id="login-row" class="row">
+						<div class="col-xs-6 col-xs-offset-3">
+							<div class="form-login">
+								<input type="text" id="user-name" class="form-control input-sm chat-input" placeholder="username" />
+								<br>
+								<input type="text" id="user-password" class="form-control input-sm chat-input" placeholder="password" />
+								<br>
+								<div  class="text-center">
+									<a href="#" class="btn btn-login btn-lg">login</a>
+								</div>
+								</div>
+						</div>
+					</div>
 				</div>
 			</header>
 			<!--		main content section-->
