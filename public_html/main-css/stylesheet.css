@@ -15,7 +15,7 @@ Main style
 		height: 100%; /*body height*/
 	}
 }
-@media (max-height: 299px) {
+@media (max-height: 299px) { /*for mobile screens with keyboards deployed*/
 	body, html { /*global body style*/
 		font-family: "Quicksand", sans-serif;
 		text-shadow: 0rem 0rem 0.5rem black;
