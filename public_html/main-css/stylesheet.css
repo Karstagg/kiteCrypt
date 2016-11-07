@@ -22,7 +22,7 @@ styling for title text
 .pad-down2 {
 	padding-top: 5%;
 }
-.pulse {
+.pulse {  /*class for  the main title*/
 	animation: pulsate-in 25s forwards;
 	animation-delay: 8s;
 }
@@ -48,23 +48,23 @@ styling for title text
 	animation-delay: 8s; /*wait 5 seconds after the page loads to run fadeIn animation*/
 	animation-timing-function: ease-in, ease-out;
 }
-.skip-fade-in {
+.skip-fade-in {  /*main title changed to this class when the body is clicked*/
 	font-weight: 900;
 	height: 0;
 	opacity: 1;
 }
-.skip-fade-in-2 {
+.skip-fade-in-2 {  /*title subtext changed to this class when the body is clicked*/
 	height: 0;
 	opacity: 1;
 }
-.skip-fade-in-out {
+.skip-fade-in-out { /*title slogan changed to this class when the body is clicked*/
 	height: 0;
 	opacity: 0;
 }
-.pulse-now {
+.pulse-now { /*main title changed to this class when the body is clicked*/
 	animation: pulsate-in 25s forwards;
 }
-a {
+a { /*link color*/
 	color: #98171f;
 }
 /*************************************************************
@@ -110,10 +110,10 @@ title text animations
 /*************************************************************
 styling for login form
 *************************************************************/
-#login-row {
+#login-row {/*the bootstrap row containing the login form*/
 	padding-top: 10%;
 }
-.btn-login {
+.btn-login {/*the login button*/
 	color: #e4e5e4;
 	background-color: #98171f;
 }
