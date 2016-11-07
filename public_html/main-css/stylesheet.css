@@ -1,7 +1,7 @@
 /*************************************************************
 Main style
 *************************************************************/
-@media (min-height: 400px) {
+@media (min-height: 400px) { /*for mobile screens without keyboards deployed*/
 	body, html { /*global body style*/
 		font-family: "Quicksand", sans-serif;
 		text-shadow: 0rem 0rem 0.5rem black;
