@@ -458,7 +458,7 @@
 
 								<div class="col-sm-10">
 
-									<div class="input-group">
+									<!--<div class="input-group">-->
 
 										<textarea
 											class="form-control
@@ -469,19 +469,23 @@
 											required="required"
 											wrap="soft"
 										></textarea>
+									<!--
+																			<span
+																				class="input-group-addon
+																						 btn
+																						 btn-default
+																						"
+																				type="button"
+																				onclick="calculateSendersMultipliedX()"
+																			>
+																				Calculate
+																			</span>
+																			-->
+																			<!--<span class="input-group-btn">-->
+																				<button class="btn btn-default" type="button" onclick="calculateSendersMultipliedX()">Calculate</button>
+																			<!--</span>-->
 
-										<span
-											class="input-group-addon
-													 btn
-													 btn-default
-													"
-											type="button"
-											onclick="calculateSendersMultipliedX()"
-										>
-											Calculate
-										</span>
-
-									</div>
+									<!--</div>-->
 
 								</div>
 
@@ -1109,18 +1113,20 @@
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Elliptic Curves<span class="caret"></span></a>
 							<ul class="dropdown-menu">
-								<li><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve("secp128r1")">NIST P-128 Random 1</a></li>
-								<li><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve("secp160k1")">NIST P-160 Koblitz 1</a></li>
-								<li><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve("secp160r1")">NIST P-160 Random 1</a></li>
-								<li><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve("secp192k1")">NIST P-192 Koblitz 1</a></li>
+								<li id="curve1" value="secp128r1"><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve(curve1.value)">NIST P-128 Random 1</a></li>
+								<li id="curve2" value="secp160r1"><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve(curve2.value)">NIST P-160 Random 1</a></li>
+								<li id="curve3" value="secp192r1"><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve(curve3.value)">NIST P-192 Random 1</a></li>
+								<li id="curve4" value="secp224r1"><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve(curve4.value)">NIST P-224 Random 1</a></li>
+								<li id="curve5" value="secp256r1"><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve(curve5.value)">NIST P-256 Random 1</a></li>
 								<li role="separator" class="divider"></li>
-								<li><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve("secp192r1")">NIST P-192 Random 1</a></li>
-								<li><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve("secp224r1")">NIST P-224 Random 1</a></li>
-								<li><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve("secp256r1")">NIST P-256 Random 1</a></li>
+								<li id="curve6" value="secp160k1"><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve(curve6.value)">NIST P-160 Koblitz 1</a></li>
+								<li id="curve7" value="secp192k1"><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve(curve7.value)">NIST P-192 Koblitz 1</a></li>
 								<li role="separator" class="divider"></li>
-								<li><a href="#elliptic-curve-parameters" onclick="alert("nistP384 is not available at this time.")">NIST P-384</a></li>
-								<li><a href="#elliptic-curve-parameters" onclick="alert("nistP521 is not available at this time.")">NIST P-521</a></li>
-								<li><a href="#elliptic-curve-parameters" onclick="alert("curve25519 is not available at this time.")">Curve 25519</a></li>
+								<li id="curve8" value="nistP384"><a href="#elliptic-curve-parameters" onclick="alert('NIST P-384 is not available at this time.')">NIST P-384</a></li>
+								<li id="curve9" value="nistP521"><a href="#elliptic-curve-parameters" onclick="alert('NIST P-521 is not available at this time.')">NIST P-521</a></li>
+								<li role="separator" class="divider"></li>
+								<li id="curve10" value="brainpool"><a href="#elliptic-curve-parameters" onclick="">Brainpool</a></li>
+
 							</ul>
 						</li>
 
