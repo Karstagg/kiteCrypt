@@ -24,3 +24,8 @@ Main style
 		height: 100%; /*body height*/
 	}
 }
+
+.panel-body {
+	font-family: "Quicksand", sans-serif;
+	color: black;
+}

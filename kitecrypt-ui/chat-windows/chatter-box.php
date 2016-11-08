@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-	<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 	<head>
 	<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -35,6 +35,17 @@
 			<div class="row">
 				<div class="col-xs-12"
 				<h2>Welcome</h2>
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h3 class="panel-title">Jack Pearbottom</h3>
+					</div>
+					<div class="panel-body">
+						Later, dudes. S you in your A's, don't wear a C and J all over your B's. Then, I'll just regress, because I feel I made myself perfectly redundant. Demonstrate value, Engage physically, Nurture dependence, Neglect emotionally, Inspire hope, Separate entirely. I'm a...full-on rapist, you know? Uh, Africans, dyslexics, children, that sort of thing. Don't put regular steak, put milk-steak, she'll know what it is.
+					</div>
+					<div class="panel-footer"> <textarea type="textarea" wrap="soft" id="user-name" class="form-control input-sm chat-input" placeholder="Enter Message" /></textarea>
+					</div>
+				</div>
+				</div>
 			</div>
 			<div class="row">
 				<div class="col-md-6">
