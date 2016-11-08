@@ -369,22 +369,117 @@ function calculateReceiversCommonSecretKey() {
 
 function encryptMessage() {
 
-   var messagePlainText = getN("messagePlainText").value;
+	var messagePlainText = getN("messagePlainText").value;
+	var eccP = getN("eccP").value;
+	var commonSecretKeyX = getN("receiversCommonSecretKeyX").value;
+	var commonSecretKeyY = getN("receiversCommonSecretKeyY").value;
 
-   var messageCipherText = messagePlainText.split("").reverse().join("");
+	//var messageCipherText = messagePlainText.split("").reverse().join("");
 
-   getN("messageCipherText").value = messageCipherText;
+	// Convert each plain text character to its unicode hex value.
+	var messageCipherTextUnicodeDecimalArray = [];
+	var messageCipherTextUnicodeHexArray = [];
+	var i;
+	for (i = 0 ; i < messagePlainText.length ; i++) {
+		messageCipherTextUnicodeDecimalArray[i] = messagePlainText.charCodeAt(i);
+		messageCipherTextUnicodeHexArray[i] = messageCipherTextUnicodeDecimalArray[i].toString(16);
+	}
+	var messageCipherTextHexString = messageCipherTextUnicodeHexArray.join("");
+
+	// Determine the size of the message block by finding the what number of characters
+	// is less than the ECC prime.
+	var blockSize = 0;
+	var messageBlock;
+	var eccPBigInteger = new BigInteger(eccP);
+	var comparisonValue;
+	for (i = 1 ; i < messageCipherTextHexString.length ; i = i + 2) { // Step by two characters to get a complete 8-bit byte (an octet).
+		messageBlock = new BigInteger(messageCipherTextHexString.substr(0, i),16);
+		comparisonValue = messageBlock.compareTo(eccPBigInteger);
+		if (messageBlock.compareTo(eccPBigInteger) >= 0) {
+			blockSize = i - 2;
+			break;
+		}
+	}
+
+	// Short messages will be small numbers, so blockSize will still be zero
+	// after going through the loop, above. In that case, make the block size
+	// the message length.
+	//
+	// After determining the block size, encrypt the message.
+	var commonSecretKeyXBigInteger = new BigInteger(commonSecretKeyX);
+	var commonSecretKeyYBigInteger = new BigInteger(commonSecretKeyY);
+	var cipherTextBlock = new BigInteger("0");
+	var messageCipherText;
+
+	if (blockSize == 0) {
+
+		blockSize = messageCipherTextHexString.length;
+
+		// Encrypt the message (when the blockSize is the same as the message length).
+		messageBlock = new BigInteger(messageCipherTextHexString,16);
+		cipherTextBlock = cipherTextBlock.add(commonSecretKeyXBigInteger);
+		cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);
+		messageCipherText = cipherTextBlock.toString(16);
+
+	} else {
+
+		// Encrypt the message (when the blockSize is less than the message length).
+		messageCipherText = "Big block message."
+
+	}
+
+
+
+	getN("messageCipherText").value = messageCipherText;
+
+	// if(d.compareTo(m) >= 0) return d.subtract(m);
+	// BigInteger.ONE
+	// var a = new BigInteger(getN("receiversPrivateMultiplier").value);
+	// curveFpEncodePointHex(p)
 
 }
 
 
 function decryptMessage() {
 
-   var messageCipherText = getN("messageCipherText").value;
+	var messageCipherText = getN("messageCipherText").value;
+	//var decryptedMessage = messageCipherText.split("").reverse().join("");
 
-   var decryptedMessage = messageCipherText.split("").reverse().join("");
+	var eccP = getN("eccP").value;
+	var commonSecretKeyX = getN("receiversCommonSecretKeyX").value;
+	var commonSecretKeyY = getN("receiversCommonSecretKeyY").value;
 
-   getN("decryptedMessage").value = decryptedMessage;
+	var eccPBigInteger = new BigInteger(eccP);
+	var commonSecretKeyXBigInteger = new BigInteger(commonSecretKeyX);
+	var commonSecretKeyYBigInteger = new BigInteger(commonSecretKeyY);
+
+
+
+	// The message blocks will be separated by hyphens "-", so split the cipher text
+	// at the hyphens. Then, store the number of blocks.
+	var messageCipherTextBlockArray = messageCipherText.split("-");
+	var numberOfBlocks = messageCipherTextBlockArray.length;
+
+	// Decrypt each of the message blocks.
+	var decryptedMessageArray = [];
+	var cipherTextBlock = new BigInteger("0");
+	var plainTextBlock;
+	var i;
+	for (i = 1 ; i < numberOfBlocks ; i++) {
+		cipherTextBlock = new BigInteger(messageCipherTextBlockArray[i],16);
+		cipherTextBlock = cipherTextBlock.subtract(commonSecretKeyXBigInteger);
+		cipherTextBlock = cipherTextBlock.mod();
+
+	}
+
+
+	messageBlock = new BigInteger(messageCipherTextHexString,16);
+	cipherTextBlock = commonSecretKeyXBigInteger.mod(eccPBigInteger);
+
+
+
+
+	getN("decryptedMessage").value = decryptedMessage;
 
 }
 
@@ -416,4 +511,20 @@ function getN(n) {
    return typeof n == 'object' ? n : document.getElementById(n);
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

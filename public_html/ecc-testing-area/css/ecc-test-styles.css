@@ -22,9 +22,9 @@ body {
 	padding-bottom: 20vh;
 }
 
-label[class$="-label"] {
+.text-right {
 	text-align: right;
-	/*vertical-align: top;*/
+	vertical-align: top;
 }
 
 .navbar-default {
