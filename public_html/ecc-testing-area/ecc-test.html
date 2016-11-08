@@ -52,39 +52,6 @@
 
 
 
-		<!-- Stanford JavaScript Crypto Library (SJCL) -->
-		<script type="text/javascript" src="../js/sjcl/sjcl-aes.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-bitArray.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-bn.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-cbc.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-ccm.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-ccmArrayBuffer.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-codecArrayBuffer.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-codecBase32.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-codecBase64.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-codecBytes.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-codecHex.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-codecString.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-codecZ85.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-convenience.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-ctr.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-ecc.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-exports.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-gcm.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-hkdf.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-hmac.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-ocb2.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-ocb2progressive.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-pbkdf2.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-random.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-ripemd160.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-scrypt.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-sha1.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-sha256.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-sha512.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-sjcl.js"></script>
-		<script type="text/javascript" src="../js/sjcl/sjcl-srp.js"></script>
-
 		<!-- JavaScript Big Number Library (JSBN) -->
 		<script type="text/javascript" src="../js/jsbn/jsbn-ecc.js"></script>
 		<script type="text/javascript" src="../js/jsbn/jsbn-jsbn1.js"></script>
@@ -458,7 +425,7 @@
 
 								<div class="col-sm-10">
 
-									<!--<div class="input-group">-->
+									<div class="input-group">
 
 										<textarea
 											class="form-control
@@ -469,23 +436,20 @@
 											required="required"
 											wrap="soft"
 										></textarea>
-									<!--
-																			<span
-																				class="input-group-addon
-																						 btn
-																						 btn-default
-																						"
-																				type="button"
-																				onclick="calculateSendersMultipliedX()"
-																			>
-																				Calculate
-																			</span>
-																			-->
-																			<!--<span class="input-group-btn">-->
-																				<button class="btn btn-default" type="button" onclick="calculateSendersMultipliedX()">Calculate</button>
-																			<!--</span>-->
 
-									<!--</div>-->
+										<span
+											class="input-group-addon
+											                         btn
+														 btn-default
+											        "
+											type="button"
+											onclick="calculateSendersMultipliedPoint()"
+										>
+											Calculate
+										</span>
+
+
+									</div>
 
 								</div>
 
@@ -530,7 +494,7 @@
 													 btn-default
 													"
 											type="button"
-											onclick="calculateSendersMultipliedY()"
+											onclick="calculateSendersMultipliedPoint()"
 										>
 											Calculate
 										</span>
@@ -580,7 +544,7 @@
 													 btn-default
 													"
 											type="button"
-											onclick="calculateCommonSecretKey()"
+											onclick="calculateSendersCommonSecretKey()"
 										>
 											Calculate
 										</span>
@@ -630,7 +594,7 @@
 													 btn-default
 													"
 											type="button"
-											onclick="calculateCommonSecretKey()"
+											onclick="calculateSendersCommonSecretKey()"
 										>
 											Calculate
 										</span>
@@ -751,7 +715,7 @@
 													 btn-default
 													"
 											type="button"
-											onclick="calculateReceiversMultipliedX()"
+											onclick="calculateReceiversMultipliedPoint()"
 										>
 											Calculate
 										</span>
@@ -801,7 +765,7 @@
 													 btn-default
 													"
 											type="button"
-											onclick="calculateReceiversMultipliedY()"
+											onclick="calculateReceiversMultipliedPoint()"
 										>
 											Calculate
 										</span>
@@ -851,7 +815,7 @@
 													 btn-default
 													"
 											type="button"
-											onclick="calculateCommonSecretKey()"
+											onclick="calculateReceiversCommonSecretKey()"
 										>
 											Calculate
 										</span>
@@ -901,7 +865,7 @@
 													 btn-default
 													"
 											type="button"
-											onclick="calculateCommonSecretKey()"
+											onclick="calculateReceiversCommonSecretKey()"
 										>
 											Calculate
 										</span>
@@ -1087,7 +1051,7 @@
 
 
 
-<footer>
+		<footer>
 
 
 		<nav class="navbar navbar-default navbar-fixed-bottom">
