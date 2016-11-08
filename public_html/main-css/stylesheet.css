@@ -1,7 +1,7 @@
 /*************************************************************
 Main style
 *************************************************************/
-@media (min-height: 400px) { /*for mobile screens without keyboards deployed*/
+@media (min-height: 450px) { /*for mobile screens without keyboards deployed*/
 	body, html { /*global body style*/
 		font-family: "Quicksand", sans-serif;
 		text-shadow: 0rem 0rem 0.5rem black;
@@ -15,7 +15,7 @@ Main style
 		height: 100%; /*body height*/
 	}
 }
-@media (max-height: 399px) { /*for mobile screens with keyboards deployed*/
+@media (max-height: 449px) { /*for mobile screens with keyboards deployed*/
 	body, html { /*global body style*/
 		font-family: "Quicksand", sans-serif;
 		text-shadow: 0rem 0rem 0.5rem black;
@@ -28,12 +28,35 @@ Main style
 /*************************************************************
 styling for title text
 *************************************************************/
-.pad-down {
-	padding-top: 68%;
+
+@media (max-width: 449px) {
+	.pad-down {
+		padding-top: 68%;
+	}
+
+	.pad-down2 {
+		padding-top: 5%;
+	}
 }
-.pad-down2 {
-	padding-top: 5%;
+@media (min-width: 450px) {
+	.pad-down {
+		padding-top: 3%;
+	}
+
+	.pad-down2 {
+		padding-top: 3%;
+	}
 }
+@media (min-width: 750px) {
+	.pad-down {
+		padding-top: 20%;
+	}
+
+	.pad-down2 {
+		padding-top: 3%;
+	}
+}
+
 .pulse {  /*class for  the main title*/
 	animation: pulsate-in 25s forwards;
 	animation-delay: 8s;
@@ -122,8 +145,15 @@ title text animations
 /*************************************************************
 styling for login form
 *************************************************************/
-#login-row {/*the bootstrap row containing the login form*/
-	padding-top: 10%;
+@media (max-width: 449px) {
+	#login-row { /*the bootstrap row containing the login form*/
+		padding-top: 10%;
+	}
+}
+@media (min-width: 450px) {
+	#login-row { /*the bootstrap row containing the login form*/
+		padding-top: 5%;
+	}
 }
 .btn-login {/*the login button*/
 	color: #e4e5e4;
