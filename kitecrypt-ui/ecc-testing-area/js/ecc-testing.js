@@ -392,13 +392,17 @@ function encryptMessage() {
 	var messageBlock;
 	var eccPBigInteger = new BigInteger(eccP);
 	var comparisonValue;
+
 	for (i = 1 ; i < messageCipherTextHexString.length ; i = i + 2) { // Step by two characters to get a complete 8-bit byte (an octet).
+
 		messageBlock = new BigInteger(messageCipherTextHexString.substr(0, i),16);
 		comparisonValue = messageBlock.compareTo(eccPBigInteger);
+
 		if (messageBlock.compareTo(eccPBigInteger) >= 0) {
 			blockSize = i - 2;
 			break;
 		}
+
 	}
 
 	// Short messages will be small numbers, so blockSize will still be zero
@@ -461,22 +465,34 @@ function decryptMessage() {
 	var numberOfBlocks = messageCipherTextBlockArray.length;
 
 	// Decrypt each of the message blocks.
-	var decryptedMessageArray = [];
 	var cipherTextBlock = new BigInteger("0");
-	var plainTextBlock;
+	var plainTextHexBlock;
 	var i;
-	for (i = 1 ; i < numberOfBlocks ; i++) {
+
+	for (i = 0 ; i < numberOfBlocks ; i++) {
+
 		cipherTextBlock = new BigInteger(messageCipherTextBlockArray[i],16);
 		cipherTextBlock = cipherTextBlock.subtract(commonSecretKeyXBigInteger);
-		cipherTextBlock = cipherTextBlock.mod();
+		cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);
+		plainTextHexBlock = cipherTextBlock.toString(16);
+
+		// Each character is encoded as a hexadecimal value in the plainTextHexBlock,
+		// so take the plainTextHexBlock apart 2-characters at a time, and convert
+		// them to a character in the message.
+		var hexCodeOfCharacter;
+		var singleCharacter;
+		var decryptedMessage = "";
+		var j;
+
+		for (j = 0; j < plainTextHexBlock.length; j = j + 2) {
+
+			hexCodeOfCharacter = "0x" + plainTextHexBlock.substr(j, j+1);
+			singleCharacter = String.fromCharCode(hexCodeOfCharacter);
+			decryptedMessage = decryptedMessage + singleCharacter;
+
+		}
 
 	}
-
-
-	messageBlock = new BigInteger(messageCipherTextHexString,16);
-	cipherTextBlock = commonSecretKeyXBigInteger.mod(eccPBigInteger);
-
-
 
 
 	getN("decryptedMessage").value = decryptedMessage;
