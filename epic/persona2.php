@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 	<head>
 		<meta charset="utf-8">
-		<link rel="stylesheet" href="../epic/css/css-epic.css" type="text/css" />
+		<link rel="stylesheet" href="-epic.css" type="text/css" />
 	</head>
 	<body>
 		<main>
