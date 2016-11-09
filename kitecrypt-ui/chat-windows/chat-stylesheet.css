@@ -30,3 +30,12 @@ Main style
 	font-family: "Quicksand", sans-serif;
 	color: black;
 }
+
+textarea {
+	max-width: 100%;
+}
+
+.btn {
+	color: #671134;
+	flood-color: white;
+}
