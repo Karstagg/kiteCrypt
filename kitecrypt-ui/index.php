@@ -10,9 +10,10 @@
 	<body>
 		<div class="bg-image">
 			<header>
+
 				<div class="container-fluid">
 					<div id="title-row" class="row">
-						<div class="col-xs-12 bg-color">
+						<div class="col-xs-12">
 							<div class="pad-down text-center">
 								<div id="pulse" class="pulse">
 									<h1 id="kiteCrypt-title" class="fade-in">KiteCrypt</h1>
@@ -23,19 +24,20 @@
 						</div>
 					</div>
 					<div id="login-row" class="row">
-						<div class="col-xs-6 col-xs-offset-3 bg-color">
+						<div class="col-sm-2 col-sm-offset-5">
 							<div class="form-login">
 								<input type="text" id="user-name" class="form-control input-sm chat-input" placeholder="username" />
 								<br>
 								<input type="text" id="user-password" class="form-control input-sm chat-input" placeholder="password" />
 								<br>
-								<div  class="text-center">
-									<a href="#" class="btn btn-login btn-lg">login</a>
-								</div>
-								</div>
+							</div>
 						</div>
 					</div>
-				</div>
+					<div id="login-row-button" class="row">
+						<div class="col-xs-6 col-xs-offset-3 text-center">
+							<a href="#" class="btn btn-login btn-lg">login</a>
+						</div>
+					</div>
 			</header>
 			<!--		main content section-->
 			<main>

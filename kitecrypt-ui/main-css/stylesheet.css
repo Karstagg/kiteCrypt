@@ -53,7 +53,7 @@ styling for title text
 	}
 
 	.pad-down2 {
-		padding-top: 3%;
+		padding-top: 1.5%;
 	}
 }
 
@@ -102,6 +102,9 @@ styling for title text
 a { /*link color*/
 	color: #98171f;
 }
+a:hover {
+	color: #c01e1d;
+}
 /*************************************************************
 title text animations
 *************************************************************/
@@ -142,12 +145,13 @@ title text animations
 		text-shadow:0rem 0rem 0.5rem black;
 	}
 }
+
 /*************************************************************
 styling for login form
 *************************************************************/
 @media (max-width: 449px) {
 	#login-row { /*the bootstrap row containing the login form*/
-		padding-top: 10%;
+		padding-top: 15%;
 	}
 }
 @media (min-width: 450px) {
