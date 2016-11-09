@@ -10,6 +10,7 @@
 	<body>
 		<div class="bg-image">
 			<header>
+
 				<div class="container-fluid">
 					<div id="title-row" class="row">
 						<div class="col-xs-12">
