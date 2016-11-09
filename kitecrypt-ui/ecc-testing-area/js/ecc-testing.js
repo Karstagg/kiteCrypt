@@ -385,6 +385,7 @@ function encryptMessage() {
 		messageCipherTextUnicodeHexArray[i] = messageCipherTextUnicodeDecimalArray[i].toString(16);
 	}
 	var messageCipherTextHexString = messageCipherTextUnicodeHexArray.join("");
+	//alert("Message plain text hex: " + messageCipherTextHexString); // Message. = 4d6573736167652e in plain text.
 
 	// Determine the size of the message block by finding the what number of characters
 	// is less than the ECC prime.
@@ -421,9 +422,9 @@ function encryptMessage() {
 
 		// Encrypt the message (when the blockSize is the same as the message length).
 		messageBlock = new BigInteger(messageCipherTextHexString,16);
-		cipherTextBlock = cipherTextBlock.add(commonSecretKeyXBigInteger);
-		cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);
-		messageCipherText = cipherTextBlock.toString(16);
+		cipherTextBlock = messageBlock.add(commonSecretKeyXBigInteger); //
+		cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);          //
+		messageCipherText = cipherTextBlock.toString(16);               //
 
 	} else {
 
@@ -454,8 +455,8 @@ function decryptMessage() {
 	var commonSecretKeyY = getN("receiversCommonSecretKeyY").value;
 
 	var eccPBigInteger = new BigInteger(eccP);
-	var commonSecretKeyXBigInteger = new BigInteger(commonSecretKeyX);
-	var commonSecretKeyYBigInteger = new BigInteger(commonSecretKeyY);
+	var commonSecretKeyXBigInteger = new BigInteger(commonSecretKeyX);  // 233977799535295621105177301016782318690314960717
+	var commonSecretKeyYBigInteger = new BigInteger(commonSecretKeyY);  // 610964657955290730928475511523514880516430485303
 
 
 
@@ -466,31 +467,36 @@ function decryptMessage() {
 
 	// Decrypt each of the message blocks.
 	var messageCipherTextHexString = "";
-	var cipherTextBlock = new BigInteger("0");
+	var cipherTextHexBlock;
 	var plainTextHexBlock;
 	var i;
+
 
 	for (i = 0 ; i < numberOfBlocks ; i++) {
 
 		messageCipherTextHexString = messageCipherTextBlockArray[i];
-		cipherTextBlock = new BigInteger(messageCipherTextHexString);
 
-		cipherTextBlock = cipherTextBlock.subtract(commonSecretKeyXBigInteger);
-		cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);
-		plainTextHexBlock = cipherTextBlock.toString(16);
+		cipherTextHexBlock = new BigInteger(messageCipherTextHexString,16);
+
+		cipherTextHexBlock = cipherTextHexBlock.subtract(commonSecretKeyXBigInteger);
+		cipherTextHexBlock = cipherTextHexBlock.mod(eccPBigInteger);
+
+		plainTextHexBlock = cipherTextHexBlock.toString(16); // Message. = 4d6573736167652e in plain text.
 
 		// Each character is encoded as a hexadecimal value in the plainTextHexBlock,
 		// so take the plainTextHexBlock apart 2-characters at a time, and convert
 		// them to a character in the message.
 		var hexCodeOfCharacter;
+		var decimalCodeOfCharacter;
 		var singleCharacter;
 		var decryptedMessage = "";
 		var j;
 
 		for (j = 0; j < plainTextHexBlock.length; j = j + 2) {
 
-			hexCodeOfCharacter = "0x" + plainTextHexBlock.substr(j, j+1);
-			singleCharacter = String.fromCharCode(hexCodeOfCharacter);
+			hexCodeOfCharacter = plainTextHexBlock.substr(j, 2);
+			decimalCodeOfCharacter = parseInt(hexCodeOfCharacter, 16);
+			singleCharacter = String.fromCharCode(decimalCodeOfCharacter);
 			decryptedMessage = decryptedMessage + singleCharacter;
 
 		}
