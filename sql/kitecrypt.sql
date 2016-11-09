@@ -1,6 +1,9 @@
+DROP TABLE IF EXISTS messages;
+DROP TABLE IF EXISTS invite;
+DROP TABLE IF EXISTS friends;
+DROP TABLE IF EXISTS profile;
 
-
-CREATE TABLE profiles (
+CREATE TABLE profile (
 profileId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 profileUserName VARCHAR(20) NOT NULL,
 profilePublicKey VARCHAR(1024) NOT NULL,
@@ -14,15 +17,13 @@ inviteInvitedId INT UNSIGNED NOT NULL,
 inviteTimestamp DATETIME NOT NULL,
 invitePassphrase VARCHAR(32) NOT NULL,
 UNIQUE(invitePassphrase),
-FOREIGN KEY(inviteInviterId) REFERENCES profiles(profileId),
-FOREIGN KEY(inviteInvitedId) REFERENCES profiles(profileId),
+FOREIGN KEY(inviteInviterId, inviteInvitedId) REFERENCES profile(profileId)
 );
 
 CREATE TABLE friends (
 friendsProfileId INT UNSIGNED NOT NULL,
 friendsFriendId INT UNSIGNED NOT NULL,
-FOREIGN KEY(friendProfileId) REFERENCES profiles(profileId),
-FOREIGN KEY(friendFriendId) REFERENCES profiles(profileId)
+FOREIGN KEY(friendsProfileId, friendsFriendId) REFERENCES profile(profileId)
 );
 
 CREATE TABLE messages (
@@ -31,7 +32,7 @@ messageTimestamp TIMESTAMP NOT NULL,
 messageSenderId INT UNSIGNED NOT NULL,
 messageReceiverId INT UNSIGNED NOT NULL,
 messageText VARCHAR(65485),
-INDEX(messagetIimestamp),
+INDEX(messageTimestamp),
 INDEX(messageSenderId),
 INDEX(messageReceiverId),
 FOREIGN KEY(messageSenderId) REFERENCES profile(profileId),
