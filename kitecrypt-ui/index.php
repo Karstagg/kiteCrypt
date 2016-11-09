@@ -12,7 +12,7 @@
 			<header>
 				<div class="container-fluid">
 					<div id="title-row" class="row">
-						<div class="col-xs-12">
+						<div class="col-xs-12 bg-color">
 							<div class="pad-down text-center">
 								<div id="pulse" class="pulse">
 									<h1 id="kiteCrypt-title" class="fade-in">KiteCrypt</h1>
@@ -23,7 +23,7 @@
 						</div>
 					</div>
 					<div id="login-row" class="row">
-						<div class="col-xs-6 col-xs-offset-3">
+						<div class="col-xs-6 col-xs-offset-3 bg-color">
 							<div class="form-login">
 								<input type="text" id="user-name" class="form-control input-sm chat-input" placeholder="username" />
 								<br>

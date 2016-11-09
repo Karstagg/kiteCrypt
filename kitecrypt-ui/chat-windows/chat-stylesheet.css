@@ -1,8 +1,7 @@
 /*************************************************************
 Main style
 *************************************************************/
-@media (min-height: 400px) { /*for mobile screens without keyboards deployed*/
-	body, html, .container { /*global body style*/
+	body, html{ /*global body style*/
 		font-family: "Quicksand", sans-serif;
 		color: #e4e5e4;
 		font-size: 1.1rem;
@@ -11,8 +10,19 @@ Main style
 		background-repeat: no-repeat;
 		background-attachment: fixed;
 		background-position: 50% 10%;
-		height: 100%; /*body height*/
+		/*height: 100%; !*body height*!*/
 	}
+
+
+.container{
+	font-family: "Quicksand", sans-serif;
+	color: #e4e5e4;
+	font-size: 1.1rem;
+	background-color: #AE8093;
+	background-image: url("../img/kite-logo.png");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: 50% 10%;
 }
 @media (max-height: 399px) { /*for mobile screens with keyboards deployed*/
 	body, html { /*global body style*/
