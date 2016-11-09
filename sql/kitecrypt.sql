@@ -17,13 +17,15 @@ inviteInvitedId INT UNSIGNED NOT NULL,
 inviteTimestamp DATETIME NOT NULL,
 invitePassphrase VARCHAR(32) NOT NULL,
 UNIQUE(invitePassphrase),
-FOREIGN KEY(inviteInviterId, inviteInvitedId) REFERENCES profile(profileId)
+FOREIGN KEY(inviteInviterId) REFERENCES profile(profileId),
+FOREIGN KEY(inviteInvitedId) REFERENCES profile(profileId)
 );
 
 CREATE TABLE friends (
 friendsProfileId INT UNSIGNED NOT NULL,
 friendsFriendId INT UNSIGNED NOT NULL,
-FOREIGN KEY(friendsProfileId, friendsFriendId) REFERENCES profile(profileId)
+FOREIGN KEY(friendsProfileId) REFERENCES profile(profileId),
+FOREIGN KEY(friendsFriendId) REFERENCES profile(profileId)
 );
 
 CREATE TABLE messages (
