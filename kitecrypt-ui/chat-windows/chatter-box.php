@@ -6,7 +6,6 @@
 
 <!--		Inserting Bootstrap-->
 		<!-- add CSS file -->
-		<link href="chat-stylesheet.css" rel="stylesheet" type="text/css"  />
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 		<!--[if lt IE 9]>
@@ -27,10 +26,18 @@
 
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+		<link href="chat-stylesheet.css" rel="stylesheet" type="text/css"  />
 	</head>
 	<body>
 <!--top of page-->
-		<h1>Bootstrap Demo</h1>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+		<h1>KiteCrypt</h1>
+				</div>
+				</div>
+		</div>
 		<div class="container">
 			<div class="row">
 				<div class="col-xs-12 bg-color"
@@ -42,7 +49,7 @@
 					<div class="panel-body">
 						Later, dudes. S you in your A's, don't wear a C and J all over your B's. Then, I'll just regress, because I feel I made myself perfectly redundant. Demonstrate value, Engage physically, Nurture dependence, Neglect emotionally, Inspire hope, Separate entirely. I'm a...full-on rapist, you know? Uh, Africans, dyslexics, children, that sort of thing. Don't put regular steak, put milk-steak, she'll know what it is.
 					</div>
-					<div class="panel-footer"> <textarea type="textarea" wrap="soft" id="user-name" class="form-control input-sm chat-input" placeholder="Enter Message" /></textarea>
+					<div class="panel-footer"> <textarea type="textarea" wrap="soft" id="user-name" class="form-control input-sm chat-input" placeholder="Enter Message"></textarea>
 					</div>
 				</div>
 				</div>
