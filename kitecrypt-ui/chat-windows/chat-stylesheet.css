@@ -12,9 +12,9 @@ Main style
 		background-position: 50% 10%;
 		/*height: 100%; !*body height*!*/
 	}
-}
 
-.container, h1{
+
+.container{
 	font-family: "Quicksand", sans-serif;
 	color: #e4e5e4;
 	font-size: 1.1rem;
