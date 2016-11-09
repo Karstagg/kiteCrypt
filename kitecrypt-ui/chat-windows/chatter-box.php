@@ -33,7 +33,7 @@
 		<h1>Bootstrap Demo</h1>
 		<div class="container">
 			<div class="row">
-				<div class="col-xs-12"
+				<div class="col-xs-12 bg-color"
 				<h2>Welcome</h2>
 				<div class="panel panel-default">
 					<div class="panel-heading">
@@ -48,20 +48,20 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-6 bg-color">
 					<p>5 more minute of this and I'm going to get mad! I am Mr. Booby Buyer. I'll buy those boobies for 25 schmeckles! Whoa, spoilers! I'm a whole season behind. Oh, we're welllll past that, Jerry!</p>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-6 bg-color">
 					<p>Aw, c'mon Rick. That doesn't seem so bad. My name is Slip- Slippery Stair. I'll take ya down there for 25 shmeckels! I'm sorry, Morty. It's a bummer. In reality you're as dumb as they come. And now, human music. boop beep boop... boop beep boop...</p>
 				</div>
 			</div>
 
 			<!--			This is the next content area-->
 			<div class="row"></div>
-			<div class="col-md-3">text area 1</div>
-			<div class="col-md-3">text area 2</div>
-			<div class="col-md-3">text area 3</div>
-			<div class="col-md-3">text area 4</div>
+			<div class="col-md-3 bg-color">text area 1</div>
+			<div class="col-md-3 bg-color">text area 2</div>
+			<div class="col-md-3 bg-color">text area 3</div>
+			<div class="col-md-3 bg-color">text area 4</div>
 		</div>
 	</body>
 </html>
