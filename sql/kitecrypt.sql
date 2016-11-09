@@ -14,7 +14,7 @@ PRIMARY KEY(profileId)
 CREATE TABLE invite (
 inviteInviterId INT UNSIGNED NOT NULL,
 inviteInvitedId INT UNSIGNED NOT NULL,
-inviteTimestamp DATETIME NOT NULL,
+inviteTimestamp TIMESTAMP NOT NULL,
 invitePassphrase VARCHAR(32) NOT NULL,
 UNIQUE(invitePassphrase),
 FOREIGN KEY(inviteInviterId) REFERENCES profile(profileId),
