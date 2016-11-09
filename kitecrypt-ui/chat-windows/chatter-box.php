@@ -4,6 +4,8 @@
 	<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
+		<!--Pusher API-->
+		<script src="//js.pusher.com/3.2/pusher.min.js"></script>
 <!--		Inserting Bootstrap-->
 		<!-- add CSS file -->
 		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -49,7 +51,13 @@
 					<div class="panel-body">
 						Later, dudes. S you in your A's, don't wear a C and J all over your B's. Then, I'll just regress, because I feel I made myself perfectly redundant. Demonstrate value, Engage physically, Nurture dependence, Neglect emotionally, Inspire hope, Separate entirely. I'm a...full-on rapist, you know? Uh, Africans, dyslexics, children, that sort of thing. Don't put regular steak, put milk-steak, she'll know what it is.
 					</div>
-					<div class="panel-footer"> <textarea type="textarea" wrap="soft" id="user-name" class="form-control input-sm chat-input" placeholder="Enter Message"></textarea>
+<!--					Send button + input area-->
+					<div class="input-group">
+
+<textarea class="form-control senders-parameter" id="sendersPrivateMultiplier" placeholder="Enter your message here" required="required" wrap="soft"></textarea>
+						<span class="input-group-addon btn btn-default" type="button" onclick="generateSendersPrivateMultiplier()"> Fly! </span>
+
+					</div>
 					</div>
 				</div>
 				</div>
