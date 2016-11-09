@@ -465,13 +465,16 @@ function decryptMessage() {
 	var numberOfBlocks = messageCipherTextBlockArray.length;
 
 	// Decrypt each of the message blocks.
+	var messageCipherTextHexString = "";
 	var cipherTextBlock = new BigInteger("0");
 	var plainTextHexBlock;
 	var i;
 
 	for (i = 0 ; i < numberOfBlocks ; i++) {
 
-		cipherTextBlock = new BigInteger(messageCipherTextBlockArray[i],16);
+		messageCipherTextHexString = messageCipherTextBlockArray[i];
+		cipherTextBlock = new BigInteger(messageCipherTextHexString);
+
 		cipherTextBlock = cipherTextBlock.subtract(commonSecretKeyXBigInteger);
 		cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);
 		plainTextHexBlock = cipherTextBlock.toString(16);
