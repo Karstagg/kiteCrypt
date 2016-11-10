@@ -10,7 +10,7 @@
 	<body>
 		<div class="bg-image">
 			<header>
-
+<!-- this is a comment-->
 				<div class="container-fluid">
 					<div id="title-row" class="row">
 						<div class="col-xs-12">
