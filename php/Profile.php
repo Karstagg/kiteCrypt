@@ -74,7 +74,7 @@ class Profile implements \JsonSerializable {
 	}
 
 	/*
-	 * mutator mehtod for profile id
+	 * mutator method for profile id
 	 *
 	 * @param int|null $newProfileId new value of profile id
 	 * @throws \RangeException if $newProfileId is not positive
