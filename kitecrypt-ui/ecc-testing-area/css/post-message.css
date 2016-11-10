@@ -3,7 +3,7 @@
 	display: none;
 }
 
-#presenceIcon {
+.presenceIcon {
 	width: 2vh;
 }
 
@@ -12,11 +12,20 @@ div[class$="window"] {
 	border-color: black;
 }
 
-h4 {
+.user-header {
 	color: #671134;
 	background-color: #e5e4e5;
 	font-weight: bold;
 	text-align: center;
+	padding: 2vh;
+}
+
+.friends-header {
+	color: #98171f;
+	background-color: #f99284;
+	font-weight: bold;
+	text-align: center;
+	padding: 2vh;
 }
 
 .user-window {

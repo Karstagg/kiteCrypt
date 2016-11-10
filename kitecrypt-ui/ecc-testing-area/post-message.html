@@ -94,19 +94,27 @@
 
 
 
-			<div class="container user">
+			<div class="container">
 
 
 				<div class="row">
 
 
-					<div class="col-sm-6 user-window">
+					<div class="col-xs-6 user-window">
 
 
 						<div class="row">
 
-							<div class="col-xs-12">
-								<h4>You</h4>
+							<div class="col-sm-12">
+
+								<h4 class="user-header">You:
+
+									<span id="presenceIconContainer"></span>
+									<iframe id="statusFrame"></iframe>
+									<span id="username"></span>
+
+								</h4>
+
 							</div>
 
 						</div>
@@ -132,26 +140,28 @@
 						<div class="row">
 
 							<div class="col-sm-12">
-								<span id="presenceIconContainer"></span>
-								<iframe id="statusFrame"></iframe>
-								<span id="username"></span>
+
 							</div>
 
 						</div>
 
 						<div class="row">
 
-							<div class="col-sm-12">
+							<div class="col-sm-6">
+								<label>Your presence:</label>
+							</div>
+
+							<div class="col-sm-6">
 								<label id="availableStatus">
-									<input name="userStatus" type="radio" value="available" onchange="changeStatus()" checked="checked">
+									<input name="userStatus" type="radio" value="available" onchange="changeUserStatus()" checked="checked">
 									Available
 								</label><br>
 								<label id="unavailableStatus">
-									<input name="userStatus" type="radio" value="unavailable" onchange="changeStatus()">
+									<input name="userStatus" type="radio" value="unavailable" onchange="changeUserStatus()">
 									Unvailable
 								</label><br>
 								<label id="unavailableDoNotDisturb">
-									<input name="userStatus" type="radio" value="donotdisturb" onchange="changeStatus()">
+									<input name="userStatus" type="radio" value="donotdisturb" onchange="changeUserStatus()">
 									Do Not Disturb
 								</label>
 							</div>
@@ -162,20 +172,30 @@
 					</div>
 
 
-					<div class="col-sm-6 friends-window">
+					<div class="col-xs-6 friends-window">
+
+
+						<div class="row">
+
+							<div class="col-sm-12">
+								<h4 class="friends-header">Your Friends</h4>
+							</div>
+
+						</div>
+
 
 						<div class="row">
 
 							<div class="col-md-4">
-								<label>Your username:</label>
+								<label>Friend's username:</label>
 							</div>
 
 							<div class="col-md-4">
-								<input id="usernameInput2" type="text" placeholder="Enter the name you want to use">
+								<input id="friendInput" type="text" placeholder="Enter friend's username">
 							</div>
 
 							<div class="col-md-4">
-								<input type="submit" value="Assign to Me" onclick="assignUsername()">
+								<input type="submit" value="Record Friend" onclick="recordFriend()">
 							</div>
 
 						</div>
@@ -183,15 +203,14 @@
 						<div class="row">
 
 							<div class="col-md-4">
-								<label>Your username:</label>
+
+							</div>
+
+							<div id="friendList" class="col-md-4">
 							</div>
 
 							<div class="col-md-4">
-								<input id="usernameInput3" type="text" placeholder="Enter the name you want to use">
-							</div>
 
-							<div class="col-md-4">
-								<input type="submit" value="Assign to Me" onclick="assignUsername()">
 							</div>
 
 						</div>
@@ -199,15 +218,12 @@
 						<div class="row">
 
 							<div class="col-md-4">
-								<label>Your username:</label>
 							</div>
 
 							<div class="col-md-4">
-								<input id="usernameInput4" type="text" placeholder="Enter the name you want to use">
 							</div>
 
 							<div class="col-md-4">
-								<input type="submit" value="Assign to Me" onclick="assignUsername()">
 							</div>
 
 						</div>
