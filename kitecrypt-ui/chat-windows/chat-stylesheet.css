@@ -39,3 +39,28 @@ textarea {
 	color: #98171F;
 	background: #F99284;
 }
+
+
+/*.sender-icon {*/
+	/*border: transparent;*/
+	/*background: transparent;*/
+	/*left: 0px;*/
+	/*max-height: 20% !important;*/
+/*}*/
+
+.well-sm{
+	max-width: 80%;
+	right: 0px;
+	float: right;
+}
+
+.user-icon {
+	border: transparent;
+	background: transparent;
+	width: 80px;
+	height: auto;
+}
+
+/*.panel-body{*/
+	/*right: 0px;*/
+/*}*/

@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="main-css/stylesheet.css" type="text/css">
+		<link rel="stylesheet" href="lib/main-css/stylesheet.css" type="text/css">
 		<link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
 		<?php require_once("lib/head-util.php");?>
 		<script src="js/css-control.js"></script>
