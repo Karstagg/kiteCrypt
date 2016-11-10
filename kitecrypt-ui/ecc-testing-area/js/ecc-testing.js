@@ -400,7 +400,8 @@ function encryptMessage() {
 		comparisonValue = messageBlock.compareTo(eccPBigInteger);
 
 		if (messageBlock.compareTo(eccPBigInteger) >= 0) {
-			blockSize = i - 2;
+			//blockSize = i - 2;
+			blockSize = Math.floor(i / 2) + 2;
 			break;
 		}
 
@@ -414,7 +415,7 @@ function encryptMessage() {
 	var commonSecretKeyXBigInteger = new BigInteger(commonSecretKeyX);
 	var commonSecretKeyYBigInteger = new BigInteger(commonSecretKeyY);
 	var cipherTextBlock = new BigInteger("0");
-	var messageCipherText;
+	var messageCipherText = "";
 
 	if (blockSize == 0) {
 
@@ -422,14 +423,40 @@ function encryptMessage() {
 
 		// Encrypt the message (when the blockSize is the same as the message length).
 		messageBlock = new BigInteger(messageCipherTextHexString,16);
-		cipherTextBlock = messageBlock.add(commonSecretKeyXBigInteger); //
-		cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);          //
-		messageCipherText = cipherTextBlock.toString(16);               //
+		cipherTextBlock = messageBlock.add(commonSecretKeyXBigInteger);
+		cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);
+		messageCipherText = cipherTextBlock.toString(16);
 
 	} else {
 
 		// Encrypt the message (when the blockSize is less than the message length).
-		messageCipherText = "Big block message."
+		var numberOfBlocks = Math.floor(messageCipherTextHexString.length / blockSize) + 1;
+		var messageCipherTextHexSubstring = "";
+		var startOfSubstring = 0;
+		var lengthOfSubstring;
+
+		for (i=1; i<=numberOfBlocks; i++) {
+
+			startOfSubstring = (i-1) * blockSize;
+
+			if (messageCipherTextHexString.length - startOfSubstring >= blockSize) {
+				lengthOfSubstring = blockSize;
+			} else {
+				lengthOfSubstring = messageCipherTextHexString.length - startOfSubstring;
+			}
+
+			messageCipherTextHexSubstring = messageCipherTextHexString.substr(startOfSubstring, lengthOfSubstring);
+			messageBlock = new BigInteger(messageCipherTextHexSubstring, 16);
+			cipherTextBlock = messageBlock.add(commonSecretKeyXBigInteger);
+			cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);
+
+			if (messageCipherText == "") {
+				messageCipherText = cipherTextBlock.toString(16);
+			} else {
+				messageCipherText = messageCipherText + "-" + cipherTextBlock.toString(16);
+			}
+
+		}
 
 	}
 
@@ -470,6 +497,11 @@ function decryptMessage() {
 	var cipherTextHexBlock;
 	var plainTextHexBlock;
 	var i;
+	var hexCodeOfCharacter;
+	var decimalCodeOfCharacter;
+	var singleCharacter;
+	var decryptedMessage = "";
+	var j;
 
 
 	for (i = 0 ; i < numberOfBlocks ; i++) {
@@ -486,11 +518,6 @@ function decryptMessage() {
 		// Each character is encoded as a hexadecimal value in the plainTextHexBlock,
 		// so take the plainTextHexBlock apart 2-characters at a time, and convert
 		// them to a character in the message.
-		var hexCodeOfCharacter;
-		var decimalCodeOfCharacter;
-		var singleCharacter;
-		var decryptedMessage = "";
-		var j;
 
 		for (j = 0; j < plainTextHexBlock.length; j = j + 2) {
 

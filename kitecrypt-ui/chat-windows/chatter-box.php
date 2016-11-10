@@ -32,6 +32,8 @@
 		<link href="chat-stylesheet.css" rel="stylesheet" type="text/css"  />
 	</head>
 	<body>
+
+<!--		-->
 <!--top of page-->
 		<div class="container">
 			<div class="row">
@@ -49,7 +51,9 @@
 						<h3 class="panel-title">Jack Pearbottom</h3>
 					</div>
 					<div class="panel-body">
-						Later, dudes. S you in your A's, don't wear a C and J all over your B's. Then, I'll just regress, because I feel I made myself perfectly redundant. Demonstrate value, Engage physically, Nurture dependence, Neglect emotionally, Inspire hope, Separate entirely. I'm a...full-on rapist, you know? Uh, Africans, dyslexics, children, that sort of thing. Don't put regular steak, put milk-steak, she'll know what it is.
+						<div class="well well-sm">
+							<span class="input-group-addon btn btn-default" type="image" onclick="generateSendersPrivateMultiplier()"> <img src=""> </span>Later, dudes. S you in your A's, don't wear a C and J all over your B's. Then, I'll just regress, because I feel I made myself perfectly redundant. Demonstrate value, Engage physically, Nurture dependence, Neglect emotionally, Inspire hope, Separate entirely. I'm a...full-on rapist, you know? Uh, Africans, dyslexics, children, that sort of thing. Don't put regular steak, put milk-steak, she'll know what it is.
+						</div>
 					</div>
 <!--					Send button + input area-->
 					<div class="input-group">
