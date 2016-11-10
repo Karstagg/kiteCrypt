@@ -15,7 +15,7 @@ class Profile implements \JsonSerializable {
 	 * id for profile; this is the primary key
 	 * @var int $profileId
 	 * **/
-	private $profile;
+	private $profileId;
 
 	/**
 	 * User Name for provile;
