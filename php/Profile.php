@@ -107,7 +107,7 @@ class Profile implements \JsonSerializable {
 	 * mutator for profile user name
 	 *
 	 * @param string $newProfileUserName new value of user name
-	 *@throws \InvalidArgumentException if $newProfileUserName is not a string or insecure
+	 * @throws \InvalidArgumentException if $newProfileUserName is not a string or insecure
 	 * @throws \RangeException if $newProfileUserName is >20 characters
 	 * @throws \TypeError if $newProfileUserName is not a string
 	 */
