@@ -69,8 +69,8 @@ class Profile implements \JsonSerializable {
 	/**
 	 * @return int
 	 */
-	public function getProfile() {
-		return ($this->profile);
+	public function getProfileId() {
+		return ($this->profileId);
 	}
 
 	/*
