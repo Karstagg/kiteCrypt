@@ -158,7 +158,7 @@ class Profile implements \JsonSerializable {
 		$this->profilePublicKey = $newProfilePublicKey;
 	}
 	/*
-	 * formets the state variables for JSON serialization
+	 * formats the state variables for JSON serialization
 	 *
 	 * @return array results state variables to seialize
 	 */
