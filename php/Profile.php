@@ -42,7 +42,7 @@ class Profile implements \JsonSerializable {
 		try {
 			$this->setProfileId($newProfileId);
 			$this->setProfileUserName($newProfileUserName);
-			$this->setProfilePublicKEy($newProfilePublicKey);
+			$this->setProfilePublicKey($newProfilePublicKey);
 		}
 		catch(\InvalidArgumentException $invalidArgument) {
 			// rethrow the exception to caller
