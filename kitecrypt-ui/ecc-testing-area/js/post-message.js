@@ -5,6 +5,38 @@ var usernameList = [];
 var userStatus = "available";
 
 
+$('#assignUsername').on('click', function(event) {
+	//event.preventDefault(); // To prevent following the link (optional)
+
+	username = getN("usernameInput").value;
+
+	// Check that a username was entered.
+	if (username == "") {
+		alert("Please enter a username.");
+		return;
+	}
+
+	// Check the username list, to verify
+	// that the username is available.
+	var numberOfUsers = usernameList.length;
+	var i;
+
+	for (i = 0; i < numberOfUsers; i++) {
+		if (username == usernameList[i]) {
+			alert("\"" + username + "\" is already taken.");
+			return;
+		}
+	}
+
+	// If the username is available, then
+	// assign it to the user.
+	getN("username").innerHTML = username;
+	changeStatus();
+
+});
+
+
+
 function assignUsername() {
 
 	username = getN("usernameInput").value;
@@ -35,19 +67,31 @@ function assignUsername() {
 }
 
 
+
 function changeStatus() {
 
-	userStatus = getN("userStatus").value;
+	var userStatusRadios = document.getN("userStatus");
+	var i;
+	var checkedRadio;
+
+	for (i = 0, i < userStatusRadios.length; i++) {
+		if (userStatusRadios[i].checked) {
+			checkedRadio = i;
+			break;
+		}
+	}
+
+	userStatus = userStatusRadios[checkedRadio].value;
 
 	switch (userStatus) {
 		case "available":
-			getN("presenceIcon").innerHTML = "<img id=\"presenceIcon\" src=\"availableIcon.png\">";
+			getN("presenceIcon").innerHTML = "<img id=\"presenceIcon\" src=\"img/availableIcon.png\">";
 			break;
 		case "unavailable":
-			getN("presenceIcon").innerHTML = "<img id=\"presenceIcon\" src=\"unavailableIcon.png\">";
+			getN("presenceIcon").innerHTML = "<img id=\"presenceIcon\" src=\"img/unavailableIcon.png\">";
 			break;
 		case "donotdisturb":
-			getN("presenceIcon").innerHTML = "<img id=\"presenceIcon\" src=\"donotdisturbIcon.png\">";
+			getN("presenceIcon").innerHTML = "<img id=\"presenceIcon\" src=\"img/donotdisturbIcon.png\">";
 			break;
 	}
 
