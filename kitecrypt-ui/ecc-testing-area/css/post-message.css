@@ -6,3 +6,45 @@
 #presenceIcon {
 	width: 2vh;
 }
+
+div[class$="window"] {
+	border-width: 2px;
+	border-color: black;
+}
+
+h4 {
+	color: #671134;
+	background-color: #e5e4e5;
+	font-weight: bold;
+	text-align: center;
+}
+
+.user-window {
+	background-color: #ae8093;
+}
+
+
+.friends-window {
+	background-color: #f94c35;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

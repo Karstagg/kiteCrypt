@@ -73,7 +73,7 @@
 
 
 
-	<body onload="initializeEllipticCurveParameters()">
+	<body>
 
 
 
@@ -100,7 +100,16 @@
 				<div class="row">
 
 
-					<div class="col-sm-6">
+					<div class="col-sm-6 user-window">
+
+
+						<div class="row">
+
+							<div class="col-xs-12">
+								<h4>You</h4>
+							</div>
+
+						</div>
 
 
 						<div class="row">
@@ -134,15 +143,15 @@
 
 							<div class="col-sm-12">
 								<label id="availableStatus">
-									<input id="userStatus" type="radio" value="available" onclick="changeStatus()" checked="checked">
+									<input name="userStatus" type="radio" value="available" onchange="changeStatus()" checked="checked">
 									Available
 								</label><br>
 								<label id="unavailableStatus">
-									<input id="userStatus" type="radio" value="unavailable" onclick="changeStatus()">
-									Available
+									<input name="userStatus" type="radio" value="unavailable" onchange="changeStatus()">
+									Unvailable
 								</label><br>
 								<label id="unavailableDoNotDisturb">
-									<input id="userStatus" type="radio" value="donotdisturb" onclick="changeStatus()">
+									<input name="userStatus" type="radio" value="donotdisturb" onchange="changeStatus()">
 									Do Not Disturb
 								</label>
 							</div>
@@ -153,7 +162,7 @@
 					</div>
 
 
-					<div class="col-sm-6">
+					<div class="col-sm-6 friends-window">
 
 						<div class="row">
 
@@ -228,56 +237,6 @@
 
 		<footer>
 
-
-			<nav class="navbar navbar-default navbar-fixed-bottom">
-				<div class="container-fluid">
-
-					<div class="navbar-header">
-						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-							<span class="sr-only">Toggle Button</span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-							<span class="icon-bar"></span>
-						</button>
-						<!--<a href="#" class="navbar-left"><img src="img/kite-crypt-navbar-logo.png" alt="Kite Crypt Logo" class="navbar-brand navbar-left"></a>-->
-						<img src="img/kite-crypt-navbar-logo.png" alt="Kite Crypt Logo" class="navbar-brand navbar-left">
-						<!--<a class="navbar-brand" href="#" >ECC Test</a>-->
-						<span class="navbar-brand navbar-left">ECC Test</span>
-					</div>
-
-
-					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-						<ul class="nav navbar-nav">
-
-							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Elliptic Curves<span class="caret"></span></a>
-								<ul class="dropdown-menu">
-									<li id="curve1" value="secp128r1"><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve(curve1.value)">NIST P-128 Random 1</a></li>
-									<li id="curve2" value="secp160r1"><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve(curve2.value)">NIST P-160 Random 1</a></li>
-									<li id="curve3" value="secp192r1"><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve(curve3.value)">NIST P-192 Random 1</a></li>
-									<li id="curve4" value="secp224r1"><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve(curve4.value)">NIST P-224 Random 1</a></li>
-									<li id="curve5" value="secp256r1"><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve(curve5.value)">NIST P-256 Random 1</a></li>
-									<li role="separator" class="divider"></li>
-									<li id="curve6" value="secp160k1"><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve(curve6.value)">NIST P-160 Koblitz 1</a></li>
-									<li id="curve7" value="secp192k1"><a href="#elliptic-curve-parameters" onclick="selectEllipticCurve(curve7.value)">NIST P-192 Koblitz 1</a></li>
-									<li role="separator" class="divider"></li>
-									<li id="curve8" value="nistP384"><a href="#elliptic-curve-parameters" onclick="alert('NIST P-384 is not available at this time.')">NIST P-384</a></li>
-									<li id="curve9" value="nistP521"><a href="#elliptic-curve-parameters" onclick="alert('NIST P-521 is not available at this time.')">NIST P-521</a></li>
-									<li role="separator" class="divider"></li>
-									<li id="curve10" value="brainpool"><a href="#elliptic-curve-parameters" onclick="">Brainpool</a></li>
-
-								</ul>
-							</li>
-
-							<li><a href="#elliptic-curve-parameters">Elliptic Curve Parameters</a></li>
-							<li><a href="#senders-parameters">Sender</a></li>
-							<li><a href="#receivers-parameters">Receiver</a></li>
-							<li><a href="#message">Message</a></li>
-
-						</ul>
-					</div>
-				</div>
-			</nav>
 
 
 		</footer>

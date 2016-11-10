@@ -4,7 +4,7 @@ var usernameList = [];
 
 var userStatus = "available";
 
-
+/*
 $('#assignUsername').on('click', function(event) {
 	//event.preventDefault(); // To prevent following the link (optional)
 
@@ -34,7 +34,7 @@ $('#assignUsername').on('click', function(event) {
 	changeStatus();
 
 });
-
+*/
 
 
 function assignUsername() {
@@ -59,8 +59,8 @@ function assignUsername() {
 		}
 	}
 
-	// If the username is available, then
-	// assign it to the user.
+	// If the username is available,
+	// then assign it to the user.
 	getN("username").innerHTML = username;
 	changeStatus();
 
@@ -70,28 +70,32 @@ function assignUsername() {
 
 function changeStatus() {
 
-	var userStatusRadios = document.getN("userStatus");
+	var userStatusRadios = document.getElementsByName("userStatus");
+
 	var i;
 	var checkedRadio;
 
-	for (i = 0, i < userStatusRadios.length; i++) {
+	for (i = 0; i < userStatusRadios.length; i++) {
 		if (userStatusRadios[i].checked) {
 			checkedRadio = i;
 			break;
 		}
 	}
 
+
 	userStatus = userStatusRadios[checkedRadio].value;
+
+	// userStatus = userStatusRadios.value;
 
 	switch (userStatus) {
 		case "available":
-			getN("presenceIcon").innerHTML = "<img id=\"presenceIcon\" src=\"img/availableIcon.png\">";
+			getN("presenceIconContainer").innerHTML = "<img id=\"presenceIcon\" src=\"img/availableIcon.png\">";
 			break;
 		case "unavailable":
-			getN("presenceIcon").innerHTML = "<img id=\"presenceIcon\" src=\"img/unavailableIcon.png\">";
+			getN("presenceIconContainer").innerHTML = "<img id=\"presenceIcon\" src=\"img/unavailableIcon.png\">";
 			break;
 		case "donotdisturb":
-			getN("presenceIcon").innerHTML = "<img id=\"presenceIcon\" src=\"img/donotdisturbIcon.png\">";
+			getN("presenceIconContainer").innerHTML = "<img id=\"presenceIcon\" src=\"img/donotdisturbIcon.png\">";
 			break;
 	}
 
@@ -119,6 +123,10 @@ function messageHandler(event) {
 	if (event.origin == "http://bootcamp-coders.cnm.edu") {
 
 		var messageData = event.data;
+		var messageDataArray = messageData.split("-");
+		var messageUser = messageDataArray[0];
+		var messageType = messageDataArray[1];
+		var messageContent = messageDataArray[2];
 
 		// Handle status messages.
 		if (messageData.search("-status-") ) {
