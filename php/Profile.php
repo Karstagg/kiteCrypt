@@ -114,7 +114,7 @@ class Profile implements \JsonSerializable {
 	public function setProfileUserName(string $newProfileUserName) {
 		// verify the user name is secure
 		$newProfileUserName = trim($newProfileUserName);
-		$newProfileUserName = filter_var($newProfileUserName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		$newProfileUserName = filter_var($newProfileUserName, FILTER_SANITIZE_STRING, FILTER_SANITIZE_ENCODED);
 		if(empty($newProfileUserName) === true) {
 			throw(new \InvalidArgumentException("profile user name is empty or insecure"));
 		}
