@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Receive Message</title>
+		<style>
+			#output {
+				white-space:pre;
+			}
+		</style>
+		<script src='js/OSC.js'></script>
+	</head>
+	<body>
+		<div id='output'>Received messages will display here</div>
+		<script>
+			window.onmessage = function(event) {
+
+				if(event.origin == 'http://bootcamp-coders.cnm.edu') {
+
+					O('output').innerHTML =
+						'<b>Origin:</b> ' + event.origin + '<br>' +
+						'<b>Source:</b> ' + event.source + '<br>' +
+						'<b>Data:</b>   ' + event.data;
+
+				}
+			};
+
+		</script>
+	</body>
+</html>

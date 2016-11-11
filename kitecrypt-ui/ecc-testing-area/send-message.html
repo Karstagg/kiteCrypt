@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Send Message</title>
+		<script src='js/OSC.js'></script>
+	</head>
+	<body>
+		<iframe id='frame' src='receive-message.html' width='360' height='75'></iframe>
+
+		<script>
+			count = 1;
+
+			setInterval(function()
+			{
+				O('frame').contentWindow.postMessage('Message ' + count++, 'http://bootcamp-coders.cnm.edu')
+			}, 1000)
+		</script>
+	</body>
+</html>

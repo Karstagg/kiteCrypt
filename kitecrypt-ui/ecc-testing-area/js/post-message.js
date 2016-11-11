@@ -66,7 +66,7 @@ function assignUsername() {
 	// If the username is available,
 	// then assign it to the user.
 	getN("username").innerHTML = username;
-	changeStatus();
+	changeUserStatus();
 
 }
 
