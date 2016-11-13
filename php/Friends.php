@@ -4,195 +4,139 @@ namespace Edu\Cnm\kiteCrypt;
 require_once("autoloader.php");
 
 /**
- * Small Cross Section of a Twitter like Message
+ * kiteCrypt friends
  *
- * This Tweet can be considered a small example of what services like Twitter store when messages are sent and
- * received using Twitter. This can easily be extended to emulate more features of Twitter.
+ * In kiteCrypt, users (profiles) can invite other users (friends) to be their friends
  *
- * @author Dylan McDonald <dmcdonald21@cnm.edu>
- * @version 3.0.0
+ * @author G. Wells <gwells4@cnm.edu>
+ * @version 1.0.0
  **/
-class Tweet implements \JsonSerializable {
-	use ValidateDate;
+class Friend implements \JsonSerializable {
 	/**
-	 * id for this Tweet; this is the primary key
-	 * @var int $tweetId
+	 * id for the user (the profile) inviting the friend in this friendship; it is a foreign key
+	 * @var int $friendsProfileId
 	 **/
-	private $tweetId;
+	private $friendsProfileId;
 	/**
-	 * id of the Profile that sent this Tweet; this is a foreign key
-	 * @var int $tweetProfileId
+	 * id for the user (the friend) being invited in this friendship; it is a foreign key
+	 * @var int $friendsFriendId
 	 **/
-	private $tweetProfileId;
-	/**
-	 * actual textual content of this Tweet
-	 * @var string $tweetContent
-	 **/
-	private $tweetContent;
-	/**
-	 * date and time this Tweet was sent, in a PHP DateTime object
-	 * @var \DateTime $tweetDate
-	 **/
-	private $tweetDate;
+	private $friendsFriendId;
 
 	/**
-	 * constructor for this Tweet
+	 * constructor for this Friend
 	 *
-	 * @param int|null $newTweetId id of this Tweet or null if a new Tweet
-	 * @param int $newTweetProfileId id of the Profile that sent this Tweet
-	 * @param string $newTweetContent string containing actual tweet data
-	 * @param \DateTime|string|null $newTweetDate date and time Tweet was sent or null if set to current date and time
-	 * @throws \InvalidArgumentException if data types are not valid
-	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
+	 * @param int $newFriendsProfileId id for the user (the profile) inviting the friend in this friendship; it is a foreign key
+	 * @param int $newFriendsFriendId id for the user (the friend) being invited in this friendship; it is a foreign key
+	 *
+	 * @throws \InvalidArgumentException if the argument is not safe
 	 * @throws \TypeError if data types violate type hints
-	 * @throws \Exception if some other exception occurs
+	 * @throws \RangeException if data values are out of bounds (for example: negative integers)
 	 **/
-	public function __construct(int $newTweetId = null, int $newTweetProfileId, string $newTweetContent, $newTweetDate = null) {
+	public function __construct(int $newFriendsProfileId , int $newFriendsFriendId) {
 		try {
-			$this->setTweetId($newTweetId);
-			$this->setTweetProfileId($newTweetProfileId);
-			$this->setTweetContent($newTweetContent);
-			$this->setTweetDate($newTweetDate);
+			$this->setFriendsProfileId($newFriendsProfileId);
+			$this->setFriendsFriendId($newFriendsFriendId);
 		} catch(\InvalidArgumentException $invalidArgument) {
-			// rethrow the exception to the caller
+			// rethrow the InvalidArgumentException to the caller
 			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
-		} catch(\RangeException $range) {
-			// rethrow the exception to the caller
-			throw(new \RangeException($range->getMessage(), 0, $range));
-		} catch(\TypeError $typeError) {
-			// rethrow the exception to the caller
+		}catch(\TypeError $typeError) {
+			// rethrow the TypeError to the caller
 			throw(new \TypeError($typeError->getMessage(), 0, $typeError));
-		} catch(\Exception $exception) {
-			// rethrow the exception to the caller
-			throw(new \Exception($exception->getMessage(), 0, $exception));
-		}
-	}
-
-	/**
-	 * accessor method for tweet id
-	 *
-	 * @return int|null value of tweet id
-	 **/
-	public function getTweetId() {
-		return($this->tweetId);
-	}
-
-	/**
-	 * mutator method for tweet id
-	 *
-	 * @param int|null $newTweetId new value of tweet id
-	 * @throws \RangeException if $newTweetId is not positive
-	 * @throws \TypeError if $newTweetId is not an integer
-	 **/
-	public function setTweetId(int $newTweetId = null) {
-		// base case: if the tweet id is null, this a new tweet without a mySQL assigned id (yet)
-		if($newTweetId === null) {
-			$this->tweetId = null;
-			return;
-		}
-
-		// verify the tweet id is positive
-		if($newTweetId <= 0) {
-			throw(new \RangeException("tweet id is not positive"));
-		}
-
-		// convert and store the tweet id
-		$this->tweetId = $newTweetId;
-	}
-
-	/**
-	 * accessor method for tweet profile id
-	 *
-	 * @return int value of tweet profile id
-	 **/
-	public function getTweetProfileId() {
-		return($this->tweetProfileId);
-	}
-
-	/**
-	 * mutator method for tweet profile id
-	 *
-	 * @param int $newTweetProfileId new value of tweet profile id
-	 * @throws \RangeException if $newProfileId is not positive
-	 * @throws \TypeError if $newProfileId is not an integer
-	 **/
-	public function setTweetProfileId(int $newTweetProfileId) {
-		// verify the profile id is positive
-		if($newTweetProfileId <= 0) {
-			throw(new \RangeException("tweet profile id is not positive"));
-		}
-
-		// convert and store the profile id
-		$this->tweetProfileId = $newTweetProfileId;
-	}
-
-	/**
-	 * accessor method for tweet content
-	 *
-	 * @return string value of tweet content
-	 **/
-	public function getTweetContent() {
-		return($this->tweetContent);
-	}
-
-	/**
-	 * mutator method for tweet content
-	 *
-	 * @param string $newTweetContent new value of tweet content
-	 * @throws \InvalidArgumentException if $newTweetContent is not a string or insecure
-	 * @throws \RangeException if $newTweetContent is > 140 characters
-	 * @throws \TypeError if $newTweetContent is not a string
-	 **/
-	public function setTweetContent(string $newTweetContent) {
-		// verify the tweet content is secure
-		$newTweetContent = trim($newTweetContent);
-		$newTweetContent = filter_var($newTweetContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newTweetContent) === true) {
-			throw(new \InvalidArgumentException("tweet content is empty or insecure"));
-		}
-
-		// verify the tweet content will fit in the database
-		if(strlen($newTweetContent) > 140) {
-			throw(new \RangeException("tweet content too large"));
-		}
-
-		// store the tweet content
-		$this->tweetContent = $newTweetContent;
-	}
-
-	/**
-	 * accessor method for tweet date
-	 *
-	 * @return \DateTime value of tweet date
-	 **/
-	public function getTweetDate() {
-		return($this->tweetDate);
-	}
-
-	/**
-	 * mutator method for tweet date
-	 *
-	 * @param \DateTime|string|null $newTweetDate tweet date as a DateTime object or string (or null to load the current time)
-	 * @throws \InvalidArgumentException if $newTweetDate is not a valid object or string
-	 * @throws \RangeException if $newTweetDate is a date that does not exist
-	 **/
-	public function setTweetDate($newTweetDate = null) {
-		// base case: if the date is null, use the current date and time
-		if($newTweetDate === null) {
-			$this->tweetDate = new \DateTime();
-			return;
-		}
-
-		// store the tweet date
-		try {
-			$newTweetDate = self::validateDateTime($newTweetDate);
-		} catch(\InvalidArgumentException $invalidArgument) {
-			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(\RangeException $range) {
+			// rethrow the RangeException to the caller
 			throw(new \RangeException($range->getMessage(), 0, $range));
 		}
-		$this->tweetDate = $newTweetDate;
 	}
+
+	/**
+	 * accessor method for friendsProfileId
+	 *
+	 * @return int value of friendsProfileId
+	 **/
+	public function getFriendsProfileId() {
+		return($this->friendsProfileId);
+	}
+
+	/**
+	 * mutator method for friendsProfileId
+	 *
+	 * @param int $newFriendsProfileId id for the user (the profile) inviting the friend in this friendship; it is a foreign key
+	 *
+	 * @throws \InvalidArgumentException if the argument is not safe
+	 * @throws \TypeError if $newFriendsProfileId is not an integer
+	 * @throws \RangeException if $newFriendsProfileId is not positive
+	 *
+	 **/
+	public function setFriendsProfileId(int $newFriendsProfileId) {
+
+		// Verify the $newFriendsProfileId is safe
+		$newFriendsProfileId = filter_var($newFriendsProfileId, FILTER_SANITIZE_NUMBER_INT);
+		if(empty($newFriendsProfileId) === true) {
+			throw(new \InvalidArgumentException("newFriendsProfileId is empty or insecure"));
+		}
+		// Verify that the $newFriendsProfileId in an integer.
+		$newFriendsProfileId = filter_var($newFriendsProfileId, FILTER_VALIDATE_INT);
+		if(empty($newFriendsProfileId) === true) {
+			// If the $newFriendsProfileId is not an integer, throw a TypeError.
+			throw(new \TypeError("newFriendsProfileId is not an integer."));
+		}
+		// Verify the $newFriendsProfileId is positive
+		if($newFriendsProfileId <= 0) {
+			throw(new \RangeException("newFriendsProfileId is not positive."));
+		}
+
+		// convert and store the $newFriendsProfileId
+		$this->friendsProfileId = $newFriendsProfileId;
+	}
+
+	/**
+	 * accessor method for friendsFriendId
+	 *
+	 * @return int value of friendsFriendId
+	 **/
+	public function getFriendsFriendId() {
+		return($this->friendsFriendId);
+	}
+
+	/**
+	 * mutator method for friendsFriendId
+	 *
+	 * @param int $newFriendsFriendId id for the user (the friend) being invited in this friendship; it is a foreign key
+	 *
+	 * @throws \InvalidArgumentException if the argument is not safe
+	 * @throws \TypeError if $newFriendsFriendId is not an integer
+	 * @throws \RangeException if $newFriendsFriendId is not positive
+	 *
+	 **/
+	public function setFriendsFriendId(int $newFriendsFriendId) {
+
+		// Verify the $newFriendsFriendId is safe
+		$newFriendsFriendId = filter_var($newFriendsFriendId, FILTER_SANITIZE_NUMBER_INT);
+		if(empty($newFriendsFriendId) === true) {
+			throw(new \InvalidArgumentException("newFriendsFriendId is empty or insecure"));
+		}
+		// Verify that the $newFriendsFriendId in an integer.
+		$newFriendsFriendId = filter_var($newFriendsFriendId, FILTER_VALIDATE_INT);
+		if(empty($newFriendsFriendId) === true) {
+			// If the $newFriendsFriendId is not an integer, throw a TypeError.
+			throw(new \TypeError("newFriendsFriendId is not an integer."));
+		}
+		// Verify the $newFriendsFriendId is positive
+		if($newFriendsFriendId <= 0) {
+			throw(new \RangeException("newFriendsFriendId is not positive."));
+		}
+
+		// convert and store the $newFriendsFriendId
+		$this->friendsFriendId = $newFriendsFriendId;
+	}
+
+
+
+
+
+
+
 
 	/**
 	 * inserts this Tweet into mySQL
@@ -266,47 +210,6 @@ class Tweet implements \JsonSerializable {
 		$statement->execute($parameters);
 	}
 
-	/**
-	 * gets the Tweet by content
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @param string $tweetContent tweet content to search for
-	 * @return \SplFixedArray SplFixedArray of Tweets found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 **/
-	public static function getTweetByTweetContent(\PDO $pdo, string $tweetContent) {
-		// sanitize the description before searching
-		$tweetContent = trim($tweetContent);
-		$tweetContent = filter_var($tweetContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($tweetContent) === true) {
-			throw(new \PDOException("tweet content is invalid"));
-		}
-
-		// create query template
-		$query = "SELECT tweetId, tweetProfileId, tweetContent, tweetDate FROM tweet WHERE tweetContent LIKE :tweetContent";
-		$statement = $pdo->prepare($query);
-
-		// bind the tweet content to the place holder in the template
-		$tweetContent = "%$tweetContent%";
-		$parameters = ["tweetContent" => $tweetContent];
-		$statement->execute($parameters);
-
-		// build an array of tweets
-		$tweets = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$tweet = new Tweet($row["tweetId"], $row["tweetProfileId"], $row["tweetContent"], $row["tweetDate"]);
-				$tweets[$tweets->key()] = $tweet;
-				$tweets->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-		}
-		return($tweets);
-	}
 
 	/**
 	 * gets the Tweet by tweetId
@@ -422,7 +325,6 @@ class Tweet implements \JsonSerializable {
 	 **/
 	public function jsonSerialize() {
 		$fields = get_object_vars($this);
-		$fields["tweetDate"] = $this->tweetDate->getTimestamp() * 1000;
 		return($fields);
 	}
 }
