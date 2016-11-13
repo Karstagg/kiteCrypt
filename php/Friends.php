@@ -1,7 +1,7 @@
 <?php
-namespace Edu\Cnm\Dmcdonald21\DataDesign;
+namespace Edu\Cnm\kiteCrypt;
 
-require_once("autoload.php");
+require_once("autoloader.php");
 
 /**
  * Small Cross Section of a Twitter like Message
