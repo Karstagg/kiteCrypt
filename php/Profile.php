@@ -1,5 +1,5 @@
 <?php
-	namespace Edu\Cnm\KiteCrypt;
+	namespace Edu\Cnm\kiteCrypt;
 	require_once("autoload.php");
 
 	/**
