@@ -8,11 +8,11 @@
 		<iframe id='frame' src='receive-message.html' width='360' height='75'></iframe>
 
 		<script>
-			count = 1;
+			count = 1
 
 			setInterval(function()
 			{
-				O('frame').contentWindow.postMessage('Message ' + count++, 'http://bootcamp-coders.cnm.edu')
+				O('frame').contentWindow.postMessage('Message ' + count++, 'https://bootcamp-coders.cnm.edu')
 			}, 1000)
 		</script>
 	</body>

@@ -18,7 +18,7 @@ class Profile implements \JsonSerializable {
 	private $profileId;
 
 	/**
-	 * User Name for provile;
+	 * User Name for profile;
 	 * @var string
 	 * **/
 	private $profileUserName;

@@ -12,9 +12,10 @@
 	<body>
 		<div id='output'>Received messages will display here</div>
 		<script>
+
 			window.onmessage = function(event) {
 
-				if(event.origin == 'http://bootcamp-coders.cnm.edu') {
+				if(event.origin == 'https://bootcamp-coders.cnm.edu') {
 
 					O('output').innerHTML =
 						'<b>Origin:</b> ' + event.origin + '<br>' +
