@@ -9,3 +9,4 @@
 /public_html/dist
 /public_html/index.php
 /npm-debug.log
+/pusher-realtime-chat-widget/src/php/config.php
