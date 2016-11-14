@@ -36,7 +36,7 @@ class Profile implements \JsonSerializable {
 	 * @param int|null $newProfileId  id of profile or null if a new profile.
 	 * @param string $newProfileUserName string containing user name
 	 * @param string $newProfilePublicKey string containing user public key data for encryption.
-	 *
+	 * @throws string for invalid argument
 	 */
 	public function __construct(int $newProfileId = null, string $newProfileUserName, string $newProfilePublicKey) {
 		try {
@@ -91,7 +91,7 @@ class Profile implements \JsonSerializable {
 			throw(new \RangeException("profile id is not positive"));
 		}
 		// convert and store the profile id
-		$this->profileId = $newProfileId;
+			$this-> profileId = $newProfileId;
 	}
 
 	/*
