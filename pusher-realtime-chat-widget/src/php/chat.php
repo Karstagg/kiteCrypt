@@ -1,7 +1,7 @@
 <?php
 require_once('./vendor/autoload.php');
 require_once('Activity.php');
-require_once('config.php');
+require_once('pusher-config.php');
 
 date_default_timezone_set('UTC');
 
