@@ -1,6 +1,6 @@
 <?php
 	namespace Edu\Cnm\kiteCrypt;
-	require_once("autoloader.php");
+	require_once("Autoloader.php");
 
 	/**
 	 * Profile Class creation
