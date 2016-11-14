@@ -11,3 +11,12 @@
 /npm-debug.log
 /pusher-realtime-chat-widget/src/php/config.php
 pusher-config.php
+.bootstraprc
+.gitignore
+LICENSE
+README.md
+app/
+package.json
+public_html/
+tsconfig.json
+webpack/
