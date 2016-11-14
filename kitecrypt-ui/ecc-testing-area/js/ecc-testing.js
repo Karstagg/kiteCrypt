@@ -565,9 +565,40 @@ function getN(n) {
 }
 
 
+$( document ).ready(
+
+	function () {
+
+		// $(".btn").on(
+		//
+		// 	"click",
+		// 	function () {
+		// 			alert("A button was pressed.");
+		// 	}
+		//
+		// )
+
+	}
+
+);
 
 
+$(
 
+	function () {
+		//
+		// $(".btn").on(
+		//
+		// 	"click",
+		// 	function () {
+		// 			alert("A button was pressed.");
+		// 	}
+		//
+		// )
+
+	}
+
+);
 
 
 
