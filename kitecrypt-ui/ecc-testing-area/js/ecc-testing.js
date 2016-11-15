@@ -587,14 +587,14 @@ $(
 
 	function () {
 
-		$(".btn").on(
-
-			"click",
-			function () {
-					alert("A button was pressed.");
-			}
-
-		)
+		// $(".btn").on(
+		//
+		// 	"click",
+		// 	function () {
+		// 			alert("A button was pressed.");
+		// 	}
+		//
+		// )
 
 	}
 
