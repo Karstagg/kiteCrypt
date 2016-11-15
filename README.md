@@ -1,2 +1,2 @@
 # kiteCrypt
-kiteCrypt encrypted messaging
+kiteCrypt encrypted messaging for secure communication.
