@@ -48,7 +48,7 @@ class Invite implements \JsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \RangeException if data values are out of bounds (for example: negative integers)
 	 **/
-	public function __construct(int $newInviteInviterId , int $newInviteInviteeId, string $newInviteTimestamp, string $newInvitePassphrase) {
+	public function __construct(int $newInviteInviterId , int $newInviteInviteeId, int $newInviteTimestamp, string $newInvitePassphrase) {
 		try {
 			$this->setInviteInviterId($newInviteInviterId);
 			$this->setInviteInviteeId($newInviteInviteeId);
@@ -173,7 +173,7 @@ class Invite implements \JsonSerializable {
 	 * @throws \RangeException if $newInviteTimestamp is not from the recent past
 	 *
 	 **/
-	public function setInviteTimestamp(int $newInviteTimestamp) {
+	public function setInviteTimestamp(int $newInviteTimestamp = null) {
 
 		// base case: if the timestamp is null, it will be assigned by MySQL when it's stored in the database
 		if($newInviteTimestamp === null) {
@@ -204,6 +204,37 @@ class Invite implements \JsonSerializable {
 
 		// store the $newInviteTimestamp
 		$this->inviteTimestamp = $newInviteTimestamp;
+	}
+
+
+	/**
+	 * accessor method for invitePassphrase
+	 *
+	 * @return string passphrase for accepting this Invitation
+	 **/
+	public function getInvitePassphrase() {
+		return($this->invitePassphrase);
+	}
+
+
+	/**
+	 * mutator method for invitePassphrase
+	 *
+	 * @param string $newInvitePassphrase passphrase for accepting this Invitation
+	 *
+	 * @throws \InvalidArgumentException if the argument is not safe (or empty)
+	 *
+	 **/
+	public function setInvitePassphrase(string $newInvitePassphrase) {
+
+		// Verify the $newInvitePassphrase is safe (and not empty)
+		$newInvitePassphrase = filter_var($newInvitePassphrase, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newInvitePassphrase) === true) {
+			throw(new \InvalidArgumentException("newInvitePassphrase is empty or insecure"));
+		}
+
+		// store the $newInvitePassphrase
+		$this->invitePassphrase = $newInvitePassphrase;
 	}
 
 
@@ -248,165 +279,150 @@ class Invite implements \JsonSerializable {
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	/**
-	 * gets the Friend by friendsProfileId
+	 * gets the Invite by inviteInviterId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $friendsProfileId friendsProfileId to search for
+	 * @param int $inviteInviterId inviteInviterId to search for
 	 *
-	 * @return \SplFixedArray SplFixedArray of Friends found
+	 * @return \SplFixedArray SplFixedArray of Invites found
 	 *
-	 * @throws \InvalidArgumentException if $friendsProfileId is not safe
-	 * @throws \TypeError if $friendsProfileId is not an integer
-	 * @throws \RangeException if $friendsProfileId is not positive
+	 * @throws \InvalidArgumentException if $inviteInviterId is not safe
+	 * @throws \TypeError if $inviteInviterId is not an integer
+	 * @throws \RangeException if $inviteInviterId is not positive
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getFriendByFriendsProfileId(\PDO $pdo, int $friendsProfileId) {
+	public static function getInviteByInviteInviterId(\PDO $pdo, int $inviteInviterId) {
 
-		// Verify the $friendsProfileId is safe
-		$friendsProfileId = filter_var($friendsProfileId, FILTER_SANITIZE_NUMBER_INT);
-		if(empty($friendsProfileId) === true) {
-			throw(new \InvalidArgumentException("friendsProfileId is empty or insecure"));
+		// Verify the $inviteInviterId is safe
+		$inviteInviterId = filter_var($inviteInviterId, FILTER_SANITIZE_NUMBER_INT);
+		if(empty($inviteInviterId) === true) {
+			throw(new \InvalidArgumentException("inviteInviterId is empty or insecure"));
 		}
-		// Verify that the $friendsProfileId in an integer.
-		$friendsProfileId = filter_var($friendsProfileId, FILTER_VALIDATE_INT);
-		if(empty($friendsProfileId) === true) {
-			// If the $friendsProfileId is not an integer, throw a TypeError.
-			throw(new \TypeError("friendsProfileId is not an integer."));
+		// Verify that the $inviteInviterId in an integer.
+		$inviteInviterId = filter_var($inviteInviterId, FILTER_VALIDATE_INT);
+		if(empty($inviteInviterId) === true) {
+			// If the $inviteInviterId is not an integer, throw a TypeError.
+			throw(new \TypeError("inviteInviterId is not an integer."));
 		}
-		// Verify the $friendsProfileId is positive
-		if($friendsProfileId <= 0) {
-			throw(new \RangeException("friendsProfileId is not positive."));
+		// Verify the $inviteInviterId is positive
+		if($inviteInviterId <= 0) {
+			throw(new \RangeException("inviteInviterId is not positive."));
 		}
 
 		// create query template
-		$query = "SELECT friendsFriendId FROM friends WHERE friendsProfileId = :friendsProfileId";
+		$query = "SELECT inviteInviterId FROM invite WHERE inviteInviterId = :inviteInviterId";
 		$statement = $pdo->prepare($query);
 
-		// bind the friendsProfileId to the place holder in the template
-		$parameters = ["friendsProfileId" => $friendsProfileId];
+		// bind the inviteInviterId to the place holder in the template
+		$parameters = ["inviteInviterId" => $inviteInviterId];
 		$statement->execute($parameters);
 
-		// build an array of friends
-		$friends = new \SplFixedArray($statement->rowCount());
+		// build an array of invites
+		$invites = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$friend = new Friend($row["friendsProfileId"], $row["friendsFriendId"]);
-				$friends[$friends->key()] = $friend;
-				$friends->next();
+				$invite = new Invite($row["inviteInviterId"], $row["inviteInviterId"]);
+				$invites[$invites->key()] = $invite;
+				$invites->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return($friends);
+		return($invites);
 	}
 
 
 	/**
-	 * gets the Friend by friendsFriendId
+	 * gets the Invite by inviteInviteeId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $friendsFriendId friendsFriendId to search for
+	 * @param int $inviteInviteeId inviteInviteeId to search for
 	 *
-	 * @return \SplFixedArray SplFixedArray of Friends found
+	 * @return \SplFixedArray SplFixedArray of Invites found
 	 *
-	 * @throws \InvalidArgumentException if $friendsFriendId is not safe
-	 * @throws \TypeError if $friendsFriendId is not an integer
-	 * @throws \RangeException if $friendsFriendId is not positive
+	 * @throws \InvalidArgumentException if $inviteInviteeId is not safe
+	 * @throws \TypeError if $inviteInviteeId is not an integer
+	 * @throws \RangeException if $inviteInviteeId is not positive
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getFriendByFriendsFriendId(\PDO $pdo, int $friendsFriendId) {
+	public static function getInviteByInviteInviteeId(\PDO $pdo, int $inviteInviteeId) {
 
-		// Verify the $friendsFriendId is safe
-		$friendsFriendId = filter_var($friendsFriendId, FILTER_SANITIZE_NUMBER_INT);
-		if(empty($friendsFriendId) === true) {
-			throw(new \InvalidArgumentException("friendsFriendId is empty or insecure"));
+		// Verify the $inviteInviteeId is safe
+		$inviteInviteeId = filter_var($inviteInviteeId, FILTER_SANITIZE_NUMBER_INT);
+		if(empty($inviteInviteeId) === true) {
+			throw(new \InvalidArgumentException("inviteInviteeId is empty or insecure"));
 		}
-		// Verify that the $friendsFriendId in an integer.
-		$friendsFriendId = filter_var($friendsFriendId, FILTER_VALIDATE_INT);
-		if(empty($friendsFriendId) === true) {
-			// If the $friendsFriendId is not an integer, throw a TypeError.
-			throw(new \TypeError("friendsFriendId is not an integer."));
+		// Verify that the $inviteInviteeId in an integer.
+		$inviteInviteeId = filter_var($inviteInviteeId, FILTER_VALIDATE_INT);
+		if(empty($inviteInviteeId) === true) {
+			// If the $inviteInviteeId is not an integer, throw a TypeError.
+			throw(new \TypeError("inviteInviteeId is not an integer."));
 		}
-		// Verify the $friendsFriendId is positive
-		if($friendsFriendId <= 0) {
-			throw(new \RangeException("friendsFriendId is not positive."));
+		// Verify the $inviteInviteeId is positive
+		if($inviteInviteeId <= 0) {
+			throw(new \RangeException("inviteInviteeId is not positive."));
 		}
 
 		// create query template
-		$query = "SELECT friendsProfileId FROM friends WHERE friendsFriendId = :friendsFriendId";
+		$query = "SELECT inviteInviteeId FROM invite WHERE inviteInviteeId = :inviteInviteeId";
 		$statement = $pdo->prepare($query);
 
-		// bind the friendsFriendId to the place holder in the template
-		$parameters = ["friendsFriendId" => $friendsFriendId];
+		// bind the inviteInviteeId to the place holder in the template
+		$parameters = ["inviteInviterId" => $inviteInviterId];
 		$statement->execute($parameters);
 
-		// build an array of friends
-		$friends = new \SplFixedArray($statement->rowCount());
+		// build an array of invites
+		$invites = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$friend = new Friend($row["friendsProfileId"], $row["friendsFriendId"]);
-				$friends[$friends->key()] = $friend;
-				$friends->next();
+				$invite = new Invite($row["inviteInviterId"], $row["inviteInviteeId"], $row["inviteTimestamp"], $row["invitePassphrase"]);
+				$invites[$invites->key()] = $invite;
+				$invites->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return($friends);
+		return($invites);
 	}
 
 
 	/**
-	 * gets all Tweets
+	 * gets all Invitations
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 *
-	 * @return \SplFixedArray SplFixedArray of Tweets found or null if not found
+	 * @return \SplFixedArray SplFixedArray of Invitations found or null if not found
 	 *
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getAllFriends(\PDO $pdo) {
+	public static function getAllInvites(\PDO $pdo) {
 		// create query template
-		$query = "SELECT friendsProfileId, friendsFriendId FROM friends";
+		$query = "SELECT inviteInviterId, inviteInviteeId FROM invite";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
-		// build an array of friends
-		$friends = new \SplFixedArray($statement->rowCount());
+		// build an array of invites
+		$invites = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$friend = new Friend($row["friendsProfileId"], $row["friendsFriendId"]);
-				$friends[$friends->key()] = $friend;
-				$friends->next();
+				$invite = new Invite($row["inviteInviterId"], $row["inviteInviteeId"], $row["inviteTimestamp"], $row["invitePassphrase"]);
+				$invites[$invites->key()] = $invite;
+				$invites->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return($friends);
+		return($invites);
 	}
 
 
