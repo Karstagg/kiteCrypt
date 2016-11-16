@@ -25,7 +25,7 @@ class Invite implements \JsonSerializable {
 	private $inviteInviteeId;
 	/**
 	 * timestamp of the invitation
-	 * @var int $inviteTimestamp
+	 * @var int|null $inviteTimestamp timestamp of this Invitation (or null if it's a new Invitation, and it will be assigned by MySQL when it's stored in the database)
 	 **/
 	private $inviteTimestamp;
 	/**
@@ -41,7 +41,7 @@ class Invite implements \JsonSerializable {
 	 *
 	 * @param int $newInviteInviterId id for the user (the inviter) inviting the friend (the invitee) in this friendship; it is a foreign key
 	 * @param int $newInviteInviteeId id for the user (the invitee) being invited in this friendship; it is a foreign key
-	 * @param int $newInviteTimestamp timestamp of the invitation
+	 * @param int|null $newInviteTimestamp timestamp of this Invitation (or null if it's a new Invitation, and it will be assigned by MySQL when it's stored in the database)
 	 * @param string $newInvitePassphrase passphrase used by the invitee to make the friendship, it must be sent by the inviter to the invitee outside of kiteCrypt
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe
@@ -156,7 +156,7 @@ class Invite implements \JsonSerializable {
 	/**
 	 * accessor method for inviteTimestamp
 	 *
-	 * @return int timestamp of the invitation
+	 * @return int|null timestamp of this Invitation (or null if it's a new Invitation, and it will be assigned by MySQL when it's stored in the database)
 	 **/
 	public function getInviteTimestamp() {
 		return($this->inviteTimestamp);
@@ -166,21 +166,26 @@ class Invite implements \JsonSerializable {
 	/**
 	 * mutator method for inviteTimestamp
 	 *
-	 * @param int $newInviteTimestamp timestamp of the invitation
+	 * @param int|null $newInviteTimestamp timestamp of this Invitation (or null if it's a new Invitation, and it will be assigned by MySQL when it's stored in the database)
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe
 	 * @throws \TypeError if $newInviteTimestamp is not a date
 	 * @throws \RangeException if $newInviteTimestamp is not from the recent past
 	 *
 	 **/
-	public function setInviteInviteeId(int $newInviteTimestamp) {
+	public function setInviteTimestamp(int $newInviteTimestamp) {
 
+		// base case: if the timestamp is null, it will be assigned by MySQL when it's stored in the database
+		if($newInviteTimestamp === null) {
+			$this->inviteTimestamp = null;
+			return;
+		}
 		// Verify the $newInviteTimestamp is safe
 		$newInviteTimestamp = filter_var($newInviteTimestamp, FILTER_SANITIZE_NUMBER_INT);
 		if(empty($newInviteTimestamp) === true) {
 			throw(new \InvalidArgumentException("newInviteTimestamp is empty or insecure"));
 		}
-		// Verify that the $newInviteTimestamp in an integer.
+		// Verify that the $newInviteTimestamp is an integer.
 		$newInviteTimestamp = filter_var($newInviteTimestamp, FILTER_VALIDATE_INT);
 		if(empty($newInviteTimestamp) === true) {
 			// If the $newInviteTimestamp is not an integer, throw a TypeError.
@@ -190,12 +195,14 @@ class Invite implements \JsonSerializable {
 		if($newInviteTimestamp <= 0) {
 			throw(new \RangeException("newInviteTimestamp is not positive."));
 		} else {
-			if (time() - $newInviteInviteeId > ) {
-				throw(new \RangeException("newInviteInviteeId was not created within the last 48 hours."));
+			if ($newInviteTimestamp - time() >= 0) {
+				throw(new \RangeException("newInviteTimestamp is in the future."));
+			} elseif (time() - $newInviteTimestamp >= 48 * 60 * 60 * 1000) {
+				throw(new \RangeException("newInviteTimestamp is more than 48 hours ago, so this invitation should have expired."));
 			}
 		}
 
-		// convert and store the $newInviteTimestamp
+		// store the $newInviteTimestamp
 		$this->inviteTimestamp = $newInviteTimestamp;
 	}
 

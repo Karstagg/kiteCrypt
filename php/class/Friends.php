@@ -79,7 +79,7 @@ class Friend implements \JsonSerializable {
 		if(empty($newFriendsProfileId) === true) {
 			throw(new \InvalidArgumentException("newFriendsProfileId is empty or insecure"));
 		}
-		// Verify that the $newFriendsProfileId in an integer.
+		// Verify that the $newFriendsProfileId is an integer.
 		$newFriendsProfileId = filter_var($newFriendsProfileId, FILTER_VALIDATE_INT);
 		if(empty($newFriendsProfileId) === true) {
 			// If the $newFriendsProfileId is not an integer, throw a TypeError.
@@ -122,7 +122,7 @@ class Friend implements \JsonSerializable {
 		if(empty($newFriendsFriendId) === true) {
 			throw(new \InvalidArgumentException("newFriendsFriendId is empty or insecure"));
 		}
-		// Verify that the $newFriendsFriendId in an integer.
+		// Verify that the $newFriendsFriendId is an integer.
 		$newFriendsFriendId = filter_var($newFriendsFriendId, FILTER_VALIDATE_INT);
 		if(empty($newFriendsFriendId) === true) {
 			// If the $newFriendsFriendId is not an integer, throw a TypeError.
@@ -200,7 +200,7 @@ class Friend implements \JsonSerializable {
 		if(empty($friendsProfileId) === true) {
 			throw(new \InvalidArgumentException("friendsProfileId is empty or insecure"));
 		}
-		// Verify that the $friendsProfileId in an integer.
+		// Verify that the $friendsProfileId is an integer.
 		$friendsProfileId = filter_var($friendsProfileId, FILTER_VALIDATE_INT);
 		if(empty($friendsProfileId) === true) {
 			// If the $friendsProfileId is not an integer, throw a TypeError.
@@ -257,7 +257,7 @@ class Friend implements \JsonSerializable {
 		if(empty($friendsFriendId) === true) {
 			throw(new \InvalidArgumentException("friendsFriendId is empty or insecure"));
 		}
-		// Verify that the $friendsFriendId in an integer.
+		// Verify that the $friendsFriendId is an integer.
 		$friendsFriendId = filter_var($friendsFriendId, FILTER_VALIDATE_INT);
 		if(empty($friendsFriendId) === true) {
 			// If the $friendsFriendId is not an integer, throw a TypeError.
