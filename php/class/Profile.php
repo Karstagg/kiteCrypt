@@ -13,7 +13,7 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * id for profile; this is the primary key
-	 * @var int $profileId
+	 * @var int|null $profileId
 	 * **/
 	private $profileId;
 
