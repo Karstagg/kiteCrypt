@@ -13,21 +13,25 @@ require_once("Autoloader.php");
  * @version 1.0.0
  **/
 class Invite implements \JsonSerializable {
+
 	/**
 	 * id for the user (the inviter) inviting the friend (the invitee) in this friendship; it is a foreign key
-	 * @var int $friendsProfileId
+	 * @var int $inviteInviterId
 	 **/
 	private $inviteInviterId;
+
 	/**
 	 * id for the user (the invitee) being invited in this friendship; it is a foreign key
-	 * @var int $friendsFriendId
+	 * @var int $inviteInviteeId
 	 **/
 	private $inviteInviteeId;
+
 	/**
 	 * timestamp of the invitation
 	 * @var int|null $inviteTimestamp timestamp of this Invitation (or null if it's a new Invitation, and it will be assigned by MySQL when it's stored in the database)
 	 **/
 	private $inviteTimestamp;
+
 	/**
 	 * passphrase used by the invitee to make the friendship, it must be sent by the inviter to the invitee outside of kiteCrypt
 	 * @var string $invitePassphrase
@@ -105,7 +109,7 @@ class Invite implements \JsonSerializable {
 			throw(new \RangeException("newInviteInviterId is not positive."));
 		}
 
-		// store the $newFriendsProfileId
+		// store the $newInviteInviterId
 		$this->inviteInviterId = $newInviteInviterId;
 	}
 
@@ -175,7 +179,7 @@ class Invite implements \JsonSerializable {
 	 **/
 	public function setInviteTimestamp(int $newInviteTimestamp = null) {
 
-		// base case: if the timestamp is null, it will be assigned by MySQL when it's stored in the database
+		// base case: if the timestamp is null, then it will be assigned by MySQL when it's stored in the database
 		if($newInviteTimestamp === null) {
 			$this->inviteTimestamp = null;
 			return;
@@ -260,7 +264,7 @@ class Invite implements \JsonSerializable {
 
 
 	/**
-	 * deletes these Friends from mySQL
+	 * deletes these Invites from mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 *
