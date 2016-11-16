@@ -49,7 +49,7 @@ class Message implements \JsonSerializable {
 	/**
 	 * constructor for this Message
 	 *
-	 * Qparam int|null $newMessageId id of this message (or null if it's a new message, and it will be assigned by MySQL when it's stored in the database)
+	 * @param int|null $newMessageId id of this message (or null if it's a new message, and it will be assigned by MySQL when it's stored in the database)
 	 * @param int|null $newMessageTimestamp timestamp of this message (or null if it's a new message, and it will be assigned by MySQL when it's stored in the database)
 	 * @param int $newMessageSenderId id for the sender of the message; it is a foreign key
 	 * @param int $newMessageReceiverId id for the receiver of the message; it is a foreign key
@@ -95,8 +95,8 @@ class Message implements \JsonSerializable {
 	 * @param int|null $newMessageId id for message (null if it's a new message, and it will be assigned by MySQL when it's stored in the database); this is the primary key
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe
-	 * @throws \TypeError if $newMessageSenderId is not an integer
-	 * @throws \RangeException if $newMessageSenderId is not positive
+	 * @throws \TypeError if $newMessageId is not an integer
+	 * @throws \RangeException if $newMessageId is not positive
 	 *
 	 **/
 	public function setMessageId(int $newMessageId = null) {
@@ -314,7 +314,7 @@ class Message implements \JsonSerializable {
 
 
 	/**
-	 * deletes these Friends from mySQL
+	 * deletes this Message from mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 *
@@ -366,7 +366,7 @@ class Message implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "SELECT messageSenderId FROM message WHERE messageSenderId = :messageSenderId";
+		$query = "SELECT messageId, messageTimestamp, messageSenderId, messageReceiverId, messageText FROM message WHERE messageSenderId = :messageSenderId";
 		$statement = $pdo->prepare($query);
 
 		// bind the messageSenderId to the place holder in the template
@@ -378,7 +378,7 @@ class Message implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$message = new Message($row["messageSenderId"], $row["messageSenderId"]);
+				$message = new Message($row["messageId"], $row["messageTimestamp"], $row["messageSenderId"], $row["messageReceiverId"], $row["messageText"]);
 				$messages[$messages->key()] = $message;
 				$messages->next();
 			} catch(\Exception $exception) {
@@ -423,7 +423,7 @@ class Message implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "SELECT messageReceiverId FROM message WHERE messageReceiverId = :messageReceiverId";
+		$query = "SELECT messageId, messageTimestamp, messageSenderId, messageReceiverId, messageText FROM message WHERE messageReceiverId = :messageReceiverId";
 		$statement = $pdo->prepare($query);
 
 		// bind the messageReceiverId to the place holder in the template
@@ -435,7 +435,7 @@ class Message implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$message = new Message($row["messageSenderId"], $row["messageReceiverId"], $row["messageTimestamp"], $row["messagePassphrase"]);
+				$message = new Message($row["messageId"], $row["messageTimestamp"], $row["messageSenderId"], $row["messageReceiverId"], $row["messageText"]);
 				$messages[$messages->key()] = $message;
 				$messages->next();
 			} catch(\Exception $exception) {
@@ -448,18 +448,18 @@ class Message implements \JsonSerializable {
 
 
 	/**
-	 * gets all Invitations
+	 * gets all Messages
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 *
-	 * @return \SplFixedArray SplFixedArray of Invitations found or null if not found
+	 * @return \SplFixedArray SplFixedArray of Messages found or null if not found
 	 *
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 	public static function getAllMessages(\PDO $pdo) {
 		// create query template
-		$query = "SELECT messageSenderId, messageReceiverId FROM message";
+		$query = "SELECT messageId, messageTimestamp, messageSenderId, messageReceiverId, messageText FROM message";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
@@ -468,7 +468,7 @@ class Message implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$message = new Message($row["messageSenderId"], $row["messageReceiverId"], $row["messageTimestamp"], $row["messagePassphrase"]);
+				$message = new Message($row["messageId"], $row["messageTimestamp"], $row["messageSenderId"], $row["messageReceiverId"], $row["messageText"]);
 				$messages[$messages->key()] = $message;
 				$messages->next();
 			} catch(\Exception $exception) {
