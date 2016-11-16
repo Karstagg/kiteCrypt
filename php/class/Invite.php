@@ -5,40 +5,55 @@ require_once("Autoloader.php");
 
 
 /**
- * kiteCrypt friends
+ * kiteCrypt invites
  *
  * In kiteCrypt, users (profiles) can invite other users (friends) to be their friends
  *
  * @author G. Wells <gwells4@cnm.edu>
  * @version 1.0.0
  **/
-class Friend implements \JsonSerializable {
+class Invite implements \JsonSerializable {
 	/**
-	 * id for the user (the profile) inviting the friend in this friendship; it is a foreign key
+	 * id for the user (the inviter) inviting the friend (the invitee) in this friendship; it is a foreign key
 	 * @var int $friendsProfileId
 	 **/
-	private $friendsProfileId;
+	private $inviteInviterId;
 	/**
-	 * id for the user (the friend) being invited in this friendship; it is a foreign key
+	 * id for the user (the invitee) being invited in this friendship; it is a foreign key
 	 * @var int $friendsFriendId
 	 **/
-	private $friendsFriendId;
+	private $inviteInviteeId;
+	/**
+	 * timestamp of the invitation
+	 * @var int $inviteTimestamp
+	 **/
+	private $inviteTimestamp;
+	/**
+	 * passphrase used by the invitee to make the friendship, it must be sent by the inviter to the invitee outside of kiteCrypt
+	 * @var string $invitePassphrase
+	 **/
+	private $invitePassphrase;
+
 
 
 	/**
-	 * constructor for this Friend
+	 * constructor for this Invite
 	 *
-	 * @param int $newFriendsProfileId id for the user (the profile) inviting the friend in this friendship; it is a foreign key
-	 * @param int $newFriendsFriendId id for the user (the friend) being invited in this friendship; it is a foreign key
+	 * @param int $newInviteInviterId id for the user (the inviter) inviting the friend (the invitee) in this friendship; it is a foreign key
+	 * @param int $newInviteInviteeId id for the user (the invitee) being invited in this friendship; it is a foreign key
+	 * @param int $newInviteTimestamp timestamp of the invitation
+	 * @param string $newInvitePassphrase passphrase used by the invitee to make the friendship, it must be sent by the inviter to the invitee outside of kiteCrypt
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \RangeException if data values are out of bounds (for example: negative integers)
 	 **/
-	public function __construct(int $newFriendsProfileId , int $newFriendsFriendId) {
+	public function __construct(int $newInviteInviterId , int $newInviteInviteeId, string $newInviteTimestamp, string $newInvitePassphrase) {
 		try {
-			$this->setFriendsProfileId($newFriendsProfileId);
-			$this->setFriendsFriendId($newFriendsFriendId);
+			$this->setInviteInviterId($newInviteInviterId);
+			$this->setInviteInviteeId($newInviteInviteeId);
+			$this->setInviteTimestamp($newInviteTimestamp);
+			$this->setInvitePassphrase($newInvitePassphrase);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			// rethrow the InvalidArgumentException to the caller
 			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
@@ -53,93 +68,140 @@ class Friend implements \JsonSerializable {
 
 
 	/**
-	 * accessor method for friendsProfileId
+	 * accessor method for inviteInviterId
 	 *
-	 * @return int value of friendsProfileId
+	 * @return int value of inviteInviterId
 	 **/
-	public function getFriendsProfileId() {
-		return($this->friendsProfileId);
+	public function getInviteInviterId() {
+		return($this->inviteInviterId);
 	}
 
 
 	/**
-	 * mutator method for friendsProfileId
+	 * mutator method for inviteInviterId
 	 *
-	 * @param int $newFriendsProfileId id for the user (the profile) inviting the friend in this friendship; it is a foreign key
+	 * @param int $newInviteInviterId id for the user (the inviter) inviting the friend (the invitee) in this friendship; it is a foreign key
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe
-	 * @throws \TypeError if $newFriendsProfileId is not an integer
-	 * @throws \RangeException if $newFriendsProfileId is not positive
+	 * @throws \TypeError if $newInviteInviterId is not an integer
+	 * @throws \RangeException if $newInviteInviterId is not positive
 	 *
 	 **/
-	public function setFriendsProfileId(int $newFriendsProfileId) {
+	public function setInviteInviterId(int $newInviteInviterId) {
 
-		// Verify the $newFriendsProfileId is safe
-		$newFriendsProfileId = filter_var($newFriendsProfileId, FILTER_SANITIZE_NUMBER_INT);
-		if(empty($newFriendsProfileId) === true) {
-			throw(new \InvalidArgumentException("newFriendsProfileId is empty or insecure"));
+		// Verify the $newInviteInviterId is safe
+		$newInviteInviterId = filter_var($newInviteInviterId, FILTER_SANITIZE_NUMBER_INT);
+		if(empty($newInviteInviterId) === true) {
+			throw(new \InvalidArgumentException("newInviteInviterId is empty or insecure"));
 		}
-		// Verify that the $newFriendsProfileId in an integer.
-		$newFriendsProfileId = filter_var($newFriendsProfileId, FILTER_VALIDATE_INT);
-		if(empty($newFriendsProfileId) === true) {
-			// If the $newFriendsProfileId is not an integer, throw a TypeError.
-			throw(new \TypeError("newFriendsProfileId is not an integer."));
+		// Verify that the $newInviteInviterId in an integer.
+		$newInviteInviterId = filter_var($newInviteInviterId, FILTER_VALIDATE_INT);
+		if(empty($newInviteInviterId) === true) {
+			// If the $newInviteInviterId is not an integer, throw a TypeError.
+			throw(new \TypeError("newInviteInviterId is not an integer."));
 		}
-		// Verify the $newFriendsProfileId is positive
-		if($newFriendsProfileId <= 0) {
-			throw(new \RangeException("newFriendsProfileId is not positive."));
+		// Verify the $newInviteInviterId is positive
+		if($newInviteInviterId <= 0) {
+			throw(new \RangeException("newInviteInviterId is not positive."));
 		}
 
-		// convert and store the $newFriendsProfileId
-		$this->friendsProfileId = $newFriendsProfileId;
+		// store the $newFriendsProfileId
+		$this->inviteInviterId = $newInviteInviterId;
 	}
 
 
 	/**
-	 * accessor method for friendsFriendId
+	 * accessor method for inviteInviteeId
 	 *
-	 * @return int value of friendsFriendId
+	 * @return int value of inviteInviteeId
 	 **/
-	public function getFriendsFriendId() {
-		return($this->friendsFriendId);
+	public function getInviteInviteeId() {
+		return($this->inviteInviteeId);
 	}
 
 
 	/**
-	 * mutator method for friendsFriendId
+	 * mutator method for inviteInviteeId
 	 *
-	 * @param int $newFriendsFriendId id for the user (the friend) being invited in this friendship; it is a foreign key
+	 * @param int $newInviteInviteeId id for the user (the invitee) being invited in this friendship; it is a foreign key
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe
-	 * @throws \TypeError if $newFriendsFriendId is not an integer
-	 * @throws \RangeException if $newFriendsFriendId is not positive
+	 * @throws \TypeError if $newInviteInviteeId is not an integer
+	 * @throws \RangeException if $newInviteInviteeId is not positive
 	 *
 	 **/
-	public function setFriendsFriendId(int $newFriendsFriendId) {
+	public function setInviteInviteeId(int $newInviteInviteeId) {
 
-		// Verify the $newFriendsFriendId is safe
-		$newFriendsFriendId = filter_var($newFriendsFriendId, FILTER_SANITIZE_NUMBER_INT);
-		if(empty($newFriendsFriendId) === true) {
-			throw(new \InvalidArgumentException("newFriendsFriendId is empty or insecure"));
+		// Verify the $newInviteInviteeId is safe
+		$newInviteInviteeId = filter_var($newInviteInviteeId, FILTER_SANITIZE_NUMBER_INT);
+		if(empty($newInviteInviteeId) === true) {
+			throw(new \InvalidArgumentException("newInviteInviteeId is empty or insecure"));
 		}
-		// Verify that the $newFriendsFriendId in an integer.
-		$newFriendsFriendId = filter_var($newFriendsFriendId, FILTER_VALIDATE_INT);
-		if(empty($newFriendsFriendId) === true) {
-			// If the $newFriendsFriendId is not an integer, throw a TypeError.
-			throw(new \TypeError("newFriendsFriendId is not an integer."));
+		// Verify that the $newInviteInviteeId in an integer.
+		$newInviteInviteeId = filter_var($newInviteInviteeId, FILTER_VALIDATE_INT);
+		if(empty($newInviteInviteeId) === true) {
+			// If the $newInviteInviteeId is not an integer, throw a TypeError.
+			throw(new \TypeError("newInviteInviteeId is not an integer."));
 		}
-		// Verify the $newFriendsFriendId is positive
-		if($newFriendsFriendId <= 0) {
-			throw(new \RangeException("newFriendsFriendId is not positive."));
+		// Verify the $newInviteInviteeId is positive
+		if($newInviteInviteeId <= 0) {
+			throw(new \RangeException("newInviteInviteeId is not positive."));
 		}
 
-		// convert and store the $newFriendsFriendId
-		$this->friendsFriendId = $newFriendsFriendId;
+		// store the $newInviteInviteeId
+		$this->inviteInviteeId = $newInviteInviteeId;
 	}
 
 
 	/**
-	 * inserts these Friends into mySQL
+	 * accessor method for inviteTimestamp
+	 *
+	 * @return int timestamp of the invitation
+	 **/
+	public function getInviteTimestamp() {
+		return($this->inviteTimestamp);
+	}
+
+
+	/**
+	 * mutator method for inviteTimestamp
+	 *
+	 * @param int $newInviteTimestamp timestamp of the invitation
+	 *
+	 * @throws \InvalidArgumentException if the argument is not safe
+	 * @throws \TypeError if $newInviteTimestamp is not a date
+	 * @throws \RangeException if $newInviteTimestamp is not from the recent past
+	 *
+	 **/
+	public function setInviteInviteeId(int $newInviteTimestamp) {
+
+		// Verify the $newInviteTimestamp is safe
+		$newInviteTimestamp = filter_var($newInviteTimestamp, FILTER_SANITIZE_NUMBER_INT);
+		if(empty($newInviteTimestamp) === true) {
+			throw(new \InvalidArgumentException("newInviteTimestamp is empty or insecure"));
+		}
+		// Verify that the $newInviteTimestamp in an integer.
+		$newInviteTimestamp = filter_var($newInviteTimestamp, FILTER_VALIDATE_INT);
+		if(empty($newInviteTimestamp) === true) {
+			// If the $newInviteTimestamp is not an integer, throw a TypeError.
+			throw(new \TypeError("newInviteTimestamp is not an integer."));
+		}
+		// Verify the $newInviteTimestamp is positive and from the recent past
+		if($newInviteTimestamp <= 0) {
+			throw(new \RangeException("newInviteTimestamp is not positive."));
+		} else {
+			if (time() - $newInviteInviteeId > ) {
+				throw(new \RangeException("newInviteInviteeId was not created within the last 48 hours."));
+			}
+		}
+
+		// convert and store the $newInviteTimestamp
+		$this->inviteTimestamp = $newInviteTimestamp;
+	}
+
+
+	/**
+	 * inserts this Invite into mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 *
@@ -149,11 +211,11 @@ class Friend implements \JsonSerializable {
 	public function insert(\PDO $pdo) {
 
 		// create query template
-		$query = "INSERT INTO friends(friendsProfileId, friendsFriendId) VALUES(:friendsProfileId, :friendsFriendId)";
+		$query = "INSERT INTO invite(inviteInviterId, inviteInviteeId, inviteTimestamp, invitePassphrase) VALUES(:inviteInviterId, :inviteInviteeId, :inviteTimestamp, :invitePassphrase)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
-		$parameters = ["friendsProfileId" => $this->friendsProfileId, "friendsFriendId" => $this->friendsFriendId];
+		$parameters = ["inviteInviterId" => $this->inviteInviterId, "inviteInviteeId" => $this->inviteInviteeId, "inviteTimestamp" => $this->inviteTimestamp, "invitePassphrase" => $this->invitePassphrase];
 		$statement->execute($parameters);
 
 	}
@@ -170,13 +232,28 @@ class Friend implements \JsonSerializable {
 	public function delete(\PDO $pdo) {
 
 		// create query template
-		$query = "DELETE FROM friends WHERE friendsProfileId = :friendsProfileId AND friendsFriendId = :friendsFriendId";
+		$query = "DELETE FROM invite WHERE inviteInviterId = :inviteInviterId AND inviteInviteeId = :inviteInviteeId AND inviteTimestamp = :inviteTimestamp AND invitePassphrase = :invitePassphrase";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holder in the template
-		$parameters = ["friendsProfileId" => $this->friendsProfileId, "friendsFriendId" => $this->friendsFriendId];
+		$parameters = ["inviteInviterId" => $this->inviteInviterId, "inviteInviteeId" => $this->inviteInviteeId, "inviteTimestamp" => $this->inviteTimestamp, "invitePassphrase" => $this->invitePassphrase];
 		$statement->execute($parameters);
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	/**
@@ -294,7 +371,7 @@ class Friend implements \JsonSerializable {
 
 
 	/**
-	 * gets all Friendships
+	 * gets all Tweets
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 *
