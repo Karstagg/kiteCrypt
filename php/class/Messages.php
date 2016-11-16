@@ -15,14 +15,14 @@ require_once("Autoloader.php");
 class Message implements \JsonSerializable {
 
 	/**
-	 * id for message; this is the primary key
+	 * id for message (null if it's a new message, and it will be assigned by MySQL when it's stored in the database); this is the primary key
 	 * @var int|null $profileId
 	 * **/
 	private $messageId;
 
 	/**
 	 * timestamp of the message
-	 * @var int|null $messageTimestamp timestamp of this message (or null if it's a new message, and it will be assigned by MySQL when it's stored in the database)
+	 * @var int|null $messageTimestamp timestamp of this Message (or null if it's a new Message, and it will be assigned by MySQL when it's stored in the database)
 	 **/
 	private $messageTimestamp;
 
@@ -49,7 +49,7 @@ class Message implements \JsonSerializable {
 	/**
 	 * constructor for this Message
 	 *
-	 * Qparam in|null $newMessageId id of this message (or null if it's a new message, and it will be assigned by MySQL when it's stored in the database)
+	 * Qparam int|null $newMessageId id of this message (or null if it's a new message, and it will be assigned by MySQL when it's stored in the database)
 	 * @param int|null $newMessageTimestamp timestamp of this message (or null if it's a new message, and it will be assigned by MySQL when it's stored in the database)
 	 * @param int $newMessageSenderId id for the sender of the message; it is a foreign key
 	 * @param int $newMessageReceiverId id for the receiver of the message; it is a foreign key
@@ -80,26 +80,26 @@ class Message implements \JsonSerializable {
 
 
 	/**
-	 * accessor method for messageSenderId
+	 * accessor method for messageId
 	 *
-	 * @return int value of messageSenderId
+	 * @return int id for message (null if it's a new message, and it will be assigned by MySQL when it's stored in the database); this is the primary key
 	 **/
-	public function getMessageSenderId() {
-		return($this->messageSenderId);
+	public function getMessageId() {
+		return($this->messageId);
 	}
 
 
 	/**
-	 * mutator method for messageSenderId
+	 * mutator method for messageId
 	 *
-	 * @param int $newMessageSenderId id for the user (the messager) inviting the friend (the messagee) in this friendship; it is a foreign key
+	 * @param int|null $newMessageId id for message (null if it's a new message, and it will be assigned by MySQL when it's stored in the database); this is the primary key
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe
 	 * @throws \TypeError if $newMessageSenderId is not an integer
 	 * @throws \RangeException if $newMessageSenderId is not positive
 	 *
 	 **/
-	public function setMessageSenderId(int c = null) {
+	public function setMessageId(int $newMessageId = null) {
 
 		// base case: if the message id is null, then it will be assigned by MySQL when it's stored in the database
 		if($newMessageId === null) {
@@ -130,7 +130,7 @@ class Message implements \JsonSerializable {
 	/**
 	 * accessor method for messageTimestamp
 	 *
-	 * @return int|null timestamp of this Invitation (or null if it's a new Invitation, and it will be assigned by MySQL when it's stored in the database)
+	 * @return int|null timestamp of this Message (or null if it's a new Message, and it will be assigned by MySQL when it's stored in the database)
 	 **/
 	public function getMessageTimestamp() {
 		return($this->messageTimestamp);
@@ -140,7 +140,7 @@ class Message implements \JsonSerializable {
 	/**
 	 * mutator method for messageTimestamp
 	 *
-	 * @param int|null $newMessageTimestamp timestamp of this Invitation (or null if it's a new Invitation, and it will be assigned by MySQL when it's stored in the database)
+	 * @param int|null $newMessageTimestamp timestamp of this Message (or null if it's a new Message, and it will be assigned by MySQL when it's stored in the database)
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe
 	 * @throws \TypeError if $newMessageTimestamp is not a date
@@ -168,12 +168,6 @@ class Message implements \JsonSerializable {
 		// Verify the $newMessageTimestamp is positive and from the recent past
 		if($newMessageTimestamp <= 0) {
 			throw(new \RangeException("newMessageTimestamp is not positive."));
-		} else {
-			if ($newMessageTimestamp - time() >= 0) {
-				throw(new \RangeException("newMessageTimestamp is in the future."));
-			} elseif (time() - $newMessageTimestamp >= 48 * 60 * 60 * 1000) {
-				throw(new \RangeException("newMessageTimestamp is more than 48 hours ago, so this invitation should have expired."));
-			}
 		}
 
 		// store the $newMessageTimestamp
@@ -184,7 +178,7 @@ class Message implements \JsonSerializable {
 	/**
 	 * accessor method for messageSenderId
 	 *
-	 * @return int value of messageSenderId
+	 * @return int id for the sender of the message; it is a foreign key
 	 **/
 	public function getMessageSenderId() {
 		return($this->messageSenderId);
@@ -194,7 +188,7 @@ class Message implements \JsonSerializable {
 	/**
 	 * mutator method for messageSenderId
 	 *
-	 * @param int $newMessageSenderId id for the user (the messager) inviting the friend (the messagee) in this friendship; it is a foreign key
+	 * @param int $newMessageSenderId id for the sender of the message; it is a foreign key
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe
 	 * @throws \TypeError if $newMessageSenderId is not an integer
@@ -219,7 +213,7 @@ class Message implements \JsonSerializable {
 			throw(new \RangeException("newMessageSenderId is not positive."));
 		}
 
-		// store the $newFriendsProfileId
+		// store the $newMessageSenderId
 		$this->messageSenderId = $newMessageSenderId;
 	}
 
@@ -227,7 +221,7 @@ class Message implements \JsonSerializable {
 	/**
 	 * accessor method for messageReceiverId
 	 *
-	 * @return int value of messageReceiverId
+	 * @return int id for the receiver of the message; it is a foreign key
 	 **/
 	public function getMessageReceiverId() {
 		return($this->messageReceiverId);
@@ -237,7 +231,7 @@ class Message implements \JsonSerializable {
 	/**
 	 * mutator method for messageReceiverId
 	 *
-	 * @param int $newMessageReceiverId id for the user (the messagee) being messaged in this friendship; it is a foreign key
+	 * @param int $newMessageReceiverId id for the receiver of the message; it is a foreign key
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe
 	 * @throws \TypeError if $newMessageReceiverId is not an integer
@@ -268,33 +262,33 @@ class Message implements \JsonSerializable {
 
 
 	/**
-	 * accessor method for messagePassphrase
+	 * accessor method for messageText
 	 *
-	 * @return string passphrase for accepting this Invitation
+	 * @return string the text of the message
 	 **/
-	public function getMessagePassphrase() {
-		return($this->messagePassphrase);
+	public function getMessageText() {
+		return($this->messageText);
 	}
 
 
 	/**
-	 * mutator method for messagePassphrase
+	 * mutator method for messageText
 	 *
-	 * @param string $newMessagePassphrase passphrase for accepting this Invitation
+	 * @param string $newMessageText the text of the message
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe (or empty)
 	 *
 	 **/
-	public function setMessagePassphrase(string $newMessagePassphrase) {
+	public function setMessageText(string $newMessageText) {
 
-		// Verify the $newMessagePassphrase is safe (and not empty)
-		$newMessagePassphrase = filter_var($newMessagePassphrase, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newMessagePassphrase) === true) {
-			throw(new \InvalidArgumentException("newMessagePassphrase is empty or insecure"));
+		// Verify the $newMessageText is safe (and not empty)
+		$newMessageText = filter_var($newMessageText, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newMessageText) === true) {
+			throw(new \InvalidArgumentException("newMessageText is empty or insecure"));
 		}
 
-		// store the $newMessagePassphrase
-		$this->messagePassphrase = $newMessagePassphrase;
+		// store the $newMessageText
+		$this->messageText = $newMessageText;
 	}
 
 
