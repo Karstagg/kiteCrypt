@@ -303,11 +303,11 @@ class Message implements \JsonSerializable {
 	public function insert(\PDO $pdo) {
 
 		// create query template
-		$query = "INSERT INTO message(messageSenderId, messageReceiverId, messageTimestamp, messagePassphrase) VALUES(:messageSenderId, :messageReceiverId, :messageTimestamp, :messagePassphrase)";
+		$query = "INSERT INTO message(messageId, messageTimestamp, messageSenderId, messageReceiverId, messageText) VALUES(:messageId, :messageTimestamp, :messageSenderId, :messageReceiverId, :messageText)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
-		$parameters = ["messageSenderId" => $this->messageSenderId, "messageReceiverId" => $this->messageReceiverId, "messageTimestamp" => $this->messageTimestamp, "messagePassphrase" => $this->messagePassphrase];
+		$parameters = ["messageId" => $this->messageId, "messageTimestamp" => $this->messageTimestamp, "messageSenderId" => $this->messageSenderId, "messageReceiverId" => $this->messageReceiverId, "messageText" => $this->messageText];
 		$statement->execute($parameters);
 
 	}
@@ -324,11 +324,11 @@ class Message implements \JsonSerializable {
 	public function delete(\PDO $pdo) {
 
 		// create query template
-		$query = "DELETE FROM message WHERE messageSenderId = :messageSenderId AND messageReceiverId = :messageReceiverId AND messageTimestamp = :messageTimestamp AND messagePassphrase = :messagePassphrase";
+		$query = "DELETE FROM message WHERE messageId = :messageId AND messageTimestamp = :messageTimestamp AND messageSenderId = :messageSenderId AND messageReceiverId = :messageReceiverId AND messageText = :messageText";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holder in the template
-		$parameters = ["messageSenderId" => $this->messageSenderId, "messageReceiverId" => $this->messageReceiverId, "messageTimestamp" => $this->messageTimestamp, "messagePassphrase" => $this->messagePassphrase];
+		$parameters = ["messageId" => $this->messageId, "messageTimestamp" => $this->messageTimestamp, "messageSenderId" => $this->messageSenderId, "messageReceiverId" => $this->messageReceiverId, "messageText" => $this->messageText];
 		$statement->execute($parameters);
 	}
 

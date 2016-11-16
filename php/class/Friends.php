@@ -212,7 +212,7 @@ class Friend implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "SELECT friendsFriendId FROM friends WHERE friendsProfileId = :friendsProfileId";
+		$query = "SELECT friendsProfileId, friendsFriendId FROM friends WHERE friendsProfileId = :friendsProfileId";
 		$statement = $pdo->prepare($query);
 
 		// bind the friendsProfileId to the place holder in the template
@@ -269,7 +269,7 @@ class Friend implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "SELECT friendsProfileId FROM friends WHERE friendsFriendId = :friendsFriendId";
+		$query = "SELECT friendsProfileId, friendsFriendId FROM friends WHERE friendsFriendId = :friendsFriendId";
 		$statement = $pdo->prepare($query);
 
 		// bind the friendsFriendId to the place holder in the template
