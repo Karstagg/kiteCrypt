@@ -7,7 +7,7 @@
 	require_once("KiteCryptTest.php");
 
 // grab the class under scrutiny
-	require_once(dirname(__DIR__) . "/class/Autoloader.php");
+	require_once(dirname(__DIR__) . "../class/Autoloader.php");
 	
 	/**
 	 * Full PHPUnit test for the Tweet class
