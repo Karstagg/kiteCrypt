@@ -1,7 +1,7 @@
 <?php
 namespace Edu\Cnm\KiteCrypt\Test;
 
-require_once("Autoloader.php");
+require_once("autoloader.php");
 
 
 /**
