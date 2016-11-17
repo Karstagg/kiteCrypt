@@ -45,8 +45,9 @@ abstract class KiteCryptTest extends \PHPUnit_Extensions_Database_TestCase {
 		// add all the tables for the project here
 		// THESE TABLES *MUST* BE LISTED IN THE SAME ORDER THEY WERE CREATED!!!!
 		$dataset->addTable("profile");
-		$dataset->addTable("tweet");
-		$dataset->addTable("favorite");
+		$dataset->addTable("messages");
+		$dataset->addTable("invite");
+		$dataset->addTable("friends");
 		return($dataset);
 	}
 
@@ -83,8 +84,8 @@ abstract class KiteCryptTest extends \PHPUnit_Extensions_Database_TestCase {
 		// if the connection hasn't been established, create it
 		if($this->connection === null) {
 			// connect to mySQL and provide the interface to PHPUnit
-			$config = readConfig("/etc/apache2/data-design/dmcdonald21.ini");
-			$pdo = connectToEncryptedMySQL("/etc/apache2/data-design/dmcdonald21.ini");
+			$config = readConfig("/etc/apache2/capstone-mysql/kitecrypt.ini");
+			$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/kitecrypt.ini");
 			$this->connection = $this->createDefaultDBConnection($pdo, $config["database"]);
 		}
 		return($this->connection);
