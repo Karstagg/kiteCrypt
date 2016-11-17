@@ -1,13 +1,13 @@
 <?php
 	namespace Edu\Cnm\KiteCrypt\Test;
 
-	use End\Cnm\KiteCrypt\{Profile};
+	use Edu\Cnm\KiteCrypt\{Profile};
 
 	// grab the project test parameters
 	require_once("KiteCryptTest.php");
 
 // grab the class under scrutiny
-	require_once(dirname(__DIR__) . "/classes/Autoload.php");
+	require_once(dirname(__DIR__) . "/class/Autoloader.php");
 	
 	/**
 	 * Full PHPUnit test for the Tweet class
@@ -38,14 +38,14 @@ class ProfileTest extends KiteCryptTest {
 	 * User Name for profile;
 	 * @var string
 	 * **/
-	private $profileUserName;
+	protected $profileUserName;
 
 	  /**
 		* Public Key for encryption for profile
 		*
 		* @var string
 		*/
-	  private $profilePublicKey;
+	  protected $profilePublicKey;
 
 	/**
 	 * constructor for this Profile
