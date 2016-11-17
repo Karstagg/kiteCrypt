@@ -59,7 +59,7 @@ class Message implements \JsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \RangeException if data values are out of bounds (for example: negative integers)
 	 **/
-	public function __construct(int $newMessageId = null, int $newMessageTimestamp = null, int $newMessageSenderId , int $newMessageReceiverId, string $newMessageText) {
+	public function __construct(int $newMessageId = null, $newMessageTimestamp = null, int $newMessageSenderId , int $newMessageReceiverId, string $newMessageText) {
 		try {
 			$this->setMessageId($newMessageId);
 			$this->setMessageTimestamp($newMessageTimestamp);
