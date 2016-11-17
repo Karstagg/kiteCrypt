@@ -1,0 +1,15 @@
+<phpunit>
+	<testsuites>
+		<testsuite name="Kyte Crypt Data Design">
+			<file>ProfileTest.php</file>
+			<file>MessagesTest.php</file>
+			<file>InviteTest.php</file>
+			<file>FriendsTest.php</file>
+		</testsuite>
+	</testsuites>
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">../classes</directory>
+		</whitelist>
+	</filter>
+</phpunit>
