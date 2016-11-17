@@ -1,21 +1,38 @@
 <?php
-	namespace Edu\Cnm\kiteCrypt;
-	require_once("Autoloader.php");
+	namespace Edu\Cnm\KiteCrypt\Test;
+
+	use End\Cnm\KiteCrypt\Test\{Profile, Messages, Invite, Friends}
+
+	// grab the project test parameters
+	require_once("KiteCryptTest.php");
+
+// grab the class under scrutiny
+	require_once(dirname(__DIR__) . "/classes/Autoload.php");
+	
+	/**
+	 * Full PHPUnit test for the Tweet class
+	 *
+	 * This is a complete PHPUnit test of the Tweet class. It is complete because *ALL* mySQL/PDO enabled methods
+	 * are tested for both invalid and valid inputs.
+	 *
+	 * @see Tweet
+	 * @author Jon Sheafe <jsheafe@cnm.edu>
+	 **/
 
 	/**
 	 * Profile Class creation
 	 *
-	 * @author Jon Sheafe <msckj@yahoo.com>
+	 * @author Jon Sheafe <jsheafe@cnm.com>
 	 * @version 1.0.0
 	 */
 
-class Profile implements \JsonSerializable {
+class ProfileTest extends KiteCryptTest {
 
 	/**
 	 * id for profile; this is the primary key
 	 * @var int|null $profileId
 	 * **/
-	private $profileId;
+	protected $profileId;
 
 	/**
 	 * User Name for profile;
