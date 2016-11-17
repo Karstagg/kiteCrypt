@@ -1,7 +1,7 @@
 <?php
 	namespace Edu\Cnm\KiteCrypt\Test;
 
-	use End\Cnm\KiteCrypt\Test\{Profile, Messages, Invite, Friends}
+	use End\Cnm\KiteCrypt\{Profile};
 
 	// grab the project test parameters
 	require_once("KiteCryptTest.php");
@@ -15,7 +15,7 @@
 	 * This is a complete PHPUnit test of the Tweet class. It is complete because *ALL* mySQL/PDO enabled methods
 	 * are tested for both invalid and valid inputs.
 	 *
-	 * @see Tweet
+	 * @see Profile
 	 * @author Jon Sheafe <jsheafe@cnm.edu>
 	 **/
 
