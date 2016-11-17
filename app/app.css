@@ -1,1 +1,165 @@
-@import '../kitecrypt-ui/lib/main-css/stylesheet.css';
+/*************************************************************
+Main style
+*************************************************************/
+@media (min-height: 450px) { /*for mobile screens without keyboards deployed*/
+	body, html { /*global body style*/
+		font-family: "Quicksand", sans-serif;
+		text-shadow: 0rem 0rem 0.5rem black;
+		color: #e4e5e4;
+		font-size: 1.1rem;
+		background-color: #AE8093;
+		background-image: url("img/kite-logo.png");
+		background-repeat: no-repeat;
+		background-attachment: fixed;
+		background-position: 50% 10%;
+		height: 100%; /*body height*/
+	}
+}
+@media (max-height: 449px) { /*for mobile screens with keyboards deployed*/
+	body, html { /*global body style*/
+		font-family: "Quicksand", sans-serif;
+		text-shadow: 0rem 0rem 0.5rem black;
+		color: #e4e5e4;
+		font-size: 1.1rem;
+		background-color: #AE8093;
+		height: 100%; /*body height*/
+	}
+}
+/*************************************************************
+styling for title text
+*************************************************************/
+
+@media (max-width: 449px) {
+	.pad-down {
+		padding-top: 68%;
+	}
+
+	.pad-down2 {
+		padding-top: 5%;
+	}
+}
+@media (min-width: 450px) {
+	.pad-down {
+		padding-top: 3%;
+	}
+
+	.pad-down2 {
+		padding-top: 3%;
+	}
+}
+@media (min-width: 750px) {
+	.pad-down {
+		padding-top: 20%;
+	}
+
+	.pad-down2 {
+		padding-top: 1.5%;
+	}
+}
+
+.pulse {  /*class for  the main title*/
+	animation: pulsate-in 25s forwards;
+	animation-delay: 8s;
+}
+.fade-in { /*class for on the kiteCrypt title*/
+	font-weight: 900;
+	height: 0;
+	opacity: 0;
+	animation: fadeIn 5s forwards; /*run fadeIn animation for 5 seconds*/
+	animation-delay: 8s; /*wait 5 seconds after the page loads to run fadeIn animation*/
+	animation-timing-function: ease-in, ease-out;
+}
+.fade-in-out { /*class for kiteCrypt title subtext*/
+	height: 0;
+	opacity: 0;
+	animation: fadeInOut 8s forwards; /*run fadeInOut animation for 5 seconds*/
+	animation-timing-function: ease-in, ease-out;
+}
+.fade-in-2 { /*class for kiteCrypt title subtext*/
+	font-weight: 900;
+	height: 0;
+	opacity: 0;
+	animation: fadeIn 5s forwards; /*run fadeIn animation for 5 seconds*/
+	animation-delay: 8s; /*wait 5 seconds after the page loads to run fadeIn animation*/
+	animation-timing-function: ease-in, ease-out;
+}
+.skip-fade-in {  /*main title changed to this class when the body is clicked*/
+	font-weight: 900;
+	height: 0;
+	opacity: 1;
+}
+.skip-fade-in-2 {  /*title subtext changed to this class when the body is clicked*/
+	height: 0;
+	opacity: 1;
+}
+.skip-fade-in-out { /*title slogan changed to this class when the body is clicked*/
+	height: 0;
+	opacity: 0;
+}
+.pulse-now { /*main title changed to this class when the body is clicked*/
+	animation: pulsate-in 25s forwards;
+}
+a { /*link color*/
+	color: #98171f;
+}
+a:hover {
+	color: #c01e1d;
+}
+/*************************************************************
+title text animations
+*************************************************************/
+@keyframes fadeInOut{ /*Animation that changes opacity from 0 to 1 and back*/
+	0% {
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+@keyframes fadeIn{ /*Animation that changes opacity from 0 to 1*/
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+@keyframes pulsate-in{ /*animation for header text*/
+	0% {
+		color: #671134;
+		text-shadow:0rem 0rem 0.5rem #e4e5e4;
+	}
+	25% {
+		color: #671134;
+		text-shadow:0rem 0rem 0.5rem #e4e5e4;
+	}
+	50% {
+		color: #e4e5e4;
+		text-shadow:0rem 0rem 0.5rem #671134;
+	}
+	100% {
+		color: #e4e5e4;
+		text-shadow:0rem 0rem 0.5rem black;
+	}
+}
+
+/*************************************************************
+styling for login form
+*************************************************************/
+@media (max-width: 449px) {
+	#login-row { /*the bootstrap row containing the login form*/
+		padding-top: 15%;
+	}
+}
+@media (min-width: 450px) {
+	#login-row { /*the bootstrap row containing the login form*/
+		padding-top: 5%;
+	}
+}
+.btn-login {/*the login button*/
+	color: #e4e5e4;
+	background-color: #98171f;
+}

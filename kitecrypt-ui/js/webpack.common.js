@@ -23,7 +23,7 @@ module.exports = {
 			},
 			{
 				test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-				loader: 'file?name=assets/[name].[hash].[ext]'
+				loader: 'file?name=/[name].[hash].[ext]'
 			},
 			{
 				test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
@@ -36,7 +36,7 @@ module.exports = {
 			{
 				test: /\.css$/,
 				exclude: helpers.root('src', 'app'),
-				loader: ExtractTextPlugin.extract('style', 'css?sourceMap')
+				loader: ExtractTextPlugin.extract('style', 'css?sourceMap', {publicPath: '..'})
 			},
 			{
 				test: /\.css$/,

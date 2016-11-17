@@ -6,7 +6,7 @@ Main style
 		color: #e4e5e4;
 		font-size: 1.1rem;
 		background-color: #AE8093 !important;
-		background-image: url("../lib/img/kite-logo.png");
+		background-image: url("../../public_html/img/kite-logo.png");
 		background-repeat: no-repeat;
 		background-attachment: fixed;
 		background-position: 50% 10%;
@@ -19,7 +19,7 @@ Main style
 	color: #e4e5e4;
 	font-size: 1.0rem;
 	background-color: #AE8093;
-	background-image: url("../lib/img/kite-logo.png");
+	background-image: url("../../public_html/img/kite-logo.png");
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-position: 50% 10%;
