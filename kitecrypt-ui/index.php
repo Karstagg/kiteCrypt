@@ -38,6 +38,7 @@
 							<a href="#" class="btn btn-login btn-lg">login</a>
 						</div>
 					</div>
+				</div>
 			</header>
 			<!--		main content section-->
 			<main>

@@ -1,8 +1,8 @@
 <section class="welcome">
 	<div class="container">
 		<div class="jumbotron text-center">
-			<h1>Welcome to the Angular 2 Demo!</h1>
-			<p class="lead">This is a bare-bones Angular 2 Front End :D</p>
+			<h1>Welcome to kiteCrypt!</h1>
+			<p class="lead">This is not how we want our frontend to look.</p>
 		</div>
 	</div>
 </section>

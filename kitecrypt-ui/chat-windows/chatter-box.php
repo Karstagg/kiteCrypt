@@ -52,7 +52,7 @@
 					</div>
 					<div class="panel-body">
 <!--						<span class="input-group-addon btn btn-default user-icon" type="image" onclick="Open User Profile"> -->
-							<button class="user-icon"><img src="../img/jp-oval3.png" alt="user-avatar" class="user-icon"></button>
+							<button class="user-icon"><img src="../lib/img/jp-oval3.png" alt="user-avatar" class="user-icon"></button>
 						<div class="well well-sm">
 							Later, dudes. S you in your A's, don't wear a C and J all over your B's. Then, I'll just regress, because I feel I made myself perfectly redundant. Demonstrate value, Engage physically, Nurture dependence, Neglect emotionally, Inspire hope, Separate entirely. I'm a...full-on rapist, you know? Uh, Africans, dyslexics, children, that sort of thing. Don't put regular steak, put milk-steak, she'll know what it is.
 						</div>
