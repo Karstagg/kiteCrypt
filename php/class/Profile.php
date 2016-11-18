@@ -277,7 +277,7 @@ class Profile implements \JsonSerializable {
 	 $statement->execute($parameters);
 
 	 // build an array of profiles
-	 $profiles = new \SplFixedArray(($statement->rowCount());
+	 $profiles = new \SplFixedArray($statement->rowCount());
 	 $statement->setFetchMode(\PDO::FETCH_ASSOC);
 	 while(($row = $statement->fetch()) !== false) {
 		 try {
