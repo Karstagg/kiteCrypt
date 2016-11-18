@@ -1,7 +1,7 @@
 /*************************************************************
 Main style
 *************************************************************/
-@media (min-height: 450px) { /*for mobile screens without keyboards deployed*/
+@media (min-height: 450px) { /*for most screens*/
 	body, html { /*global body style*/
 		font-family: "Quicksand", sans-serif;
 		text-shadow: 0rem 0rem 0.5rem black;
@@ -31,7 +31,7 @@ styling for title text
 
 @media (max-width: 449px) {
 	.pad-down {
-		padding-top: 68%;
+		padding-top: 88%;
 	}
 
 	.pad-down2 {
@@ -40,18 +40,24 @@ styling for title text
 }
 @media (min-width: 450px) {
 	.pad-down {
-		padding-top: 3%;
+		padding-top: 2%;
 	}
-
 	.pad-down2 {
-		padding-top: 3%;
+		padding-top: 5%;
 	}
 }
 @media (min-width: 750px) {
 	.pad-down {
-		padding-top: 20%;
+		padding-top: 45%;
 	}
-
+	.pad-down2 {
+		padding-top: 1.5%;
+	}
+}
+@media (min-width: 770px) {
+	.pad-down {
+		padding-top: 30%;
+	}
 	.pad-down2 {
 		padding-top: 1.5%;
 	}
