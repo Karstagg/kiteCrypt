@@ -295,6 +295,49 @@ class Profile implements \JsonSerializable {
 
 
 
+/*
+ * get public key by public key
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param string $profilePublicKey to search
+ * @return \SplFixArray SplFixedArray of public key found
+ * @throw \PDOException when mySQL related errors occur
+ * @throw \TypeError when variable are not the correct data type
+ */
+ public static function getProfileByProfilePublicKey(\PDO $pdo, string $profilePublicKey) {
+	// sanitize the description before searching
+	$profilePublicKey = trim($profilePublicKey);
+	$profilePublicKey = filter_var($$profilePublicKey, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	if(empty($profilePublicKey) === true) {
+		throw(new \PDOException("Public Key is invalid"));
+	}
+
+	//create query template
+	$query = "SELECT profileId, profileUserName, profilePublicKey FROM profile WHERE profilePubicKey LIKE :profilePublicKey";
+	$statement = $pdo->prepare($query);
+
+	// bind the public key to the place holder in the template
+	$profilePublicKey = "%$profilePublicKey%";
+	$parameters = ["profilePublicKey" => $profilePublicKey];
+	$statement->execute($parameters);
+
+	// build an array of public keys
+	$profilePublicKey = new \SplFixedArray($statement->rowCount());
+	$statement->setFetchMode(\PDO::FETCH_ASSOC);
+	while(($row = $statement->fetch()) !== false) {
+		try {
+			$profile = new Profile($row["profileId"], $row[profileUserName], $row[profilePublicKey]);
+			$profiles[$profiles->key()] = $profile;
+			$profiles->next();
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+	}
+	return($profiles);
+}
+
+
 
 
 
