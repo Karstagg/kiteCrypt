@@ -28,7 +28,7 @@ class Profile implements \JsonSerializable {
 		*
 		* @var string
 		*/
-	  private $profilePublicKey;
+	private $profilePublicKey;
 
 	/**
 	 * constructor for this Profile
@@ -239,8 +239,8 @@ class Profile implements \JsonSerializable {
 			throw(new \PDOException("profile id is not positive"));
 	}
 	// create query template
-		$queary = "SELECT profileId,  profileUserName, profilePublicKey FROM profile WHERE profileId = :profileId";
-		$statement = $pdo->prepare($queary);
+		$query = "SELECT profileId,  profileUserName, profilePublicKey FROM profile WHERE profileId = :profileId";
+		$statement = $pdo->prepare($query);
 
 		// bind the profile id to the place holder in the template
 		$parameters = ["profileId" => $profileId];
@@ -248,13 +248,14 @@ class Profile implements \JsonSerializable {
 
 		// grab the profile from mySQL
 		try {
-		$profile = null;
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		$row = $statement->fetch();
-		if($row !== false) {
-			$profile = new Profile($row["profileId"], $row["profileUserName"], $row["profilePublicKey"]);
-		} catch(\Exception $exception)  {
-			// if the row could't be converted, rethrow it
+			$profile = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$profile = new Profile($row["profileId"], $row["profileUserName"], $row["profilePublicKey"]);
+			}
+		}catch(\Exception $exception)  {
+				// if the row could't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		return($profile);
@@ -267,7 +268,7 @@ class Profile implements \JsonSerializable {
 		 throw(new \PDOException("profile User Name is invalid"));
 	 }
 	 // create query template
-	 $query = "SELECT profileId, profileUserName, profilePublicKey FROM profile WHERE profileUserName LIKE :profileUserName";
+	 $query = "SELECT profileId, profileUserName, profilePublicKey FROM profile WHERE profileUserName LIKE ':profileUserName'";
 	 $statement = $pdo->prepare($query);
 
 	 // bind teh profile user name to the place holder in the template
@@ -277,7 +278,7 @@ class Profile implements \JsonSerializable {
 	 // build an array of profiles
 	 $profiles = new \SplFixedArray(($statement->rowCount());
 	 $statement->setFetchMode(\PDO::FETCH_ASSOC);
-	 while(($row = $statement->fetch()) !=== false) {
+	 while(($row = $statement->fetch()) !== false) {
 		 try {
 			 $profile = new Profile($row["profileId"], $row["profileUserName"], $row["profilePublicKey"]);
 			 $profiles[$profiles->key()] = $profile;
@@ -328,4 +329,9 @@ class Profile implements \JsonSerializable {
 
 
 
-}}
+
+
+
+
+
+}
