@@ -273,6 +273,7 @@ class Profile implements \JsonSerializable {
 
 	 // bind teh profile user name to the place holder in the template
 	 $profileUserName = "%$profileUserName%";
+	 $parameters = ["profileUserName" => $profileUserName];
 	 $statement->execute($parameters);
 
 	 // build an array of profiles
