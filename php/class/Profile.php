@@ -157,6 +157,165 @@ class Profile implements \JsonSerializable {
 		// store the profile public key
 		$this->profilePublicKey = $newProfilePublicKey;
 	}
+
+	/*
+	 * inserts this profile into mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOExeception when my SQL related errors occur
+	 * @throws |TypeError if $pdo is not a PDO connection object
+	 */
+
+	public function insert(\PDO $pdo) {
+		// enforce the profileId is null (i,e, dont insert a profile that already exists)
+		if($this->$this->profileId !== null) {
+			throw(new \PDOException("not a new profile"));
+
+
+		// create a query template
+		$query = "INSERT INTO profile(profileId, profileUserName, profilePublicKey) VALUES(:profileId,  :profileUserName, :profilePublicKey)";
+	}$statement = $pdo->prepare($query);
+
+	// update the null profileId with what mySQL just gave us
+	$this->profileId =intval($pdo->lastInsertId());
+}
+
+	/*
+	 * deletes this Profile from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySqL related erros occur
+	 * @throw \TypeError if $pdo is not a PDO connection object
+	 *
+	 */
+	public function delete(\PDO $pdo) {
+		// enforce the profile ID is not null (i.e., dont delete a profile that hasn't been inserted)
+		if($this->profileId === null) {
+			throw(new \PDOException("unable to delete a profile that does not exist"));
+		}
+		// create query template
+		$query = "DELETE FROM profile WHERE  profileId = :profileId";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holder in the template
+		$parameters = ["profileId" => $this->profileId];
+		$statement->execute($parameters);
+	}
+
+	/*
+	 * updates this profile in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function update(\PDO $pdo) {
+		// enfore the profileId is not null (i.e., don't update a profile that hasn't been inserted)
+		if($this->profileId === null) {
+			throw(new \PDOException("unable to update a profile that does not exist"));
+		}
+
+		// create query template
+		$query = "UPDATE profile SET profileId = :profileId, profileUserName = :profileUserName, profilePublicKey = :profilePublicKey";
+		$statement = $pdo->prepare($query);
+
+		// bind member variables to the pace hoders in the template
+		$parameters = ["profileId" => $this->profileId, "profileUserName" => $this->profileUserName, "profilePublicKey" => $this->profilePublicKey];
+	}
+
+	/*
+	 * gets the profile by Id
+	 *
+	 * @param \PDO $pdo connection object
+	 * @param int $profileId profile id to search for
+	 * @return Profile|null profile found or null if not found
+	 * @throow \PDOException when mySAL related errors occur
+	 * @throw \TypeError when variables are not the correct data type
+	 */
+
+	public static	function getProfileById(\PDO $pdo, int $profileId) {
+		// sanitive teh description before searching
+		if($profileId <= 0) {
+			throw(new \PDOException("profile id is not positive"));
+	}
+	// create query template
+		$queary = "SELECT profileId,  profileUserName, profilePublicKey FROM profile WHERE profileId = :profileId";
+		$statement = $pdo->prepare($queary);
+
+		// bind the profile id to the place holder in the template
+		$parameters = ["profileId" => $profileId];
+		$statement->execute($parameters);
+
+		// grab the profile from mySQL
+		try {
+		$profile = null;
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		$row = $statement->fetch();
+		if($row !== false) {
+			$profile = new Profile($row["profileId"], $row["profileUserName"], $row["profilePublicKey"]);
+		} catch(\Exception $exception)  {
+			// if the row could't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($profile);
+}
+ public static function getProfileByUserName(\PDO $pdo, string $profileUserName) {
+	 // sanitive the description before searching
+	 $profileUserName = trim($profileUserName);
+	 $profileUserName = filter_var($profileUserName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	 if(empty($profileUserName) === true) {
+		 throw(new \PDOException("profile User Name is invalid"));
+	 }
+	 // create query template
+	 $query = "SELECT profileId, profileUserName, profilePublicKey FROM profile WHERE profileUserName LIKE :profileUserName";
+	 $statement = $pdo->prepare($query);
+
+	 // bind teh profile user name to the place holder in the template
+	 $profileUserName = "%$profileUserName%";
+	 $statement->execute($parameters);
+
+	 // build an array of profiles
+	 $profiles = new \SplFixedArray(($statement->rowCount());
+	 $statement->setFetchMode(\PDO::FETCH_ASSOC);
+	 while(($row = $statement->fetch()) !=== false) {
+		 try {
+			 $profile = new Profile($row["profileId"], $row["profileUserName"], $row["profilePublicKey"]);
+			 $profiles[$profiles->key()] = $profile;
+			 $profiles->next();
+			 } catch(\Exception $exception) {
+			 // if the row couldn't be converted, rethrow it
+			 throw(new \PDOException($exception->getMessage(), 0, $exception));
+		 }
+	 }
+	 return($profiles);
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	/*
 	 * formats the state variables for JSON serialization
 	 *
@@ -169,4 +328,4 @@ class Profile implements \JsonSerializable {
 
 
 
-}
+}}
