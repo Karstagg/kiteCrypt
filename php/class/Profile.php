@@ -199,7 +199,7 @@ class Profile implements \JsonSerializable {
 			throw(new \RangeException("profile public key Y content is empty"));
 		}
 		// verify profile public key Y will fit in database
-		if(strlen($newProfilePublicKeyY) >= 256){
+		if(strlen($newProfilePublicKeyY) > 256){
 			throw (new \RangeException("profile public key Y content is too large"));
 		}
 		// store the profile public key Y
@@ -231,7 +231,7 @@ class Profile implements \JsonSerializable {
 				throw(new \RangeException("profile password salt is empty"));
 			}
 			// verity profile password salt fit database
-			if(strlen($newProfilePasswordSalt) >=256) {
+			if(strlen($newProfilePasswordSalt) >256) {
 				throw(new \RangeException("password salt is too large"));
 			}
 			// store the password salt
@@ -302,11 +302,12 @@ class Profile implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "UPDATE profile SET profileId = :profileId, profileUserName = :profileUserName, profilePublicKeyX = :profilePublicKeyX, profilePublicKeyY = :profilePublicKeyY, profilePasswordSalt = :profilePasswordSalt";
+		$query = "UPDATE profile SET profileUserName = :profileUserName, profilePublicKeyX = :profilePublicKeyX, profilePublicKeyY = :profilePublicKeyY, profilePasswordSalt = :profilePasswordSalt";
 		$statement = $pdo->prepare($query);
 
 		// bind member variables to the pace hoders in the template
-		$parameters = ["profileId" => $this->profileId, "profileUserName" => $this->profileUserName, "profilePublicKeyX" => $this->profilePublicKeyX, "profilePublicKeyY" => $this->profilePublicKeyY, "profilePasswordSalt" => $this->profilePasswordSalt];
+		$parameters = ["profileUserName" => $this->profileUserName, "profilePublicKeyX" => $this->profilePublicKeyX, "profilePublicKeyY" => $this->profilePublicKeyY, "profilePasswordSalt" => $this->profilePasswordSalt];
+		$statement->execute($parameters);
 	}
 
 	/*
@@ -354,7 +355,7 @@ class Profile implements \JsonSerializable {
 		 throw(new \PDOException("profile User Name is invalid"));
 	 }
 	 // create query template
-	 $query = "SELECT profileId, profileUserName, profilePublicKeyX FROM profile WHERE profileUserName LIKE ':profileUserName'";
+	 $query = "SELECT profileId, profileUserName, profilePublicKeyX, profilePublicKeyY, profilePasswordSalt FROM profile WHERE profileUserName LIKE ':profileUserName'";
 	 $statement = $pdo->prepare($query);
 
 	 // bind teh profile user name to the place holder in the template
@@ -382,7 +383,7 @@ class Profile implements \JsonSerializable {
 
 
 /*
- * get public key by public key
+ * get public key X by public key
  *
  * @param \PDO $pdo PDO connection object
  * @param string $profilePublicKey to search
@@ -390,12 +391,12 @@ class Profile implements \JsonSerializable {
  * @throw \PDOException when mySQL related errors occur
  * @throw \TypeError when variable are not the correct data type
  */
- public static function getProfileByProfilePublicKeyX(\PDO $pdo, string $profilePublicKey) {
+ public static function getProfileByProfilePublicKeyX(\PDO $pdo, string $profilePublicKeyX) {
 	// sanitize the description before searching
-	$profilePublicKey = trim($profilePublicKey);
-	$profilePublicKey = filter_var($$profilePublicKey, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$profilePublicKeyX= trim($profilePublicKeyX);
+	$profilePublicKeyX = filter_var($profilePublicKeyX, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	if(empty($profilePublicKey) === true) {
-		throw(new \PDOException("Public Key is invalid"));
+		throw(new \PDOException("Public Key X is invalid"));
 	}
 
 	//create query template
@@ -403,8 +404,8 @@ class Profile implements \JsonSerializable {
 	$statement = $pdo->prepare($query);
 
 	// bind the public key to the place holder in the template
-	$profilePublicKey = "%$profilePublicKey%";
-	$parameters = ["profilePublicKey" => $profilePublicKey];
+	$profilePublicKeyX = "%$profilePublicKeyX%";
+	$parameters = ["profilePublicKeyX" => $profilePublicKeyX];
 	$statement->execute($parameters);
 
 	// build an array of public keys
@@ -424,12 +425,73 @@ class Profile implements \JsonSerializable {
 }
 
 
+	public static function getProfileByProfilePublicKeyY(\PDO $pdo, string $profilePublicKeyY) {
+		// sanitize the description before searching
+		$profilePublicKeyY = trim($profilePublicKeyY);
+		$profilePublicKeyY = filter_var($profilePublicKeyY, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($profilePublicKey) === true) {
+			throw(new \PDOException("Public Key Y is invalid"));
+		}
 
+		//create query template
+		$query = "SELECT profileId, profileUserName, profilePublicKeyY, profilePublicKeyY, profilePasswordSalt FROM profile WHERE profilePubicKeyY LIKE :profilePublicKeyY";
+		$statement = $pdo->prepare($query);
 
+		// bind the public key to the place holder in the template
+		$profilePublicKeyY = "%$profilePublicKeyY%";
+		$parameters = ["profilePublicKeyY" => $profilePublicKeyY];
+		$statement->execute($parameters);
 
+		// build an array of public keys
+		$profiles = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$profile = new Profile($row["profileId"], $row["profileUserName"], $row["profilePublicKeyY"], $row["profilePublicKeyY"], $row["profilePasswordSalt"]);
+				$profiles[$profiles->key()] = $profile;
+				$profiles->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($profiles);
 
+	}
 
+	public static function getProfileByProfilePasswordSalt(\PDO $pdo, string $profilePasswordSalt) {
+		// sanitize the description before searching
+		$profilePasswordSalt = trim($profilePasswordSalt);
+		$profilePasswordSalt = filter_var($$profilePasswordSalt, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($profilePublicKey) === true) {
+			throw(new \PDOException("Public Key is invalid"));
+		}
 
+		//create query template
+		$query = "SELECT profileId, profileUserName, profilePublicKeyX, profilePublicKeyY, profilePasswordSalt FROM profile WHERE profilePasswordSalt LIKE :profilePasswordSalt";
+		$statement = $pdo->prepare($query);
+
+		// bind the public key to the place holder in the template
+		$profilePasswordSalt = "%$profilePasswordSalt%";
+		$parameters = ["profilePasswordSalt" => $profilePasswordSalt];
+		$statement->execute($parameters);
+
+		// build an array of public keys
+		$profiles = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$profile = new Profile($row["profileId"], $row["profileUserName"], $row["profilePublicKeyX"], $row["profilePublicKeyY"], $row["profilePasswordSalt"]);
+				$profiles[$profiles->key()] = $profile;
+				$profiles->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($profiles);
+
+	}
 
 
 
