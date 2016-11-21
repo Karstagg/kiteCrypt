@@ -24,25 +24,40 @@ class Profile implements \JsonSerializable {
 	private $profileUserName;
 
 	  /**
-		* Public Key for encryption for profile
+		* Public Key X for encryption for profile
 		*
 		* @var string
 		*/
-	private $profilePublicKey;
+	private $profilePublicKeyX;
+
+	/**
+	 * Public Key Y for encryption for profile
+	 *
+	 * @var string
+	 */
+	private $profilePublicKeyY;
+
+	/**
+	 * Password Salt
+	 */
+	private $profilePasswordSalt;
+
 
 	/**
 	 * constructor for this Profile
 	 *
 	 * @param int|null $newProfileId  id of profile or null if a new profile.
 	 * @param string $newProfileUserName string containing user name
-	 * @param string $newProfilePublicKey string containing user public key data for encryption.
+	 * @param string $newProfilePublicKeyX string containing user public key data for encryption.
 	 * @throws string for invalid argument
 	 */
-	public function __construct(int $newProfileId = null, string $newProfileUserName, string $newProfilePublicKey) {
+	public function __construct(int $newProfileId = null, string $newProfileUserName, string $newProfilePublicKeyX, string $newProfilePublicKeyY, string $newProfilePasswordSalt) {
 		try {
 			$this->setProfileId($newProfileId);
 			$this->setProfileUserName($newProfileUserName);
-			$this->setProfilePublicKey($newProfilePublicKey);
+			$this->setProfilePublicKeyX($newProfilePublicKeyX);
+			$this->setProfilePublicKeyY($newProfilePublicKeyY);
+			$this->setProfilePasswordSalt($newProfilePasswordSalt);
 		}
 		catch(\InvalidArgumentException $invalidArgument) {
 			// rethrow the exception to caller
@@ -60,6 +75,7 @@ class Profile implements \JsonSerializable {
 			// rethrow the exception to caller
 			throw(new \Exception($exception->getMessage(), 0, $exception));
 		}
+
 	}
 /*
  * accessor method for profile id
@@ -128,35 +144,102 @@ class Profile implements \JsonSerializable {
 
 
 	/*
-	 * accessor method for profile public key
+	 * accessor method for profile public key X
 	 *
-	 * @return string value of profile public key
+	 * @return string value of profile public key X
 	 */
-	public function getProfilePublicKey() {
-		return($this->profilePublicKey);
+	public function getProfilePublicKeyX() {
+		return($this->profilePublicKeyX);
 	}
 	/*
-	 * mutator method for profile public key
+	 * mutator method for profile public key X
 	 *
-	 * @param string $newProfilePublicKey
-	 * @throws \InvalidArgumentException if $newProfilePublicKey is not a string or insecure
-	 * @throws \RangeException if $newProfilePublicKey is > 1024 characters
-	 * @throws \TypeError if $newProfilePublicKEy is not a string
+	 * @param string $newProfilePublicKeyX
+	 * @throws \InvalidArgumentException if $newProfilePublicKeyX is not a string or insecure
+	 * @throws \RangeException if $newProfilePublicKeyX is > 256 characters
+	 * @throws \TypeError if $newProfilePublicKeyX is not a string
 	 */
-	public function setProfilePublicKey(string $newProfilePublicKey) {
-		// verify the profile public key is secure
-		$newProfilePublicKey = trim($newProfilePublicKey);
-		$newProfilePublicKey = filter_var($newProfilePublicKey, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty(@$newProfilePublicKey) === true) {
-			throw(new \InvalidArgumentException("profile public key is empty or insecure"));
+	public function setProfilePublicKeyX(string $newProfilePublicKeyX) {
+		// verify the profile public key X is secure
+		$newProfilePublicKeyX = trim($newProfilePublicKeyX);
+		$newProfilePublicKeyX = filter_var($newProfilePublicKeyX, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty(@$newProfilePublicKeyX) === true) {
+			throw(new \InvalidArgumentException("profile public key X is empty or insecure"));
 		}
 		// verify profile public key will fit in database
-		if(strlen($newProfilePublicKey) > 1024) {
-			throw (new \RangeException("profile public key content is too large"));
+		if(strlen($newProfilePublicKeyX) > 256) {
+			throw (new \RangeException("profile public key X content is too large"));
 		}
-		// store the profile public key
-		$this->profilePublicKey = $newProfilePublicKey;
+		// store the profile public keyX
+		$this->profilePublicKeyX = $newProfilePublicKeyX;
 	}
+
+
+	/*
+	 * accessor method for profile public key Y
+	 *
+	 * @return string value of profile public key Y is secure
+	 */
+	public function getProfilePublicKeyY() {
+		return ($this->profilePublicKeyY);
+	}
+		/*
+		 * mutator method for profile public key Y
+		 *
+		 * @param string $newProfilePublicKeyY
+		 * @throws \InvalidArgumentException if $newProfilePublicKeyY is not a string or insecure
+		 * @throw RangeException if $newProfilePublicKeyY is > 256 characters
+		 * @throws \TypeError if $newProfilePublicKey Y is not a string
+		 */
+	public function setProfilePublicKeyY(string $newProfilePublicKeyY) {
+		// verify the profile public key Y is secure
+		$newProfilePublicKeyY = trim($newProfilePublicKeyY);
+		$newProfilePublicKeyY = filter_var($newProfilePublicKeyY, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty(@$newProfilePublicKeyY) === true) {
+			throw(new \RangeException("profile public key Y content is empty"));
+		}
+		// verify profile public key Y will fit in database
+		if(strlen($newProfilePublicKeyY) >= 256){
+			throw (new \RangeException("profile public key Y content is too large"));
+		}
+		// store the profile public key Y
+			$this->profilePublicKeyY = $newProfilePublicKeyY;
+		}
+
+
+		/*
+		 * accessor method for profile password salt
+		 *   @return string value of password salt
+		 */
+		public function getProfilePasswordSalt() {
+			return ($this->profilePasswordSalt);
+		}
+
+		/*
+		 * mutator method for profile password key
+		 *
+		 * @param string $newProfilePasswordSalt
+		 * @throws \InvalidArgumentException if $newProfilePasswordSalt is not a string or insecure
+		 * @throw RangeException is $newProfilePasswordSalt is > 256 characters
+		 * @throw \TypeError is $newProfilePasswordSalt
+		 */
+		public function setProfilePasswordSalt(string $newProfilePasswordSalt) {
+			// verify profile password salt is secure
+			$newProfilePasswordSalt = trim($newProfilePasswordSalt);
+			$newProfilePasswordSalt = filter_var($newProfilePasswordSalt, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			if(empty(@$newProfilePasswordSalt) === true) {
+				throw(new \RangeException("profile password salt is empty"));
+			}
+			// verity profile password salt fit database
+			if(strlen($newProfilePasswordSalt) >=256) {
+				throw(new \RangeException("password salt is too large"));
+			}
+			// store the password salt
+			$this->profilePasswordSalt = $newProfilePasswordSalt;
+		}
+
+
+
 
 	/*
 	 * inserts this profile into mySQL
@@ -165,16 +248,19 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOExeception when my SQL related errors occur
 	 * @throws |TypeError if $pdo is not a PDO connection object
 	 */
-
 	public function insert(\PDO $pdo) {
 		// enforce the profileId is null (i,e, dont insert a profile that already exists)
-		if($this->$this->profileId !== null) {
+		if($this->profileId !== null) {
 			throw(new \PDOException("not a new profile"));
-
+		}
 
 		// create a query template
-		$query = "INSERT INTO profile(profileId, profileUserName, profilePublicKey) VALUES(:profileId,  :profileUserName, :profilePublicKey)";
-	}$statement = $pdo->prepare($query);
+		$query = "INSERT INTO profile(profileUserName, profilePublicKeyX, profilePublicKeyY, profilePasswordSalt) VALUES(:profileUserName, :profilePublicKeyX, :profilePublicKeyY, :profilePasswordSalt)";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the palce holders in the template
+		$parameters = ["profileUserName" => $this->profileUserName, "profilePublicKeyX" => $this->profilePublicKeyX, "profilePublicKeyY" => $this->profilePublicKeyY, "profilePasswordSalt" => $this->profilePasswordSalt];
+		$statement->excecute($parameters);
 
 	// update the null profileId with what mySQL just gave us
 	$this->profileId =intval($pdo->lastInsertId());
@@ -216,11 +302,11 @@ class Profile implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "UPDATE profile SET profileId = :profileId, profileUserName = :profileUserName, profilePublicKey = :profilePublicKey";
+		$query = "UPDATE profile SET profileId = :profileId, profileUserName = :profileUserName, profilePublicKeyX = :profilePublicKeyX, profilePublicKeyY = :profilePublicKeyY, profilePasswordSalt = :profilePasswordSalt";
 		$statement = $pdo->prepare($query);
 
 		// bind member variables to the pace hoders in the template
-		$parameters = ["profileId" => $this->profileId, "profileUserName" => $this->profileUserName, "profilePublicKey" => $this->profilePublicKey];
+		$parameters = ["profileId" => $this->profileId, "profileUserName" => $this->profileUserName, "profilePublicKeyX" => $this->profilePublicKeyX, "profilePublicKeyY" => $this->profilePublicKeyY, "profilePasswordSalt" => $this->profilePasswordSalt];
 	}
 
 	/*
@@ -239,7 +325,7 @@ class Profile implements \JsonSerializable {
 			throw(new \PDOException("profile id is not positive"));
 	}
 	// create query template
-		$query = "SELECT profileId,  profileUserName, profilePublicKey FROM profile WHERE profileId = :profileId";
+		$query = "SELECT profileId,  profileUserName, profilePublicKeyX, profilePublicKeyY, profilePasswordSalt FROM profile WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 
 		// bind the profile id to the place holder in the template
@@ -252,7 +338,7 @@ class Profile implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$profile = new Profile($row["profileId"], $row["profileUserName"], $row["profilePublicKey"]);
+				$profile = new Profile($row["profileId"], $row["profileUserName"], $row["profilePublicKeyX"], $row["profilePublicKeyY"], $row["profilePasswordSalt"]);
 			}
 		}catch(\Exception $exception)  {
 				// if the row could't be converted, rethrow it
@@ -268,7 +354,7 @@ class Profile implements \JsonSerializable {
 		 throw(new \PDOException("profile User Name is invalid"));
 	 }
 	 // create query template
-	 $query = "SELECT profileId, profileUserName, profilePublicKey FROM profile WHERE profileUserName LIKE ':profileUserName'";
+	 $query = "SELECT profileId, profileUserName, profilePublicKeyX FROM profile WHERE profileUserName LIKE ':profileUserName'";
 	 $statement = $pdo->prepare($query);
 
 	 // bind teh profile user name to the place holder in the template
@@ -281,7 +367,7 @@ class Profile implements \JsonSerializable {
 	 $statement->setFetchMode(\PDO::FETCH_ASSOC);
 	 while(($row = $statement->fetch()) !== false) {
 		 try {
-			 $profile = new Profile($row["profileId"], $row["profileUserName"], $row["profilePublicKey"]);
+			 $profile = new Profile($row["profileId"], $row["profileUserName"], $row["profilePublicKeyX"], $row["profilePublicKeyY"], $row["profilePasswordSalt"]);
 			 $profiles[$profiles->key()] = $profile;
 			 $profiles->next();
 			 } catch(\Exception $exception) {
@@ -304,7 +390,7 @@ class Profile implements \JsonSerializable {
  * @throw \PDOException when mySQL related errors occur
  * @throw \TypeError when variable are not the correct data type
  */
- public static function getProfileByProfilePublicKey(\PDO $pdo, string $profilePublicKey) {
+ public static function getProfileByProfilePublicKeyX(\PDO $pdo, string $profilePublicKey) {
 	// sanitize the description before searching
 	$profilePublicKey = trim($profilePublicKey);
 	$profilePublicKey = filter_var($$profilePublicKey, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -313,7 +399,7 @@ class Profile implements \JsonSerializable {
 	}
 
 	//create query template
-	$query = "SELECT profileId, profileUserName, profilePublicKey FROM profile WHERE profilePubicKey LIKE :profilePublicKey";
+	$query = "SELECT profileId, profileUserName, profilePublicKeyX, profilePublicKeyY, profilePasswordSalt FROM profile WHERE profilePubicKeyX LIKE :profilePublicKeyX";
 	$statement = $pdo->prepare($query);
 
 	// bind the public key to the place holder in the template
@@ -322,11 +408,11 @@ class Profile implements \JsonSerializable {
 	$statement->execute($parameters);
 
 	// build an array of public keys
-	$profilePublicKey = new \SplFixedArray($statement->rowCount());
+	$profiles = new \SplFixedArray($statement->rowCount());
 	$statement->setFetchMode(\PDO::FETCH_ASSOC);
 	while(($row = $statement->fetch()) !== false) {
 		try {
-			$profile = new Profile($row["profileId"], $row[profileUserName], $row[profilePublicKey]);
+			$profile = new Profile($row["profileId"], $row["profileUserName"], $row["profilePublicKeyX"], $row["profilePublicKeyY"], $row["profilePasswordSalt"]);
 			$profiles[$profiles->key()] = $profile;
 			$profiles->next();
 		} catch(\Exception $exception) {
