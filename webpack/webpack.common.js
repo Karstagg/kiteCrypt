@@ -61,6 +61,7 @@ module.exports = {
 			"window.jQuery": "jquery"
 		}),
 
+
 		new HtmlWebpackPlugin({
 			inject: 'head',
 			filename: helpers.root('public_html') + '/index.php',
