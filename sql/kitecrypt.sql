@@ -1,36 +1,38 @@
-DROP TABLE IF EXISTS messages;
-DROP TABLE IF EXISTS invite;
-DROP TABLE IF EXISTS friends;
+DROP TABLE IF EXISTS message;
+DROP TABLE IF EXISTS invitation;
+DROP TABLE IF EXISTS friendship;
 DROP TABLE IF EXISTS profile;
 
 CREATE TABLE profile (
 profileId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 profileUserName VARCHAR(20) NOT NULL,
-profilePublicKey VARCHAR(1024) NOT NULL,
-UNIQUE(profileUserName, profilePublicKey),
+profilePublicKeyX VARCHAR(256) NOT NULL,
+profilePublicKeyY VARCHAR(256) NOT NULL,
+profilePasswordSalt VARCHAR(256) NOT NULL,
+UNIQUE(profileUserName, profilePublicKeyX,profilePublicKeyY),
 PRIMARY KEY(profileId)
 );
 
-CREATE TABLE invite (
-inviteInviterId INT UNSIGNED NOT NULL,
-inviteInvitedId INT UNSIGNED NOT NULL,
-inviteTimestamp TIMESTAMP NOT NULL,
-invitePassphrase VARCHAR(64) NOT NULL,
-UNIQUE(invitePassphrase),
-FOREIGN KEY(inviteInviterId) REFERENCES profile(profileId),
-FOREIGN KEY(inviteInvitedId) REFERENCES profile(profileId),
-PRIMARY KEY (inviteInviterId, inviteInvitedId)
+CREATE TABLE invitation (
+invitationInviterId INT UNSIGNED NOT NULL,
+invitationInviteeId INT UNSIGNED NOT NULL,
+invitationTimestamp TIMESTAMP NOT NULL,
+invitationPassphrase VARCHAR(64) NOT NULL,
+UNIQUE(invitationPassphrase),
+FOREIGN KEY(invitationInviterId) REFERENCES profile(profileId),
+FOREIGN KEY(invitationInviteeId) REFERENCES profile(profileId),
+PRIMARY KEY (invitationInviterId, invitationInviteeId)
 );
 
-CREATE TABLE friends (
-friendsProfileId INT UNSIGNED NOT NULL,
-friendsFriendId INT UNSIGNED NOT NULL,
-FOREIGN KEY(friendsProfileId) REFERENCES profile(profileId),
-FOREIGN KEY(friendsFriendId) REFERENCES profile(profileId),
-PRIMARY KEY (friendsProfileId, friendsFriendId)
+CREATE TABLE friendship (
+friendshipInviterId INT UNSIGNED NOT NULL,
+friendsInviteeId INT UNSIGNED NOT NULL,
+FOREIGN KEY(friendshipInviterId) REFERENCES profile(profileId),
+FOREIGN KEY(friendsInviteeId) REFERENCES profile(profileId),
+PRIMARY KEY (friendshipInviterId, friendsInviteeId)
 );
 
-CREATE TABLE messages (
+CREATE TABLE message (
 messageId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 messageTimestamp TIMESTAMP NOT NULL,
 messageSenderId INT UNSIGNED NOT NULL,
