@@ -46,10 +46,13 @@ class Profile implements \JsonSerializable {
 	/**
 	 * constructor for this Profile
 	 *
-	 * @param int|null $newProfileId  id of profile or null if a new profile.
+	 * @param int|null $newProfileId id of profile or null if a new profile.
 	 * @param string $newProfileUserName string containing user name
 	 * @param string $newProfilePublicKeyX string containing user public key data for encryption.
-	 * @throws string for invalid argument
+	 * @param string $newProfilePublicKeyY
+	 * @param string $newProfilePasswordSalt
+	 * @throws \Exception
+	 * @throws \TypeError
 	 */
 	public function __construct(int $newProfileId = null, string $newProfileUserName, string $newProfilePublicKeyX, string $newProfilePublicKeyY, string $newProfilePasswordSalt) {
 		try {
@@ -211,7 +214,7 @@ class Profile implements \JsonSerializable {
 		 * accessor method for profile password salt
 		 *   @return string value of password salt
 		 */
-		public function getProfilePasswordSalt() {
+	public function getProfilePasswordSalt() {
 			return ($this->profilePasswordSalt);
 		}
 
@@ -223,19 +226,19 @@ class Profile implements \JsonSerializable {
 		 * @throw RangeException is $newProfilePasswordSalt is > 256 characters
 		 * @throw \TypeError is $newProfilePasswordSalt
 		 */
-		public function setProfilePasswordSalt(string $newProfilePasswordSalt) {
-			// verify profile password salt is secure
-			$newProfilePasswordSalt = trim($newProfilePasswordSalt);
-			$newProfilePasswordSalt = filter_var($newProfilePasswordSalt, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-			if(empty(@$newProfilePasswordSalt) === true) {
-				throw(new \RangeException("profile password salt is empty"));
+	public function setProfilePasswordSalt(string $newProfilePasswordSalt) {
+		// verify profile password salt is secure
+		$newProfilePasswordSalt = trim($newProfilePasswordSalt);
+		$newProfilePasswordSalt = filter_var($newProfilePasswordSalt, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty(@$newProfilePasswordSalt) === true) {
+			throw(new \RangeException("profile password salt is empty"));
 			}
-			// verity profile password salt fit database
-			if(strlen($newProfilePasswordSalt) >256) {
-				throw(new \RangeException("password salt is too large"));
+		// verity profile password salt fit database
+		if(strlen($newProfilePasswordSalt) >256) {
+			throw(new \RangeException("password salt is too large"));
 			}
-			// store the password salt
-			$this->profilePasswordSalt = $newProfilePasswordSalt;
+		// store the password salt
+		$this->profilePasswordSalt = $newProfilePasswordSalt;
 		}
 
 
@@ -260,10 +263,10 @@ class Profile implements \JsonSerializable {
 
 		// bind the member variables to the palce holders in the template
 		$parameters = ["profileUserName" => $this->profileUserName, "profilePublicKeyX" => $this->profilePublicKeyX, "profilePublicKeyY" => $this->profilePublicKeyY, "profilePasswordSalt" => $this->profilePasswordSalt];
-		$statement->excecute($parameters);
+		$statement->execute($parameters);
 
-	// update the null profileId with what mySQL just gave us
-	$this->profileId =intval($pdo->lastInsertId());
+		// update the null profileId with what mySQL just gave us
+		$this->profileId =intval($pdo->lastInsertId());
 }
 
 	/*
@@ -347,26 +350,26 @@ class Profile implements \JsonSerializable {
 		}
 		return($profile);
 }
- public static function getProfileByUserName(\PDO $pdo, string $profileUserName) {
-	 // sanitive the description before searching
-	 $profileUserName = trim($profileUserName);
-	 $profileUserName = filter_var($profileUserName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	 if(empty($profileUserName) === true) {
+ 	public static function getProfileByUserName(\PDO $pdo, string $profileUserName) {
+		 // sanitive the description before searching
+	 	$profileUserName = trim($profileUserName);
+	 	$profileUserName = filter_var($profileUserName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	 	if(empty($profileUserName) === true) {
 		 throw(new \PDOException("profile User Name is invalid"));
 	 }
 	 // create query template
-	 $query = "SELECT profileId, profileUserName, profilePublicKeyX, profilePublicKeyY, profilePasswordSalt FROM profile WHERE profileUserName LIKE ':profileUserName'";
-	 $statement = $pdo->prepare($query);
+	 	$query = "SELECT profileId, profileUserName, profilePublicKeyX, profilePublicKeyY, profilePasswordSalt FROM profile WHERE profileUserName LIKE ':profileUserName'";
+	 	$statement = $pdo->prepare($query);
 
-	 // bind teh profile user name to the place holder in the template
-	 $profileUserName = "%$profileUserName%";
-	 $parameters = ["profileUserName" => $profileUserName];
-	 $statement->execute($parameters);
+	 	// bind teh profile user name to the place holder in the template
+	 	$profileUserName = "%$profileUserName%";
+	 	$parameters = ["profileUserName" => $profileUserName];
+		 $statement->execute($parameters);
 
-	 // build an array of profiles
-	 $profiles = new \SplFixedArray($statement->rowCount());
-	 $statement->setFetchMode(\PDO::FETCH_ASSOC);
-	 while(($row = $statement->fetch()) !== false) {
+		 // build an array of profiles
+	 	$profiles = new \SplFixedArray($statement->rowCount());
+		 $statement->setFetchMode(\PDO::FETCH_ASSOC);
+	 	while(($row = $statement->fetch()) !== false) {
 		 try {
 			 $profile = new Profile($row["profileId"], $row["profileUserName"], $row["profilePublicKeyX"], $row["profilePublicKeyY"], $row["profilePasswordSalt"]);
 			 $profiles[$profiles->key()] = $profile;
@@ -376,7 +379,7 @@ class Profile implements \JsonSerializable {
 			 throw(new \PDOException($exception->getMessage(), 0, $exception));
 		 }
 	 }
-	 return($profiles);
+	 	return($profiles);
  }
 
 
@@ -391,11 +394,11 @@ class Profile implements \JsonSerializable {
  * @throw \PDOException when mySQL related errors occur
  * @throw \TypeError when variable are not the correct data type
  */
- public static function getProfileByProfilePublicKeyX(\PDO $pdo, string $profilePublicKeyX) {
-	// sanitize the description before searching
-	$profilePublicKeyX= trim($profilePublicKeyX);
-	$profilePublicKeyX = filter_var($profilePublicKeyX, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	if(empty($profilePublicKey) === true) {
+ 	public static function getProfileByProfilePublicKeyX(\PDO $pdo, string $profilePublicKeyX) {
+		// sanitize the description before searching
+		$profilePublicKeyX= trim($profilePublicKeyX);
+		$profilePublicKeyX = filter_var($profilePublicKeyX, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($profilePublicKey) === true) {
 		throw(new \PDOException("Public Key X is invalid"));
 	}
 
@@ -421,7 +424,7 @@ class Profile implements \JsonSerializable {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 	}
-	return($profiles);
+		return($profiles);
 }
 
 
