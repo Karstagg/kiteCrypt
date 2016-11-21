@@ -169,3 +169,21 @@ styling for login form
 	color: #e4e5e4;
 	background-color: #98171f;
 }
+
+/******************************
+styling for pusher chat window
+*******************************/
+
+
+#gravatar {
+	display: none;
+}
+
+.hide {
+	display: none;
+}
+
+#pusher_chat_widget .pusher-chat-widget {
+
+	margin-left: 30px;
+}
