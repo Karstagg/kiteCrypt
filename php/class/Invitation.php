@@ -5,59 +5,59 @@ require_once("autoloader.php");
 
 
 /**
- * kiteCrypt invites
+ * kiteCrypt invitations
  *
  * In kiteCrypt, users (profiles) can invite other users (friends) to be their friends
  *
  * @author G. Wells <gwells4@cnm.edu>
  * @version 1.0.0
  **/
-class Invite implements \JsonSerializable {
+class Invitation implements \JsonSerializable {
 
 	/**
 	 * id for the user (the inviter) inviting the friend (the invitee) in this friendship; it is a foreign key
-	 * @var int $inviteInviterId
+	 * @var int $invitationInviterId
 	 **/
-	private $inviteInviterId;
+	private $invitationInviterId;
 
 	/**
 	 * id for the user (the invitee) being invited in this friendship; it is a foreign key
-	 * @var int $inviteInviteeId
+	 * @var int $invitationInviteeId
 	 **/
-	private $inviteInviteeId;
+	private $invitationInviteeId;
 
 	/**
 	 * timestamp of the invitation
-	 * @var int|null $inviteTimestamp timestamp of this Invitation (or null if it's a new Invitation, and it will be assigned by MySQL when it's stored in the database)
+	 * @var int|null $invitationTimestamp timestamp of this Invitation (or null if it's a new Invitation, and it will be assigned by MySQL when it's stored in the database)
 	 **/
-	private $inviteTimestamp;
+	private $invitationTimestamp;
 
 	/**
 	 * passphrase used by the invitee to make the friendship, it must be sent by the inviter to the invitee outside of kiteCrypt
-	 * @var string $invitePassphrase
+	 * @var string $invitationPassphrase
 	 **/
-	private $invitePassphrase;
+	private $invitationPassphrase;
 
 
 
 	/**
-	 * constructor for this Invite
+	 * constructor for this Invitation
 	 *
-	 * @param int $newInviteInviterId id for the user (the inviter) inviting the friend (the invitee) in this friendship; it is a foreign key
-	 * @param int $newInviteInviteeId id for the user (the invitee) being invited in this friendship; it is a foreign key
-	 * @param int|null $newInviteTimestamp timestamp of this Invitation (or null if it's a new Invitation, and it will be assigned by MySQL when it's stored in the database)
-	 * @param string $newInvitePassphrase passphrase used by the invitee to make the friendship, it must be sent by the inviter to the invitee outside of kiteCrypt
+	 * @param int $newInvitationInviterId id for the user (the inviter) inviting the friend (the invitee) in this friendship; it is a foreign key
+	 * @param int $newInvitationInviteeId id for the user (the invitee) being invited in this friendship; it is a foreign key
+	 * @param int|null $newInvitationTimestamp timestamp of this Invitation (or null if it's a new Invitation, and it will be assigned by MySQL when it's stored in the database)
+	 * @param string $newInvitationPassphrase passphrase used by the invitee to make the friendship, it must be sent by the inviter to the invitee outside of kiteCrypt
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \RangeException if data values are out of bounds (for example: negative integers)
 	 **/
-	public function __construct(int $newInviteInviterId , int $newInviteInviteeId, int $newInviteTimestamp, string $newInvitePassphrase) {
+	public function __construct(int $newInvitationInviterId , int $newInvitationInviteeId, int $newInvitationTimestamp, string $newInvitationPassphrase) {
 		try {
-			$this->setInviteInviterId($newInviteInviterId);
-			$this->setInviteInviteeId($newInviteInviteeId);
-			$this->setInviteTimestamp($newInviteTimestamp);
-			$this->setInvitePassphrase($newInvitePassphrase);
+			$this->setInvitationInviterId($newInvitationInviterId);
+			$this->setInvitationInviteeId($newInvitationInviteeId);
+			$this->setInvitationTimestamp($newInvitationTimestamp);
+			$this->setInvitationPassphrase($newInvitationPassphrase);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			// rethrow the InvalidArgumentException to the caller
 			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
@@ -72,178 +72,178 @@ class Invite implements \JsonSerializable {
 
 
 	/**
-	 * accessor method for inviteInviterId
+	 * accessor method for invitationInviterId
 	 *
-	 * @return int value of inviteInviterId
+	 * @return int value of invitationInviterId
 	 **/
-	public function getInviteInviterId() {
-		return($this->inviteInviterId);
+	public function getInvitationInviterId() {
+		return($this->invitationInviterId);
 	}
 
 
 	/**
-	 * mutator method for inviteInviterId
+	 * mutator method for invitationInviterId
 	 *
-	 * @param int $newInviteInviterId id for the user (the inviter) inviting the friend (the invitee) in this friendship; it is a foreign key
+	 * @param int $newInvitationInviterId id for the user (the inviter) inviting the friend (the invitee) in this friendship; it is a foreign key
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe
-	 * @throws \TypeError if $newInviteInviterId is not an integer
-	 * @throws \RangeException if $newInviteInviterId is not positive
+	 * @throws \TypeError if $newInvitationInviterId is not an integer
+	 * @throws \RangeException if $newInvitationInviterId is not positive
 	 *
 	 **/
-	public function setInviteInviterId(int $newInviteInviterId) {
+	public function setInvitationInviterId(int $newInvitationInviterId) {
 
-		// Verify the $newInviteInviterId is safe
-		$newInviteInviterId = filter_var($newInviteInviterId, FILTER_SANITIZE_NUMBER_INT);
-		if(empty($newInviteInviterId) === true) {
-			throw(new \InvalidArgumentException("newInviteInviterId is empty or insecure"));
+		// Verify the $newInvitationInviterId is safe
+		$newInvitationInviterId = filter_var($newInvitationInviterId, FILTER_SANITIZE_NUMBER_INT);
+		if(empty($newInvitationInviterId) === true) {
+			throw(new \InvalidArgumentException("newInvitationInviterId is empty or insecure"));
 		}
-		// Verify that the $newInviteInviterId in an integer.
-		$newInviteInviterId = filter_var($newInviteInviterId, FILTER_VALIDATE_INT);
-		if(empty($newInviteInviterId) === true) {
-			// If the $newInviteInviterId is not an integer, throw a TypeError.
-			throw(new \TypeError("newInviteInviterId is not an integer."));
+		// Verify that the $newInvitationInviterId in an integer.
+		$newInvitationInviterId = filter_var($newInvitationInviterId, FILTER_VALIDATE_INT);
+		if(empty($newInvitationInviterId) === true) {
+			// If the $newInvitationInviterId is not an integer, throw a TypeError.
+			throw(new \TypeError("newInvitationInviterId is not an integer."));
 		}
-		// Verify the $newInviteInviterId is positive
-		if($newInviteInviterId <= 0) {
-			throw(new \RangeException("newInviteInviterId is not positive."));
+		// Verify the $newInvitationInviterId is positive
+		if($newInvitationInviterId <= 0) {
+			throw(new \RangeException("newInvitationInviterId is not positive."));
 		}
 
-		// store the $newInviteInviterId
-		$this->inviteInviterId = $newInviteInviterId;
+		// store the $newInvitationInviterId
+		$this->invitationInviterId = $newInvitationInviterId;
 	}
 
 
 	/**
-	 * accessor method for inviteInviteeId
+	 * accessor method for invitationInviteeId
 	 *
-	 * @return int value of inviteInviteeId
+	 * @return int value of invitationInviteeId
 	 **/
-	public function getInviteInviteeId() {
-		return($this->inviteInviteeId);
+	public function getInvitationInviteeId() {
+		return($this->invitationInviteeId);
 	}
 
 
 	/**
-	 * mutator method for inviteInviteeId
+	 * mutator method for invitationInviteeId
 	 *
-	 * @param int $newInviteInviteeId id for the user (the invitee) being invited in this friendship; it is a foreign key
+	 * @param int $newInvitationInviteeId id for the user (the invitee) being invited in this friendship; it is a foreign key
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe
-	 * @throws \TypeError if $newInviteInviteeId is not an integer
-	 * @throws \RangeException if $newInviteInviteeId is not positive
+	 * @throws \TypeError if $newInvitationInviteeId is not an integer
+	 * @throws \RangeException if $newInvitationInviteeId is not positive
 	 *
 	 **/
-	public function setInviteInviteeId(int $newInviteInviteeId) {
+	public function setInvitationInviteeId(int $newInvitationInviteeId) {
 
-		// Verify the $newInviteInviteeId is safe
-		$newInviteInviteeId = filter_var($newInviteInviteeId, FILTER_SANITIZE_NUMBER_INT);
-		if(empty($newInviteInviteeId) === true) {
-			throw(new \InvalidArgumentException("newInviteInviteeId is empty or insecure"));
+		// Verify the $newInvitationInviteeId is safe
+		$newInvitationInviteeId = filter_var($newInvitationInviteeId, FILTER_SANITIZE_NUMBER_INT);
+		if(empty($newInvitationInviteeId) === true) {
+			throw(new \InvalidArgumentException("newInvitationInviteeId is empty or insecure"));
 		}
-		// Verify that the $newInviteInviteeId in an integer.
-		$newInviteInviteeId = filter_var($newInviteInviteeId, FILTER_VALIDATE_INT);
-		if(empty($newInviteInviteeId) === true) {
-			// If the $newInviteInviteeId is not an integer, throw a TypeError.
-			throw(new \TypeError("newInviteInviteeId is not an integer."));
+		// Verify that the $newInvitationInviteeId in an integer.
+		$newInvitationInviteeId = filter_var($newInvitationInviteeId, FILTER_VALIDATE_INT);
+		if(empty($newInvitationInviteeId) === true) {
+			// If the $newInvitationInviteeId is not an integer, throw a TypeError.
+			throw(new \TypeError("newInvitationInviteeId is not an integer."));
 		}
-		// Verify the $newInviteInviteeId is positive
-		if($newInviteInviteeId <= 0) {
-			throw(new \RangeException("newInviteInviteeId is not positive."));
+		// Verify the $newInvitationInviteeId is positive
+		if($newInvitationInviteeId <= 0) {
+			throw(new \RangeException("newInvitationInviteeId is not positive."));
 		}
 
-		// store the $newInviteInviteeId
-		$this->inviteInviteeId = $newInviteInviteeId;
+		// store the $newInvitationInviteeId
+		$this->invitationInviteeId = $newInvitationInviteeId;
 	}
 
 
 	/**
-	 * accessor method for inviteTimestamp
+	 * accessor method for invitationTimestamp
 	 *
 	 * @return int|null timestamp of this Invitation (or null if it's a new Invitation, and it will be assigned by MySQL when it's stored in the database)
 	 **/
-	public function getInviteTimestamp() {
-		return($this->inviteTimestamp);
+	public function getInvitationTimestamp() {
+		return($this->invitationTimestamp);
 	}
 
 
 	/**
-	 * mutator method for inviteTimestamp
+	 * mutator method for invitationTimestamp
 	 *
-	 * @param int|null $newInviteTimestamp timestamp of this Invitation (or null if it's a new Invitation, and it will be assigned by MySQL when it's stored in the database)
+	 * @param int|null $newInvitationTimestamp timestamp of this Invitation (or null if it's a new Invitation, and it will be assigned by MySQL when it's stored in the database)
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe
-	 * @throws \TypeError if $newInviteTimestamp is not a date
-	 * @throws \RangeException if $newInviteTimestamp is not from the recent past
+	 * @throws \TypeError if $newInvitationTimestamp is not a date
+	 * @throws \RangeException if $newInvitationTimestamp is not from the recent past
 	 *
 	 **/
-	public function setInviteTimestamp(int $newInviteTimestamp = null) {
+	public function setInvitationTimestamp(int $newInvitationTimestamp = null) {
 
 		// base case: if the timestamp is null, then it will be assigned by MySQL when it's stored in the database
-		if($newInviteTimestamp === null) {
-			$this->inviteTimestamp = null;
+		if($newInvitationTimestamp === null) {
+			$this->invitationTimestamp = null;
 			return;
 		}
-		// Verify the $newInviteTimestamp is safe
-		$newInviteTimestamp = filter_var($newInviteTimestamp, FILTER_SANITIZE_NUMBER_INT);
-		if(empty($newInviteTimestamp) === true) {
-			throw(new \InvalidArgumentException("newInviteTimestamp is empty or insecure"));
+		// Verify the $newInvitationTimestamp is safe
+		$newInvitationTimestamp = filter_var($newInvitationTimestamp, FILTER_SANITIZE_NUMBER_INT);
+		if(empty($newInvitationTimestamp) === true) {
+			throw(new \InvalidArgumentException("newInvitationTimestamp is empty or insecure"));
 		}
-		// Verify that the $newInviteTimestamp is an integer.
-		$newInviteTimestamp = filter_var($newInviteTimestamp, FILTER_VALIDATE_INT);
-		if(empty($newInviteTimestamp) === true) {
-			// If the $newInviteTimestamp is not an integer, throw a TypeError.
-			throw(new \TypeError("newInviteTimestamp is not an integer."));
+		// Verify that the $newInvitationTimestamp is an integer.
+		$newInvitationTimestamp = filter_var($newInvitationTimestamp, FILTER_VALIDATE_INT);
+		if(empty($newInvitationTimestamp) === true) {
+			// If the $newInvitationTimestamp is not an integer, throw a TypeError.
+			throw(new \TypeError("newInvitationTimestamp is not an integer."));
 		}
-		// Verify the $newInviteTimestamp is positive and from the recent past
-		if($newInviteTimestamp <= 0) {
-			throw(new \RangeException("newInviteTimestamp is not positive."));
+		// Verify the $newInvitationTimestamp is positive and from the recent past
+		if($newInvitationTimestamp <= 0) {
+			throw(new \RangeException("newInvitationTimestamp is not positive."));
 		} else {
-			if ($newInviteTimestamp - time() >= 0) {
-				throw(new \RangeException("newInviteTimestamp is in the future."));
-			} elseif (time() - $newInviteTimestamp >= 48 * 60 * 60 * 1000) {
-				throw(new \RangeException("newInviteTimestamp is more than 48 hours ago, so this invitation should have expired."));
+			if ($newInvitationTimestamp - time() >= 0) {
+				throw(new \RangeException("newInvitationTimestamp is in the future."));
+			} elseif (time() - $newInvitationTimestamp >= 48 * 60 * 60 * 1000) {
+				throw(new \RangeException("newInvitationTimestamp is more than 48 hours ago, so this invitation should have expired."));
 			}
 		}
 
-		// store the $newInviteTimestamp
-		$this->inviteTimestamp = $newInviteTimestamp;
+		// store the $newInvitationTimestamp
+		$this->invitationTimestamp = $newInvitationTimestamp;
 	}
 
 
 	/**
-	 * accessor method for invitePassphrase
+	 * accessor method for invitationPassphrase
 	 *
 	 * @return string passphrase for accepting this Invitation
 	 **/
-	public function getInvitePassphrase() {
-		return($this->invitePassphrase);
+	public function getInvitationPassphrase() {
+		return($this->invitationPassphrase);
 	}
 
 
 	/**
-	 * mutator method for invitePassphrase
+	 * mutator method for invitationPassphrase
 	 *
-	 * @param string $newInvitePassphrase passphrase for accepting this Invitation
+	 * @param string $newInvitationPassphrase passphrase for accepting this Invitation
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe (or empty)
 	 *
 	 **/
-	public function setInvitePassphrase(string $newInvitePassphrase) {
+	public function setInvitationPassphrase(string $newInvitationPassphrase) {
 
-		// Verify the $newInvitePassphrase is safe (and not empty)
-		$newInvitePassphrase = filter_var($newInvitePassphrase, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newInvitePassphrase) === true) {
-			throw(new \InvalidArgumentException("newInvitePassphrase is empty or insecure"));
+		// Verify the $newInvitationPassphrase is safe (and not empty)
+		$newInvitationPassphrase = filter_var($newInvitationPassphrase, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newInvitationPassphrase) === true) {
+			throw(new \InvalidArgumentException("newInvitationPassphrase is empty or insecure"));
 		}
 
-		// store the $newInvitePassphrase
-		$this->invitePassphrase = $newInvitePassphrase;
+		// store the $newInvitationPassphrase
+		$this->invitationPassphrase = $newInvitationPassphrase;
 	}
 
 
 	/**
-	 * inserts this Invite into mySQL
+	 * inserts this Invitation into mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 *
@@ -253,18 +253,18 @@ class Invite implements \JsonSerializable {
 	public function insert(\PDO $pdo) {
 
 		// create query template
-		$query = "INSERT INTO invite(inviteInviterId, inviteInviteeId, inviteTimestamp, invitePassphrase) VALUES(:inviteInviterId, :inviteInviteeId, :inviteTimestamp, :invitePassphrase)";
+		$query = "INSERT INTO invitation(invitationInviterId, invitationInviteeId, invitationTimestamp, invitationPassphrase) VALUES(:invitationInviterId, :invitationInviteeId, :invitationTimestamp, :invitationPassphrase)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
-		$parameters = ["inviteInviterId" => $this->inviteInviterId, "inviteInviteeId" => $this->inviteInviteeId, "inviteTimestamp" => $this->inviteTimestamp, "invitePassphrase" => $this->invitePassphrase];
+		$parameters = ["invitationInviterId" => $this->invitationInviterId, "invitationInviteeId" => $this->invitationInviteeId, "invitationTimestamp" => $this->invitationTimestamp, "invitationPassphrase" => $this->invitationPassphrase];
 		$statement->execute($parameters);
 
 	}
 
 
 	/**
-	 * deletes these Invites from mySQL
+	 * deletes this Invitation from mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 *
@@ -274,126 +274,126 @@ class Invite implements \JsonSerializable {
 	public function delete(\PDO $pdo) {
 
 		// create query template
-		$query = "DELETE FROM invite WHERE inviteInviterId = :inviteInviterId AND inviteInviteeId = :inviteInviteeId AND inviteTimestamp = :inviteTimestamp AND invitePassphrase = :invitePassphrase";
+		$query = "DELETE FROM invitation WHERE invitationInviterId = :invitationInviterId AND invitationInviteeId = :invitationInviteeId AND invitationTimestamp = :invitationTimestamp AND invitationPassphrase = :invitationPassphrase";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holder in the template
-		$parameters = ["inviteInviterId" => $this->inviteInviterId, "inviteInviteeId" => $this->inviteInviteeId, "inviteTimestamp" => $this->inviteTimestamp, "invitePassphrase" => $this->invitePassphrase];
+		$parameters = ["invitationInviterId" => $this->invitationInviterId, "invitationInviteeId" => $this->invitationInviteeId, "invitationTimestamp" => $this->invitationTimestamp, "invitationPassphrase" => $this->invitationPassphrase];
 		$statement->execute($parameters);
 	}
 
 
 	/**
-	 * gets the Invite by inviteInviterId
+	 * gets the Invitation by invitationInviterId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $inviteInviterId inviteInviterId to search for
+	 * @param int $invitationInviterId invitationInviterId to search for
 	 *
-	 * @return \SplFixedArray SplFixedArray of Invites found
+	 * @return \SplFixedArray SplFixedArray of Invitations found
 	 *
-	 * @throws \InvalidArgumentException if $inviteInviterId is not safe
-	 * @throws \TypeError if $inviteInviterId is not an integer
-	 * @throws \RangeException if $inviteInviterId is not positive
+	 * @throws \InvalidArgumentException if $invitationInviterId is not safe
+	 * @throws \TypeError if $invitationInviterId is not an integer
+	 * @throws \RangeException if $invitationInviterId is not positive
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getInviteByInviteInviterId(\PDO $pdo, int $inviteInviterId) {
+	public static function getInvitationByInvitationInviterId(\PDO $pdo, int $invitationInviterId) {
 
-		// Verify the $inviteInviterId is safe
-		$inviteInviterId = filter_var($inviteInviterId, FILTER_SANITIZE_NUMBER_INT);
-		if(empty($inviteInviterId) === true) {
-			throw(new \InvalidArgumentException("inviteInviterId is empty or insecure"));
+		// Verify the $invitationInviterId is safe
+		$invitationInviterId = filter_var($invitationInviterId, FILTER_SANITIZE_NUMBER_INT);
+		if(empty($invitationInviterId) === true) {
+			throw(new \InvalidArgumentException("invitationInviterId is empty or insecure"));
 		}
-		// Verify that the $inviteInviterId in an integer.
-		$inviteInviterId = filter_var($inviteInviterId, FILTER_VALIDATE_INT);
-		if(empty($inviteInviterId) === true) {
-			// If the $inviteInviterId is not an integer, throw a TypeError.
-			throw(new \TypeError("inviteInviterId is not an integer."));
+		// Verify that the $invitationInviterId in an integer.
+		$invitationInviterId = filter_var($invitationInviterId, FILTER_VALIDATE_INT);
+		if(empty($invitationInviterId) === true) {
+			// If the $invitationInviterId is not an integer, throw a TypeError.
+			throw(new \TypeError("invitationInviterId is not an integer."));
 		}
-		// Verify the $inviteInviterId is positive
-		if($inviteInviterId <= 0) {
-			throw(new \RangeException("inviteInviterId is not positive."));
+		// Verify the $invitationInviterId is positive
+		if($invitationInviterId <= 0) {
+			throw(new \RangeException("invitationInviterId is not positive."));
 		}
 
 		// create query template
-		$query = "SELECT inviteInviterId FROM invite WHERE inviteInviterId = :inviteInviterId";
+		$query = "SELECT invitationInviterId FROM invitation WHERE invitationInviterId = :invitationInviterId";
 		$statement = $pdo->prepare($query);
 
-		// bind the inviteInviterId to the place holder in the template
-		$parameters = ["inviteInviterId" => $inviteInviterId];
+		// bind the invitationInviterId to the place holder in the template
+		$parameters = ["invitationInviterId" => $invitationInviterId];
 		$statement->execute($parameters);
 
-		// build an array of invites
-		$invites = new \SplFixedArray($statement->rowCount());
+		// build an array of invitations
+		$invitations = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$invite = new Invite($row["inviteInviterId"], $row["inviteInviterId"]);
-				$invites[$invites->key()] = $invite;
-				$invites->next();
+				$invitation = new Invitation($row["invitationInviterId"], $row["invitationInviterId"]);
+				$invitations[$invitations->key()] = $invitation;
+				$invitations->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return($invites);
+		return($invitations);
 	}
 
 
 	/**
-	 * gets the Invite by inviteInviteeId
+	 * gets the Invitation by invitationInviteeId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $inviteInviteeId inviteInviteeId to search for
+	 * @param int $invitationInviteeId invitationInviteeId to search for
 	 *
-	 * @return \SplFixedArray SplFixedArray of Invites found
+	 * @return \SplFixedArray SplFixedArray of Invitations found
 	 *
-	 * @throws \InvalidArgumentException if $inviteInviteeId is not safe
-	 * @throws \TypeError if $inviteInviteeId is not an integer
-	 * @throws \RangeException if $inviteInviteeId is not positive
+	 * @throws \InvalidArgumentException if $invitationInviteeId is not safe
+	 * @throws \TypeError if $invitationInviteeId is not an integer
+	 * @throws \RangeException if $invitationInviteeId is not positive
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getInviteByInviteInviteeId(\PDO $pdo, int $inviteInviteeId) {
+	public static function getInvitationByInvitationInviteeId(\PDO $pdo, int $invitationInviteeId) {
 
-		// Verify the $inviteInviteeId is safe
-		$inviteInviteeId = filter_var($inviteInviteeId, FILTER_SANITIZE_NUMBER_INT);
-		if(empty($inviteInviteeId) === true) {
-			throw(new \InvalidArgumentException("inviteInviteeId is empty or insecure"));
+		// Verify the $invitationInviteeId is safe
+		$invitationInviteeId = filter_var($invitationInviteeId, FILTER_SANITIZE_NUMBER_INT);
+		if(empty($invitationInviteeId) === true) {
+			throw(new \InvalidArgumentException("invitationInviteeId is empty or insecure"));
 		}
-		// Verify that the $inviteInviteeId in an integer.
-		$inviteInviteeId = filter_var($inviteInviteeId, FILTER_VALIDATE_INT);
-		if(empty($inviteInviteeId) === true) {
-			// If the $inviteInviteeId is not an integer, throw a TypeError.
-			throw(new \TypeError("inviteInviteeId is not an integer."));
+		// Verify that the $invitationInviteeId in an integer.
+		$invitationInviteeId = filter_var($invitationInviteeId, FILTER_VALIDATE_INT);
+		if(empty($invitationInviteeId) === true) {
+			// If the $invitationInviteeId is not an integer, throw a TypeError.
+			throw(new \TypeError("invitationInviteeId is not an integer."));
 		}
-		// Verify the $inviteInviteeId is positive
-		if($inviteInviteeId <= 0) {
-			throw(new \RangeException("inviteInviteeId is not positive."));
+		// Verify the $invitationInviteeId is positive
+		if($invitationInviteeId <= 0) {
+			throw(new \RangeException("invitationInviteeId is not positive."));
 		}
 
 		// create query template
-		$query = "SELECT inviteInviteeId FROM invite WHERE inviteInviteeId = :inviteInviteeId";
+		$query = "SELECT invitationInviteeId FROM invitation WHERE invitationInviteeId = :invitationInviteeId";
 		$statement = $pdo->prepare($query);
 
-		// bind the inviteInviteeId to the place holder in the template
-		$parameters = ["inviteInviterId" => $inviteInviterId];
+		// bind the invitationInviteeId to the place holder in the template
+		$parameters = ["invitationInviterId" => $invitationInviterId];
 		$statement->execute($parameters);
 
-		// build an array of invites
-		$invites = new \SplFixedArray($statement->rowCount());
+		// build an array of invitations
+		$invitations = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$invite = new Invite($row["inviteInviterId"], $row["inviteInviteeId"], $row["inviteTimestamp"], $row["invitePassphrase"]);
-				$invites[$invites->key()] = $invite;
-				$invites->next();
+				$invitation = new Invitation($row["invitationInviterId"], $row["invitationInviteeId"], $row["invitationTimestamp"], $row["invitationPassphrase"]);
+				$invitations[$invitations->key()] = $invitation;
+				$invitations->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return($invites);
+		return($invitations);
 	}
 
 
@@ -407,26 +407,26 @@ class Invite implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getAllInvites(\PDO $pdo) {
+	public static function getAllInvitations(\PDO $pdo) {
 		// create query template
-		$query = "SELECT inviteInviterId, inviteInviteeId FROM invite";
+		$query = "SELECT invitationInviterId, invitationInviteeId FROM invitation";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
-		// build an array of invites
-		$invites = new \SplFixedArray($statement->rowCount());
+		// build an array of invitations
+		$invitations = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$invite = new Invite($row["inviteInviterId"], $row["inviteInviteeId"], $row["inviteTimestamp"], $row["invitePassphrase"]);
-				$invites[$invites->key()] = $invite;
-				$invites->next();
+				$invitation = new Invitation($row["invitationInviterId"], $row["invitationInviteeId"], $row["invitationTimestamp"], $row["invitationPassphrase"]);
+				$invitations[$invitations->key()] = $invitation;
+				$invitations->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return($invites);
+		return($invitations);
 	}
 
 

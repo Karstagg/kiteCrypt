@@ -5,40 +5,40 @@ require_once("autoloader.php");
 
 
 /**
- * kiteCrypt friends
+ * kiteCrypt friendships
  *
  * In kiteCrypt, users (profiles) can invite other users (friends) to be their friends
  *
  * @author G. Wells <gwells4@cnm.edu>
  * @version 1.0.0
  **/
-class Friend implements \JsonSerializable {
+class Friendship implements \JsonSerializable {
 	/**
-	 * id for the user (the profile) inviting the friend in this friendship; it is a foreign key
-	 * @var int $friendsProfileId
+	 * id for the user (the inviter) inviting the friend in this friendship; it is a foreign key
+	 * @var int $friendshipInviterId
 	 **/
-	private $friendsProfileId;
+	private $friendshipInviterId;
 	/**
 	 * id for the user (the friend) being invited in this friendship; it is a foreign key
-	 * @var int $friendsFriendId
+	 * @var int $friendshipInviteeId
 	 **/
-	private $friendsFriendId;
+	private $friendshipInviteeId;
 
 
 	/**
-	 * constructor for this Friend
+	 * constructor for this Friendship
 	 *
-	 * @param int $newFriendsProfileId id for the user (the profile) inviting the friend in this friendship; it is a foreign key
-	 * @param int $newFriendsFriendId id for the user (the friend) being invited in this friendship; it is a foreign key
+	 * @param int $newFriendshipInviterId id for the user (the inviter) inviting the friend in this friendship; it is a foreign key
+	 * @param int $newFriendshipInviteeId id for the user (the invitee) being invited in this friendship; it is a foreign key
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \RangeException if data values are out of bounds (for example: negative integers)
 	 **/
-	public function __construct(int $newFriendsProfileId , int $newFriendsFriendId) {
+	public function __construct(int $newFriendshipInviterId , int $newFriendshipInviteeId) {
 		try {
-			$this->setFriendsProfileId($newFriendsProfileId);
-			$this->setFriendsFriendId($newFriendsFriendId);
+			$this->setFriendshipInviterId($newFriendshipInviterId);
+			$this->setFriendshipInviteeId($newFriendshipInviteeId);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			// rethrow the InvalidArgumentException to the caller
 			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
@@ -53,72 +53,72 @@ class Friend implements \JsonSerializable {
 
 
 	/**
-	 * accessor method for friendsProfileId
+	 * accessor method for friendshipInviterId
 	 *
-	 * @return int value of friendsProfileId
+	 * @return int value of friendshipInviterId
 	 **/
-	public function getFriendsProfileId() {
-		return($this->friendsProfileId);
+	public function getFriendshipInviterId() {
+		return($this->friendshipInviterId);
 	}
 
 
 	/**
-	 * mutator method for friendsProfileId
+	 * mutator method for friendshipInviterId
 	 *
-	 * @param int $newFriendsProfileId id for the user (the profile) inviting the friend in this friendship; it is a foreign key
+	 * @param int $newFriendshipInviterId id for the user (the inviter) inviting the friend in this friendship; it is a foreign key
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe
-	 * @throws \TypeError if $newFriendsProfileId is not an integer
-	 * @throws \RangeException if $newFriendsProfileId is not positive
+	 * @throws \TypeError if $newFriendshipInviterId is not an integer
+	 * @throws \RangeException if $newFriendshipInviterId is not positive
 	 *
 	 **/
-	public function setFriendsProfileId(int $newFriendsProfileId) {
+	public function setFriendshipInviterId(int $newFriendshipInviterId) {
 
 
-		// Verify the $newFriendsProfileId is positive
-		if($newFriendsProfileId <= 0) {
-			throw(new \RangeException("newFriendsProfileId is not positive."));
+		// Verify the $newFriendshipInviterId is positive
+		if($newFriendshipInviterId <= 0) {
+			throw(new \RangeException("newfriendshipInviterId is not positive."));
 		}
 
-		// convert and store the $newFriendsProfileId
-		$this->friendsProfileId = $newFriendsProfileId;
+		// store the $newFriendshipInviterId
+		$this->friendshipInviterId = $newFriendshipInviterId;
 	}
 
 
 	/**
-	 * accessor method for friendsFriendId
+	 * accessor method for friendshipInviteeId
 	 *
-	 * @return int value of friendsFriendId
+	 * @return int value of friendshipInviteeId
 	 **/
-	public function getFriendsFriendId() {
-		return($this->friendsFriendId);
+	public function getFriendshipInviteeId() {
+		return($this->friendshipInviteeId);
 	}
 
 
 	/**
-	 * mutator method for friendsFriendId
+	 * mutator method for friendshipInviteeId
 	 *
-	 * @param int $newFriendsFriendId id for the user (the friend) being invited in this friendship; it is a foreign key
+	 * @param int $newFriendshipInviteeId id for the user (the invitee) being invited in this friendship; it is a foreign key
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe
-	 * @throws \TypeError if $newFriendsFriendId is not an integer
-	 * @throws \RangeException if $newFriendsFriendId is not positive
+	 * @throws \TypeError if $newFriendshipInviteeId is not an integer
+	 * @throws \RangeException if $newFriendshipInviteeId is not positive
 	 *
 	 **/
-	public function setFriendsFriendId(int $newFriendsFriendId) {
+	public function setFriendshipInviteeId(int $newFriendshipInviteeId) {
 
-		// Verify the $newFriendsFriendId is positive
-		if($newFriendsFriendId <= 0) {
-			throw(new \RangeException("newFriendsFriendId is not positive."));
+		// Verify the $newFriendshipInviteeId is positive
+		if($newFriendshipInviteeId <= 0) {
+			throw(new \RangeException("newfriendshipInviteeId is not positive."));
 		}
 
-		// convert and store the $newFriendsFriendId
-		$this->friendsFriendId = $newFriendsFriendId;
+		// store the $newFriendshipInviteeId
+		$this->friendshipInviteeId = $newFriendshipInviteeId;
 	}
 
 
 	/**
-	 * inserts these Friends into mySQL
+	 * inserts this Friendship into mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 *
@@ -128,11 +128,11 @@ class Friend implements \JsonSerializable {
 	public function insert(\PDO $pdo) {
 
 		// create query template
-		$query = "INSERT INTO friends(friendsProfileId, friendsFriendId) VALUES(:friendsProfileId, :friendsFriendId)";
+		$query = "INSERT INTO friendship(friendshipInviterId, friendshipInviteeId) VALUES(:friendshipInviterId, :friendshipInviteeId)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
-		$parameters = ["friendsProfileId" => $this->friendsProfileId, "friendsFriendId" => $this->friendsFriendId];
+		$parameters = ["friendshipInviterId" => $this->friendshipInviterId, "friendshipInviteeId" => $this->friendshipInviteeId];
 		$statement->execute($parameters);
 
 	}
@@ -149,104 +149,104 @@ class Friend implements \JsonSerializable {
 	public function delete(\PDO $pdo) {
 
 		// create query template
-		$query = "DELETE FROM friends WHERE friendsProfileId = :friendsProfileId AND friendsFriendId = :friendsFriendId";
+		$query = "DELETE FROM friendship WHERE friendshipInviterId = :friendshipInviterId AND friendshipInviteeId = :friendshipInviteeId";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holder in the template
-		$parameters = ["friendsProfileId" => $this->friendsProfileId, "friendsFriendId" => $this->friendsFriendId];
+		$parameters = ["friendshipInviterId" => $this->friendshipInviterId, "friendshipInviteeId" => $this->friendshipInviteeId];
 		$statement->execute($parameters);
 	}
 
 
 	/**
-	 * gets the Friend by friendsProfileId
+	 * gets the Friendship by friendshipInviterId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $friendsProfileId friendsProfileId to search for
+	 * @param int $friendshipInviterId friendshipInviterId to search for
 	 *
-	 * @return \SplFixedArray SplFixedArray of Friends found
+	 * @return \SplFixedArray SplFixedArray of Friendships found
 	 *
-	 * @throws \InvalidArgumentException if $friendsProfileId is not safe
-	 * @throws \TypeError if $friendsProfileId is not an integer
-	 * @throws \RangeException if $friendsProfileId is not positive
+	 * @throws \InvalidArgumentException if $friendshipInviterId is not safe
+	 * @throws \TypeError if $friendshipInviterId is not an integer
+	 * @throws \RangeException if $friendshipInviterId is not positive
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getFriendByFriendsProfileId(\PDO $pdo, int $friendsProfileId) {
+	public static function getFriendshipByFriendshipInviterId(\PDO $pdo, int $friendshipInviterId) {
 
-		// Verify the $friendsProfileId is positive
-		if($friendsProfileId <= 0) {
-			throw(new \RangeException("friendsProfileId is not positive."));
+		// Verify the $friendshipInviterId is positive
+		if($friendshipInviterId <= 0) {
+			throw(new \RangeException("friendshipInviterId is not positive."));
 		}
 
 		// create query template
-		$query = "SELECT friendsProfileId, friendsFriendId FROM friends WHERE friendsProfileId = :friendsProfileId";
+		$query = "SELECT friendshipInviterId, friendshipInviteeId FROM friendship WHERE friendshipInviterId = :friendshipInviterId";
 		$statement = $pdo->prepare($query);
 
-		// bind the friendsProfileId to the place holder in the template
-		$parameters = ["friendsProfileId" => $friendsProfileId];
+		// bind the friendshipInviterId to the place holder in the template
+		$parameters = ["friendshipInviterId" => $friendshipInviterId];
 		$statement->execute($parameters);
 
-		// build an array of friends
-		$friends = new \SplFixedArray($statement->rowCount());
+		// build an array of friendships
+		$friendships = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$friend = new Friend($row["friendsProfileId"], $row["friendsFriendId"]);
-				$friends[$friends->key()] = $friend;
-				$friends->next();
+				$friendship = new Friendship($row["friendshipInviterId"], $row["friendshipInviteeId"]);
+				$friendships[$friendships->key()] = $friendship;
+				$friendships->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return($friends);
+		return($friendships);
 	}
 
 
 	/**
-	 * gets the Friend by friendsFriendId
+	 * gets the Friendship by friendshipInviteeId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $friendsFriendId friendsFriendId to search for
+	 * @param int $friendshipInviteeId friendshipInviteeId to search for
 	 *
 	 * @return \SplFixedArray SplFixedArray of Friends found
 	 *
-	 * @throws \InvalidArgumentException if $friendsFriendId is not safe
-	 * @throws \TypeError if $friendsFriendId is not an integer
-	 * @throws \RangeException if $friendsFriendId is not positive
+	 * @throws \InvalidArgumentException if $friendshipInviteeId is not safe
+	 * @throws \TypeError if $friendshipInviteeId is not an integer
+	 * @throws \RangeException if $friendshipInviteeId is not positive
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getFriendByFriendsFriendId(\PDO $pdo, int $friendsFriendId) {
+	public static function getFriendshipByFriendshipInviteeId(\PDO $pdo, int $friendshipInviteeId) {
 
-		// Verify the $friendsFriendId is positive
-		if($friendsFriendId <= 0) {
-			throw(new \RangeException("friendsFriendId is not positive."));
+		// Verify the $friendshipInviteeId is positive
+		if($friendshipInviteeId <= 0) {
+			throw(new \RangeException("friendshipInviteeId is not positive."));
 		}
 
 		// create query template
-		$query = "SELECT friendsProfileId, friendsFriendId FROM friends WHERE friendsFriendId = :friendsFriendId";
+		$query = "SELECT friendshipInviterId, friendshipInviteeId FROM friendship WHERE friendshipInviteeId = :friendshipInviteeId";
 		$statement = $pdo->prepare($query);
 
-		// bind the friendsFriendId to the place holder in the template
-		$parameters = ["friendsFriendId" => $friendsFriendId];
+		// bind the friendshipInviteeId to the place holder in the template
+		$parameters = ["friendshipInviteeId" => $friendshipInviteeId];
 		$statement->execute($parameters);
 
-		// build an array of friends
-		$friends = new \SplFixedArray($statement->rowCount());
+		// build an array of friendships
+		$friendships = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$friend = new Friend($row["friendsProfileId"], $row["friendsFriendId"]);
-				$friends[$friends->key()] = $friend;
-				$friends->next();
+				$friendship = new Friendship($row["friendshipInviterId"], $row["friendshipInviteeId"]);
+				$friendships[$friendships->key()] = $friendship;
+				$friendships->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return($friends);
+		return($friendships);
 	}
 
 	/**
