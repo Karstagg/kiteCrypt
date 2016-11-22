@@ -65,7 +65,7 @@ class FriendshipTest extends KiteCryptTest {
 		$friendship = new Friendship($this->inviter->getProfileId(), $this->invitee->getProfileId());
 		$friendship->insert($this->getPDO());
 
-		// Check that the number of rows in the database increased by one, when the new friendship was inserted
+		// Check that the number of rows in the database increased by one, when the new Friendship was inserted
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("friendship"));
 
 		// Use the inviterId to get the Friendship just created and check that it matches what should have been put in.
@@ -84,7 +84,7 @@ class FriendshipTest extends KiteCryptTest {
 	 *
 	 * @expectedException PDOException
 	 **/
-	public function testInsertFriendshipWIthInvalidInviterId() {
+	public function testInsertFriendshipWithInvalidInviterId() {
 
 		// Create a Friendship with a non null tweet id and watch it fail
 		$friendship = new Friendship(DataDesignTest::INVALID_KEY, $this->invitee->getProfileId());
@@ -98,7 +98,7 @@ class FriendshipTest extends KiteCryptTest {
 	 *
 	 * @expectedException PDOException
 	 **/
-	public function testInsertFriendshipWIthInvalidInviteeId() {
+	public function testInsertFriendshipWithInvalidInviteeId() {
 
 		// Create a Friendship with a non null tweet id and watch it fail
 		$friendship = new Friendship($this->inviter->getProfileId(), DataDesignTest::INVALID_KEY);
@@ -158,6 +158,3 @@ class FriendshipTest extends KiteCryptTest {
 
 
 }
-
-
-
