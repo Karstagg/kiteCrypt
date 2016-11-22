@@ -1,4 +1,3 @@
-
 <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
 <section class="welcome">
 	<div class="container">
@@ -16,22 +15,33 @@
 							</div>
 						</div>
 					</div>
-					<div id="login-row" class="row">
-						<div class="col-sm-2 col-sm-offset-5">
-							<div class="form-login">
-								<input type="text" id="user-name" class="form-control input-sm chat-input" placeholder="username" />
-								<br>
-								<input type="text" id="user-password" class="form-control input-sm chat-input" placeholder="password" />
-								<br>
+					<form #loginForm="ngForm" name="loginForm" id="loginForm" class="form-horizontal" (ngSubmit)="login();"
+							novalidate>
+						<div class="form-group">
+							<label for="user-name">Username</label>
+							<div class="input-group">
+								<input type="text" id="user-name" class="form-control input-sm chat-input"
+										 placeholder="username" maxlength="20" required [(ngModel)]="login.username" #username="ngModel"/>
 							</div>
+							<div [hidden]="username.valid || username.pristine" class="alert alert-danger" role="alert">
+								<p *ngIf="username.errors?.required">Username is required.</p>
+								<p *ngIf="username.errors?.maxlength">Username is too long.</p>
+							</div>
+
 						</div>
-					</div>
-					<div id="login-row-button" class="row">
-						<div class="col-xs-6 col-xs-offset-3 text-center">
-							<a href="#" class="btn btn-login btn-lg">login</a>
+						<div class="form-group">
+							<label for="user-password">Password</label>
+							<div class="input-group">
+								<input type="password" id="user-password" class="form-control input-sm chat-input"
+										 placeholder="password" required [(ngModel)]="login.password" #password="ngModel"/>
+							</div>
+							<div [hidden]="password.valid || password.pristine" class="alert alert-danger" role="alert">
+								<p *ngIf="password.errors?.required">Password is required.</p>
+							</div>
+
 						</div>
-					</div>
-				</div>
+						<button type="submit" class="btn btn-info btn-lg" [disabled]="loginForm.invalid"><i class="fa fa-user"></i> Login</button>
+					</form>
 			</header>
 			<!--		main content section-->
 			<main>
