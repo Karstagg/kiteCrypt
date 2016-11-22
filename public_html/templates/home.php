@@ -43,7 +43,7 @@
 							</div>
 
 						</div>
-						<button type="submit" class="btn btn-info btn-lg" [disabled]="loginForm.invalid"><i
+						<button type="submit" class="btn btn-info btn-lg btn-login" [disabled]="loginForm.invalid"><i
 								class="fa fa-user"></i> Login
 						</button>
 					</form>
