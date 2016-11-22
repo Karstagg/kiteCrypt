@@ -53,7 +53,7 @@ class FriendshipTest extends KiteCryptTest {
 
 
 	/**
-	 * Test inserting a valid Friendship and verify that the actual mySQL data matches
+	 * Try inserting a valid Friendship and verify that the actual data matches what was inserted
 	 **/
 	public function testInsertValidFriendship() {
 
@@ -80,7 +80,7 @@ class FriendshipTest extends KiteCryptTest {
 
 
 	/**
-	 * Test inserting a Friendship with an invalid inviterId
+	 * Try inserting a Friendship with an invalid inviterId
 	 *
 	 * @expectedException PDOException
 	 **/
@@ -94,7 +94,7 @@ class FriendshipTest extends KiteCryptTest {
 
 
 	/**
-	 * Test inserting a Friendship with an invalid inviteeId
+	 * Try inserting a Friendship with an invalid inviteeId
 	 *
 	 * @expectedException PDOException
 	 **/
@@ -108,9 +108,10 @@ class FriendshipTest extends KiteCryptTest {
 
 
 	/**
-	 * Test inserting a Friendship and then deleting it
+	 * Try inserting a Friendship and then deleting it
+	 * Verify that the deleted Friendship is not there
 	 **/
-	public function testDeleteValidFriendship() {
+	public function testDeletingValidFriendship() {
 
 		// Count the number of rows (before inserting the new Friendship) and save it
 		$numRows = $this->getConnection()->getRowCount("friendship");
@@ -141,73 +142,20 @@ class FriendshipTest extends KiteCryptTest {
 
 	}
 
+
 	/**
-	 * test deleting a Tweet that does not exist
+	 * Try deleting a Friendship that does not exist
 	 *
 	 * @expectedException PDOException
 	 **/
-	public function testDeleteInvalidTweet() {
-		// create a Tweet and try to delete it without actually inserting it
-		$tweet = new Tweet(null, $this->profile->getProfileId(), $this->VALID_TWEETCONTENT, $this->VALID_TWEETDATE);
-		$tweet->delete($this->getPDO());
+	public function testDeleteNonexistentFriendship() {
+
+		// create a Friendship and try to delete it without actually inserting it
+		$friendship = new Friendship($this->inviter->getProfileId(), $this->invitee->getProfileId());
+		$friendship->delete($this->getPDO());
+
 	}
 
-	/**
-	 * test grabbing a Tweet by tweet content
-	 **/
-	public function testGetValidTweetByTweetContent() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("tweet");
-
-		// create a new Tweet and insert to into mySQL
-		$tweet = new Tweet(null, $this->profile->getProfileId(), $this->VALID_TWEETCONTENT, $this->VALID_TWEETDATE);
-		$tweet->insert($this->getPDO());
-
-		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Tweet::getTweetByTweetContent($this->getPDO(), $tweet->getTweetContent());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tweet"));
-		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Dmcdonald21\\DataDesign\\Tweet", $results);
-
-		// grab the result from the array and validate it
-		$pdoTweet = $results[0];
-		$this->assertEquals($pdoTweet->getProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoTweet->getTweetContent(), $this->VALID_TWEETCONTENT);
-		$this->assertEquals($pdoTweet->getTweetDate(), $this->VALID_TWEETDATE);
-	}
-
-	/**
-	 * test grabbing a Tweet by content that does not exist
-	 **/
-	public function testGetInvalidTweetByTweetContent() {
-		// grab a tweet by searching for content that does not exist
-		$tweet = Tweet::getTweetByTweetContent($this->getPDO(), "you will find nothing");
-		$this->assertCount(0, $tweet);
-	}
-
-	/**
-	 * test grabbing all Tweets
-	 **/
-	public function testGetAllValidTweets() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("tweet");
-
-		// create a new Tweet and insert to into mySQL
-		$tweet = new Tweet(null, $this->profile->getProfileId(), $this->VALID_TWEETCONTENT, $this->VALID_TWEETDATE);
-		$tweet->insert($this->getPDO());
-
-		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Tweet::getAllTweets($this->getPDO());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tweet"));
-		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Dmcdonald21\\DataDesign\\Tweet", $results);
-
-		// grab the result from the array and validate it
-		$pdoTweet = $results[0];
-		$this->assertEquals($pdoTweet->getProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoTweet->getTweetContent(), $this->VALID_TWEETCONTENT);
-		$this->assertEquals($pdoTweet->getTweetDate(), $this->VALID_TWEETDATE);
-	}
 
 }
 
