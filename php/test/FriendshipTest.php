@@ -4,11 +4,12 @@ namespace Edu\Cnm\KiteCrypt\Test;
 
 use Edu\Cnm\KiteCrypt\{Friendship};
 
-// grab the project test parameters
+// Include the project test parameters
 require_once("KiteCryptTest.php");
 
-// grab the class under scrutiny
+// Include the class under scrutiny
 require_once("../class/autoloader.php");
+
 
 /**
  * Full PHPUnit test for the Friendship class
@@ -34,7 +35,7 @@ class FriendshipTest extends KiteCryptTest {
 
 
 	/**
-	 * create dependent objects before running each test
+	 * Create the dependent objects needed before running each test
 	 **/
 	public final function setUp() {
 		// run the default setup() method first
@@ -50,12 +51,14 @@ class FriendshipTest extends KiteCryptTest {
 
 	}
 
+
 	/**
-	 * test inserting a valid Friendship and verify that the actual mySQL data matches
+	 * Test inserting a valid Friendship and verify that the actual mySQL data matches
 	 **/
 	public function testInsertValidFriendship() {
 
-		// Count the number of rows and save it, so we can make sure that a new row was added in the database when we created the new Friendship
+		// Count the number of rows (before inserting the new Friendship) and save it,
+		// so, later, we can make sure that a new row was added in the database when we created the new Friendship
 		$numRows = $this->getConnection()->getRowCount("friendship");
 
 		// Create the new Friendship and insert it into the database
@@ -75,70 +78,67 @@ class FriendshipTest extends KiteCryptTest {
 
 	}
 
+
 	/**
-	 * test inserting a Tweet that already exists
+	 * Test inserting a Friendship with an invalid inviterId
 	 *
 	 * @expectedException PDOException
 	 **/
-	public function testInsertInvalidTweet() {
-		// create a Tweet with a non null tweet id and watch it fail
-		$tweet = new Tweet(DataDesignTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_TWEETCONTENT, $this->VALID_TWEETDATE);
-		$tweet->insert($this->getPDO());
+	public function testInsertFriendshipWIthInvalidInviterId() {
+
+		// Create a Friendship with a non null tweet id and watch it fail
+		$friendship = new Friendship(DataDesignTest::INVALID_KEY, $this->invitee->getProfileId());
+		$friendship->insert($this->getPDO());
+
 	}
 
-	/**
-	 * test inserting a Tweet, editing it, and then updating it
-	 **/
-	public function testUpdateValidTweet() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("tweet");
-
-		// create a new Tweet and insert to into mySQL
-		$tweet = new Tweet(null, $this->profile->getProfileId(), $this->VALID_TWEETCONTENT, $this->VALID_TWEETDATE);
-		$tweet->insert($this->getPDO());
-
-		// edit the Tweet and update it in mySQL
-		$tweet->setTweetContent($this->VALID_TWEETCONTENT2);
-		$tweet->update($this->getPDO());
-
-		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoTweet = Tweet::getTweetByTweetId($this->getPDO(), $tweet->getTweetId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tweet"));
-		$this->assertEquals($pdoTweet->getProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoTweet->getTweetContent(), $this->VALID_TWEETCONTENT2);
-		$this->assertEquals($pdoTweet->getTweetDate(), $this->VALID_TWEETDATE);
-	}
 
 	/**
-	 * test updating a Tweet that does not exist
+	 * Test inserting a Friendship with an invalid inviteeId
 	 *
 	 * @expectedException PDOException
 	 **/
-	public function testUpdateInvalidTweet() {
-		// create a Tweet, try to update it without actually updating it and watch it fail
-		$tweet = new Tweet(null, $this->profile->getProfileId(), $this->VALID_TWEETCONTENT, $this->VALID_TWEETDATE);
-		$tweet->update($this->getPDO());
+	public function testInsertFriendshipWIthInvalidInviteeId() {
+
+		// Create a Friendship with a non null tweet id and watch it fail
+		$friendship = new Friendship($this->inviter->getProfileId(), DataDesignTest::INVALID_KEY);
+		$friendship->insert($this->getPDO());
+
 	}
 
+
 	/**
-	 * test creating a Tweet and then deleting it
+	 * Test inserting a Friendship and then deleting it
 	 **/
-	public function testDeleteValidTweet() {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("tweet");
+	public function testDeleteValidFriendship() {
 
-		// create a new Tweet and insert to into mySQL
-		$tweet = new Tweet(null, $this->profile->getProfileId(), $this->VALID_TWEETCONTENT, $this->VALID_TWEETDATE);
-		$tweet->insert($this->getPDO());
+		// Count the number of rows (before inserting the new Friendship) and save it
+		$numRows = $this->getConnection()->getRowCount("friendship");
 
-		// delete the Tweet from mySQL
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("tweet"));
-		$tweet->delete($this->getPDO());
+		// Create a new Friendship and insert it into the database
+		$friendship = new Friendship($this->inviter->getProfileId(), $this->invitee->getProfileId());
+		$friendship->insert($this->getPDO());
 
-		// grab the data from mySQL and enforce the Tweet does not exist
-		$pdoTweet = Tweet::getTweetByTweetId($this->getPDO(), $tweet->getTweetId());
-		$this->assertNull($pdoTweet);
-		$this->assertEquals($numRows, $this->getConnection()->getRowCount("tweet"));
+		// Check that the number of rows in the database increased by one, when the new Friendship was inserted
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("friendship"));
+
+		// Delete the Friendship from the database
+		$friendship->delete($this->getPDO());
+
+		// Check that the number of rows in the database decreased by one, so that the number of rows
+		// is back to what it was before the new Friendship was inserted
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("friendship"));
+
+		// Try to get the deleted Friendship from the database (using the inviterId)
+		// and verify that it does not exist (that is a null is returned)
+		$pdoFriendship1 = Friendship::getFriendshipByFriendshipInviterId($this->getPDO(), $inviter->getProfileId());
+		$this->assertNull($pdoFriendship1);
+
+		// Try to get the deleted Friendship from the database (using the inviteeId)
+		// and verify that it does not exist (that is a null is returned)
+		$pdoFriendship2 = Friendship::getFriendshipByFriendshipInviteeId($this->getPDO(), $invitee->getProfileId());
+		$this->assertNull($pdoFriendship2);
+
 	}
 
 	/**
