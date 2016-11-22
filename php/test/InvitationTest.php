@@ -32,6 +32,16 @@ class InvitationTest extends KiteCryptTest {
 	 * @var Invitation invitee
 	 **/
 	protected $invitee = null;
+	/**
+	 * timestamp of the Invitation; this starts as null and is assigned by MySQL
+	 * @var DateTime $VALID_INVITATIONDATE
+	 **/
+	protected $VALID_INVITATIONDATE = null;
+	/**
+	 * content of the Invitation
+	 * @var string $VALID_INVITATIONPASSPHRASE
+	 **/
+	protected $VALID_INVITATIONPASSPHRASE = "PHPUnit test passing with this valid invitationPassphrase!";
 
 
 	/**
@@ -65,7 +75,7 @@ class InvitationTest extends KiteCryptTest {
 		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId());
 		$invitation->insert($this->getPDO());
 
-		// Check that the number of rows in the database increased by one, when the new invitation was inserted
+		// Check that the number of rows in the database increased by one, when the new Invitation was inserted
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("invitation"));
 
 		// Use the inviterId to get the Invitation just created and check that it matches what should have been put in.
