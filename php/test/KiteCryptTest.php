@@ -45,9 +45,9 @@ abstract class KiteCryptTest extends \PHPUnit_Extensions_Database_TestCase {
 		// add all the tables for the project here
 		// THESE TABLES *MUST* BE LISTED IN THE SAME ORDER THEY WERE CREATED!!!!
 		$dataset->addTable("profile");
-		$dataset->addTable("messages");
-		$dataset->addTable("invite");
-		$dataset->addTable("friends");
+		$dataset->addTable("message");
+		$dataset->addTable("invitation");
+		$dataset->addTable("friendship");
 		return($dataset);
 	}
 
