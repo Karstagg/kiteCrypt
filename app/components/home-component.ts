@@ -1,6 +1,6 @@
 
 import {Component} from "@angular/core";
-import {LoginService} from "../services/login-services";
+import {LoginService} from "../services/login-service";
 import {Login} from "../classes/login";
 import {Status} from "../classes/status";
 
@@ -9,7 +9,7 @@ import {Status} from "../classes/status";
 })
 
 export class HomeComponent {
-	login: Login = new Login("", "");
+	loginData: Login = new Login("", "");
 	status: Status = null;
 
 	constructor(private loginService: LoginService) {
@@ -17,7 +17,7 @@ export class HomeComponent {
 	}
 
 	login() : void {
-		this.loginService.login(this.login)
+		this.loginService.login(this.loginData)
 			.subscribe(status => this.status = status);
 	}
 }

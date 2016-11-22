@@ -1,8 +1,7 @@
 <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
-<section class="welcome">
+
 	<div class="container">
 		<div class="bg-image">
-			<header>
 				<div class="container-fluid">
 					<div id="title-row" class="row">
 						<div class="col-xs-12">
@@ -42,7 +41,6 @@
 						</div>
 						<button type="submit" class="btn btn-info btn-lg" [disabled]="loginForm.invalid"><i class="fa fa-user"></i> Login</button>
 					</form>
-			</header>
 			<!--		main content section-->
 			<main>
 
@@ -51,4 +49,3 @@
 			</footer>
 		</div>
 	</div>
-</section>
