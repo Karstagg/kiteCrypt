@@ -1,6 +1,6 @@
 
 import {Component} from "@angular/core";
-import {LoginService} from "../services/login-service";
+import {LoginService} from "../services/login-services";
 import {Login} from "../classes/login";
 import {Status} from "../classes/status";
 
