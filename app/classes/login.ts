@@ -1,3 +1,3 @@
-export class Misquote {
-	constructor(public misquoteId: number, public attribution: string, public misquote: string, public submitter: string) {}
+export class Login {
+	constructor(public username: string, public password: string) {}
 }
