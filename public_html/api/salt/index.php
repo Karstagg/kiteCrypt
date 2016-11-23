@@ -48,14 +48,13 @@ try {
 		$requestObject = json_decode($requestContent);
 
 		if(newUser === true) {
-			$salt = bin2hex(random_bytes(16));
-		} else {
-
-			//make sure tweet content is available (required field)
-			if(empty($requestObject->username) === true) {
-				throw(new \InvalidArgumentException ($exceptionMessage, $exceptionCode));
+			$profileFromDatabase = Profile::getProfileByUserName($pdo, $profileUserName);
+			if($profileFromDatabase === null) {
+				$reply->data = bin2hex(random_bytes(16));
+			} else {
+				throw (new \InvalidArgumentException($exceptionMessage, $exceptionCode));
 			}
-
+		} else {
 
 			//perform the actual post - POST only, GET requests put username in the URL. POST requests are not shareable//
 
@@ -65,6 +64,13 @@ try {
 			}
 			$reply->data = $profile->getProfilePasswordSalt();
 		}
+
+
+		//make sure tweet content is available (required field)
+		if(empty($requestObject->username) === true) {
+			throw(new \InvalidArgumentException ($exceptionMessage, $exceptionCode));
+		}
+
 
 	} else {
 		throw (new InvalidArgumentException($exceptionMessage, $exceptionCode));
