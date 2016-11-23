@@ -1,4 +1,4 @@
-<!--Inputs are going to be username, publicKeyX, publicKeyY. Logic is to look up profile by username, compare keys and make sure both keys match, if there is any discrepency, throw them out. Profile object (including Keys) are going to be in the session. Need to getProfilePublicKeyx, getProfilePublicKeyY-->
+<!--Inputs are going to be username, publicKeyX, publicKeyY. Logic is to look up profile by username, compare keys and make sure both keys match, if there is any discrepancy, throw them out. Profile object (including Keys) are going to be in the session. Need to getProfilePublicKeyx, getProfilePublicKeyY-->
 
 <?php
 
@@ -28,6 +28,8 @@ $reply->data = null;
 $exceptionMessage = "Username or Password invalid";
 $exceptionCode = 401;
 
+
+
 try {
 	//grab the mySQL connection
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/kitecrypt.ini");
@@ -49,60 +51,59 @@ try {
 		if(empty($requestObject->profileUserName) === true) {
 			throw(new \InvalidArgumentException($exceptionMessage, $exceptionCode));
 		} else {
-			$profileUserName = filter_var($requestObject->profileUserName, FILTER_SANITIZE_EMAIL);
+			$profileUserName = filter_var($requestObject->profileUserName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
-		//checking the password field for user input
-
-		if(empty($requestObject->profilePassword) === true) {
-
-
-			throw(new \InvalidArgumentException("Please enter your password", 405));
+		if(empty($requestObject->profilePublicKeyX) === true) {
+			throw(new \InvalidArgumentException($exceptionMessage, $exceptionCode));
 		} else {
-			$password = filter_input(INPUT_POST, $requestObject->profilePassword, FILTER_SANITIZE_STRING);
+			$profilePublicKeyXFromUser = filter_var($requestObject->profilePublicKeyX, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		}
+
+		if(empty($requestObject->profilePublicKeyY) === true) {
+			throw(new \InvalidArgumentException($exceptionMessage, $exceptionCode));
+		} else {
+			$profilePublicKeyYFromUser = filter_var($requestObject->profilePublicKeyY, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
 
 		//retrieve the data for profileUserName
 
-		$profile = Profile::getProfileByProfileUserName($pdo, $profileUserName);
-			$profile->getProfilePasswordSalt;
 
-		$salt=$profile->getProfilePasswordSalt;
+		$profileFromDatabase = Profile::getProfileByUserName($pdo, $profileUserName);
 
+		$profileXFromDatabase = $profileFromDatabase->getProfilePublicKeyX();
 
-//		randomized salt needs to be sent to the front end. Password that is entered by user is salted and converted into two public keys (x, y). Public keys will be stored in the session. Password salt needs to be stored in the session as well.
-		//use profile salt to hash password
+		$profileYFromDatabase = $profileFromDatabase->getProfilePublicKeyY();
 
-		$confirmHash = hash_pbkdf2("sha512", $requestObject->profilePassword, $salt, 262144);
-
-
-		//matches hashes
-		//put profile into session
-
-		if($confirmPublicKey === $profile->getPublicKey()) {
-			$_SESSION["profile"] = $profile;
-
-			$reply->status = 200;
-			$reply->message = "Successfully logged in";
-		} else {
-			throw(new InvalidArgumentException("email or password is invalid", 401));
+		if($profileXFromDatabase === null || $profileYFromDatabase === null){
+			throw( new \InvalidArgumentException($exceptionMessage, $exceptionCode));
 		}
+
+		if($profilePublicKeyXFromUser !== $profileXFromDatabase || $profilePublicKeyYFromUser !== $profileYFromDatabase){
+			throw( new \InvalidArgumentException($exceptionMessage, $exceptionCode));
+		}
+
+//		If all username, public Key x, and public key Y match, send them to the chat page with friends list
+
+
 	} else {
-		throw(new InvalidArgumentException("Invalid HTTP method request"));
+		throw (new InvalidArgumentException($exceptionMessage, $exceptionCode));
 	}
-	//catch(Exception $exception){
-}catch(Exception $exception){
+
+	// update reply with exception information
+} catch(Exception $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
-	$reply->trace = $exception->getTraceAsString();
-}catch(TypeError $typeError){
+} catch(TypeError $typeError) {
 	$reply->status = $typeError->getCode();
 	$reply->message = $typeError->getMessage();
 }
+
 header("Content-type: application/json");
-if($reply->data === null){
+if($reply->data === null) {
 	unset($reply->data);
 }
-//encode and return reply to front end caller
+
+// encode and return reply to front end caller
 echo json_encode($reply);

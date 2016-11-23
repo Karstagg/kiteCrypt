@@ -35,7 +35,7 @@ try {
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 
-	// handle GET request - if id is present, that tweet is returned, otherwise all tweets are returned
+	// handle GET request//
 	if($method === "GET") {
 		//set XSRF cookie
 		setXsrfCookie();
