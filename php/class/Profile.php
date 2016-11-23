@@ -219,7 +219,7 @@ class Profile implements \JsonSerializable {
 		}
 
 		/*
-		 * mutator method for profile password key
+		 * mutator method for profile password salt
 		 *
 		 * @param string $newProfilePasswordSalt
 		 * @throws \InvalidArgumentException if $newProfilePasswordSalt is not a string or insecure
