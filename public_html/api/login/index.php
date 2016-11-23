@@ -25,6 +25,9 @@ $reply = new stdClass();
 $reply->status = 200;
 $reply->data = null;
 
+$exceptionMessage = "Username or Password invalid";
+$exceptionCode = 401;
+
 try {
 	//grab the mySQL connection
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/kitecrypt.ini");
@@ -33,9 +36,9 @@ try {
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	if($method === "POST") {
-//		todo why a post? because its a temporary?
+
 		//set XSRF cookie
-//		setXsrfCookie(); //TODO do i set this here?
+//		setXsrfCookie();
 //		verifyXsrf();
 
 		$requestContent = file_get_contents("php://input");
@@ -44,7 +47,7 @@ try {
 		//check that email and password fields are not empty, and sanitize that input
 
 		if(empty($requestObject->profileUserName) === true) {
-			throw(new \InvalidArgumentException("Please enter your Username", 405));
+			throw(new \InvalidArgumentException($exceptionMessage, $exceptionCode));
 		} else {
 			$profileUserName = filter_var($requestObject->profileUserName, FILTER_SANITIZE_EMAIL);
 		}
@@ -53,7 +56,6 @@ try {
 
 		if(empty($requestObject->profilePassword) === true) {
 
-			//TODO profile password, do i also have confirm profile password?//
 
 			throw(new \InvalidArgumentException("Please enter your password", 405));
 		} else {
@@ -74,13 +76,6 @@ try {
 
 		$confirmHash = hash_pbkdf2("sha512", $requestObject->profilePassword, $salt, 262144);
 
-		//TODO is this the correct requestObject to be put in here?
-		//todo is this how i check for profile activation token? on the test i get this error, but thats because in the database no PAT have been set to null
-
-		$profile->getProfileActivationToken();
-		if($profile->getProfileActivationToken() !== null){
-			throw(new InvalidArgumentException("your account has not been activated yet", 404));
-		}
 
 		//matches hashes
 		//put profile into session
