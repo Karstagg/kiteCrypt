@@ -36,7 +36,7 @@ class InvitationTest extends KiteCryptTest {
 	 * timestamp of the Invitation; this starts as null and is assigned by MySQL
 	 * @var DateTime $VALID_INVITATIONDATE
 	 **/
-	protected $VALID_INVITATIONDATE = null;
+	protected $VALID_INVITATIONTIMESTAMP = null;
 	/**
 	 * content of the Invitation
 	 * @var string $VALID_INVITATIONPASSPHRASE
@@ -60,7 +60,7 @@ class InvitationTest extends KiteCryptTest {
 		$this->invitee->insert($this->getPDO());
 
 		// create and insert a Profile that sent the Invitation of Invitation (the inviter); it is a foreign key
-		$this->VALID_INVITATIONDATE = new \DateTime();
+		$this->VALID_INVITATIONTIMESTAMP = new \DateTime();
 
 		// create and insert a Profile that sent the Invitation of Invitation (the inviter); it is a foreign key
 		$this->VALID_INVITATIONPASSPHRASE = "Rindfleischetikettierungsueberwachungsaufgabenuebertragungsgesetz";
@@ -78,7 +78,7 @@ class InvitationTest extends KiteCryptTest {
 		$numRows = $this->getConnection()->getRowCount("invitation");
 
 		// Create the new Invitation and insert it into the database
-		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId());
+		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP->getInvitationTimestamp(), $this->VALID_INVITATIONPASSPHRASE->getInvitationPassphrase());
 		$invitation->insert($this->getPDO());
 
 		// Check that the number of rows in the database increased by one, when the new Invitation was inserted
@@ -87,10 +87,14 @@ class InvitationTest extends KiteCryptTest {
 		// Use the inviterId to get the Invitation just created and check that it matches what should have been put in.
 		$pdoInvitation1 = Invitation::getInvitationByInvitationInviterId($this->getPDO(), $inviter->getProfileId());
 		$this->assertEquals($pdoInvitation1->getInvitationInviterId(), $this->inviter->getProfileId());
+		$this->assertEquals($pdoInvitation1->getInvitationTimestamp(), $this->VALID_INVITATIONTIMESTAMP);
+		$this->assertEquals($pdoInvitation1->getInvitationPassphrase(), $this->VALID_INVITATIONPASSPHRASE);
 
 		// Use the inviteeId to get the Invitation just created and check that it matches what should have been put in.
 		$pdoInvitation2 = Invitation::getInvitationByInvitationInviteeId($this->getPDO(), $invitee->getProfileId());
 		$this->assertEquals($pdoInvitation2->getInvitationInviteeId(), $this->invitee->getProfileId());
+		$this->assertEquals($pdoInvitation2->getInvitationTimestamp(), $this->VALID_INVITATIONTIMESTAMP);
+		$this->assertEquals($pdoInvitation2->getInvitationPassphrase(), $this->VALID_INVITATIONPASSPHRASE);
 
 	}
 
@@ -103,7 +107,7 @@ class InvitationTest extends KiteCryptTest {
 	public function testInsertInvitationWithInvalidInviterId() {
 
 		// Create a Invitation with a non null tweet id and watch it fail
-		$invitation = new Invitation(DataDesignTest::INVALID_KEY, $this->invitee->getProfileId());
+		$invitation = new Invitation(DataDesignTest::INVALID_KEY, $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP->getInvitationTimestamp(), $this->VALID_INVITATIONPASSPHRASE->getInvitationPassphrase());
 		$invitation->insert($this->getPDO());
 
 	}
@@ -117,7 +121,35 @@ class InvitationTest extends KiteCryptTest {
 	public function testInsertInvitationWithInvalidInviteeId() {
 
 		// Create a Invitation with a non null tweet id and watch it fail
-		$invitation = new Invitation($this->inviter->getProfileId(), DataDesignTest::INVALID_KEY);
+		$invitation = new Invitation($this->inviter->getProfileId(), DataDesignTest::INVALID_KEY, $this->VALID_INVITATIONTIMESTAMP->getInvitationTimestamp(), $this->VALID_INVITATIONPASSPHRASE->getInvitationPassphrase());
+		$invitation->insert($this->getPDO());
+
+	}
+
+
+	/**
+	 * Try inserting a Invitation with an invalid invitationTimeStamp
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testInsertInvitationWithInvalidInvitationTimestamp() {
+
+		// Create a Invitation with a non null tweet id and watch it fail
+		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), DataDesignTest::INVALID_KEY, $this->VALID_INVITATIONPASSPHRASE->getInvitationPassphrase());
+		$invitation->insert($this->getPDO());
+
+	}
+
+
+	/**
+	 * Try inserting a Invitation with an invalid invitationPassphrase
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testInsertInvitationWithInvalidInvitationPassphrase() {
+
+		// Create a Invitation with a non null tweet id and watch it fail
+		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP->getInvitationTimestamp(), DataDesignTest::INVALID_KEY);
 		$invitation->insert($this->getPDO());
 
 	}
