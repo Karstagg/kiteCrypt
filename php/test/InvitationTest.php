@@ -69,7 +69,7 @@ class InvitationTest extends KiteCryptTest {
 
 
 	/**
-	 * Try inserting a valid Invitation and verify that the actual data matches what was inserted
+	 * Try inserting an valid Invitation and verify that the actual data matches what was inserted
 	 **/
 	public function testInsertValidInvitation() {
 
@@ -100,7 +100,7 @@ class InvitationTest extends KiteCryptTest {
 
 
 	/**
-	 * Try inserting a Invitation with an invalid inviterId
+	 * Try inserting an Invitation with an invalid inviterId
 	 *
 	 * @expectedException PDOException
 	 **/
@@ -114,7 +114,7 @@ class InvitationTest extends KiteCryptTest {
 
 
 	/**
-	 * Try inserting a Invitation with an invalid inviteeId
+	 * Try inserting an Invitation with an invalid inviteeId
 	 *
 	 * @expectedException PDOException
 	 **/
@@ -128,7 +128,7 @@ class InvitationTest extends KiteCryptTest {
 
 
 	/**
-	 * Try inserting a Invitation with an invalid invitationTimeStamp
+	 * Try inserting an Invitation with an invalid invitationTimeStamp
 	 *
 	 * @expectedException PDOException
 	 **/
@@ -142,7 +142,7 @@ class InvitationTest extends KiteCryptTest {
 
 
 	/**
-	 * Try inserting a Invitation with an invalid invitationPassphrase
+	 * Try inserting an Invitation with an invalid invitationPassphrase
 	 *
 	 * @expectedException PDOException
 	 **/
@@ -156,7 +156,7 @@ class InvitationTest extends KiteCryptTest {
 
 
 	/**
-	 * Try inserting a Invitation and then deleting it
+	 * Try inserting an Invitation and then deleting it
 	 * Verify that the deleted Invitation is not there
 	 **/
 	public function testDeletingValidInvitation() {
@@ -165,7 +165,7 @@ class InvitationTest extends KiteCryptTest {
 		$numRows = $this->getConnection()->getRowCount("invitation");
 
 		// Create a new Invitation and insert it into the database
-		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId());
+		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP->getInvitationTimestamp(), $this->VALID_INVITATIONPASSPHRASE->getInvitationPassphrase());
 		$invitation->insert($this->getPDO());
 
 		// Check that the number of rows in the database increased by one, when the new Invitation was inserted
@@ -192,7 +192,7 @@ class InvitationTest extends KiteCryptTest {
 
 
 	/**
-	 * Try deleting a Invitation that does not exist
+	 * Try deleting an Invitation that does not exist
 	 *
 	 * @expectedException PDOException
 	 **/
