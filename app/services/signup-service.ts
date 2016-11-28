@@ -13,8 +13,8 @@ export class SignUpService extends BaseService {
 
 	private loginUrl = "api/login/";
 
-	login(signup: SignUp) : Observable<Status> {
-		return(this.http.post(this.loginUrl, signup)
+	signUp(signUp: SignUp) : Observable<Status> {
+		return(this.http.post(this.loginUrl, signUp)
 			.map(this.extractMessage)
 			.catch(this.handleError));
 	}

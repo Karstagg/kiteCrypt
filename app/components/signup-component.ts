@@ -15,8 +15,8 @@ export class signUpComponent {
 
 	}
 
-	login() : void {
-		this.SignUpService.login(this.loginData)
+	signUp() : void {
+		this.SignUpService.signUp(this.loginData)
 			.subscribe(status => this.status = status);
 	}
 }
