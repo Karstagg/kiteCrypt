@@ -8,7 +8,7 @@ use Edu\Cnm\KiteCrypt\{Invitation};
 require_once("KiteCryptTest.php");
 
 // Include the class under scrutiny
-require_once("../class/autoloader.php");
+require_once(dirname(__DIR__) . "/class/autoloader.php");
 
 
 /**
