@@ -7,7 +7,7 @@ import {Status} from "../classes/status";
 	templateUrl: "./templates/signUp.php"
 })
 
-export class signUpComponent {
+export class SignUpComponent {
 	signUpData: SignUp = new SignUp("", "");
 	status: Status = null;
 
