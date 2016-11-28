@@ -120,7 +120,7 @@ class InvitationTest extends KiteCryptTest {
 	 **/
 	public function testInsertInvitationWithInvalidInviteeId() {
 
-		// Create a Invitation with a non null tweet id and watch it fail
+		// Create a Invitation with a non null inviterId and watch it fail
 		$invitation = new Invitation($this->inviter->getProfileId(), DataDesignTest::INVALID_KEY, $this->VALID_INVITATIONTIMESTAMP->getInvitationTimestamp(), $this->VALID_INVITATIONPASSPHRASE->getInvitationPassphrase());
 		$invitation->insert($this->getPDO());
 
@@ -199,8 +199,36 @@ class InvitationTest extends KiteCryptTest {
 	public function testDeleteNonexistentInvitation() {
 
 		// create a Invitation and try to delete it without actually inserting it
-		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId());
+		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP->getInvitationTimestamp(), $this->VALID_INVITATIONPASSPHRASE->getInvitationPassphrase());
 		$invitation->delete($this->getPDO());
+
+	}
+
+
+	/**
+	 * Try getting all the Invitations
+	 **/
+	public function testGetAllValidInvitations() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("invitation");
+
+		// Create a new Invitation and insert it into the database
+		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP->getInvitationTimestamp(), $this->VALID_INVITATIONPASSPHRASE->getInvitationPassphrase());
+		$invitation->insert($this->getPDO());
+
+		// Get the invitations from the database and verify that they match our expectations
+		$results = Invitation::getAllInvitations($this->getPDO());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("invitation"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\KiteCrypt\\DataDesign\\Invitation", $results);
+
+		// Validate the results
+		$pdoInvitation = $results[0];
+		$this->assertEquals($pdoInvitation->getInvitationInviterId(), $this->inviter->getProfileId());
+		$this->assertEquals($pdoInvitation->getInvitationInviteeId(), $this->invitee->getProfileId());
+		$this->assertEquals($pdoInvitation->getInvitationTimestamp(), $this->VALID_INVITATIONTIMESTAMP);
+		$this->assertEquals($pdoInvitation->getInvitationPassphrase(), $this->VALID_INVITATIONPASSPHRASE);
+
 
 	}
 
