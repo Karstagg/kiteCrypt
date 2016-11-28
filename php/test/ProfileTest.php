@@ -7,7 +7,7 @@
 	require_once("KiteCryptTest.php");
 
 // grab the class under scrutiny
-	require_once(dirname(__DIR__) . "../class/autoloader.php");
+	require_once(dirname(__DIR__) . "/class/autoloader.php");
 	
 	/**
 	 * Full PHPUnit test for the Tweet class
@@ -32,20 +32,55 @@ class ProfileTest extends KiteCryptTest {
 	 * id for profile; this is the primary key
 	 * @var int|null $profileId
 	 * **/
-	protected $validProfile = "PhpUnit Test pass if this test passes";
+	protected $validProfileId = null;
 
 	/**
 	 * User Name for profile;
 	 * @var string
 	 * **/
-	protected $invalidProfile = "PHPUnit test pass if this test fails";
+	protected $validProfileUnserName = "John Doe Sr";
+	protected $validProfileUnserName2 = "Matt of RR";
 
 	/**
-	 * Public Key for encryption for profile
-	 *
+	 * Invalid User Name for profile;
 	 * @var string
+	 * @var string <= 256 characters length
+	 * **/
+	protected $invalidProfileUserName = "PHPUnit test pass if this test fails";
+
+	/**
+	 * Public Key X for encryption for profile
+	 *
+	 * @var string > 256
 	 */
-	protected $profilePublicKey = "test pass if this this ";
+	protected $validProfilePublicKeyX = "dkongdakjoidgneislidkei";
+
+	/**
+	 * Invalid profile Public Key X;
+	 * @var string
+	 * @var string > 256 characters length
+	 * **/
+	protected $invalidProfilePublicKeyX = "dkajoikfdkgnakdgjgnakdfgjadjnaocjnviajnkjcajbcnadjfjadsnfajxcnviadigfasdnvcjbivbna;vbadskdjcnvkjafjadnvkjnc vbkjasnvkjadsbsvbaskjvnkajsbdvjiafngvdkajdlkjfalkdjflkadjofijadksflaldksjflkjadslfkjasdidjfoadssfvkdsclkfvndsalkfdjafl;kdalkfjdjflkadjflkajdslkfjasdlkfjoadsijfoaidsjkjvcnkajbfkdjbn";
+
+	/**
+	 * Valid profile public Key Y
+	 * @var string
+	 * @var string <= 256 characters length
+	 * **/
+	protected $validProfilePublicKeyY = "test pass if this this public key Y ";
+
+	/**
+	 * Invalid profile public key Y;
+	 * @var string
+	 * @var string > 256 characters length
+	 * **/
+	protected $invalidProfilePublicKeyY = "dkajoikfdkgnakdgjgnakdfgjadjnaocjnviajnkjcajbcnadjfjadsnfajxcnviadigfasdnvcjbivbna;vbadskdjcnvkjafjadnvkjnc vbkjasnvkjadsbsvbaskjvnkajsbdvjiafngvdkajdlkjfalkdjflkadjofijadksflaldksjflkjadslfkjasdidjfoadssfvkdsclkfvndsalkfdjafl;kdalkfjdjflkadjflkajdslkfjasdlkfjoadsijfoaidsjkjvcnkajbfkdjbn";
+
+/*
+ * Valid profile Salt testing
+ * @var string
+ */
+	protected $validProfileSalt = "dfvnoint323fdndoo;";
 
 	/**
 	 * constructor for this Profile
@@ -55,15 +90,16 @@ class ProfileTest extends KiteCryptTest {
 	 * @param string $newProfilePublicKey string containing user public key data for encryption.
 	 * @throws string for invalid argument
 	 */
-/*
+
 	public final function setUp() {
 		//run the default setup() method first
 		parent::setUp();
 
-		// create and insert a Profile
-		$this->profile = new Profile(null, "John Doe", "1234567890123456790123456789012345678901234567890", "123456789A12345679B123456789C123456789D123456789E", "46546546");
-		$this->profile->insert($this->getPDO());
-	}*/
+
+
+
+	}
+
 	/*
 	 * Test adding to many characters to public key
 	 */
@@ -76,26 +112,28 @@ class ProfileTest extends KiteCryptTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// create a new profile and insert to mySQL
-		$profile = new profile(null, this->profile->getProfileId(), $this->$validProfile);
+		$profile = new Profile($this->validProfileId, $this->validProfileUnserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfileSalt);
 		$profile->insert($this->getPDO());
+
+
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileById($this->getPDO(), $profile->getProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoProfile->getProfileUserName(), $this->validProfile);
-		$this->assertEquals($pdoProfile->getProfilePublicKeyX(), $this->validProfile);
-		$this->assertEquals($pdoProfile->getProfilePublicKeyY(), $this->validProfile);
-		$this->assertEquals($pdoProfile->getProfilePasswordSalt(), $this->validProfile);
+		$this->assertEquals($pdoProfile->getProfileUserName(), $this->validProfileUnserName);
+		$this->assertEquals($pdoProfile->getProfilePublicKeyX(), $this->validProfilePublicKeyX);
+		$this->assertEquals($pdoProfile->getProfilePublicKeyY(), $this->validProfilePublicKeyY);
+		$this->assertEquals($pdoProfile->getProfilePasswordSalt(), $this->validProfileSalt);
 	}
 	/*
 	 * test inserting a profile that already exist
 	 *
 	 * @expectedException PDOException
 	 */
-	public function testInsertInvalidProfile() {
+	public function testInsertInvalidProfileName() {
 		// creat e a profile with a non null profile Id and watch if fail
-		$profile = new Profile(KiteCryptTest::INVALID_KEY, $this->profile->getProfileId(), $this->validProfile);
+		$profile = new Profile(KiteCryptTest::INVALID_KEY, $this->profile->getProfileId(), $this->invalidProfileUserName);
 		$profile->insert($this->getPDO());
 	}
 
@@ -119,6 +157,12 @@ class ProfileTest extends KiteCryptTest {
 		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoProfile->getProfileUserName(), $this->validProfile);
 
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		// create a new Tweet and insert to into mySQL
+		$tweet = new Profile(null, $this->profile->getProfileId(), $this->validProfileUnserName, $this->VALID_TWEETDATE);
+		$tweet->insert($this->getPDO());
 
 
 	}
@@ -131,8 +175,7 @@ class ProfileTest extends KiteCryptTest {
 
 
 
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->
+
 
 
 
