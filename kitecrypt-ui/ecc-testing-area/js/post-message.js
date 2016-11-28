@@ -151,17 +151,18 @@ setInterval( sendStatus(), 60000);
 
 function sendStatus() {
 
-	getN("statusFrame").contentWindow.postMessage(username + "-status-" + userStatus, "http://bootcamp-coders.cnm.edu");
+	getN("statusFrame").contentWindow.postMessage(username + "-status-" + userStatus, "https://bootcamp-coders.cnm.edu");
 
 }
 
 
 // Handle messages
-window.onmessage = messageHandler(event);
+//window.onmessage = messageHandler(event);
+window.addEventListener("message", messageHandler, true);
 
 function messageHandler(event) {
 
-	if (event.origin == "http://bootcamp-coders.cnm.edu") {
+	if (event.origin == "https://bootcamp-coders.cnm.edu") {
 
 		var messageData = event.data;
 		var messageDataArray = messageData.split("-");
