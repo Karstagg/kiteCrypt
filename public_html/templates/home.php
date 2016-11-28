@@ -10,7 +10,7 @@
 							<h1 id="kiteCrypt-title" class="fade-in">KiteCrypt</h1>
 						</div>
 						<p id="slogan" class="fade-in-out">A secure chat site for our insecure world</p>
-						<p id="sign-up" class="pad-down2 fade-in-2">New? <a routerLink="">Sign up!</a></p>
+						<p id="sign-up" class="pad-down2 fade-in-2">New? <a routerLink="/signUp">Sign up!</a></p>
 					</div>
 				</div>
 			</div>
