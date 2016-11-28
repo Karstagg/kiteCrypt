@@ -11,10 +11,10 @@ export class SignUpService extends BaseService {
 		super(http);
 	}
 
-	private loginUrl = "api/login/";
+	private signUpUrl = "api/signup/";
 
 	signUp(signUp: SignUp) : Observable<Status> {
-		return(this.http.post(this.loginUrl, signUp)
+		return(this.http.post(this.signUpUrl, signUp)
 			.map(this.extractMessage)
 			.catch(this.handleError));
 	}

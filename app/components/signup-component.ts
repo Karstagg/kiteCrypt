@@ -8,7 +8,7 @@ import {Status} from "../classes/status";
 })
 
 export class signUpComponent {
-	loginData: SignUp = new SignUp("", "");
+	signUpData: SignUp = new SignUp("", "");
 	status: Status = null;
 
 	constructor(private SignUpService: SignUpService) {
@@ -16,7 +16,7 @@ export class signUpComponent {
 	}
 
 	signUp() : void {
-		this.SignUpService.signUp(this.loginData)
+		this.SignUpService.signUp(this.signUpData)
 			.subscribe(status => this.status = status);
 	}
 }
