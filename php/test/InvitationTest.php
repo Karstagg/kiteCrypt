@@ -59,6 +59,12 @@ class InvitationTest extends KiteCryptTest {
 		$this->invitee = new Profile(null, "invitation_test_invitee", "1234", "5678", "sea");
 		$this->invitee->insert($this->getPDO());
 
+		// create and insert a Profile that sent the Invitation of Invitation (the inviter); it is a foreign key
+		$this->VALID_INVITATIONDATE = new \DateTime();
+
+		// create and insert a Profile that sent the Invitation of Invitation (the inviter); it is a foreign key
+		$this->VALID_INVITATIONPASSPHRASE = "Rindfleischetikettierungsueberwachungsaufgabenuebertragungsgesetz";
+
 	}
 
 
