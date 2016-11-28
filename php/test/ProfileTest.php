@@ -155,14 +155,17 @@ class ProfileTest extends KiteCryptTest {
 		$pdoProfile = Profile::getProfileById($this->getPDO(), $profile->getProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
-		$this->assertEquals($pdoProfile->getProfileUserName(), $this->validProfile);
+		$this->assertEquals($pdoProfile->getProfileUserName(), $this->validProfileUnserName);
+		$this->assertEquals($pdoProfile->getProfilePublicKeyX(), $this->validProfilePublicKeyX);
+		$this->assertEquals($pdoProfile->getProfilePublicKeyY(), $this->validProfilePublicKeyY);
+		$this->assertEquals($pdoProfile->getProfilePasswordSalt(), $this->validProfileSalt);
 
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 
-		// create a new Tweet and insert to into mySQL
-		$tweet = new Profile(null, $this->profile->getProfileId(), $this->validProfileUnserName, $this->VALID_TWEETDATE);
-		$tweet->insert($this->getPDO());
+		// create a new Profile and insert to into mySQL
+		$profile = new Profile(null, $this->validProfileId, $this->validProfileUnserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfileSalt);
+		$profile->insert($this->getPDO());
 
 
 	}
