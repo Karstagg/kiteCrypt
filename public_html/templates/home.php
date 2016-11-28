@@ -47,6 +47,12 @@
 						<button type="submit" class="btn btn-lg btn-login" [disabled]="loginForm.invalid"><i
 								class="fa fa-user"></i> Login
 						</button>
+
+						<div *ngIf="loginStatus?.status !== 200" class="alert alert-danger col-xs-4 col-xs-offset-4" role="alert">
+							{{loginStatus.message}}
+						</div>
+
+
 					</form>
 				</div>
 			</div>
