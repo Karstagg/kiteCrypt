@@ -1,10 +1,10 @@
 import {Component} from "@angular/core";
-import {LoginService} from "../services/login-service";
+import {SignUpService} from "../services/signup-service";
 import {SignUp} from "../classes/signUp";
 import {Status} from "../classes/status";
 
 @Component({
-	templateUrl: "./templates/signup.php"
+	templateUrl: "./templates/signUp.php"
 })
 
 export class signUpComponent {
@@ -16,7 +16,7 @@ export class signUpComponent {
 	}
 
 	login() : void {
-		this.loginService.login(this.loginData)
+		this.SignUpService.login(this.loginData)
 			.subscribe(status => this.status = status);
 	}
 }
