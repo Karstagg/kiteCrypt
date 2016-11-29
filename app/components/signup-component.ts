@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {SignUpService} from "../services/signup-service";
+import {SignUpService} from "../services/signUp-service";
 import {SignUp} from "../classes/signUp";
 import {Status} from "../classes/status";
 
@@ -8,7 +8,7 @@ import {Status} from "../classes/status";
 })
 
 export class SignUpComponent {
-	signUpData: SignUp = new SignUp("", "");
+	signUpData: SignUp = new SignUp("", "", "");
 	status: Status = null;
 
 	constructor(private SignUpService: SignUpService) {

@@ -1,5 +1,4 @@
 <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
-<!--p-->
 <div class="container">
 	<div class="bg-image">
 		<div class="container-fluid">
@@ -43,14 +42,15 @@
 
 						</div>
 						<div class="form-group">
-							<label for="user-password-confirm">Password</label>
+							<label for="user-password-confirm">Password Confirmation</label>
 							<div class="input-group col-xs-4 col-xs-offset-4">
 								<input type="password" id="user-password-confirm" name="user-password-confirm"
 										 class="form-control input-sm chat-input"
 										 placeholder="password" required [(ngModel)]="signUp.password" #password="ngModel"/>
 							</div>
-							<div [hidden]="password.valid || password.pristine" class="alert alert-danger col-xs-4 col-xs-offset-4" role="alert">
-								<p *ngIf="password.errors?.required">Verification required.</p>
+							<div [hidden]="passwordConfirm.valid || passwordConfirm.pristine" class="alert alert-danger col-xs-4 col-xs-offset-4" role="alert">
+								<p *ngIf="passwordConfirm.errors?.required">Verification required.</p>
+								<p *ngIf="passwordConfirm.errors?.areEqual">shit required.</p>
 							</div>
 						</div>
 						<br>
