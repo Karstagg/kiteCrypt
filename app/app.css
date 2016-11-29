@@ -170,6 +170,9 @@ styling for login form
 	background-color: #98171f;
 }
 
+.alert {
+	font-size: .5rem;
+}
 /******************************
 styling for pusher chat window
 *******************************/

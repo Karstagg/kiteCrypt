@@ -15,13 +15,13 @@
 			</div>
 			<div id="login-row" class="row">
 				<div class="text-center">
-					<form #loginForm="ngForm" name="loginForm" id="loginForm" class="form-horizontal" (ngSubmit)="login();"
+					<form #loginForm="ngForm" name="signUpForm" id="signUpForm" class="form-horizontal" (ngSubmit)="signUp();"
 							novalidate>
 						<div class="form-group">
 							<label for="user-name">Username</label>
 							<div class="input-group col-xs-4 col-xs-offset-4">
 								<input type="text" id="user-name" name="user-name" class="form-control input-sm chat-input"
-										 placeholder="username" maxlength="20" required [(ngModel)]="login.username"
+										 placeholder="username" maxlength="20" required [(ngModel)]="signUp.username"
 										 #username="ngModel"/>
 							</div>
 							<div [hidden]="username.valid || username.pristine" class="alert alert-danger col-xs-4 col-xs-offset-4" role="alert">
@@ -35,7 +35,7 @@
 							<div class="input-group col-xs-4 col-xs-offset-4">
 								<input type="password" id="user-password" name="user-password"
 										 class="form-control input-sm chat-input"
-										 placeholder="password" required [(ngModel)]="login.password" #password="ngModel"/>
+										 placeholder="password" required [(ngModel)]="signUp.password" #password="ngModel"/>
 							</div>
 							<div [hidden]="password.valid || password.pristine" class="alert alert-danger col-xs-4 col-xs-offset-4" role="alert">
 								<p *ngIf="password.errors?.required">Password required.</p>
@@ -47,14 +47,14 @@
 							<div class="input-group col-xs-4 col-xs-offset-4">
 								<input type="password" id="user-password-confirm" name="user-password-confirm"
 										 class="form-control input-sm chat-input"
-										 placeholder="password" required [(ngModel)]="login.password" #password="ngModel"/>
+										 placeholder="password" required [(ngModel)]="signUp.password" #password="ngModel"/>
 							</div>
 							<div [hidden]="password.valid || password.pristine" class="alert alert-danger col-xs-4 col-xs-offset-4" role="alert">
-								<p *ngIf="password.errors?.required">Password required.</p>
+								<p *ngIf="password.errors?.required">Verification required.</p>
 							</div>
 						</div>
 						<br>
-						<button type="submit" class="btn btn-lg btn-login" [disabled]="loginForm.invalid"><i
+						<button type="submit" class="btn btn-lg btn-login" [disabled]="signUpForm.invalid"><i
 								class="fa fa-user"></i> Login
 						</button>
 					</form>
