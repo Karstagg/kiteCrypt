@@ -1,6 +1,6 @@
 import {RouterModule, Routes} from "@angular/router";
 import {HomeComponent} from "./components/home-component";
-import {SignUpComponent} from "./components/signUp-component";
+import {SignUpComponent} from "./components/signup-component";
 
 export const allAppComponents = [HomeComponent, SignUpComponent];
 

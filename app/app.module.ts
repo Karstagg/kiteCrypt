@@ -5,7 +5,7 @@ import {HttpModule} from "@angular/http";
 import {AppComponent} from "./app.component";
 import {allAppComponents, appRoutingProviders, routing} from "./app.routes";
 import {LoginService} from "./services/login-service";
-import {SignUpService} from "./services/signUp-service";
+import {SignUpService} from "./services/signup-service";
 import { EqualValidator } from './directives/validate-equal.directive';  // import validator
 
 const moduleDeclarations = [AppComponent];

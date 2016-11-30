@@ -1,10 +1,10 @@
 import {Component} from "@angular/core";
-import {SignUpService} from "../services/signUp-service";
-import {SignUp} from "../classes/signUp";
+import {SignUpService} from "../services/signup-service";
+import {SignUp} from "../classes/signup";
 import {Status} from "../classes/status";
 
 @Component({
-	templateUrl: "./templates/signUp.php"
+	templateUrl: "./templates/signup.php"
 })
 
 export class SignUpComponent {
