@@ -21,6 +21,8 @@ export class SignUpComponent {
 		if(this.signUpData.password === this.signUpData.passwordConfirm) {
 			this.SignUpService.signUp(this.signUpData)
 				.subscribe(status => this.status = status);
+		} else {
+			this.signUpForm.passwordConfirm.errors.passwordMatch = true;
 		}
 	}
 }
