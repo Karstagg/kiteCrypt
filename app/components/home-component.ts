@@ -13,7 +13,7 @@ import {Status} from "../classes/status";
 
 export class HomeComponent {
 	loginData: Login = new Login("", "");
-	loginStatus: Status = null;
+	loginStatus: Status; //this is causing major issues both as undefined and null. Also cannot be a number or string.
 
 	constructor(private loginService: LoginService, private router: Router) {
 

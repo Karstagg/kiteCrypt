@@ -110,6 +110,7 @@ a { /*link color*/
 }
 a:hover {
 	color: #c01e1d;
+	cursor: pointer;
 }
 /*************************************************************
 title text animations
