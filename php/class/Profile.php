@@ -323,7 +323,7 @@ class Profile implements \JsonSerializable {
 	 * @throw \TypeError when variables are not the correct data type
 	 */
 
-	public static	function getProfileById(\PDO $pdo, int $profileId) {
+	public static	function getProfileByProfileId(\PDO $pdo, int $profileId) {
 		// sanitive teh description before searching
 		if($profileId <= 0) {
 			throw(new \PDOException("profile id is not positive"));
@@ -403,7 +403,7 @@ class Profile implements \JsonSerializable {
 	}
 
 	//create query template
-	$query = "SELECT profileId, profileUserName, profilePublicKeyX, profilePublicKeyY, profilePasswordSalt FROM profile WHERE profilePubicKeyX LIKE :profilePublicKeyX";
+	$query = "SELECT profileId, profileUserName, profilePublicKeyX, profilePublicKeyY, profilePasswordSalt FROM profile WHERE profilePublicKeyX LIKE :profilePublicKeyX";
 	$statement = $pdo->prepare($query);
 
 	// bind the public key to the place holder in the template
@@ -437,7 +437,7 @@ class Profile implements \JsonSerializable {
 		}
 
 		//create query template
-		$query = "SELECT profileId, profileUserName, profilePublicKeyY, profilePublicKeyY, profilePasswordSalt FROM profile WHERE profilePubicKeyY LIKE :profilePublicKeyY";
+		$query = "SELECT profileId, profileUserName, profilePublicKeyY, profilePublicKeyY, profilePasswordSalt FROM profile WHERE profilePublicKeyY LIKE :profilePublicKeyY";
 		$statement = $pdo->prepare($query);
 
 		// bind the public key to the place holder in the template

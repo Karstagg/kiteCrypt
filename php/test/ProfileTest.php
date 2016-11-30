@@ -116,7 +116,7 @@ class ProfileTest extends KiteCryptTest {
 		$profile->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoProfile = Profile::getProfileById($this->getPDO(), $profile->getProfileId());
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoProfile->getProfileUserName(), $this->validProfileUnserName);
@@ -130,8 +130,8 @@ class ProfileTest extends KiteCryptTest {
 	 * @expectedException PDOException
 	 */
 	public function testInsertInvalidProfileName() {
-		// create e a profile with a non null profile Id and watch if fail
-		$profile = new Profile(KiteCryptTest::INVALID_KEY, $this->profile->getProfileId(), $this->invalidProfileUserName);
+		// create  a profile with a non null profile Id and watch if fail
+		$profile = new Profile(KiteCryptTest::INVALID_KEY, $this->invalidProfileUserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfileSalt);
 		$profile->insert($this->getPDO());
 	}
 
