@@ -42,15 +42,11 @@
 
 						</div>
 						<div class="form-group">
-							<label for="user-password-confirm">Password Confirmation</label>
-							<div class="input-group col-xs-4 col-xs-offset-4">
-								<input type="password" id="user-password-confirm" name="user-password-confirm"
-										 class="form-control input-sm chat-input"
-										 placeholder="password" required [(ngModel)]="signUp.password" #password="ngModel"/>
-							</div>
-							<div [hidden]="passwordConfirm.valid || passwordConfirm.pristine" class="alert alert-danger col-xs-4 col-xs-offset-4" role="alert">
-								<p *ngIf="passwordConfirm.errors?.required">Verification required.</p>
-								<p *ngIf="passwordConfirm.errors?.areEqual">shit required.</p>
+							<label for="passwordConfirm">Password Confirmation</label>
+							<input type="password" id="passwordConfirm" name="passwordConfirm" class="form-control input-sm chat-input" [ngModel]="signUp.passwordConfirm"
+									 required validateEqual="password" #passwordConfirm="ngModel"/>
+							<div [hidden]="passwordConfirm.valid || (passwordConfirm.pristine && !f.submitted)">
+								Password mismatch
 							</div>
 						</div>
 						<br>
