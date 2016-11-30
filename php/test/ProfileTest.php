@@ -112,7 +112,7 @@ class ProfileTest extends KiteCryptTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// create a new profile and insert to mySQL
-		$profile = new Profile($this->validProfileId, $this->validProfileUnserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfileSalt);
+		$profile = new Profile($this->Profile->getProfileId(), $this->validProfileUnserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfileSalt);
 		$profile->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
