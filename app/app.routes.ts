@@ -6,7 +6,7 @@ export const allAppComponents = [HomeComponent, SignUpComponent];
 
 export const routes: Routes = [
 	{path: "", component: HomeComponent},
-	{path: "signUp", component: SignUpComponent}
+	{path: "signup", component: SignUpComponent}
 ];
 
 export const appRoutingProviders: any[] = [];
