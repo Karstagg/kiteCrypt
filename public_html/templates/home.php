@@ -50,12 +50,12 @@
 								class="fa fa-user"></i> Login
 						</button>
 						<!--HELP this breaks everything forever TODO-->
-						<!--<div [hidden]="loginStatus?.status === 200 || loginStatus?.status !== 200">
+						<div [hidden]="loginStatus?.status !== 200">
 							<div *ngIf="loginStatus?.status !== 200" class="alert alert-danger col-xs-4 col-xs-offset-4"
 								  role="alert">
-								{{loginStatus.message}}
+								{{loginStatus?.message}}
 							</div>
-						</div>-->
+						</div>
 
 
 					</form>
