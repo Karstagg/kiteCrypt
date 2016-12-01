@@ -34,13 +34,14 @@
 						<div class="form-group">
 							<label for="user-password">Password</label>
 							<div class="input-group col-xs-4 col-xs-offset-4">
-								<input type="password" id="user-password" name="user-password"
+								<input type="password" id="password" name="password"
 										 class="form-control input-sm chat-input"
-										 placeholder="password" required [(ngModel)]="signUpData.password" #password="ngModel"/>
+										 placeholder="password" required validateEqual="passwordConfirm" reverse="false" [(ngModel)]="signUpData.password" #password="ngModel"/>
 							</div>
 							<div [hidden]="password.valid || password.pristine"
 								  class="alert alert-danger col-xs-4 col-xs-offset-4" role="alert">
 								<p *ngIf="password.errors?.required">Password required.</p>
+								<pre>{{ password.errors | json }}</pre>
 							</div>
 
 						</div>
@@ -49,12 +50,12 @@
 							<div class="input-group col-xs-4 col-xs-offset-4">
 								<input type="password" id="passwordConfirm" name="passwordConfirm"
 										 class="form-control input-sm chat-input" [(ngModel)]="signUpData.passwordConfirm"
-										 required validateEqual="password" #passwordConfirm="ngModel"/>
+										 required validateEqual="password" reverse="true" #passwordConfirm="ngModel"/>
 							</div>
 							<div [hidden]="passwordConfirm.valid || passwordConfirm.pristine"
 								  class="alert alert-danger col-xs-4 col-xs-offset-4" role="alert">
 								<p *ngIf="passwordConfirm.errors?.required">Confirm Password is required.</p>
-								<p>Password mismatch</p>
+								<pre>{{ passwordConfirm.errors | json }}</pre>
 							</div>
 
 						</div>
