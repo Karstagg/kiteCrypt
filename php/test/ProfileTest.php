@@ -142,7 +142,7 @@ class ProfileTest extends KiteCryptTest {
 		$profile->insert($this->getPDO());
 
 		// edit the Profile and update it in mySQL
-		$profile->setProfileUserName($this->validProfileUserName);
+		$profile->setProfileUserName($this->validProfileUserName2);
 		$profile->update($this->getPDO());
 
 		// grab the data from mySQL and enforce the field match our expectations
