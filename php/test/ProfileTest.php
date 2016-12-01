@@ -151,7 +151,7 @@ class ProfileTest extends KiteCryptTest {
 		// grab the data from mySQL and enforce the field match our expectations
 		$pdoProfile = Profile::getProfileById($this->getPDO(), $profile->getProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileId(),$this->profile->getProfileId());
 		$this->assertEquals($pdoProfile->getProfileUserName(), $this->validProfileUnserName);
 		$this->assertEquals($pdoProfile->getProfilePublicKeyX(), $this->validProfilePublicKeyX);
 		$this->assertEquals($pdoProfile->getProfilePublicKeyY(), $this->validProfilePublicKeyY);
