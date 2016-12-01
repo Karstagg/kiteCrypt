@@ -67,7 +67,7 @@ class ProfileTest extends KiteCryptTest {
 	 * @var string
 	 * @var string <= 256 characters length
 	 * **/
-	protected $validProfilePublicKeyY = "test pass if this this public key Y ";
+	protected $validProfilePublicKeyY = "test pass if this this public key Y";
 
 	/**
 	 * Invalid profile public key Y;
@@ -146,10 +146,10 @@ class ProfileTest extends KiteCryptTest {
 
 		// edit the Profile and update it in mySQL
 		$profile->setProfileUserName($this->validProfileUserName2);
-		$this->update($this->getPDO());
+		$profile->update($this->getPDO());
 
 		// grab the data from mySQL and enforce the field match our expectations
-		$pdoProfile = Profile::getProfileById($this->getPDO(), $profile->getProfileId());
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertEquals($pdoProfile->getProfileUserName(), $this->validProfileUserName);
 		$this->assertEquals($pdoProfile->getProfilePublicKeyX(), $this->validProfilePublicKeyX);
@@ -197,10 +197,10 @@ class ProfileTest extends KiteCryptTest {
 
 
 			// create a new profile and insert into mySQL
-			$profile = new Profile($this->validProfileId, $this->validProfileUserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfileSalt);
+			$profile = new Profile(null, $this->validProfileUserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfileSalt);
 
 			// grab the data from mysql and enforce teh fields match our expectation
-			$results = Profile::getProfileById($this->getPDO());
+			$results = Profile::getAllProfiles($this->getPDO());
 			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 			$this->assertCount(1, $results);
 			$this->assetContainsOnlyInstanceof("Edu\\Cnm\\KiteCrypt\\Profile", $results);
