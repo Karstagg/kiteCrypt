@@ -21,27 +21,36 @@ require_once(dirname(__DIR__) . "/class/autoloader.php");
  * @author G. Wells <gwells4@cnm.edu>
  **/
 class MessageTest extends KiteCryptTest {
+
 	/**
-	 * Profile that sent the Message of (the sender); it is a foreign key
+	 * id for the Message; this is the primary key
+	 * @var int|null $messageId
+	 * **/
+	protected $validMessageId = null;
+
+	/**
+	 * Timestamp of the Message; this starts as null and is assigned by MySQL
+	 * @var DateTime $VALID_INVITATIONDATE
+	 **/
+	protected $VALID_MESSAGETIMESTAMP = null;
+
+	/**
+	 * Profile that sent the Message (the sender); it is a foreign key
 	 * @var Profile sender
 	 **/
-	protected $inviter = null;
+	protected $sender = null;
 
 	/**
 	 * Profile that received the Message (the receiver); it is a foreign key
 	 * @var Profile receiver
 	 **/
-	protected $invitee = null;
-	/**
-	 * timestamp of the Message; this starts as null and is assigned by MySQL
-	 * @var DateTime $VALID_INVITATIONDATE
-	 **/
-	protected $VALID_INVITATIONTIMESTAMP = null;
+	protected $receiver = null;
+
 	/**
 	 * content of the Message
-	 * @var string $VALID_INVITATIONPASSPHRASE
+	 * @var string $VALID_MESSAGETEXT
 	 **/
-	protected $VALID_INVITATIONPASSPHRASE = "PHPUnit test passing with this valid invitationPassphrase!";
+	protected $VALID_MESSAGETEXT = "Rindfleischetikettierungsueberwachungsaufgabenuebertragungsgesetz!";
 
 
 	/**
@@ -51,6 +60,9 @@ class MessageTest extends KiteCryptTest {
 		// run the default setup() method first
 		parent::setUp();
 
+		// Create a Timestamp for the Message
+		//$this->VALID_MESSAGETIMESTAMP = new \DateTime(); // Commented out because the Timestamp is assigned by MySQL
+
 		// Create (and store in the database) a Profile that sent the Message (the sender); it is a foreign key
 		$this->sender = new Profile(null, "invitation_test_inviter", "1234", "5678", "rock");
 		$this->sender->insert($this->getPDO());
@@ -58,12 +70,6 @@ class MessageTest extends KiteCryptTest {
 		// Create (and store in the database) a Profile that received the Message (the receiver); it is a foreign key
 		$this->receiver = new Profile(null, "invitation_test_invitee", "1234", "5678", "sea");
 		$this->receiver->insert($this->getPDO());
-
-		// Create a Timestamp for the Message
-		$this->VALID_INVITATIONTIMESTAMP = new \DateTime();
-
-		// Create the message text.
-		$this->VALID_INVITATIONPASSPHRASE = "Rindfleischetikettierungsueberwachungsaufgabenuebertragungsgesetz";
 
 	}
 
@@ -78,23 +84,23 @@ class MessageTest extends KiteCryptTest {
 		$numRows = $this->getConnection()->getRowCount("invitation");
 
 		// Create the new Message and insert it into the database
-		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
+		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_MESSAGETIMESTAMP, $this->VALID_MESSAGETEXT);
 		$invitation->insert($this->getPDO());
 
 		// Check that the number of rows in the database increased by one, when the new Message was inserted
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("invitation"));
 
 		// Use the inviterId to get the Message just created and check that it matches what should have been put in.
-		$pdoInvitation1 = Message::getInvitationByInvitationInviterId($this->getPDO(), $inviter->getProfileId());
+		$pdoInvitation1 = Message::getInvitationByInvitationInviterId($this->getPDO(), $sender->getProfileId());
 		$this->assertEquals($pdoInvitation1->getInvitationInviterId(), $this->sender->getProfileId());
-		$this->assertEquals($pdoInvitation1->getInvitationTimestamp(), $this->VALID_INVITATIONTIMESTAMP);
-		$this->assertEquals($pdoInvitation1->getInvitationPassphrase(), $this->VALID_INVITATIONPASSPHRASE);
+		$this->assertEquals($pdoInvitation1->getInvitationTimestamp(), $this->VALID_MESSAGETIMESTAMP);
+		$this->assertEquals($pdoInvitation1->getInvitationPassphrase(), $this->VALID_MESSAGETEXT);
 
 		// Use the inviteeId to get the Message just created and check that it matches what should have been put in.
-		$pdoInvitation2 = Message::getInvitationByInvitationInviteeId($this->getPDO(), $invitee->getProfileId());
+		$pdoInvitation2 = Message::getInvitationByInvitationInviteeId($this->getPDO(), $receiver->getProfileId());
 		$this->assertEquals($pdoInvitation2->getInvitationInviteeId(), $this->receiver->getProfileId());
-		$this->assertEquals($pdoInvitation2->getInvitationTimestamp(), $this->VALID_INVITATIONTIMESTAMP);
-		$this->assertEquals($pdoInvitation2->getInvitationPassphrase(), $this->VALID_INVITATIONPASSPHRASE);
+		$this->assertEquals($pdoInvitation2->getInvitationTimestamp(), $this->VALID_MESSAGETIMESTAMP);
+		$this->assertEquals($pdoInvitation2->getInvitationPassphrase(), $this->VALID_MESSAGETEXT);
 
 	}
 
@@ -107,7 +113,7 @@ class MessageTest extends KiteCryptTest {
 	public function testInsertInvitationWithInvalidInviterId() {
 
 		// Create a Message with a non null tweet id and watch it fail
-		$invitation = new Message(KiteCryptTest::INVALID_KEY, $this->receiver->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
+		$invitation = new Message(KiteCryptTest::INVALID_KEY, $this->receiver->getProfileId(), $this->VALID_MESSAGETIMESTAMP, $this->VALID_MESSAGETEXT);
 		$invitation->insert($this->getPDO());
 
 	}
@@ -121,7 +127,7 @@ class MessageTest extends KiteCryptTest {
 	public function testInsertInvitationWithInvalidInviteeId() {
 
 		// Create a Message with a non null inviterId and watch it fail
-		$invitation = new Message($this->sender->getProfileId(), KiteCryptTest::INVALID_KEY, $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
+		$invitation = new Message($this->sender->getProfileId(), KiteCryptTest::INVALID_KEY, $this->VALID_MESSAGETIMESTAMP, $this->VALID_MESSAGETEXT);
 		$invitation->insert($this->getPDO());
 
 	}
@@ -135,7 +141,7 @@ class MessageTest extends KiteCryptTest {
 	public function testInsertInvitationWithInvalidInvitationTimestamp() {
 
 		// Create a Message with a non null tweet id and watch it fail
-		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), KiteCryptTest::INVALID_KEY, $this->VALID_INVITATIONPASSPHRASE);
+		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), KiteCryptTest::INVALID_KEY, $this->VALID_MESSAGETEXT);
 		$invitation->insert($this->getPDO());
 
 	}
@@ -149,7 +155,7 @@ class MessageTest extends KiteCryptTest {
 	public function testInsertInvitationWithInvalidInvitationPassphrase() {
 
 		// Create a Message with a non null tweet id and watch it fail
-		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, KiteCryptTest::INVALID_KEY);
+		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_MESSAGETIMESTAMP, KiteCryptTest::INVALID_KEY);
 		$invitation->insert($this->getPDO());
 
 	}
@@ -165,7 +171,7 @@ class MessageTest extends KiteCryptTest {
 		$numRows = $this->getConnection()->getRowCount("invitation");
 
 		// Create a new Message and insert it into the database
-		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
+		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_MESSAGETIMESTAMP, $this->VALID_MESSAGETEXT);
 		$invitation->insert($this->getPDO());
 
 		// Check that the number of rows in the database increased by one, when the new Message was inserted
@@ -180,12 +186,12 @@ class MessageTest extends KiteCryptTest {
 
 		// Try to get the deleted Message from the database (using the inviterId)
 		// and verify that it does not exist (that is a null is returned)
-		$pdoInvitation1 = Message::getInvitationByInvitationInviterId($this->getPDO(), $inviter->getProfileId());
+		$pdoInvitation1 = Message::getInvitationByInvitationInviterId($this->getPDO(), $sender->getProfileId());
 		$this->assertNull($pdoInvitation1);
 
 		// Try to get the deleted Message from the database (using the inviteeId)
 		// and verify that it does not exist (that is a null is returned)
-		$pdoInvitation2 = Message::getInvitationByInvitationInviteeId($this->getPDO(), $invitee->getProfileId());
+		$pdoInvitation2 = Message::getInvitationByInvitationInviteeId($this->getPDO(), $receiver->getProfileId());
 		$this->assertNull($pdoInvitation2);
 
 	}
@@ -199,7 +205,7 @@ class MessageTest extends KiteCryptTest {
 	public function testDeleteNonexistentInvitation() {
 
 		// create a Message and try to delete it without actually inserting it
-		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
+		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_MESSAGETIMESTAMP, $this->VALID_MESSAGETEXT);
 		$invitation->delete($this->getPDO());
 
 	}
@@ -213,7 +219,7 @@ class MessageTest extends KiteCryptTest {
 		$numRows = $this->getConnection()->getRowCount("invitation");
 
 		// Create a new Message and insert it into the database
-		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
+		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_MESSAGETIMESTAMP, $this->VALID_MESSAGETEXT);
 		$invitation->insert($this->getPDO());
 
 		// Get the invitations from the database and verify that they match our expectations
@@ -226,8 +232,8 @@ class MessageTest extends KiteCryptTest {
 		$pdoInvitation = $results[0];
 		$this->assertEquals($pdoInvitation->getInvitationInviterId(), $this->sender->getProfileId());
 		$this->assertEquals($pdoInvitation->getInvitationInviteeId(), $this->receiver->getProfileId());
-		$this->assertEquals($pdoInvitation->getInvitationTimestamp(), $this->VALID_INVITATIONTIMESTAMP);
-		$this->assertEquals($pdoInvitation->getInvitationPassphrase(), $this->VALID_INVITATIONPASSPHRASE);
+		$this->assertEquals($pdoInvitation->getInvitationTimestamp(), $this->VALID_MESSAGETIMESTAMP);
+		$this->assertEquals($pdoInvitation->getInvitationPassphrase(), $this->VALID_MESSAGETEXT);
 
 
 	}

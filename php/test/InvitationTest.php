@@ -60,7 +60,7 @@ class InvitationTest extends KiteCryptTest {
 		$this->invitee->insert($this->getPDO());
 
 		// Create the Timestamp for the Invitation
-		$this->VALID_INVITATIONTIMESTAMP = new \DateTime();
+		// $this->VALID_INVITATIONTIMESTAMP = new \DateTime(); // Commented out because the Timestamp is assigned by MySQL
 
 	}
 
@@ -84,13 +84,13 @@ class InvitationTest extends KiteCryptTest {
 		// Use the inviterId to get the Invitation just created and check that it matches what should have been put in.
 		$pdoInvitation1 = Invitation::getInvitationByInvitationInviterId($this->getPDO(), $inviter->getProfileId());
 		$this->assertEquals($pdoInvitation1->getInvitationInviterId(), $this->inviter->getProfileId());
-		$this->assertEquals($pdoInvitation1->getInvitationTimestamp(), $this->VALID_INVITATIONTIMESTAMP);
+		//$this->assertEquals($pdoInvitation1->getInvitationTimestamp(), $this->VALID_INVITATIONTIMESTAMP); // Commented out because the Timestamp is assigned by MySQL
 		$this->assertEquals($pdoInvitation1->getInvitationPassphrase(), $this->VALID_INVITATIONPASSPHRASE);
 
 		// Use the inviteeId to get the Invitation just created and check that it matches what should have been put in.
 		$pdoInvitation2 = Invitation::getInvitationByInvitationInviteeId($this->getPDO(), $invitee->getProfileId());
 		$this->assertEquals($pdoInvitation2->getInvitationInviteeId(), $this->invitee->getProfileId());
-		$this->assertEquals($pdoInvitation2->getInvitationTimestamp(), $this->VALID_INVITATIONTIMESTAMP);
+		//$this->assertEquals($pdoInvitation2->getInvitationTimestamp(), $this->VALID_INVITATIONTIMESTAMP); // Commented out because the Timestamp is assigned by MySQL
 		$this->assertEquals($pdoInvitation2->getInvitationPassphrase(), $this->VALID_INVITATIONPASSPHRASE);
 
 	}
@@ -223,7 +223,7 @@ class InvitationTest extends KiteCryptTest {
 		$pdoInvitation = $results[0];
 		$this->assertEquals($pdoInvitation->getInvitationInviterId(), $this->inviter->getProfileId());
 		$this->assertEquals($pdoInvitation->getInvitationInviteeId(), $this->invitee->getProfileId());
-		$this->assertEquals($pdoInvitation->getInvitationTimestamp(), $this->VALID_INVITATIONTIMESTAMP);
+		//$this->assertEquals($pdoInvitation->getInvitationTimestamp(), $this->VALID_INVITATIONTIMESTAMP); // Commented out because the Timestamp is assigned by MySQL
 		$this->assertEquals($pdoInvitation->getInvitationPassphrase(), $this->VALID_INVITATIONPASSPHRASE);
 
 
