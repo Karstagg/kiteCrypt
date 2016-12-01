@@ -77,7 +77,7 @@ class MessageTest extends KiteCryptTest {
 	/**
 	 * Try inserting an valid Message and verify that the actual data matches what was inserted
 	 **/
-	public function testInsertValidMessage() {
+	public function testInsertingValidMessage() {
 
 		// Count the number of rows (before inserting the new Message) and save it,
 		// so, later, we can make sure that a new row was added in the database when we created the new Message
@@ -110,7 +110,7 @@ class MessageTest extends KiteCryptTest {
 	 *
 	 * @expectedException PDOException
 	 **/
-	public function testInsertInvitationWithInvalidInviterId() {
+	public function testInsertingInvitationWithInvalidInviterId() {
 
 		// Create a Message with a non null tweet id and watch it fail
 		$invitation = new Message(KiteCryptTest::INVALID_KEY, $this->receiver->getProfileId(), $this->VALID_MESSAGETIMESTAMP, $this->VALID_MESSAGETEXT);
@@ -124,24 +124,10 @@ class MessageTest extends KiteCryptTest {
 	 *
 	 * @expectedException PDOException
 	 **/
-	public function testInsertMessageWithInvalidInviteeId() {
+	public function testInsertingMessageWithInvalidInviteeId() {
 
 		// Create a Message with a non null inviterId and watch it fail
 		$invitation = new Message($this->sender->getProfileId(), KiteCryptTest::INVALID_KEY, $this->VALID_MESSAGETIMESTAMP, $this->VALID_MESSAGETEXT);
-		$invitation->insert($this->getPDO());
-
-	}
-
-
-	/**
-	 * Try inserting an Message with an invalid invitationTimeStamp
-	 *
-	 * @expectedException PDOException
-	 **/
-	public function testInsertMessageWithInvalidInvitationTimestamp() {
-
-		// Create a Message with a non null tweet id and watch it fail
-		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), KiteCryptTest::INVALID_KEY, $this->VALID_MESSAGETEXT);
 		$invitation->insert($this->getPDO());
 
 	}
@@ -152,7 +138,7 @@ class MessageTest extends KiteCryptTest {
 	 *
 	 * @expectedException PDOException
 	 **/
-	public function testInsertMessageWithInvalidInvitationPassphrase() {
+	public function testInsertingMessageWithInvalidText() {
 
 		// Create a Message with a non null tweet id and watch it fail
 		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_MESSAGETIMESTAMP, KiteCryptTest::INVALID_KEY);
@@ -214,7 +200,7 @@ class MessageTest extends KiteCryptTest {
 	/**
 	 * Try getting all the Invitations
 	 **/
-	public function testGetAllValidInvitations() {
+	public function testGettingAllValidMessages() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("message");
 

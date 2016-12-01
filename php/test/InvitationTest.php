@@ -125,20 +125,6 @@ class InvitationTest extends KiteCryptTest {
 
 
 	/**
-	 * Try inserting an Invitation with an invalid invitationTimeStamp
-	 *
-	 * @expectedException PDOException
-	 **/
-	public function testInsertingInvitationWithInvalidInvitationTimestamp() {
-
-		// Create a Invitation with an invalid Timestamp and watch it fail
-		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), KiteCryptTest::INVALID_KEY, $this->VALID_INVITATIONPASSPHRASE);
-		$invitation->insert($this->getPDO());
-
-	}
-
-
-	/**
 	 * Try inserting an Invitation with an invalid invitationPassphrase
 	 *
 	 * @expectedException PDOException
