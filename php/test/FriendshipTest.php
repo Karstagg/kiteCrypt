@@ -23,13 +23,13 @@ require_once(dirname(__DIR__) . "/class/autoloader.php");
 class FriendshipTest extends KiteCryptTest {
 	/**
 	 * Profile that sent the Invitation of Friendship (the inviter); it is a foreign key
-	 * @var Friendship inviter
+	 * @var Profile inviter
 	 **/
 	protected $inviter = null;
 
 	/**
 	 * Profile that accepted the Invitation of Friendship (the invitee); it is a foreign key
-	 * @var Friendship invitee
+	 * @var Profile invitee
 	 **/
 	protected $invitee = null;
 
@@ -87,7 +87,7 @@ class FriendshipTest extends KiteCryptTest {
 	public function testInsertFriendshipWithInvalidInviterId() {
 
 		// Create a Friendship with a non null tweet id and watch it fail
-		$friendship = new Friendship(DataDesignTest::INVALID_KEY, $this->invitee->getProfileId());
+		$friendship = new Friendship(KiteCryptTest::INVALID_KEY, $this->invitee->getProfileId());
 		$friendship->insert($this->getPDO());
 
 	}
@@ -101,7 +101,7 @@ class FriendshipTest extends KiteCryptTest {
 	public function testInsertFriendshipWithInvalidInviteeId() {
 
 		// Create a Friendship with a non null tweet id and watch it fail
-		$friendship = new Friendship($this->inviter->getProfileId(), DataDesignTest::INVALID_KEY);
+		$friendship = new Friendship($this->inviter->getProfileId(), KiteCryptTest::INVALID_KEY);
 		$friendship->insert($this->getPDO());
 
 	}
