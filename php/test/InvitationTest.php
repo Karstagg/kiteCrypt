@@ -22,23 +22,23 @@ require_once(dirname(__DIR__) . "/class/autoloader.php");
  **/
 class InvitationTest extends KiteCryptTest {
 	/**
-	 * Profile that sent the Invitation of Invitation (the inviter); it is a foreign key
+	 * Profile that sent the Invitation (the inviter); it is a foreign key
 	 * @var Profile inviter
 	 **/
 	protected $inviter = null;
 
 	/**
-	 * Profile that accepted the Invitation of Invitation (the invitee); it is a foreign key
+	 * Profile that accepted the Invitation (the invitee); it is a foreign key
 	 * @var Profile invitee
 	 **/
 	protected $invitee = null;
 	/**
-	 * timestamp of the Invitation; this starts as null and is assigned by MySQL
+	 * Timestamp of the Invitation; this starts as null and is assigned by MySQL
 	 * @var DateTime $VALID_INVITATIONDATE
 	 **/
 	protected $VALID_INVITATIONTIMESTAMP = null;
 	/**
-	 * content of the Invitation
+	 * Passphrase for the Invitation
 	 * @var string $VALID_INVITATIONPASSPHRASE
 	 **/
 	protected $VALID_INVITATIONPASSPHRASE = "Rindfleischetikettierungsueberwachungsaufgabenuebertragungsgesetz!";
@@ -48,18 +48,18 @@ class InvitationTest extends KiteCryptTest {
 	 * Create the dependent objects needed before running each test
 	 **/
 	public final function setUp() {
-		// run the default setup() method first
+		// Run the default setup() method first
 		parent::setUp();
 
-		// create and insert a Profile that sent the Invitation of Invitation (the inviter); it is a foreign key
+		// Create (and store in the database) a Profile that sent the Invitation of Invitation (the inviter); it is a foreign key
 		$this->inviter = new Profile(null, "invitation_test_inviter", "1234", "5678", "rock");
 		$this->inviter->insert($this->getPDO());
 
-		// create and insert a Profile that sent the Invitation of Invitation (the inviter); it is a foreign key
+		// Create (and store in the database) a Profile that sent the Invitation of Invitation (the invitee); it is a foreign key
 		$this->invitee = new Profile(null, "invitation_test_invitee", "1234", "5678", "sea");
 		$this->invitee->insert($this->getPDO());
 
-		// create and insert a Profile that sent the Invitation of Invitation (the inviter); it is a foreign key
+		// Create the Timestamp for the Invitation
 		$this->VALID_INVITATIONTIMESTAMP = new \DateTime();
 
 	}
@@ -103,7 +103,7 @@ class InvitationTest extends KiteCryptTest {
 	 **/
 	public function testInsertInvitationWithInvalidInviterId() {
 
-		// Create a Invitation with a non null tweet id and watch it fail
+		// Create a Invitation with an invalid inviterId and watch it fail
 		$invitation = new Invitation(KiteCryptTest::INVALID_KEY, $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
 		$invitation->insert($this->getPDO());
 
@@ -117,7 +117,7 @@ class InvitationTest extends KiteCryptTest {
 	 **/
 	public function testInsertInvitationWithInvalidInviteeId() {
 
-		// Create a Invitation with a non null inviterId and watch it fail
+		// Create a Invitation with an invalid inviteeId and watch it fail
 		$invitation = new Invitation($this->inviter->getProfileId(), KiteCryptTest::INVALID_KEY, $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
 		$invitation->insert($this->getPDO());
 
@@ -131,7 +131,7 @@ class InvitationTest extends KiteCryptTest {
 	 **/
 	public function testInsertInvitationWithInvalidInvitationTimestamp() {
 
-		// Create a Invitation with a non null tweet id and watch it fail
+		// Create a Invitation with an invalid Timestamp and watch it fail
 		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), KiteCryptTest::INVALID_KEY, $this->VALID_INVITATIONPASSPHRASE);
 		$invitation->insert($this->getPDO());
 
@@ -145,7 +145,7 @@ class InvitationTest extends KiteCryptTest {
 	 **/
 	public function testInsertInvitationWithInvalidInvitationPassphrase() {
 
-		// Create a Invitation with a non null tweet id and watch it fail
+		// Create a Invitation with an invalid invitationPassphrase
 		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, KiteCryptTest::INVALID_KEY);
 		$invitation->insert($this->getPDO());
 
@@ -195,7 +195,7 @@ class InvitationTest extends KiteCryptTest {
 	 **/
 	public function testDeleteNonexistentInvitation() {
 
-		// create a Invitation and try to delete it without actually inserting it
+		// Create an Invitation and try to delete it without actually inserting it into the database
 		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
 		$invitation->delete($this->getPDO());
 
@@ -206,7 +206,7 @@ class InvitationTest extends KiteCryptTest {
 	 * Try getting all the Invitations
 	 **/
 	public function testGetAllValidInvitations() {
-		// count the number of rows and save it for later
+		// Count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("invitation");
 
 		// Create a new Invitation and insert it into the database
