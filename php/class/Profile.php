@@ -96,7 +96,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \TypeError if $newProfileId is not an integer
 	 */
 	public function setProfileId(int $newProfileId = null) {
-		// base case: if th eprofile id is null, this new profile without a mySQL assigned id (yet)
+		// base case: if the profile id is null, this new profile without a mySQL assigned id (yet)
 		if($newProfileId === null) {
 			$this->profileId = null;
 			return;
@@ -244,11 +244,11 @@ class Profile implements \JsonSerializable {
 	 * inserts this profile into mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOExeception when my SQL related errors occur
+	 * @throws \PDOException when my SQL related errors occur
 	 * @throws |TypeError if $pdo is not a PDO connection object
 	 */
 	public function insert(\PDO $pdo) {
-		// enforce the profileId is null (i,e, dont insert a profile that already exists)
+		// enforce the profileId is null (i,e, don't insert a profile that already exists)
 		if($this->profileId !== null) {
 			throw(new \PDOException("not a new profile"));
 		}
@@ -257,7 +257,7 @@ class Profile implements \JsonSerializable {
 		$query = "INSERT INTO profile(profileUserName, profilePublicKeyX, profilePublicKeyY, profilePasswordSalt) VALUES(:profileUserName, :profilePublicKeyX, :profilePublicKeyY, :profilePasswordSalt)";
 		$statement = $pdo->prepare($query);
 
-		// bind the member variables to the palce holders in the template
+		// bind the member variables to the place holders in the template
 		$parameters = ["profileUserName" => $this->profileUserName, "profilePublicKeyX" => $this->profilePublicKeyX, "profilePublicKeyY" => $this->profilePublicKeyY, "profilePasswordSalt" => $this->profilePasswordSalt];
 		$statement->execute($parameters);
 
@@ -269,12 +269,12 @@ class Profile implements \JsonSerializable {
 	 * deletes this Profile from mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @throws \PDOException when mySqL related erros occur
+	 * @throws \PDOException when mySqL related errors occur
 	 * @throw \TypeError if $pdo is not a PDO connection object
 	 *
 	 */
 	public function delete(\PDO $pdo) {
-		// enforce the profile ID is not null (i.e., dont delete a profile that hasn't been inserted)
+		// enforce the profile ID is not null (i.e., don't delete a profile that hasn't been inserted)
 		if($this->profileId === null) {
 			throw(new \PDOException("unable to delete a profile that does not exist"));
 		}
@@ -304,7 +304,7 @@ class Profile implements \JsonSerializable {
 		$query = "UPDATE profile SET profileUserName = :profileUserName, profilePublicKeyX = :profilePublicKeyX, profilePublicKeyY = :profilePublicKeyY, profilePasswordSalt = :profilePasswordSalt";
 		$statement = $pdo->prepare($query);
 
-		// bind member variables to the pace hoders in the template
+		// bind member variables to the place in the template
 		$parameters = ["profileUserName" => $this->profileUserName, "profilePublicKeyX" => $this->profilePublicKeyX, "profilePublicKeyY" => $this->profilePublicKeyY, "profilePasswordSalt" => $this->profilePasswordSalt];
 		$statement->execute($parameters);
 	}
@@ -315,12 +315,12 @@ class Profile implements \JsonSerializable {
 	 * @param \PDO $pdo connection object
 	 * @param int $profileId profile id to search for
 	 * @return Profile|null profile found or null if not found
-	 * @throow \PDOException when mySAL related errors occur
+	 * @throw \PDOException when mySAL related errors occur
 	 * @throw \TypeError when variables are not the correct data type
 	 */
 
 	public static function getProfileByProfileId(\PDO $pdo, int $profileId) {
-		// sanitive teh description before searching
+		// sanitise teh description before searching
 		if($profileId <= 0) {
 			throw(new \PDOException("profile id is not positive"));
 		}
@@ -348,7 +348,7 @@ class Profile implements \JsonSerializable {
 	}
 
 	public static function getProfileByUserName(\PDO $pdo, string $profileUserName) {
-		// sanitive the description before searching
+		// sanitize the description before searching
 		$profileUserName = trim($profileUserName);
 		$profileUserName = filter_var($profileUserName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($profileUserName) === true) {
@@ -543,7 +543,7 @@ class Profile implements \JsonSerializable {
 	/*
 	 * formats the state variables for JSON serialization
 	 *
-	 * @return array results state variables to seialize
+	 * @return array results state variables to serialize
 	 */
 	public function jsonSerialize(){
 		$fields = get_object_vars($this);

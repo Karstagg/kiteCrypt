@@ -10,9 +10,9 @@
 	require_once(dirname(__DIR__) . "/class/autoloader.php");
 	
 	/**
-	 * Full PHPUnit test for the Tweet class
+	 * Full PHPUnit test for the Profile class
 	 *
-	 * This is a complete PHPUnit test of the Tweet class. It is complete because *ALL* mySQL/PDO enabled methods
+	 * This is a complete PHPUnit test of the Profile class. It is complete because *ALL* mySQL/PDO enabled methods
 	 * are tested for both invalid and valid inputs.
 	 *
 	 * @see Profile
