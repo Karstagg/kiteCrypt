@@ -21,6 +21,7 @@ require_once(dirname(__DIR__) . "/class/autoloader.php");
  * @author G. Wells <gwells4@cnm.edu>
  **/
 class FriendshipTest extends KiteCryptTest {
+
 	/**
 	 * Profile that sent the Invitation of Friendship (the inviter); it is a foreign key
 	 * @var Profile inviter

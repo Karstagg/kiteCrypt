@@ -21,6 +21,7 @@ require_once(dirname(__DIR__) . "/class/autoloader.php");
  * @author G. Wells <gwells4@cnm.edu>
  **/
 class InvitationTest extends KiteCryptTest {
+
 	/**
 	 * Profile that sent the Invitation (the inviter); it is a foreign key
 	 * @var Profile inviter
@@ -32,11 +33,13 @@ class InvitationTest extends KiteCryptTest {
 	 * @var Profile invitee
 	 **/
 	protected $invitee = null;
+
 	/**
 	 * Timestamp of the Invitation; this starts as null and is assigned by MySQL
 	 * @var DateTime|null $VALID_INVITATIONTIMESTAMP
 	 **/
 	protected $VALID_INVITATIONTIMESTAMP = null; // The Timestamp is assigned by MySQL
+
 	/**
 	 * Passphrase for the Invitation
 	 * @var string $VALID_INVITATIONPASSPHRASE

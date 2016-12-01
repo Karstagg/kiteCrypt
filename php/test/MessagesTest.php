@@ -25,7 +25,7 @@ class MessageTest extends KiteCryptTest {
 	/**
 	 * id for the Message; this is the primary key
 	 * @var int|null $messageId
-	 * **/
+	 **/
 	protected $validMessageId = null;
 
 	/**
