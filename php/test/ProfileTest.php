@@ -126,7 +126,7 @@ class ProfileTest extends KiteCryptTest {
 	/*
 	 * test inserting a profile that already exist
 	 *
-	 * @expectedException PDOExceptionRange
+	 * @expectedException RangeException
 	 */
 	public function testInsertInvalidProfileName() {
 		// create  a profile with a non null profile Id and watch if fail
@@ -145,7 +145,7 @@ class ProfileTest extends KiteCryptTest {
 		$profile->insert($this->getPDO());
 
 		// edit the Profile and update it in mySQL
-		$profile->setProfileUserName($this->validProfile);
+		$profile->setProfileUserName($this->validProfileUserName2);
 		$this->update($this->getPDO());
 
 		// grab the data from mySQL and enforce the field match our expectations
@@ -182,16 +182,16 @@ class ProfileTest extends KiteCryptTest {
  *
  * @expectedException PDOException
  */
-	public function testTooManyCharactersPublicKeyX($validProfileUserName, $invalidProfilePublicKeyX, $validProfilePublicKeyY, $validProfileSalt) {
-		//entered 1025 charaters into profilePublicKey field
-		$profile = new Profile(null, $validProfileUserName, $invalidProfilePublicKeyX, $validProfilePublicKeyY, $validProfileSalt);
+	public function testTooManyCharactersPublicKeyX() {
+		//entered 1025 characters into profilePublicKey field
+		$profile = new Profile(null, $this->validProfileUserName, $this->invalidProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfileSalt);
 		$profile->insert($this->getPDO());
 	}
 
 
 
 
-		public function testGetAllValidProfiles($validProfileUserName, $validProfilePublicKeyX, $validProfilePublicKeyY, $validProfileSalt) {
+		public function testGetAllValidProfiles() {
 			// count the number of rows and save it for later
 			$numRows = $this->getConnection()->getRowCount("profile");
 
@@ -207,10 +207,11 @@ class ProfileTest extends KiteCryptTest {
 
 			// grab the result from the array and validate it
 			$pdoProfile = $results[0];
-			$this->assertEquals($pdoProfile->getProfileUserName(), $this->$validProfileUserName);
-			$this->assertEquals($pdoProfile->getProfilePublicKeyX(), $this->$validProfilePublicKeyX);
-			$this->assertEquals($pdoProfile->getProfilePublicKeyY(), $this->$validProfilePublicKeyY);
-			$this->assertEquals($pdoProfile->getProfilePublicSalt(), $this->$validProfileSalt);
+			$this->assertEquals($pdoProfile->getProfileId(), $this->validProfileId);
+			$this->assertEquals($pdoProfile->getProfileUserName(), $this->validProfileUserName);
+			$this->assertEquals($pdoProfile->getProfilePublicKeyX(), $this->validProfilePublicKeyX);
+			$this->assertEquals($pdoProfile->getProfilePublicKeyY(), $this->validProfilePublicKeyY);
+			$this->assertEquals($pdoProfile->getProfilePublicSalt(), $this->validProfileSalt);
 
 		}
 
