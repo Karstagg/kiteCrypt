@@ -17,7 +17,7 @@ class Message implements \JsonSerializable {
 	/**
 	 * id for message (null if it's a new message, and it will be assigned by MySQL when it's stored in the database); this is the primary key
 	 * @var int|null $profileId
-	 * **/
+	 **/
 	private $messageId;
 
 	/**
@@ -97,7 +97,6 @@ class Message implements \JsonSerializable {
 	 * @throws \InvalidArgumentException if the argument is not safe
 	 * @throws \TypeError if $newMessageId is not an integer
 	 * @throws \RangeException if $newMessageId is not positive
-	 *
 	 **/
 	public function setMessageId(int $newMessageId = null) {
 
@@ -145,7 +144,6 @@ class Message implements \JsonSerializable {
 	 * @throws \InvalidArgumentException if the argument is not safe
 	 * @throws \TypeError if $newMessageTimestamp is not a date
 	 * @throws \RangeException if $newMessageTimestamp is not from the recent past
-	 *
 	 **/
 	public function setMessageTimestamp(int $newMessageTimestamp = null) {
 
@@ -193,7 +191,6 @@ class Message implements \JsonSerializable {
 	 * @throws \InvalidArgumentException if the argument is not safe
 	 * @throws \TypeError if $newMessageSenderId is not an integer
 	 * @throws \RangeException if $newMessageSenderId is not positive
-	 *
 	 **/
 	public function setMessageSenderId(int $newMessageSenderId) {
 
@@ -236,7 +233,6 @@ class Message implements \JsonSerializable {
 	 * @throws \InvalidArgumentException if the argument is not safe
 	 * @throws \TypeError if $newMessageReceiverId is not an integer
 	 * @throws \RangeException if $newMessageReceiverId is not positive
-	 *
 	 **/
 	public function setMessageReceiverId(int $newMessageReceiverId) {
 
@@ -277,7 +273,6 @@ class Message implements \JsonSerializable {
 	 * @param string $newMessageText the text of the message
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe (or empty)
-	 *
 	 **/
 	public function setMessageText(string $newMessageText) {
 

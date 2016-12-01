@@ -132,7 +132,6 @@ class Invitation implements \JsonSerializable {
 	 * @throws \InvalidArgumentException if the argument is not safe
 	 * @throws \TypeError if $newInvitationInviteeId is not an integer
 	 * @throws \RangeException if $newInvitationInviteeId is not positive
-	 *
 	 **/
 	public function setInvitationInviteeId(int $newInvitationInviteeId) {
 
@@ -175,7 +174,6 @@ class Invitation implements \JsonSerializable {
 	 * @throws \InvalidArgumentException if the argument is not safe
 	 * @throws \TypeError if $newInvitationTimestamp is not a date
 	 * @throws \RangeException if $newInvitationTimestamp is not from the recent past
-	 *
 	 **/
 	public function setInvitationTimestamp(int $newInvitationTimestamp = null) {
 
@@ -227,7 +225,6 @@ class Invitation implements \JsonSerializable {
 	 * @param string $newInvitationPassphrase passphrase for accepting this Invitation
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe (or empty)
-	 *
 	 **/
 	public function setInvitationPassphrase(string $newInvitationPassphrase) {
 

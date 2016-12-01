@@ -70,7 +70,6 @@ class Friendship implements \JsonSerializable {
 	 * @throws \InvalidArgumentException if the argument is not safe
 	 * @throws \TypeError if $newFriendshipInviterId is not an integer
 	 * @throws \RangeException if $newFriendshipInviterId is not positive
-	 *
 	 **/
 	public function setFriendshipInviterId(int $newFriendshipInviterId) {
 
@@ -103,7 +102,6 @@ class Friendship implements \JsonSerializable {
 	 * @throws \InvalidArgumentException if the argument is not safe
 	 * @throws \TypeError if $newFriendshipInviteeId is not an integer
 	 * @throws \RangeException if $newFriendshipInviteeId is not positive
-	 *
 	 **/
 	public function setFriendshipInviteeId(int $newFriendshipInviteeId) {
 
