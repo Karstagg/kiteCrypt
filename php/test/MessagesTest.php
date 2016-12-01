@@ -30,7 +30,7 @@ class MessageTest extends KiteCryptTest {
 
 	/**
 	 * Timestamp of the Message; this starts as null and is assigned by MySQL
-	 * @var DateTime $VALID_INVITATIONDATE
+	 * @var DateTime|null $VALID_MESSAGETIMESTAMP
 	 **/
 	protected $VALID_MESSAGETIMESTAMP = null; // The Timestamp is assigned by MySQL
 
@@ -50,7 +50,7 @@ class MessageTest extends KiteCryptTest {
 	 * content of the Message
 	 * @var string $VALID_MESSAGETEXT
 	 **/
-	protected $VALID_MESSAGETEXT = "Rindfleischetikettierungsueberwachungsaufgabenuebertragungsgesetz!";
+	protected $VALID_MESSAGETEXT = "Then it's time to get your beak wet tonight playa! Its a device Morty, that when you put it in your ear, you can enter people's dreams Morty. Its just like that movie that you keep crowing about. This isn't Game of Thrones, Morty.";
 
 
 	/**
@@ -84,7 +84,7 @@ class MessageTest extends KiteCryptTest {
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		// Create the new Message and insert it into the database
-		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_MESSAGETIMESTAMP, $this->VALID_MESSAGETEXT);
+		$invitation = new Message($this->validMessageId, $this->VALID_MESSAGETIMESTAMP, $this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_MESSAGETEXT);
 		$invitation->insert($this->getPDO());
 
 		// Check that the number of rows in the database increased by one, when the new Message was inserted
@@ -134,14 +134,14 @@ class MessageTest extends KiteCryptTest {
 
 
 	/**
-	 * Try inserting an Message with an invalid invitationPassphrase
+	 * Try inserting an Message with an invalid messageText
 	 *
 	 * @expectedException PDOException
 	 **/
 	public function testInsertingMessageWithInvalidText() {
 
 		// Create a Message with a non null tweet id and watch it fail
-		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_MESSAGETIMESTAMP, KiteCryptTest::INVALID_KEY);
+		$invitation = new Message($this->validMessageId, $this->VALID_MESSAGETIMESTAMP, $this->sender->getProfileId(), $this->receiver->getProfileId(), KiteCryptTest::INVALID_KEY);
 		$invitation->insert($this->getPDO());
 
 	}
@@ -157,7 +157,7 @@ class MessageTest extends KiteCryptTest {
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		// Create a new Message and insert it into the database
-		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_MESSAGETIMESTAMP, $this->VALID_MESSAGETEXT);
+		$invitation = new Message($this->validMessageId, $this->VALID_MESSAGETIMESTAMP, $this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_MESSAGETEXT);
 		$invitation->insert($this->getPDO());
 
 		// Check that the number of rows in the database increased by one, when the new Message was inserted
@@ -191,7 +191,7 @@ class MessageTest extends KiteCryptTest {
 	public function testDeletingNonexistentMessage() {
 
 		// create a Message and try to delete it without actually inserting it
-		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_MESSAGETIMESTAMP, $this->VALID_MESSAGETEXT);
+		$invitation = new Message($this->validMessageId, $this->VALID_MESSAGETIMESTAMP, $this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_MESSAGETEXT);
 		$invitation->delete($this->getPDO());
 
 	}
@@ -205,7 +205,7 @@ class MessageTest extends KiteCryptTest {
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		// Create a new Message and insert it into the database
-		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_MESSAGETIMESTAMP, $this->VALID_MESSAGETEXT);
+		$invitation = new Message($this->validMessageId, $this->VALID_MESSAGETIMESTAMP, $this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_MESSAGETEXT);
 		$invitation->insert($this->getPDO());
 
 		// Get the invitations from the database and verify that they match our expectations

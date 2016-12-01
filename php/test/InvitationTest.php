@@ -34,7 +34,7 @@ class InvitationTest extends KiteCryptTest {
 	protected $invitee = null;
 	/**
 	 * Timestamp of the Invitation; this starts as null and is assigned by MySQL
-	 * @var DateTime $VALID_INVITATIONDATE
+	 * @var DateTime|null $VALID_INVITATIONTIMESTAMP
 	 **/
 	protected $VALID_INVITATIONTIMESTAMP = null; // The Timestamp is assigned by MySQL
 	/**
