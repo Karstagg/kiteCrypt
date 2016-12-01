@@ -41,7 +41,7 @@ class InvitationTest extends KiteCryptTest {
 	 * content of the Invitation
 	 * @var string $VALID_INVITATIONPASSPHRASE
 	 **/
-	protected $VALID_INVITATIONPASSPHRASE = "PHPUnit test passing with this valid invitationPassphrase!";
+	protected $VALID_INVITATIONPASSPHRASE = "Rindfleischetikettierungsueberwachungsaufgabenuebertragungsgesetz!";
 
 
 	/**
@@ -61,9 +61,6 @@ class InvitationTest extends KiteCryptTest {
 
 		// create and insert a Profile that sent the Invitation of Invitation (the inviter); it is a foreign key
 		$this->VALID_INVITATIONTIMESTAMP = new \DateTime();
-
-		// create and insert a Profile that sent the Invitation of Invitation (the inviter); it is a foreign key
-		$this->VALID_INVITATIONPASSPHRASE = "Rindfleischetikettierungsueberwachungsaufgabenuebertragungsgesetz";
 
 	}
 

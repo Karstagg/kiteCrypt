@@ -1,492 +1,236 @@
 <?php
+
 namespace Edu\Cnm\KiteCrypt\Test;
 
+use Edu\Cnm\KiteCrypt\{Invitation};
+
+// Include the project test parameters
+require_once("KiteCryptTest.php");
+
+// Include the class under scrutiny
 require_once(dirname(__DIR__) . "/class/autoloader.php");
 
 
 /**
- * kiteCrypt messages
+ * Full PHPUnit test for the Message class
  *
- * In kiteCrypt, users (senders) can message other users (receivers)
+ * This is a complete PHPUnit test of the Invitation class. It is complete because *ALL* mySQL/PDO enabled methods
+ * are tested for both invalid and valid inputs.
  *
+ * @see Invitation
  * @author G. Wells <gwells4@cnm.edu>
- * @version 1.0.0
  **/
-class Message implements \JsonSerializable {
-
+class MessageTest extends KiteCryptTest {
 	/**
-	 * id for message (null if it's a new message, and it will be assigned by MySQL when it's stored in the database); this is the primary key
-	 * @var int|null $profileId
-	 * **/
-	private $messageId;
-
-	/**
-	 * timestamp of the message
-	 * @var int|null $messageTimestamp timestamp of this Message (or null if it's a new Message, and it will be assigned by MySQL when it's stored in the database)
+	 * Profile that sent the Invitation of Invitation (the inviter); it is a foreign key
+	 * @var Profile inviter
 	 **/
-	private $messageTimestamp;
+	protected $inviter = null;
 
 	/**
-	 * id for the sender of the message; it is a foreign key
-	 * @var int $messageSenderId
+	 * Profile that accepted the Invitation of Invitation (the invitee); it is a foreign key
+	 * @var Profile invitee
 	 **/
-	private $messageSenderId;
-
+	protected $invitee = null;
 	/**
-	 * id for the receiver of the message; it is a foreign key
-	 * @var int $messageReceiverId
+	 * timestamp of the Invitation; this starts as null and is assigned by MySQL
+	 * @var DateTime $VALID_INVITATIONDATE
 	 **/
-	private $messageReceiverId;
-
+	protected $VALID_INVITATIONTIMESTAMP = null;
 	/**
-	 * the text of the message
-	 * @var string $messageText
+	 * content of the Invitation
+	 * @var string $VALID_INVITATIONPASSPHRASE
 	 **/
-	private $messageText;
-
+	protected $VALID_INVITATIONPASSPHRASE = "PHPUnit test passing with this valid invitationPassphrase!";
 
 
 	/**
-	 * constructor for this Message
-	 *
-	 * @param int|null $newMessageId id of this message (or null if it's a new message, and it will be assigned by MySQL when it's stored in the database)
-	 * @param int|null $newMessageTimestamp timestamp of this message (or null if it's a new message, and it will be assigned by MySQL when it's stored in the database)
-	 * @param int $newMessageSenderId id for the sender of the message; it is a foreign key
-	 * @param int $newMessageReceiverId id for the receiver of the message; it is a foreign key
-	 * @param string $newMessageText the text of the message
-	 *
-	 * @throws \InvalidArgumentException if the argument is not safe
-	 * @throws \TypeError if data types violate type hints
-	 * @throws \RangeException if data values are out of bounds (for example: negative integers)
+	 * Create the dependent objects needed before running each test
 	 **/
-	public function __construct(int $newMessageId = null, $newMessageTimestamp = null, int $newMessageSenderId , int $newMessageReceiverId, string $newMessageText) {
-		try {
-			$this->setMessageId($newMessageId);
-			$this->setMessageTimestamp($newMessageTimestamp);
-			$this->setMessageSenderId($newMessageSenderId);
-			$this->setMessageReceiverId($newMessageReceiverId);
-			$this->setMessageText($newMessageText);
-		} catch(\InvalidArgumentException $invalidArgument) {
-			// rethrow the InvalidArgumentException to the caller
-			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
-		}catch(\TypeError $typeError) {
-			// rethrow the TypeError to the caller
-			throw(new \TypeError($typeError->getMessage(), 0, $typeError));
-		} catch(\RangeException $range) {
-			// rethrow the RangeException to the caller
-			throw(new \RangeException($range->getMessage(), 0, $range));
-		}
-	}
+	public final function setUp() {
+		// run the default setup() method first
+		parent::setUp();
 
+		// create and insert a Profile that sent the Invitation of Invitation (the inviter); it is a foreign key
+		$this->inviter = new Profile(null, "invitation_test_inviter", "1234", "5678", "rock");
+		$this->inviter->insert($this->getPDO());
 
-	/**
-	 * accessor method for messageId
-	 *
-	 * @return int id for message (null if it's a new message, and it will be assigned by MySQL when it's stored in the database); this is the primary key
-	 **/
-	public function getMessageId() {
-		return($this->messageId);
-	}
+		// create and insert a Profile that sent the Invitation of Invitation (the inviter); it is a foreign key
+		$this->invitee = new Profile(null, "invitation_test_invitee", "1234", "5678", "sea");
+		$this->invitee->insert($this->getPDO());
 
+		// create and insert a Profile that sent the Invitation of Invitation (the inviter); it is a foreign key
+		$this->VALID_INVITATIONTIMESTAMP = new \DateTime();
 
-	/**
-	 * mutator method for messageId
-	 *
-	 * @param int|null $newMessageId id for message (null if it's a new message, and it will be assigned by MySQL when it's stored in the database); this is the primary key
-	 *
-	 * @throws \InvalidArgumentException if the argument is not safe
-	 * @throws \TypeError if $newMessageId is not an integer
-	 * @throws \RangeException if $newMessageId is not positive
-	 *
-	 **/
-	public function setMessageId(int $newMessageId = null) {
-
-		// base case: if the message id is null, then it will be assigned by MySQL when it's stored in the database
-		if($newMessageId === null) {
-			$this->messageId = null;
-			return;
-		}
-		// Verify the $newMessageId is safe
-		$newMessageId = filter_var($newMessageId, FILTER_SANITIZE_NUMBER_INT);
-		if(empty($newMessageId) === true) {
-			throw(new \InvalidArgumentException("newMessageId is empty or insecure"));
-		}
-		// Verify that the $newMessageId in an integer.
-		$newMessageId = filter_var($newMessageId, FILTER_VALIDATE_INT);
-		if(empty($newMessageId) === true) {
-			// If the $newMessageId is not an integer, throw a TypeError.
-			throw(new \TypeError("newMessageId is not an integer."));
-		}
-		// Verify the $newMessageId is positive
-		if($newMessageId <= 0) {
-			throw(new \RangeException("newMessageId is not positive."));
-		}
-
-		// store the $newMessageId
-		$this->messageId = $newMessageId;
-	}
-
-
-	/**
-	 * accessor method for messageTimestamp
-	 *
-	 * @return int|null timestamp of this Message (or null if it's a new Message, and it will be assigned by MySQL when it's stored in the database)
-	 **/
-	public function getMessageTimestamp() {
-		return($this->messageTimestamp);
-	}
-
-
-	/**
-	 * mutator method for messageTimestamp
-	 *
-	 * @param int|null $newMessageTimestamp timestamp of this Message (or null if it's a new Message, and it will be assigned by MySQL when it's stored in the database)
-	 *
-	 * @throws \InvalidArgumentException if the argument is not safe
-	 * @throws \TypeError if $newMessageTimestamp is not a date
-	 * @throws \RangeException if $newMessageTimestamp is not from the recent past
-	 *
-	 **/
-	public function setMessageTimestamp(int $newMessageTimestamp = null) {
-
-		// base case: if the timestamp is null, it will be assigned by MySQL when it's stored in the database
-		if($newMessageTimestamp === null) {
-			$this->messageTimestamp = null;
-			return;
-		}
-		// Verify the $newMessageTimestamp is safe
-		$newMessageTimestamp = filter_var($newMessageTimestamp, FILTER_SANITIZE_NUMBER_INT);
-		if(empty($newMessageTimestamp) === true) {
-			throw(new \InvalidArgumentException("newMessageTimestamp is empty or insecure"));
-		}
-		// Verify that the $newMessageTimestamp is an integer.
-		$newMessageTimestamp = filter_var($newMessageTimestamp, FILTER_VALIDATE_INT);
-		if(empty($newMessageTimestamp) === true) {
-			// If the $newMessageTimestamp is not an integer, throw a TypeError.
-			throw(new \TypeError("newMessageTimestamp is not an integer."));
-		}
-		// Verify the $newMessageTimestamp is positive and from the recent past
-		if($newMessageTimestamp <= 0) {
-			throw(new \RangeException("newMessageTimestamp is not positive."));
-		}
-
-		// store the $newMessageTimestamp
-		$this->messageTimestamp = $newMessageTimestamp;
-	}
-
-
-	/**
-	 * accessor method for messageSenderId
-	 *
-	 * @return int id for the sender of the message; it is a foreign key
-	 **/
-	public function getMessageSenderId() {
-		return($this->messageSenderId);
-	}
-
-
-	/**
-	 * mutator method for messageSenderId
-	 *
-	 * @param int $newMessageSenderId id for the sender of the message; it is a foreign key
-	 *
-	 * @throws \InvalidArgumentException if the argument is not safe
-	 * @throws \TypeError if $newMessageSenderId is not an integer
-	 * @throws \RangeException if $newMessageSenderId is not positive
-	 *
-	 **/
-	public function setMessageSenderId(int $newMessageSenderId) {
-
-		// Verify the $newMessageSenderId is safe
-		$newMessageSenderId = filter_var($newMessageSenderId, FILTER_SANITIZE_NUMBER_INT);
-		if(empty($newMessageSenderId) === true) {
-			throw(new \InvalidArgumentException("newMessageSenderId is empty or insecure"));
-		}
-		// Verify that the $newMessageSenderId in an integer.
-		$newMessageSenderId = filter_var($newMessageSenderId, FILTER_VALIDATE_INT);
-		if(empty($newMessageSenderId) === true) {
-			// If the $newMessageSenderId is not an integer, throw a TypeError.
-			throw(new \TypeError("newMessageSenderId is not an integer."));
-		}
-		// Verify the $newMessageSenderId is positive
-		if($newMessageSenderId <= 0) {
-			throw(new \RangeException("newMessageSenderId is not positive."));
-		}
-
-		// store the $newMessageSenderId
-		$this->messageSenderId = $newMessageSenderId;
-	}
-
-
-	/**
-	 * accessor method for messageReceiverId
-	 *
-	 * @return int id for the receiver of the message; it is a foreign key
-	 **/
-	public function getMessageReceiverId() {
-		return($this->messageReceiverId);
-	}
-
-
-	/**
-	 * mutator method for messageReceiverId
-	 *
-	 * @param int $newMessageReceiverId id for the receiver of the message; it is a foreign key
-	 *
-	 * @throws \InvalidArgumentException if the argument is not safe
-	 * @throws \TypeError if $newMessageReceiverId is not an integer
-	 * @throws \RangeException if $newMessageReceiverId is not positive
-	 *
-	 **/
-	public function setMessageReceiverId(int $newMessageReceiverId) {
-
-		// Verify the $newMessageReceiverId is safe
-		$newMessageReceiverId = filter_var($newMessageReceiverId, FILTER_SANITIZE_NUMBER_INT);
-		if(empty($newMessageReceiverId) === true) {
-			throw(new \InvalidArgumentException("newMessageReceiverId is empty or insecure"));
-		}
-		// Verify that the $newMessageReceiverId in an integer.
-		$newMessageReceiverId = filter_var($newMessageReceiverId, FILTER_VALIDATE_INT);
-		if(empty($newMessageReceiverId) === true) {
-			// If the $newMessageReceiverId is not an integer, throw a TypeError.
-			throw(new \TypeError("newMessageReceiverId is not an integer."));
-		}
-		// Verify the $newMessageReceiverId is positive
-		if($newMessageReceiverId <= 0) {
-			throw(new \RangeException("newMessageReceiverId is not positive."));
-		}
-
-		// store the $newMessageReceiverId
-		$this->messageReceiverId = $newMessageReceiverId;
-	}
-
-
-	/**
-	 * accessor method for messageText
-	 *
-	 * @return string the text of the message
-	 **/
-	public function getMessageText() {
-		return($this->messageText);
-	}
-
-
-	/**
-	 * mutator method for messageText
-	 *
-	 * @param string $newMessageText the text of the message
-	 *
-	 * @throws \InvalidArgumentException if the argument is not safe (or empty)
-	 *
-	 **/
-	public function setMessageText(string $newMessageText) {
-
-		// Verify the $newMessageText is safe (and not empty)
-		$newMessageText = filter_var($newMessageText, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newMessageText) === true) {
-			throw(new \InvalidArgumentException("newMessageText is empty or insecure"));
-		}
-
-		// store the $newMessageText
-		$this->messageText = $newMessageText;
-	}
-
-
-	/**
-	 * inserts this Message into mySQL
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 *
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError if $pdo is not a PDO connection object
-	 **/
-	public function insert(\PDO $pdo) {
-
-		// create query template
-		$query = "INSERT INTO message(messageId, messageTimestamp, messageSenderId, messageReceiverId, messageText) VALUES(:messageId, :messageTimestamp, :messageSenderId, :messageReceiverId, :messageText)";
-		$statement = $pdo->prepare($query);
-
-		// bind the member variables to the place holders in the template
-		$parameters = ["messageId" => $this->messageId, "messageTimestamp" => $this->messageTimestamp, "messageSenderId" => $this->messageSenderId, "messageReceiverId" => $this->messageReceiverId, "messageText" => $this->messageText];
-		$statement->execute($parameters);
+		// create and insert a Profile that sent the Invitation of Invitation (the inviter); it is a foreign key
+		$this->VALID_INVITATIONPASSPHRASE = "Rindfleischetikettierungsueberwachungsaufgabenuebertragungsgesetz";
 
 	}
 
 
 	/**
-	 * deletes this Message from mySQL
-	 *
-	 * @param \PDO $pdo PDO connection object
-	 *
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError if $pdo is not a PDO connection object
+	 * Try inserting an valid Invitation and verify that the actual data matches what was inserted
 	 **/
-	public function delete(\PDO $pdo) {
+	public function testInsertValidInvitation() {
 
-		// create query template
-		$query = "DELETE FROM message WHERE messageId = :messageId AND messageTimestamp = :messageTimestamp AND messageSenderId = :messageSenderId AND messageReceiverId = :messageReceiverId AND messageText = :messageText";
-		$statement = $pdo->prepare($query);
+		// Count the number of rows (before inserting the new Invitation) and save it,
+		// so, later, we can make sure that a new row was added in the database when we created the new Invitation
+		$numRows = $this->getConnection()->getRowCount("invitation");
 
-		// bind the member variables to the place holder in the template
-		$parameters = ["messageId" => $this->messageId, "messageTimestamp" => $this->messageTimestamp, "messageSenderId" => $this->messageSenderId, "messageReceiverId" => $this->messageReceiverId, "messageText" => $this->messageText];
-		$statement->execute($parameters);
+		// Create the new Invitation and insert it into the database
+		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
+		$invitation->insert($this->getPDO());
+
+		// Check that the number of rows in the database increased by one, when the new Invitation was inserted
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("invitation"));
+
+		// Use the inviterId to get the Invitation just created and check that it matches what should have been put in.
+		$pdoInvitation1 = Invitation::getInvitationByInvitationInviterId($this->getPDO(), $inviter->getProfileId());
+		$this->assertEquals($pdoInvitation1->getInvitationInviterId(), $this->inviter->getProfileId());
+		$this->assertEquals($pdoInvitation1->getInvitationTimestamp(), $this->VALID_INVITATIONTIMESTAMP);
+		$this->assertEquals($pdoInvitation1->getInvitationPassphrase(), $this->VALID_INVITATIONPASSPHRASE);
+
+		// Use the inviteeId to get the Invitation just created and check that it matches what should have been put in.
+		$pdoInvitation2 = Invitation::getInvitationByInvitationInviteeId($this->getPDO(), $invitee->getProfileId());
+		$this->assertEquals($pdoInvitation2->getInvitationInviteeId(), $this->invitee->getProfileId());
+		$this->assertEquals($pdoInvitation2->getInvitationTimestamp(), $this->VALID_INVITATIONTIMESTAMP);
+		$this->assertEquals($pdoInvitation2->getInvitationPassphrase(), $this->VALID_INVITATIONPASSPHRASE);
+
 	}
 
 
 	/**
-	 * gets the Message by messageSenderId
+	 * Try inserting an Invitation with an invalid inviterId
 	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @param int $messageSenderId messageSenderId to search for
-	 *
-	 * @return \SplFixedArray SplFixedArray of Messages found
-	 *
-	 * @throws \InvalidArgumentException if $messageSenderId is not safe
-	 * @throws \TypeError if $messageSenderId is not an integer
-	 * @throws \RangeException if $messageSenderId is not positive
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
+	 * @expectedException PDOException
 	 **/
-	public static function getMessageByMessageSenderId(\PDO $pdo, int $messageSenderId) {
+	public function testInsertInvitationWithInvalidInviterId() {
 
-		// Verify the $messageSenderId is safe
-		$messageSenderId = filter_var($messageSenderId, FILTER_SANITIZE_NUMBER_INT);
-		if(empty($messageSenderId) === true) {
-			throw(new \InvalidArgumentException("messageSenderId is empty or insecure"));
-		}
-		// Verify that the $messageSenderId in an integer.
-		$messageSenderId = filter_var($messageSenderId, FILTER_VALIDATE_INT);
-		if(empty($messageSenderId) === true) {
-			// If the $messageSenderId is not an integer, throw a TypeError.
-			throw(new \TypeError("messageSenderId is not an integer."));
-		}
-		// Verify the $messageSenderId is positive
-		if($messageSenderId <= 0) {
-			throw(new \RangeException("messageSenderId is not positive."));
-		}
+		// Create a Invitation with a non null tweet id and watch it fail
+		$invitation = new Invitation(KiteCryptTest::INVALID_KEY, $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
+		$invitation->insert($this->getPDO());
 
-		// create query template
-		$query = "SELECT messageId, messageTimestamp, messageSenderId, messageReceiverId, messageText FROM message WHERE messageSenderId = :messageSenderId";
-		$statement = $pdo->prepare($query);
-
-		// bind the messageSenderId to the place holder in the template
-		$parameters = ["messageSenderId" => $messageSenderId];
-		$statement->execute($parameters);
-
-		// build an array of messages
-		$messages = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$message = new Message($row["messageId"], $row["messageTimestamp"], $row["messageSenderId"], $row["messageReceiverId"], $row["messageText"]);
-				$messages[$messages->key()] = $message;
-				$messages->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-		}
-		return($messages);
 	}
 
 
 	/**
-	 * gets the Message by messageReceiverId
+	 * Try inserting an Invitation with an invalid inviteeId
 	 *
-	 * @param \PDO $pdo PDO connection object
-	 * @param int $messageReceiverId messageReceiverId to search for
-	 *
-	 * @return \SplFixedArray SplFixedArray of Messages found
-	 *
-	 * @throws \InvalidArgumentException if $messageReceiverId is not safe
-	 * @throws \TypeError if $messageReceiverId is not an integer
-	 * @throws \RangeException if $messageReceiverId is not positive
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
+	 * @expectedException PDOException
 	 **/
-	public static function getMessageByMessageReceiverId(\PDO $pdo, int $messageReceiverId) {
+	public function testInsertInvitationWithInvalidInviteeId() {
 
-		// Verify the $messageReceiverId is safe
-		$messageReceiverId = filter_var($messageReceiverId, FILTER_SANITIZE_NUMBER_INT);
-		if(empty($messageReceiverId) === true) {
-			throw(new \InvalidArgumentException("messageReceiverId is empty or insecure"));
-		}
-		// Verify that the $messageReceiverId in an integer.
-		$messageReceiverId = filter_var($messageReceiverId, FILTER_VALIDATE_INT);
-		if(empty($messageReceiverId) === true) {
-			// If the $messageReceiverId is not an integer, throw a TypeError.
-			throw(new \TypeError("messageReceiverId is not an integer."));
-		}
-		// Verify the $messageReceiverId is positive
-		if($messageReceiverId <= 0) {
-			throw(new \RangeException("messageReceiverId is not positive."));
-		}
+		// Create a Invitation with a non null inviterId and watch it fail
+		$invitation = new Invitation($this->inviter->getProfileId(), KiteCryptTest::INVALID_KEY, $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
+		$invitation->insert($this->getPDO());
 
-		// create query template
-		$query = "SELECT messageId, messageTimestamp, messageSenderId, messageReceiverId, messageText FROM message WHERE messageReceiverId = :messageReceiverId";
-		$statement = $pdo->prepare($query);
-
-		// bind the messageReceiverId to the place holder in the template
-		$parameters = ["messageSenderId" => $messageSenderId];
-		$statement->execute($parameters);
-
-		// build an array of messages
-		$messages = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$message = new Message($row["messageId"], $row["messageTimestamp"], $row["messageSenderId"], $row["messageReceiverId"], $row["messageText"]);
-				$messages[$messages->key()] = $message;
-				$messages->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-		}
-		return($messages);
 	}
 
 
 	/**
-	 * gets all Messages
+	 * Try inserting an Invitation with an invalid invitationTimeStamp
 	 *
-	 * @param \PDO $pdo PDO connection object
-	 *
-	 * @return \SplFixedArray SplFixedArray of Messages found or null if not found
-	 *
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
+	 * @expectedException PDOException
 	 **/
-	public static function getAllMessages(\PDO $pdo) {
-		// create query template
-		$query = "SELECT messageId, messageTimestamp, messageSenderId, messageReceiverId, messageText FROM message";
-		$statement = $pdo->prepare($query);
-		$statement->execute();
+	public function testInsertInvitationWithInvalidInvitationTimestamp() {
 
-		// build an array of messages
-		$messages = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
-				$message = new Message($row["messageId"], $row["messageTimestamp"], $row["messageSenderId"], $row["messageReceiverId"], $row["messageText"]);
-				$messages[$messages->key()] = $message;
-				$messages->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-		}
-		return($messages);
+		// Create a Invitation with a non null tweet id and watch it fail
+		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), KiteCryptTest::INVALID_KEY, $this->VALID_INVITATIONPASSPHRASE);
+		$invitation->insert($this->getPDO());
+
 	}
 
 
 	/**
-	 * formats the state variables for JSON serialization
+	 * Try inserting an Invitation with an invalid invitationPassphrase
 	 *
-	 * @return array resulting state variables to serialize
+	 * @expectedException PDOException
 	 **/
-	public function jsonSerialize() {
-		$fields = get_object_vars($this);
-		return($fields);
+	public function testInsertInvitationWithInvalidInvitationPassphrase() {
+
+		// Create a Invitation with a non null tweet id and watch it fail
+		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, KiteCryptTest::INVALID_KEY);
+		$invitation->insert($this->getPDO());
+
 	}
+
+
+	/**
+	 * Try inserting an Invitation and then deleting it
+	 * Verify that the deleted Invitation is not there
+	 **/
+	public function testDeletingValidInvitation() {
+
+		// Count the number of rows (before inserting the new Invitation) and save it
+		$numRows = $this->getConnection()->getRowCount("invitation");
+
+		// Create a new Invitation and insert it into the database
+		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
+		$invitation->insert($this->getPDO());
+
+		// Check that the number of rows in the database increased by one, when the new Invitation was inserted
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("invitation"));
+
+		// Delete the Invitation from the database
+		$invitation->delete($this->getPDO());
+
+		// Check that the number of rows in the database decreased by one, so that the number of rows
+		// is back to what it was before the new Invitation was inserted
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("invitation"));
+
+		// Try to get the deleted Invitation from the database (using the inviterId)
+		// and verify that it does not exist (that is a null is returned)
+		$pdoInvitation1 = Invitation::getInvitationByInvitationInviterId($this->getPDO(), $inviter->getProfileId());
+		$this->assertNull($pdoInvitation1);
+
+		// Try to get the deleted Invitation from the database (using the inviteeId)
+		// and verify that it does not exist (that is a null is returned)
+		$pdoInvitation2 = Invitation::getInvitationByInvitationInviteeId($this->getPDO(), $invitee->getProfileId());
+		$this->assertNull($pdoInvitation2);
+
+	}
+
+
+	/**
+	 * Try deleting an Invitation that does not exist
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testDeleteNonexistentInvitation() {
+
+		// create a Invitation and try to delete it without actually inserting it
+		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
+		$invitation->delete($this->getPDO());
+
+	}
+
+
+	/**
+	 * Try getting all the Invitations
+	 **/
+	public function testGetAllValidInvitations() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("invitation");
+
+		// Create a new Invitation and insert it into the database
+		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
+		$invitation->insert($this->getPDO());
+
+		// Get the invitations from the database and verify that they match our expectations
+		$results = Invitation::getAllInvitations($this->getPDO());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("invitation"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\KiteCrypt\\DataDesign\\Invitation", $results);
+
+		// Validate the results
+		$pdoInvitation = $results[0];
+		$this->assertEquals($pdoInvitation->getInvitationInviterId(), $this->inviter->getProfileId());
+		$this->assertEquals($pdoInvitation->getInvitationInviteeId(), $this->invitee->getProfileId());
+		$this->assertEquals($pdoInvitation->getInvitationTimestamp(), $this->VALID_INVITATIONTIMESTAMP);
+		$this->assertEquals($pdoInvitation->getInvitationPassphrase(), $this->VALID_INVITATIONPASSPHRASE);
+
+
+	}
+
+
 }
