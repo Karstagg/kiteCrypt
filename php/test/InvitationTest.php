@@ -36,7 +36,7 @@ class InvitationTest extends KiteCryptTest {
 	 * Timestamp of the Invitation; this starts as null and is assigned by MySQL
 	 * @var DateTime $VALID_INVITATIONDATE
 	 **/
-	protected $VALID_INVITATIONTIMESTAMP = null;
+	protected $VALID_INVITATIONTIMESTAMP = null; // The Timestamp is assigned by MySQL
 	/**
 	 * Passphrase for the Invitation
 	 * @var string $VALID_INVITATIONPASSPHRASE
@@ -68,7 +68,7 @@ class InvitationTest extends KiteCryptTest {
 	/**
 	 * Try inserting an valid Invitation and verify that the actual data matches what was inserted
 	 **/
-	public function testInsertValidInvitation() {
+	public function testInsertingValidInvitation() {
 
 		// Count the number of rows (before inserting the new Invitation) and save it,
 		// so, later, we can make sure that a new row was added in the database when we created the new Invitation
@@ -101,7 +101,7 @@ class InvitationTest extends KiteCryptTest {
 	 *
 	 * @expectedException PDOException
 	 **/
-	public function testInsertInvitationWithInvalidInviterId() {
+	public function testInsertingInvitationWithInvalidInviterId() {
 
 		// Create a Invitation with an invalid inviterId and watch it fail
 		$invitation = new Invitation(KiteCryptTest::INVALID_KEY, $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
@@ -115,7 +115,7 @@ class InvitationTest extends KiteCryptTest {
 	 *
 	 * @expectedException PDOException
 	 **/
-	public function testInsertInvitationWithInvalidInviteeId() {
+	public function testInsertingInvitationWithInvalidInviteeId() {
 
 		// Create a Invitation with an invalid inviteeId and watch it fail
 		$invitation = new Invitation($this->inviter->getProfileId(), KiteCryptTest::INVALID_KEY, $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
@@ -129,7 +129,7 @@ class InvitationTest extends KiteCryptTest {
 	 *
 	 * @expectedException PDOException
 	 **/
-	public function testInsertInvitationWithInvalidInvitationTimestamp() {
+	public function testInsertingInvitationWithInvalidInvitationTimestamp() {
 
 		// Create a Invitation with an invalid Timestamp and watch it fail
 		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), KiteCryptTest::INVALID_KEY, $this->VALID_INVITATIONPASSPHRASE);
@@ -143,7 +143,7 @@ class InvitationTest extends KiteCryptTest {
 	 *
 	 * @expectedException PDOException
 	 **/
-	public function testInsertInvitationWithInvalidInvitationPassphrase() {
+	public function testInsertingInvitationWithInvalidInvitationPassphrase() {
 
 		// Create a Invitation with an invalid invitationPassphrase
 		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, KiteCryptTest::INVALID_KEY);
@@ -193,7 +193,7 @@ class InvitationTest extends KiteCryptTest {
 	 *
 	 * @expectedException PDOException
 	 **/
-	public function testDeleteNonexistentInvitation() {
+	public function testDeletingNonexistentInvitation() {
 
 		// Create an Invitation and try to delete it without actually inserting it into the database
 		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
@@ -205,7 +205,7 @@ class InvitationTest extends KiteCryptTest {
 	/**
 	 * Try getting all the Invitations
 	 **/
-	public function testGetAllValidInvitations() {
+	public function testGettingAllValidInvitations() {
 		// Count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("invitation");
 

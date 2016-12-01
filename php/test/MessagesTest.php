@@ -32,7 +32,7 @@ class MessageTest extends KiteCryptTest {
 	 * Timestamp of the Message; this starts as null and is assigned by MySQL
 	 * @var DateTime $VALID_INVITATIONDATE
 	 **/
-	protected $VALID_MESSAGETIMESTAMP = null;
+	protected $VALID_MESSAGETIMESTAMP = null; // The Timestamp is assigned by MySQL
 
 	/**
 	 * Profile that sent the Message (the sender); it is a foreign key
@@ -64,11 +64,11 @@ class MessageTest extends KiteCryptTest {
 		//$this->VALID_MESSAGETIMESTAMP = new \DateTime(); // Commented out because the Timestamp is assigned by MySQL
 
 		// Create (and store in the database) a Profile that sent the Message (the sender); it is a foreign key
-		$this->sender = new Profile(null, "invitation_test_inviter", "1234", "5678", "rock");
+		$this->sender = new Profile(null, "message_test_sender", "1234", "5678", "rock");
 		$this->sender->insert($this->getPDO());
 
 		// Create (and store in the database) a Profile that received the Message (the receiver); it is a foreign key
-		$this->receiver = new Profile(null, "invitation_test_invitee", "1234", "5678", "sea");
+		$this->receiver = new Profile(null, "message_test_receiver", "1234", "5678", "sea");
 		$this->receiver->insert($this->getPDO());
 
 	}
@@ -77,29 +77,29 @@ class MessageTest extends KiteCryptTest {
 	/**
 	 * Try inserting an valid Message and verify that the actual data matches what was inserted
 	 **/
-	public function testInsertValidInvitation() {
+	public function testInsertValidMessage() {
 
 		// Count the number of rows (before inserting the new Message) and save it,
 		// so, later, we can make sure that a new row was added in the database when we created the new Message
-		$numRows = $this->getConnection()->getRowCount("invitation");
+		$numRows = $this->getConnection()->getRowCount("message");
 
 		// Create the new Message and insert it into the database
 		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_MESSAGETIMESTAMP, $this->VALID_MESSAGETEXT);
 		$invitation->insert($this->getPDO());
 
 		// Check that the number of rows in the database increased by one, when the new Message was inserted
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("invitation"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
 
 		// Use the inviterId to get the Message just created and check that it matches what should have been put in.
 		$pdoInvitation1 = Message::getInvitationByInvitationInviterId($this->getPDO(), $sender->getProfileId());
 		$this->assertEquals($pdoInvitation1->getInvitationInviterId(), $this->sender->getProfileId());
-		$this->assertEquals($pdoInvitation1->getInvitationTimestamp(), $this->VALID_MESSAGETIMESTAMP);
+		//$this->assertEquals($pdoInvitation1->getInvitationTimestamp(), $this->VALID_MESSAGETIMESTAMP); // Commented out because the Timestamp is assigned by MySQL
 		$this->assertEquals($pdoInvitation1->getInvitationPassphrase(), $this->VALID_MESSAGETEXT);
 
 		// Use the inviteeId to get the Message just created and check that it matches what should have been put in.
 		$pdoInvitation2 = Message::getInvitationByInvitationInviteeId($this->getPDO(), $receiver->getProfileId());
 		$this->assertEquals($pdoInvitation2->getInvitationInviteeId(), $this->receiver->getProfileId());
-		$this->assertEquals($pdoInvitation2->getInvitationTimestamp(), $this->VALID_MESSAGETIMESTAMP);
+		//$this->assertEquals($pdoInvitation2->getInvitationTimestamp(), $this->VALID_MESSAGETIMESTAMP); // Commented out because the Timestamp is assigned by MySQL
 		$this->assertEquals($pdoInvitation2->getInvitationPassphrase(), $this->VALID_MESSAGETEXT);
 
 	}
@@ -124,7 +124,7 @@ class MessageTest extends KiteCryptTest {
 	 *
 	 * @expectedException PDOException
 	 **/
-	public function testInsertInvitationWithInvalidInviteeId() {
+	public function testInsertMessageWithInvalidInviteeId() {
 
 		// Create a Message with a non null inviterId and watch it fail
 		$invitation = new Message($this->sender->getProfileId(), KiteCryptTest::INVALID_KEY, $this->VALID_MESSAGETIMESTAMP, $this->VALID_MESSAGETEXT);
@@ -138,7 +138,7 @@ class MessageTest extends KiteCryptTest {
 	 *
 	 * @expectedException PDOException
 	 **/
-	public function testInsertInvitationWithInvalidInvitationTimestamp() {
+	public function testInsertMessageWithInvalidInvitationTimestamp() {
 
 		// Create a Message with a non null tweet id and watch it fail
 		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), KiteCryptTest::INVALID_KEY, $this->VALID_MESSAGETEXT);
@@ -152,7 +152,7 @@ class MessageTest extends KiteCryptTest {
 	 *
 	 * @expectedException PDOException
 	 **/
-	public function testInsertInvitationWithInvalidInvitationPassphrase() {
+	public function testInsertMessageWithInvalidInvitationPassphrase() {
 
 		// Create a Message with a non null tweet id and watch it fail
 		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_MESSAGETIMESTAMP, KiteCryptTest::INVALID_KEY);
@@ -165,24 +165,24 @@ class MessageTest extends KiteCryptTest {
 	 * Try inserting an Message and then deleting it
 	 * Verify that the deleted Message is not there
 	 **/
-	public function testDeletingValidInvitation() {
+	public function testDeletingValidMessage() {
 
 		// Count the number of rows (before inserting the new Message) and save it
-		$numRows = $this->getConnection()->getRowCount("invitation");
+		$numRows = $this->getConnection()->getRowCount("message");
 
 		// Create a new Message and insert it into the database
 		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_MESSAGETIMESTAMP, $this->VALID_MESSAGETEXT);
 		$invitation->insert($this->getPDO());
 
 		// Check that the number of rows in the database increased by one, when the new Message was inserted
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("invitation"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
 
 		// Delete the Message from the database
 		$invitation->delete($this->getPDO());
 
 		// Check that the number of rows in the database decreased by one, so that the number of rows
 		// is back to what it was before the new Message was inserted
-		$this->assertEquals($numRows, $this->getConnection()->getRowCount("invitation"));
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("message"));
 
 		// Try to get the deleted Message from the database (using the inviterId)
 		// and verify that it does not exist (that is a null is returned)
@@ -202,7 +202,7 @@ class MessageTest extends KiteCryptTest {
 	 *
 	 * @expectedException PDOException
 	 **/
-	public function testDeleteNonexistentInvitation() {
+	public function testDeletingNonexistentMessage() {
 
 		// create a Message and try to delete it without actually inserting it
 		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_MESSAGETIMESTAMP, $this->VALID_MESSAGETEXT);
@@ -216,7 +216,7 @@ class MessageTest extends KiteCryptTest {
 	 **/
 	public function testGetAllValidInvitations() {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("invitation");
+		$numRows = $this->getConnection()->getRowCount("message");
 
 		// Create a new Message and insert it into the database
 		$invitation = new Message($this->sender->getProfileId(), $this->receiver->getProfileId(), $this->VALID_MESSAGETIMESTAMP, $this->VALID_MESSAGETEXT);
@@ -224,7 +224,7 @@ class MessageTest extends KiteCryptTest {
 
 		// Get the invitations from the database and verify that they match our expectations
 		$results = Message::getAllInvitations($this->getPDO());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("invitation"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\KiteCrypt\\DataDesign\\Message", $results);
 
@@ -232,7 +232,7 @@ class MessageTest extends KiteCryptTest {
 		$pdoInvitation = $results[0];
 		$this->assertEquals($pdoInvitation->getInvitationInviterId(), $this->sender->getProfileId());
 		$this->assertEquals($pdoInvitation->getInvitationInviteeId(), $this->receiver->getProfileId());
-		$this->assertEquals($pdoInvitation->getInvitationTimestamp(), $this->VALID_MESSAGETIMESTAMP);
+		//$this->assertEquals($pdoInvitation->getInvitationTimestamp(), $this->VALID_MESSAGETIMESTAMP); // Commented out because the Timestamp is assigned by MySQL
 		$this->assertEquals($pdoInvitation->getInvitationPassphrase(), $this->VALID_MESSAGETEXT);
 
 
