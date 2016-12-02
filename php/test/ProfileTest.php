@@ -152,6 +152,7 @@ class ProfileTest extends KiteCryptTest {
 
 		// create a new profile and insert into mySQL
 		$profile = new Profile(null, $this->validProfileUserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY,$this->validProfileSalt);
+
 		$profile->insert($this->getPDO());
 
 		// edit the Profile and update it in mySQL

@@ -70,12 +70,13 @@ class FriendshipTest extends KiteCryptTest {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("friendship"));
 
 		// Use the inviterId to get the Friendship just created and check that it matches what should have been put in.
-		$pdoFriendship1 = Friendship::getFriendshipByFriendshipInviterId($this->getPDO(), $inviter->getProfileId());
-		$this->assertEquals($pdoFriendship1->getFriendshipInviterId(), $this->inviter->getProfileId());
+		$pdoFriendship1 = Friendship::getFriendshipByFriendshipInviterId($this->getPDO(), $this->inviter->getProfileId());
+		var_dump($pdoFriendship1);
+		$this->assertEquals($pdoFriendship1[0]->getFriendshipInviterId(), $this->inviter->getProfileId());
 
 		// Use the inviteeId to get the Friendship just created and check that it matches what should have been put in.
-		$pdoFriendship2 = Friendship::getFriendshipByFriendshipInviteeId($this->getPDO(), $invitee->getProfileId());
-		$this->assertEquals($pdoFriendship2->getFriendshipInviteeId(), $this->invitee->getProfileId());
+		$pdoFriendship2 = Friendship::getFriendshipByFriendshipInviteeId($this->getPDO(), $this->invitee->getProfileId());
+		$this->assertEquals($pdoFriendship2[0]->getFriendshipInviteeId(), $this->invitee->getProfileId());
 
 	}
 
@@ -133,12 +134,12 @@ class FriendshipTest extends KiteCryptTest {
 
 		// Try to get the deleted Friendship from the database (using the inviterId)
 		// and verify that it does not exist (that is a null is returned)
-		$pdoFriendship1 = Friendship::getFriendshipByFriendshipInviterId($this->getPDO(), $inviter->getProfileId());
+		$pdoFriendship1 = Friendship::getFriendshipByFriendshipInviterId($this->getPDO(), $this->inviter->getProfileId());
 		$this->assertNull($pdoFriendship1);
 
 		// Try to get the deleted Friendship from the database (using the inviteeId)
 		// and verify that it does not exist (that is a null is returned)
-		$pdoFriendship2 = Friendship::getFriendshipByFriendshipInviteeId($this->getPDO(), $invitee->getProfileId());
+		$pdoFriendship2 = Friendship::getFriendshipByFriendshipInviteeId($this->getPDO(), $this->invitee->getProfileId());
 		$this->assertNull($pdoFriendship2);
 
 	}
