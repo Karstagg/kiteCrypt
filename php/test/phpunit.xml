@@ -1,6 +1,6 @@
 <phpunit>
 	<testsuites>
-		<testsuite name="Kyte Crypt Data Design">
+		<testsuite name="KiteCryptTest">
 			<file>ProfileTest.php</file>
 			<!--<file>MessagesTest.php</file>-->
 			<!--<file>InviteTest.php</file>-->

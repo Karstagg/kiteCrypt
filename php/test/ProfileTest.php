@@ -56,6 +56,13 @@ class ProfileTest extends KiteCryptTest {
 	protected $validProfilePublicKeyX = "dkongdakjoidgneislidkei";
 
 	/**
+	 * Public Key X 2 for encryption for profile unique from $validProfilePublicKeyX
+	 *
+	 * @var string > 256
+	 **/
+	protected $validProfilePublicKeyX2 = "kdjfoidionvfhosdfhoajd";
+
+	/**
 	 * Invalid profile Public Key X;
 	 * @var string
 	 * @var string > 256 characters length
@@ -69,6 +76,12 @@ class ProfileTest extends KiteCryptTest {
 	 **/
 	protected $validProfilePublicKeyY = "test pass if this this public key Y";
 
+		/**
+		 * Public Key Y 2 for encryption for profile unique from $validProfilePublicKeyY
+		 *
+		 * @var string > 256
+		 **/
+	protected $validProfilePublicKeyY2 ="test pass if this this public key Y2";
 	/**
 	 * Invalid profile public key Y;
 	 * @var string
@@ -148,7 +161,7 @@ class ProfileTest extends KiteCryptTest {
 		// grab the data from mySQL and enforce the field match our expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertEquals($pdoProfile->getProfileUserName(), $this->validProfileUserName);
+		$this->assertEquals($pdoProfile->getProfileUserName(), $this->validProfileUserName2);
 		$this->assertEquals($pdoProfile->getProfilePublicKeyX(), $this->validProfilePublicKeyX);
 		$this->assertEquals($pdoProfile->getProfilePublicKeyY(), $this->validProfilePublicKeyY);
 		$this->assertEquals($pdoProfile->getProfilePasswordSalt(), $this->validProfileSalt);
@@ -177,7 +190,7 @@ class ProfileTest extends KiteCryptTest {
 /**
  * test inserting too many characters into public key X
  *
- * @expectedException PDOException
+ * @expectedException RangeException
  **/
 	public function testTooManyCharactersPublicKeyX() {
 		//entered 1025 characters into profilePublicKey field
@@ -189,28 +202,34 @@ class ProfileTest extends KiteCryptTest {
 
 
 		public function testGetAllValidProfiles() {
+			// add data to mysql in order to count
+			$profile = new Profile(null, $this->validProfileUserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfileSalt);
+			$profile->insert($this->getPDO());
+			// add 2nd set of data to mysql in order to count to 2
+			$profile2 = new Profile(null, $this->validProfileUserName2, $this->validProfilePublicKeyX2, $this->validProfilePublicKeyY2, $this->validProfileSalt);
+			$profile2->insert($this->getPDO());
+
+
 			// count the number of rows and save it for later
 			$numRows = $this->getConnection()->getRowCount("profile");
 
 
-			// create a new profile and insert into mySQL
-			$profile = new Profile(null, $this->validProfileUserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfileSalt);
-
 			// grab the data from mysql and enforce teh fields match our expectation
 			$results = Profile::getAllProfiles($this->getPDO());
-			$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
-			$this->assertCount(1, $results);
-			$this->assetContainsOnlyInstanceof("Edu\\Cnm\\KiteCrypt\\Profile", $results);
+			$this->assertEquals($numRows, $this->getConnection()->getRowCount("profile"));
+			$this->assertCount(2, $results);
+			$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\KiteCrypt\\Profile", $results);
 
 			// grab the result from the array and validate it
 			$pdoProfile = $results[0];
-			$this->assertEquals($pdoProfile->getProfileId(), $this->validProfileId);
 			$this->assertEquals($pdoProfile->getProfileUserName(), $this->validProfileUserName);
 			$this->assertEquals($pdoProfile->getProfilePublicKeyX(), $this->validProfilePublicKeyX);
 			$this->assertEquals($pdoProfile->getProfilePublicKeyY(), $this->validProfilePublicKeyY);
-			$this->assertEquals($pdoProfile->getProfilePublicSalt(), $this->validProfileSalt);
+			$this->assertEquals($pdoProfile->getProfilePasswordSalt(), $this->validProfileSalt);
 
 		}
+
+
 
 
 
