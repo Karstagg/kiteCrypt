@@ -4,12 +4,12 @@
 			<file>ProfileTest.php</file>
 			<!--<file>MessagesTest.php</file>-->
 			<!--<file>InviteTest.php</file>-->
-			<!--<file>FriendsTest.php</file>-->
+			<file>FriendsTest.php</file>
 		</testsuite>
 	</testsuites>
 	<filter>
 		<whitelist processUncoveredFilesFromWhitelist="true">
-			<directory suffix=".php">../classes</directory>
+			<directory suffix=".php">../class</directory>
 		</whitelist>
 	</filter>
 </phpunit>
