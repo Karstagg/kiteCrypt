@@ -2,7 +2,7 @@
 
 namespace Edu\Cnm\KiteCrypt\Test;
 
-use Edu\Cnm\KiteCrypt\{Friendship};
+use Edu\Cnm\KiteCrypt\{Friendship, Profile};
 
 // Include the project test parameters
 require_once("KiteCryptTest.php");
@@ -43,11 +43,11 @@ class FriendshipTest extends KiteCryptTest {
 		parent::setUp();
 
 		// create and insert a Profile that sent the Invitation of Friendship (the inviter); it is a foreign key
-		$this->inviter = new Profile(null, "friendship_test_inviter", "1234", "5678", "rock");
+		$this->inviter = new Profile(null, "friendship_inviter", "1234", "5678", "rock");
 		$this->inviter->insert($this->getPDO());
 
 		// create and insert a Profile that sent the Invitation of Friendship (the inviter); it is a foreign key
-		$this->invitee = new Profile(null, "friendship_test_invitee", "1234", "5678", "sea");
+		$this->invitee = new Profile(null, "friendship_invitee", "1234", "5678", "sea");
 		$this->invitee->insert($this->getPDO());
 
 	}

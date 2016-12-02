@@ -28,7 +28,7 @@ CREATE TABLE friendship (
 friendshipInviterId INT UNSIGNED NOT NULL,
 friendsInviteeId INT UNSIGNED NOT NULL,
 FOREIGN KEY(friendshipInviterId) REFERENCES profile(profileId),
-FOREIGN KEY(friendsInviteeId) REFERENCES profile(profileId),
+FOREIGN KEY(friendshipInviteeId) REFERENCES profile(profileId),
 PRIMARY KEY (friendshipInviterId, friendsInviteeId)
 );
 
