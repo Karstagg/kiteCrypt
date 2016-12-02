@@ -24,6 +24,7 @@ $reply = new stdClass();
 $reply->status = 200;
 $reply->data = null;
 
+
 $exceptionMessage = "Username or Password invalid";
 $exceptionCode = 401;
 
@@ -46,9 +47,10 @@ try {
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
+		var_dump($requestObject);
 
-		if(newUser === true) {
-			$profileFromDatabase = Profile::getProfileByUserName($pdo, $profileUserName);
+		if($newUser === true) {
+			$profileFromDatabase = null;//Profile::getProfileByUserName($pdo, $profileUserName);
 			if($profileFromDatabase === null) {
 				$reply->data = bin2hex(random_bytes(16));
 			} else {

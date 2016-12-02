@@ -77,9 +77,6 @@ try {
 			throw (new InvalidArgumentException("the passwords you provided do not match"));
 		}
 
-		//create a new salt and email activation
-		$salt = bin2hex(random_bytes(16));
-
 		//Use "SET" methods to create new username/password
 
 
