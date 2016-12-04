@@ -5,7 +5,7 @@
 	/**
 	 * Profile Class creation
 	 *
-	 * @author Jon Sheafe <msckj@yahoo.com>
+	 * @author Jon Sheafe <finefinds@outlook.com>
 	 * @version 1.0.0
 	 */
 
@@ -432,7 +432,7 @@ class Profile implements \JsonSerializable {
 		}
 
 		//create query template
-		$query = "SELECT profileId, profileUserName, profilePublicKeyY, profilePublicKeyY, profilePasswordSalt FROM profile WHERE profilePublicKeyY LIKE :profilePublicKeyY";
+		$query = "SELECT profileId, profileUserName, profilePublicKeyX, profilePublicKeyY, profilePasswordSalt FROM profile WHERE profilePublicKeyY LIKE :profilePublicKeyY";
 		$statement = $pdo->prepare($query);
 
 		// bind the public key to the place holder in the template
@@ -445,7 +445,7 @@ class Profile implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$profile = new Profile($row["profileId"], $row["profileUserName"], $row["profilePublicKeyY"], $row["profilePublicKeyY"], $row["profilePasswordSalt"]);
+				$profile = new Profile($row["profileId"], $row["profileUserName"], $row["profilePublicKeyX"], $row["profilePublicKeyY"], $row["profilePasswordSalt"]);
 				$profiles[$profiles->key()] = $profile;
 				$profiles->next();
 			} catch(\Exception $exception) {

@@ -1,31 +1,30 @@
 <?php
-	namespace Edu\Cnm\KiteCrypt\Test;
+namespace Edu\Cnm\KiteCrypt\Test;
 
-	use Edu\Cnm\KiteCrypt\{Profile};
+use Edu\Cnm\KiteCrypt\{Profile};
 
-	// grab the project test parameters
-	require_once("KiteCryptTest.php");
+// grab the project test parameters
+require_once("KiteCryptTest.php");
 
 // grab the class under scrutiny
-	require_once(dirname(__DIR__) . "/class/autoloader.php");
-	
-	/**
-	 * Full PHPUnit test for the Profile class
-	 *
-	 * This is a complete PHPUnit test of the Profile class. It is complete because *ALL* mySQL/PDO enabled methods
-	 * are tested for both invalid and valid inputs.
-	 *
-	 * @see Profile
-	 * @author Jon Sheafe <jsheafe@cnm.edu>
-	 **/
+require_once(dirname(__DIR__) . "/class/autoloader.php");
 
-	/**
-	 * Profile Class creation
-	 *
-	 * @author Jon Sheafe <jsheafe@cnm.com>
-	 * @version 1.0.0
-	 **/
+/**
+ * Full PHPUnit test for the Profile class
+ *
+ * This is a complete PHPUnit test of the Profile class. It is complete because *ALL* mySQL/PDO enabled methods
+ * are tested for both invalid and valid inputs.
+ *
+ * @see Profile
+ * @author Jon Sheafe <jsheafe@cnm.edu>
+ **/
 
+/**
+ * Profile Class creation
+ *
+ * @author Jon Sheafe <jsheafe@cnm.com>
+ * @version 1.0.0
+ **/
 class ProfileTest extends KiteCryptTest {
 
 	/**
@@ -74,14 +73,14 @@ class ProfileTest extends KiteCryptTest {
 	 * @var string
 	 * @var string <= 256 characters length
 	 **/
-	protected $validProfilePublicKeyY = "test pass if this this public key Y";
+	protected $validProfilePublicKeyY = "kjaokfjgoiajf";
 
-		/**
-		 * Public Key Y 2 for encryption for profile unique from $validProfilePublicKeyY
-		 *
-		 * @var string > 256
-		 **/
-	protected $validProfilePublicKeyY2 ="test pass if this this public key Y2";
+	/**
+	 * Public Key Y 2 for encryption for profile unique from $validProfilePublicKeyY
+	 *
+	 * @var string > 256
+	 **/
+	protected $validProfilePublicKeyY2 = "djfadjklfaldkfj;";
 	/**
 	 * Invalid profile public key Y;
 	 * @var string
@@ -89,10 +88,10 @@ class ProfileTest extends KiteCryptTest {
 	 **/
 	protected $invalidProfilePublicKeyY = "dkajoikfdkgnakdgjgnakdfgjadjnaocjnviajnkjcajbcnadjfjadsnfajxcnviadigfasdnvcjbivbna;vbadskdjcnvkjafjadnvkjnc vbkjasnvkjadsbsvbaskjvnkajsbdvjiafngvdkajdlkjfalkdjflkadjofijadksflaldksjflkjadslfkjasdidjfoadssfvkdsclkfvndsalkfdjafl;kdalkfjdjflkadjflkajdslkfjasdlkfjoadsijfoaidsjkjvcnkajbfkdjbn";
 
-/**
- * Valid profile Salt testing
- * @var string
- **/
+	/**
+	 * Valid profile Salt testing
+	 * @var string
+	 **/
 	protected $validProfileSalt = "dfvnoint323fdndoo;";
 
 	/**
@@ -118,6 +117,9 @@ class ProfileTest extends KiteCryptTest {
 	 * test inserting a valid profile and verify that the actual mySQL data matches
 	 **/
 	public function testInsertValidProfile() {
+		// clean out database
+		parent::getTearDownOperation();
+
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 
@@ -133,6 +135,7 @@ class ProfileTest extends KiteCryptTest {
 		$this->assertEquals($pdoProfile->getProfilePublicKeyY(), $this->validProfilePublicKeyY);
 		$this->assertEquals($pdoProfile->getProfilePasswordSalt(), $this->validProfileSalt);
 	}
+
 	/**
 	 * test inserting a profile that already exist
 	 *
@@ -151,7 +154,7 @@ class ProfileTest extends KiteCryptTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		// create a new profile and insert into mySQL
-		$profile = new Profile(null, $this->validProfileUserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY,$this->validProfileSalt);
+		$profile = new Profile(null, $this->validProfileUserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfileSalt);
 
 		$profile->insert($this->getPDO());
 
@@ -178,21 +181,11 @@ class ProfileTest extends KiteCryptTest {
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-/**
- * test inserting too many characters into public key X
- *
- * @expectedException RangeException
- **/
+	/**
+	 * test inserting too many characters into public key X
+	 *
+	 * @expectedException RangeException
+	 **/
 	public function testTooManyCharactersPublicKeyX() {
 		//entered 1025 characters into profilePublicKey field
 		$profile = new Profile(null, $this->validProfileUserName, $this->invalidProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfileSalt);
@@ -200,46 +193,185 @@ class ProfileTest extends KiteCryptTest {
 	}
 
 
+	public function testGetAllValidProfiles() {
+		// add data to mysql in order to count
+		$profile = new Profile(null, $this->validProfileUserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfileSalt);
+		$profile->insert($this->getPDO());
+		// add 2nd set of data to mysql in order to count to 2
+		$profile2 = new Profile(null, $this->validProfileUserName2, $this->validProfilePublicKeyX2, $this->validProfilePublicKeyY2, $this->validProfileSalt);
+		$profile2->insert($this->getPDO());
 
 
-		public function testGetAllValidProfiles() {
-			// add data to mysql in order to count
-			$profile = new Profile(null, $this->validProfileUserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfileSalt);
-			$profile->insert($this->getPDO());
-			// add 2nd set of data to mysql in order to count to 2
-			$profile2 = new Profile(null, $this->validProfileUserName2, $this->validProfilePublicKeyX2, $this->validProfilePublicKeyY2, $this->validProfileSalt);
-			$profile2->insert($this->getPDO());
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
 
 
-			// count the number of rows and save it for later
-			$numRows = $this->getConnection()->getRowCount("profile");
+		// grab the data from mysql and enforce teh fields match our expectation
+		$results = Profile::getAllProfiles($this->getPDO());
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("profile"));
+		$this->assertCount(2, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\KiteCrypt\\Profile", $results);
+
+		// grab the result from the array and validate it
+		$pdoProfile = $results[0];
+		$this->assertEquals($pdoProfile->getProfileUserName(), $this->validProfileUserName);
+		$this->assertEquals($pdoProfile->getProfilePublicKeyX(), $this->validProfilePublicKeyX);
+		$this->assertEquals($pdoProfile->getProfilePublicKeyY(), $this->validProfilePublicKeyY);
+		$this->assertEquals($pdoProfile->getProfilePasswordSalt(), $this->validProfileSalt);
+	}
+
+	/**
+	 * test that two profiles are created, but only one profile is correctly deleted from database.
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testDeleteInvalidTweet() {
+		//count the number of rows and save it for later
+		$newRows = $this->getConnection()->getRowCount("profile");
+
+		// create two profiles in order for one to be deleted
+		$profile = new Profile($this->validProfileId, $this->validProfileUserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfileSalt);
+		$profile2 = new Profile($this->validProfileId, $this->validProfileUserName2, $this->validProfilePublicKeyX2, $this->validProfilePublicKeyY2, $this->validProfileSalt);
+
+		// delete the profile2 from mysql
+		$this->assertEquals($newRows, $this->getConnection()->getRowCount("profile"));
+		$profile->delete($this->getPDO());
+
+		// grab the data from mySQL and enforce the Profile does not exist
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+		$this->assetCount($pdoProfile);
+		$this->assertEquals($newRows, $this->getConnection()->getRowCount("profile"));
+	}
+
+	/**
+	 * test creating a Profile and then deleting it
+	 **/
+	public function testDeleteValidTweet() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		// create a new Profile and insert to into mySQL
+		$profile = new Profile(null, $this->validProfileUserName2, $this->validProfilePublicKeyX2, $this->validProfilePublicKeyY2, $this->validProfileSalt);
+		$profile->insert($this->getPDO());
+
+		// delete the Profile from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$profile->delete($this->getPDO());
+
+		// grab the data from mySQL and enforce the Profile does not exist
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+		$this->assertNull($pdoProfile);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("profile"));
+	}
+
+	/**
+	 * test grabbing a Profile by profile Public Key Y
+	 **/
+	public function testGetValidProfileByProfilePublicKeyY() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		// create a new Profile and insert to into mySQL
+		$profile = new Profile($this->validProfileId, $this->validProfileUserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfileSalt);
+		$profile->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Profile::getProfileByProfilePublicKeyY($this->getPDO(), $profile->getProfilePublicKeyY());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\KiteCrypt\\Profile", $results);
+
+		// grab the result from the array and validate it
+		$pdoProfile = $results[0];
+//		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileUserName(), $this->validProfileUserName);
+		$this->assertEquals($pdoProfile->getProfilePublicKeyX(), $this->validProfilePublicKeyX);
+		$this->assertEquals($pdoProfile->getProfilePublicKeyY(), $this->validProfilePublicKeyY);
+		$this->assertEquals($pdoProfile->getProfilePasswordSalt(), $this->validProfileSalt);
+	}
 
 
-			// grab the data from mysql and enforce teh fields match our expectation
-			$results = Profile::getAllProfiles($this->getPDO());
-			$this->assertEquals($numRows, $this->getConnection()->getRowCount("profile"));
-			$this->assertCount(2, $results);
-			$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\KiteCrypt\\Profile", $results);
-
-			// grab the result from the array and validate it
-			$pdoProfile = $results[0];
-			$this->assertEquals($pdoProfile->getProfileUserName(), $this->validProfileUserName);
-			$this->assertEquals($pdoProfile->getProfilePublicKeyX(), $this->validProfilePublicKeyX);
-			$this->assertEquals($pdoProfile->getProfilePublicKeyY(), $this->validProfilePublicKeyY);
-			$this->assertEquals($pdoProfile->getProfilePasswordSalt(), $this->validProfileSalt);
-
-		}
 
 
 
+	/**
+	 * test grabbing a Profile by profile Public Key X
+	 **/
+	public function testGetValidProfileByProfilePublicKeyX() {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
 
+		// create a new Profile and insert to into mySQL
+		$profile = new Profile($this->validProfileId, $this->validProfileUserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfileSalt);
+		$profile->insert($this->getPDO());
 
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Profile::getProfileByProfilePublicKeyX($this->getPDO(), $profile->getProfilePublicKeyX());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\KiteCrypt\\Profile", $results);
 
+		// grab the result from the array and validate it
+		$pdoProfile = $results[0];
+		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileUserName(), $this->validProfileUserName);
+		$this->assertEquals($pdoProfile->getProfilePublicKeyX(), $this->validProfilePublicKeyX);
+		$this->assertEquals($pdoProfile->getProfilePublicKeyY(), $this->validProfilePublicKeyY);
+		$this->assertEquals($pdoProfile->getProfilePasswordSalt(), $this->validProfileSalt);
+	}
 
+	/**
+	 * test deleting a Profile that does not exist
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testDeleteInvalidProfile() {
+		// create a Tweet and try to delete it without actually inserting it
+		$tweet = new Profile($this->validProfileId, $this->validProfileUserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfileSalt);
+		$tweet->delete($this->getPDO());
+	}
 
+	/**
+	 * test grabbing a Profile by profileUserName that does not exist
+	 **/
+	public function testGetInvalidProfileByProfileUserName() {
+		// grab a tweet by searching for content that does not exist
+		$profile = Profile::getProfileByUserName($this->getPDO(), "you will find nothing");
+		$this->assertCount(0, $profile);
+	}
 
+	/**
+	 * test inserting too many characters into public key Y
+	 *
+	 * @expectedException RangeException
+	 **/
+	public function testInvalidProfilePublicKeyY() {
+		//entered 1025 characters into profilePublicKey field
+		$profile = new Profile(null, $this->validProfileUserName, $this->validProfilePublicKeyX, $this->invalidProfilePublicKeyY, $this->validProfileSalt);
+		$profile->insert($this->getPDO());
+	}
 
+	/**
+	 * test inserting too many characters into Password Salt
+	 *
+	 * @expectedException RangeException
+	 **/
+	public function testInvalidProfilePasswordSalt() {
+		//entered 1025 characters into profilePublicKey field
+		$profile = new Profile($this->validProfileId, $this->validProfileUserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->invalidProfilePublicKeyY);
+		$profile->insert($this->getPDO());
+	}
 
+	/**
+	 * test inserting too many characters into User Name
+	 *
+	 * @expectedException RangeException
+	 **/
+	public function testInvalidUserName() {
+		//entered 1025 characters into profilePublicKey field
+		$profile = new Profile($this->validProfileId, $this->invalidProfileUserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfilePublicKeyY);
+		$profile->insert($this->getPDO());
+	}
 
 
 
