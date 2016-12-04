@@ -283,7 +283,7 @@ class ProfileTest extends KiteCryptTest {
 
 		// grab the result from the array and validate it
 		$pdoProfile = $results[0];
-//		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoProfile->getProfileUserName(), $this->validProfileUserName);
 		$this->assertEquals($pdoProfile->getProfilePublicKeyX(), $this->validProfilePublicKeyX);
 		$this->assertEquals($pdoProfile->getProfilePublicKeyY(), $this->validProfilePublicKeyY);

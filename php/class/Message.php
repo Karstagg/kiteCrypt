@@ -145,28 +145,32 @@ class Message implements \JsonSerializable {
 	 * @throws \TypeError if $newMessageTimestamp is not a date
 	 * @throws \RangeException if $newMessageTimestamp is not from the recent past
 	 **/
-	public function setMessageTimestamp(int $newMessageTimestamp = null) {
+	public function setMessageTimestamp($newMessageTimestamp = null) {
 
 		// base case: if the timestamp is null, it will be assigned by MySQL when it's stored in the database
 		if($newMessageTimestamp === null) {
-			$this->messageTimestamp = null;
-			return;
+
+			return($this->messageTimestamp);
 		}
-		// Verify the $newMessageTimestamp is safe
-		$newMessageTimestamp = filter_var($newMessageTimestamp, FILTER_SANITIZE_NUMBER_INT);
-		if(empty($newMessageTimestamp) === true) {
-			throw(new \InvalidArgumentException("newMessageTimestamp is empty or insecure"));
+		else {
+			throw(new \TypeError("TimeStamp must be null"));
 		}
-		// Verify that the $newMessageTimestamp is an integer.
-		$newMessageTimestamp = filter_var($newMessageTimestamp, FILTER_VALIDATE_INT);
-		if(empty($newMessageTimestamp) === true) {
-			// If the $newMessageTimestamp is not an integer, throw a TypeError.
-			throw(new \TypeError("newMessageTimestamp is not an integer."));
-		}
-		// Verify the $newMessageTimestamp is positive and from the recent past
-		if($newMessageTimestamp <= 0) {
-			throw(new \RangeException("newMessageTimestamp is not positive."));
-		}
+
+//
+//		$newMessageTimestamp = filter_var($newMessageTimestamp, FILTER_VALIDATE_);
+//		if(empty($newMessageTimestamp) === true) {
+//			throw(new \InvalidArgumentException("newMessageTimestamp is empty or insecure"));
+//		}
+//		// Verify that the $newMessageTimestamp is an integer.
+//		$newMessageTimestamp = filter_var($newMessageTimestamp, FILTER_VALIDATE_INT);
+//		if(empty($newMessageTimestamp) === true) {
+//			// If the $newMessageTimestamp is not an integer, throw a TypeError.
+//			throw(new \TypeError("newMessageTimestamp is not an integer."));
+//		}
+//		// Verify the $newMessageTimestamp is positive and from the recent past
+//		if($newMessageTimestamp <= 0) {
+//			throw(new \RangeException("newMessageTimestamp is not positive."));
+//		}
 
 		// store the $newMessageTimestamp
 		$this->messageTimestamp = $newMessageTimestamp;
