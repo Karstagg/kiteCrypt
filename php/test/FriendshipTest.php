@@ -2,7 +2,7 @@
 
 namespace Edu\Cnm\KiteCrypt\Test;
 
-use Edu\Cnm\KiteCrypt\{Friendship, Profile};
+use Edu\Cnm\KiteCrypt\{Profile, Friendship};
 
 // Include the project test parameters
 require_once("KiteCryptTest.php");
