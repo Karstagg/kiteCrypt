@@ -1,8 +1,9 @@
-import {Component, ViewChild} from "@angular/core";
+/*import {Component, ViewChild} from "@angular/core";
 import {SignUpService} from "../services/signup-service";
 import {SignUp} from "../classes/signup";
 import {Status} from "../classes/status";
 import {Router} from "@angular/router";
+import {SaltService} from "../services/salt-service";
 
 
 @Component({
@@ -14,16 +15,19 @@ export class SignUpComponent {
 	signUpData: SignUp = new SignUp("", "", "");
 	status: Status = null;
 
-	constructor(private SignUpService: SignUpService,  private router: Router) {
+	constructor(private SaltService: SaltService,  private router: Router) {
 
 	}
 
 	signUp(): void {
 		if(this.signUpData.password === this.signUpData.passwordConfirm) {
-			this.SignUpService.signUp(this.signUpData)
-				.subscribe(status => this.status = status);
+			this.SaltService.salt(this.signUpData)
+				.subscribe(status => {
+					this.status = status;
+					this.salt-service;
+				});
 			//	This is where we react to a successful login//
-			this.router.navigate(["/chat/"]);
+			this.router.navigate(["/signup/"]);
 		}
 	}
-}
+}*/

@@ -1,6 +1,6 @@
-<!--Take in the username on the post. Get the user's profile by username. If it exists, send the salt back in the reply with status 200. If it doesn't exist, send error message status 401. -->
-<?php
 
+<?php
+//Take in the username on the post. Get the user's profile by username. If it exists, send the salt back in the reply with status 200. If it doesn't exist, send error message status 401.
 require_once dirname(__DIR__, 3) . "/php/class/autoloader.php";
 require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
@@ -48,7 +48,7 @@ try {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 		var_dump($requestObject);
-
+		$newUser = true;
 		if($newUser === true) {
 			$profileFromDatabase = null;//Profile::getProfileByUserName($pdo, $profileUserName);
 			if($profileFromDatabase === null) {
