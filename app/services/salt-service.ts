@@ -2,8 +2,8 @@ import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import {BaseService} from "./base-service";
-import {Status} from "../classes/status";
 import {Salt} from "../classes/salt";
+import {SaltRequest} from "../classes/salt-request";
 
 @Injectable()
 export class SaltService extends BaseService {
@@ -13,8 +13,8 @@ export class SaltService extends BaseService {
 
 	private saltUrl = "api/salt/";
 
-	salt(salt: Salt) : Observable<Status> {
-		return(this.http.post(this.saltUrl, salt)
+	salt(saltRequest: SaltRequest) : Observable<Salt> {
+		return(this.http.post(this.saltUrl, saltRequest)
 			.map(this.extractMessage)
 			.catch(this.handleError));
 	}

@@ -2,6 +2,7 @@ import {Component, ViewChild} from "@angular/core";
 import {SignUpService} from "../services/signup-service";
 import {SignUp} from "../classes/signup";
 import {Status} from "../classes/status";
+import {SaltRequest} from "../classes/salt-request";
 import {Router} from "@angular/router";
 import {SaltService} from "../services/salt-service";
 
@@ -15,6 +16,7 @@ export class SignUpComponent {
 	signUpData: SignUp = new SignUp("", "", "");
 	saltStatus: Status = null;
 	signUpStatus : Status = null;
+	saltRequest: SaltRequest = new SaltRequest("", true);
 
 	constructor(private SaltService: SaltService, private signUpService: SignUpService, private router: Router) {
 
@@ -22,6 +24,7 @@ export class SignUpComponent {
 
 	signUp(): void {
 		if(this.signUpData.password === this.signUpData.passwordConfirm) {
+			this.saltRequest.username = this.signUpData.username;
 			this.SaltService.salt(this.signUpData)
 				.subscribe(saltStatus => {
 					this.saltStatus = saltStatus;
