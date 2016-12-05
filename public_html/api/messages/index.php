@@ -70,13 +70,13 @@ try {
 		//retrieve the data for messageId
 
 
-		$messageTextFromDatabase = Message::getMessageByMessageId($pdo, $messageId);
+		$messageTextFromDatabase = \Edu\Cnm\KiteCrypt\Message::getMessageByMessageSenderId($pdo, $messageId);
 
 		$messageSenderId = $messageTextFromDatabase->getMessageFromDatabase();
 
 		$messageReceiverId = $messageTextFromDatabase->getMessageFromDatabase();
 
-		if($profileXFromDatabase === null || $profileYFromDatabase === null){
+		if($messageTextFromDatabase === null || $messageId === null){
 			throw( new \InvalidArgumentException($exceptionMessage, $exceptionCode));
 		}
 
