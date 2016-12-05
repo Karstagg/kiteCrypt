@@ -57,7 +57,7 @@ try {
 			throw (new \InvalidArgumentException($exceptionMessage, $exceptionCode));
 		}
 		if($newUser === true) {
-			$profileFromDatabase = null;//Profile::getProfileByUserName($pdo, $profileUserName);
+			$profileFromDatabase = Profile::getProfileByUserName($pdo, $requestObject->username);
 			if($profileFromDatabase === null) {
 				$reply->data = bin2hex(random_bytes(16));
 			} else {
@@ -72,12 +72,6 @@ try {
 				throw (new \InvalidArgumentException($exceptionMessage, $exceptionCode));
 			}
 			$reply->data = $profile->getProfilePasswordSalt();
-		}
-
-
-		//make sure tweet content is available (required field)
-		if(empty($requestObject->username) === true) {
-			throw(new \InvalidArgumentException ($exceptionMessage, $exceptionCode));
 		}
 
 
