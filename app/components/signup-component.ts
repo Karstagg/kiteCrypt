@@ -1,4 +1,4 @@
-/*import {Component, ViewChild} from "@angular/core";
+import {Component, ViewChild} from "@angular/core";
 import {SignUpService} from "../services/signup-service";
 import {SignUp} from "../classes/signup";
 import {Status} from "../classes/status";
@@ -11,23 +11,30 @@ import {SaltService} from "../services/salt-service";
 })
 
 export class SignUpComponent {
-	@ViewChild("signUpForm") signUpForm : any;
+	@ViewChild("signUpForm") signUpForm: any;
 	signUpData: SignUp = new SignUp("", "", "");
-	status: Status = null;
+	saltStatus: Status = null;
+	signUpStatus : Status = null;
 
-	constructor(private SaltService: SaltService,  private router: Router) {
+	constructor(private SaltService: SaltService, private signUpService: SignUpService, private router: Router) {
 
 	}
 
 	signUp(): void {
 		if(this.signUpData.password === this.signUpData.passwordConfirm) {
 			this.SaltService.salt(this.signUpData)
-				.subscribe(status => {
-					this.status = status;
-					this.salt-service;
+				.subscribe(saltStatus => {
+					this.saltStatus = saltStatus;
+					this.signUpService.signUp(this.signUpData)
+						.subscribe(signUpStatus => {
+							this.signUpStatus = signUpStatus;
+							if (signUpStatus.status === 200) {
+								this.router.navigate(["/"]);
+							}
+						});
 				});
-			//	This is where we react to a successful login//
-			this.router.navigate(["/signup/"]);
+
+
 		}
 	}
-}*/
+}
