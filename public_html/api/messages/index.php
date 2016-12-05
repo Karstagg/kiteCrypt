@@ -45,7 +45,7 @@ try {
 
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
-		/*-----checking and sanitizing profileUserName, profilePassword--------------*/
+		/*-----checking and sanitizing message text--------------*/
 		//check that email and password fields are not empty, and sanitize that input
 
 		if(empty($requestObject->messageId) === true) {
