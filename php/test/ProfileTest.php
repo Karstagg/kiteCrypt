@@ -86,7 +86,7 @@ class ProfileTest extends KiteCryptTest {
 	 * @var string
 	 * @var string > 256 characters length
 	 **/
-	protected $invalidProfilePublicKeyY = "dkajoikfdkgnakdgjgnakdfgjadjnaocjnviajnkjcajbcnadjfjadsnfajxcnviadigfasdnvcjbivbna;vbadskdjcnvkjafjadnvkjnc vbkjasnvkjadsbsvbaskjvnkajsbdvjiafngvdkajdlkjfalkdjflkadjofijadksflaldksjflkjadslfkjasdidjfoadssfvkdsclkfvndsalkfdjafl;kdalkfjdjflkadjflkajdslkfjasdlkfjoadsijfoaidsjkjvcnkajbfkdjbn";
+	protected $invalidProfilePublicKeyY = "dkajoikfdkgnakdgjgnakdfgjadjnaocjnviajnkjcajbcnadjfjadsnfajxcnviadigfasdnvcjbivbnavbadskdjcnvkjafjadnvkjnc vbkjasnvkjadsbsvbaskjvnkajsbdvjiafngvdkajdlkjfalkdjflkadjofijadksflaldksjflkjadslfkjasdidjfoadssfvkdsclkfvndsalkfdjaflkdalkfjdjflkadjflkajdslkfjasdlkfjoadsijfoaidsjkjvcnkajbfkdjbn";
 
 	/**
 	 * Valid profile Salt testing
@@ -280,13 +280,22 @@ class ProfileTest extends KiteCryptTest {
 
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = Profile::getProfileByProfilePublicKeyY($this->getPDO(), $profile->getProfilePublicKeyY());
+//		$results = Profile::getProfileByProfilePublicKeyY($this->getPDO(), $profile->getProfilePublicKeyY());
+//		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+//		$this->assertCount(1, $results);
+//		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\KiteCrypt\\Profile", $results);
+
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoProfile = Profile::getProfileByProfilePublicKeyY($this->getPDO(), $profile->getProfilePublicKeyY());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
-		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\KiteCrypt\\Profile", $results);
+		$this->assertEquals($pdoProfile->getProfileUserName(), $this->validProfileUserName);
+		$this->assertEquals($pdoProfile->getProfilePublicKeyX(), $this->validProfilePublicKeyX);
+		$this->assertEquals($pdoProfile->getProfilePublicKeyY(), $this->validProfilePublicKeyY);
+		$this->assertEquals($pdoProfile->getProfilePasswordSalt(), $this->validProfileSalt);
 
 		// grab the result from the array and validate it
-		$pdoProfile = $results[0];
+//		$pdoProfile = $results[0];
 //		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoProfile->getProfileUserName(), $this->validProfileUserName);
 		$this->assertEquals($pdoProfile->getProfilePublicKeyX(), $this->validProfilePublicKeyX);
@@ -376,6 +385,32 @@ class ProfileTest extends KiteCryptTest {
 		//entered 1025 characters into profilePublicKey field
 		$profile = new Profile($this->validProfileId, $this->invalidProfileUserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfilePublicKeyY);
 		$profile->insert($this->getPDO());
+	}
+
+	/**
+	 *test pulling salt
+	 **/
+	public function testPullingValidSalt() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		// create a new Profile and insert into mySQL
+		$profile = new Profile($this->validProfileId, $this->validProfileUserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfileSalt);
+		$profile->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = Profile::getProfileByProfilePasswordSalt($this->getPDO(), $profile->getProfilePasswordSalt());
+		$this->assertEquals($numRows +1, $this->getConnection()->getRowCount("profile"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\KiteCrypt\\Profile", $results);
+
+		// grab the result from the array and validate it
+		$pdoProfile = $results[0];
+		$this->assertEquals($pdoProfile->getProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileUserName(), $this->profile->getProfileUserName());
+		$this->assertEquals($pdoProfile->getProfilePublicKeyX(), $this->profile->getProfilePublicKeyX());
+		$this->assertEquals($pdoProfile->getProfilePublicKeyY(), $this->profile->getProfilePublicKeyY());
+		$this->assertEquals($pdoProfile->getProfilePasswordSalt(), $this->profile->getProfilePasswordSalt());
 	}
 
 

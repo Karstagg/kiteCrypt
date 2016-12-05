@@ -7,7 +7,7 @@ require_once("autoloader.php");
  *
  * @author Jon Sheafe <finefinds@outlook.com>
  * @version 1.0.0
- */
+ **/
 class Profile implements \JsonSerializable {
 
 	/**
@@ -26,19 +26,19 @@ class Profile implements \JsonSerializable {
 	 * Public Key X for encryption for profile
 	 *
 	 * @var string
-	 */
+	 **/
 	private $profilePublicKeyX;
 
 	/**
 	 * Public Key Y for encryption for profile
 	 *
 	 * @var string
-	 */
+	 **/
 	private $profilePublicKeyY;
 
 	/**
 	 * Password Salt
-	 */
+	 **/
 	private $profilePasswordSalt;
 
 
@@ -52,7 +52,7 @@ class Profile implements \JsonSerializable {
 	 * @param string $newProfilePasswordSalt
 	 * @throws \Exception
 	 * @throws \TypeError
-	 */
+	 **/
 	public function __construct(int $newProfileId = null, string $newProfileUserName, string $newProfilePublicKeyX, string $newProfilePublicKeyY, string $newProfilePasswordSalt) {
 		try {
 			$this->setProfileId($newProfileId);
@@ -75,25 +75,25 @@ class Profile implements \JsonSerializable {
 		}
 
 	}
-	/*
+	/**
 	 * accessor method for profile id
 	 *
 	 * @return int|null value of user id
-	 */
+	 **/
 	/**
 	 * @return int
-	 */
+	 **/
 	public function getProfileId() {
 		return ($this->profileId);
 	}
 
-	/*
+	/**
 	 * mutator method for profile id
 	 *
 	 * @param int|null $newProfileId new value of profile id
 	 * @throws \RangeException if $newProfileId is not positive
 	 * @throws \TypeError if $newProfileId is not an integer
-	 */
+	 **/
 	public function setProfileId(int $newProfileId = null) {
 		// base case: if the profile id is null, this new profile without a mySQL assigned id (yet)
 		if($newProfileId === null) {
@@ -108,23 +108,23 @@ class Profile implements \JsonSerializable {
 		$this->profileId = $newProfileId;
 	}
 
-	/*
+	/**
 	 * accessor method for profile user name
 	 *
 	 * @return string value of profile user name
-	 */
+	 **/
 	public function getProfileUserName() {
 		return ($this->profileUserName);
 	}
 
-	/*
+	/**
 	 * mutator for profile user name
 	 *
 	 * @param string $newProfileUserName new value of user name
 	 * @throws \InvalidArgumentException if $newProfileUserName is not a string or insecure
 	 * @throws \RangeException if $newProfileUserName is >20 characters
 	 * @throws \TypeError if $newProfileUserName is not a string
-	 */
+	 **/
 	public function setProfileUserName(string $newProfileUserName) {
 		// verify the user name is secure
 		$newProfileUserName = trim($newProfileUserName);
@@ -141,11 +141,11 @@ class Profile implements \JsonSerializable {
 	}
 
 
-	/*
+	/**
 	 * accessor method for profile public key X
 	 *
 	 * @return string value of profile public key X
-	 */
+	 **/
 	public function getProfilePublicKeyX() {
 		return ($this->profilePublicKeyX);
 	}
@@ -157,7 +157,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \InvalidArgumentException if $newProfilePublicKeyX is not a string or insecure
 	 * @throws \RangeException if $newProfilePublicKeyX is > 256 characters
 	 * @throws \TypeError if $newProfilePublicKeyX is not a string
-	 */
+	 **/
 	public function setProfilePublicKeyX(string $newProfilePublicKeyX) {
 		// verify the profile public key X is secure
 		$newProfilePublicKeyX = trim($newProfilePublicKeyX);
@@ -174,23 +174,23 @@ class Profile implements \JsonSerializable {
 	}
 
 
-	/*
+	/**
 	 * accessor method for profile public key Y
 	 *
 	 * @return string value of profile public key Y is secure
-	 */
+	 **/
 	public function getProfilePublicKeyY() {
 		return ($this->profilePublicKeyY);
 	}
 
-	/*
+	/**
 	 * mutator method for profile public key Y
 	 *
 	 * @param string $newProfilePublicKeyY
 	 * @throws \InvalidArgumentException if $newProfilePublicKeyY is not a string or insecure
 	 * @throw RangeException if $newProfilePublicKeyY is > 256 characters
 	 * @throws \TypeError if $newProfilePublicKey Y is not a string
-	 */
+	 **/
 	public function setProfilePublicKeyY(string $newProfilePublicKeyY) {
 		// verify the profile public key Y is secure
 		$newProfilePublicKeyY = trim($newProfilePublicKeyY);
@@ -207,22 +207,22 @@ class Profile implements \JsonSerializable {
 	}
 
 
-	/*
+	/**
 	 * accessor method for profile password salt
 	 *   @return string value of password salt
-	 */
+	 **/
 	public function getProfilePasswordSalt() {
 		return ($this->profilePasswordSalt);
 	}
 
-	/*
+	/**
 	 * mutator method for profile password salt
 	 *
 	 * @param string $newProfilePasswordSalt
 	 * @throws \InvalidArgumentException if $newProfilePasswordSalt is not a string or insecure
 	 * @throw RangeException is $newProfilePasswordSalt is > 256 characters
 	 * @throw \TypeError is $newProfilePasswordSalt
-	 */
+	 **/
 	public function setProfilePasswordSalt(string $newProfilePasswordSalt) {
 		// verify profile password salt is secure
 		$newProfilePasswordSalt = trim($newProfilePasswordSalt);
@@ -239,13 +239,13 @@ class Profile implements \JsonSerializable {
 	}
 
 
-	/*
+	/**
 	 * inserts this profile into mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when my SQL related errors occur
 	 * @throws |TypeError if $pdo is not a PDO connection object
-	 */
+	 ***/
 	public function insert(\PDO $pdo) {
 		// enforce the profileId is null (i,e, don't insert a profile that already exists)
 		if($this->profileId !== null) {
@@ -264,14 +264,14 @@ class Profile implements \JsonSerializable {
 		$this->profileId = intval($pdo->lastInsertId());
 	}
 
-	/*
+	/**
 	 * deletes this Profile from mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySqL related errors occur
 	 * @throw \TypeError if $pdo is not a PDO connection object
 	 *
-	 */
+	 **/
 	public function delete(\PDO $pdo) {
 		// enforce the profile ID is not null (i.e., don't delete a profile that hasn't been inserted)
 		if($this->profileId === null) {
@@ -286,13 +286,13 @@ class Profile implements \JsonSerializable {
 		$statement->execute($parameters);
 	}
 
-	/*
+	/**
 	 * updates this profile in mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
-	 */
+	 **/
 	public function update(\PDO $pdo) {
 		// enforce the profileId is not null (i.e., don't update a profile that hasn't been inserted)
 		if($this->profileId === null) {
@@ -308,7 +308,7 @@ class Profile implements \JsonSerializable {
 		$statement->execute($parameters);
 	}
 
-	/*
+	/**
 	 * gets the profile by Id
 	 *
 	 * @param \PDO $pdo connection object
@@ -316,7 +316,7 @@ class Profile implements \JsonSerializable {
 	 * @return Profile|null profile found or null if not found
 	 * @throw \PDOException when mySAL related errors occur
 	 * @throw \TypeError when variables are not the correct data type
-	 */
+	 **/
 
 	public static function getProfileByProfileId(\PDO $pdo, int $profileId) {
 		// sanitise teh description before searching
@@ -379,7 +379,7 @@ class Profile implements \JsonSerializable {
 	}
 
 
-	/*
+	/**
 	 * get public key X by public key
 	 *
 	 * @param \PDO $pdo PDO connection object
@@ -387,7 +387,7 @@ class Profile implements \JsonSerializable {
 	 * @return \SplFixArray SplFixedArray of public key found
 	 * @throw \PDOException when mySQL related errors occur
 	 * @throw \TypeError when variable are not the correct data type
-	 */
+	 **/
 	public static function getProfileByProfilePublicKeyX(\PDO $pdo, string $profilePublicKeyX) {
 		// sanitize the description before searching
 		$profilePublicKeyX = trim($profilePublicKeyX);
@@ -423,8 +423,6 @@ class Profile implements \JsonSerializable {
 
 
 	public static function getProfileByProfilePublicKeyY(\PDO $pdo, string $profilePublicKeyY) {
-//		var_dump($pdo->getProfilePublicKeyY);
-//		var_dump($profilePublicKeyY);
 		// sanitize the description before searching
 		$profilePublicKeyY = trim($profilePublicKeyY);
 		$profilePublicKeyY = filter_var($profilePublicKeyY, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -437,6 +435,7 @@ class Profile implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		// bind the public key to the place holder in the template
+//		$profilePublicKeyY = "$profilePublicKeyY";
 		$parameters = ["profilePublicKeyY" => $profilePublicKeyY];
 		$statement->execute($parameters);
 
@@ -520,11 +519,11 @@ class Profile implements \JsonSerializable {
 	}
 
 
-	/*
+	/**
 	 * formats the state variables for JSON serialization
 	 *
 	 * @return array results state variables to serialize
-	 */
+	 **/
 	public function jsonSerialize() {
 		$fields = get_object_vars($this);
 		return ($fields);
