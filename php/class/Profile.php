@@ -1,14 +1,13 @@
 <?php
-	namespace Edu\Cnm\KiteCrypt;
-	require_once("autoloader.php");
+namespace Edu\Cnm\KiteCrypt;
+require_once("autoloader.php");
 
-	/**
-	 * Profile Class creation
-	 *
-	 * @author Jon Sheafe <finefinds@outlook.com>
-	 * @version 1.0.0
-	 */
-
+/**
+ * Profile Class creation
+ *
+ * @author Jon Sheafe <finefinds@outlook.com>
+ * @version 1.0.0
+ */
 class Profile implements \JsonSerializable {
 
 	/**
@@ -424,6 +423,8 @@ class Profile implements \JsonSerializable {
 
 
 	public static function getProfileByProfilePublicKeyY(\PDO $pdo, string $profilePublicKeyY) {
+//		var_dump($pdo->getProfilePublicKeyY);
+//		var_dump($profilePublicKeyY);
 		// sanitize the description before searching
 		$profilePublicKeyY = trim($profilePublicKeyY);
 		$profilePublicKeyY = filter_var($profilePublicKeyY, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -432,29 +433,26 @@ class Profile implements \JsonSerializable {
 		}
 
 		//create query template
-		$query = "SELECT profileId, profileUserName, profilePublicKeyX, profilePublicKeyY, profilePasswordSalt FROM profile WHERE profilePublicKeyY LIKE :profilePublicKeyY";
+		$query = "SELECT profileId, profileUserName, profilePublicKeyX, profilePublicKeyY, profilePasswordSalt FROM profile WHERE profilePublicKeyY = :profilePublicKeyY";
 		$statement = $pdo->prepare($query);
 
 		// bind the public key to the place holder in the template
-		$profilePublicKeyY = "%$profilePublicKeyY%";
 		$parameters = ["profilePublicKeyY" => $profilePublicKeyY];
 		$statement->execute($parameters);
 
-		// build an array of public keys
-		$profiles = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch()) !== false) {
-			try {
+		try {
+			$profile = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
 				$profile = new Profile($row["profileId"], $row["profileUserName"], $row["profilePublicKeyX"], $row["profilePublicKeyY"], $row["profilePasswordSalt"]);
-				$profiles[$profiles->key()] = $profile;
-				$profiles->next();
-			} catch(\Exception $exception) {
-				// if the row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
-		return ($profiles);
 
+		return ($profile);
 	}
 
 	public static function getProfileByProfilePasswordSalt(\PDO $pdo, string $profilePasswordSalt) {
@@ -491,53 +489,35 @@ class Profile implements \JsonSerializable {
 	}
 
 
+	/**
+	 * gets all Profiles
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of Profiles found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getAllProfiles(\PDO $pdo) {
+		// create query template
+		$query = "SELECT profileId, profileUserName, profilePublicKeyX, profilePublicKeyY,profilePasswordSalt FROM profile";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
 
-		/**
-		 * gets all Profiles
-		 *
-		 * @param \PDO $pdo PDO connection object
-		 * @return \SplFixedArray SplFixedArray of Profiles found or null if not found
-		 * @throws \PDOException when mySQL related errors occur
-		 * @throws \TypeError when variables are not the correct data type
-		 **/
-		public static function getAllProfiles(\PDO $pdo) {
-			// create query template
-			$query = "SELECT profileId, profileUserName, profilePublicKeyX, profilePublicKeyY,profilePasswordSalt FROM profile";
-			$statement = $pdo->prepare($query);
-			$statement->execute();
-
-			// build an array of profiles
-			$profiles = new \SplFixedArray($statement->rowCount());
-			$statement->setFetchMode(\PDO::FETCH_ASSOC);
-			while(($row = $statement->fetch()) !== false) {
-				try {
-					$profile = new Profile($row["profileId"], $row["profileUserName"], $row["profilePublicKeyX"], $row["profilePublicKeyY"], $row["profilePasswordSalt"]);
-					$profiles[$profiles->key()] = $profile;
-					$profiles->next();
-				} catch(\Exception $exception) {
-					// if the row couldn't be converted, rethrow it
-					throw(new \PDOException($exception->getMessage(), 0, $exception));
-				}
+		// build an array of profiles
+		$profiles = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$profile = new Profile($row["profileId"], $row["profileUserName"], $row["profilePublicKeyX"], $row["profilePublicKeyY"], $row["profilePasswordSalt"]);
+				$profiles[$profiles->key()] = $profile;
+				$profiles->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
-			return ($profiles);
 		}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		return ($profiles);
+	}
 
 
 	/*
@@ -545,16 +525,10 @@ class Profile implements \JsonSerializable {
 	 *
 	 * @return array results state variables to serialize
 	 */
-	public function jsonSerialize(){
+	public function jsonSerialize() {
 		$fields = get_object_vars($this);
-		return($fields);
+		return ($fields);
 	}
-
-
-
-
-
-
 
 
 }
