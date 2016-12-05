@@ -39,10 +39,7 @@ class Friendship implements \JsonSerializable {
 		try {
 			$this->setFriendshipInviterId($newFriendshipInviterId);
 			$this->setFriendshipInviteeId($newFriendshipInviteeId);
-		} catch(\InvalidArgumentException $invalidArgument) {
-			// rethrow the InvalidArgumentException to the caller
-			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
-		}catch(\TypeError $typeError) {
+		} catch(\TypeError $typeError) {
 			// rethrow the TypeError to the caller
 			throw(new \TypeError($typeError->getMessage(), 0, $typeError));
 		} catch(\RangeException $range) {
@@ -76,7 +73,7 @@ class Friendship implements \JsonSerializable {
 
 		// Verify the $newFriendshipInviterId is positive
 		if($newFriendshipInviterId <= 0) {
-			throw(new \RangeException("newfriendshipInviterId is not positive."));
+			throw(new \RangeException("newFriendshipInviterId is not positive."));
 		}
 
 		// store the $newFriendshipInviterId
@@ -107,7 +104,7 @@ class Friendship implements \JsonSerializable {
 
 		// Verify the $newFriendshipInviteeId is positive
 		if($newFriendshipInviteeId <= 0) {
-			throw(new \RangeException("newfriendshipInviteeId is not positive."));
+			throw(new \RangeException("newFriendshipInviteeId is not positive."));
 		}
 
 		// store the $newFriendshipInviteeId
@@ -142,6 +139,7 @@ class Friendship implements \JsonSerializable {
 	 * @param \PDO $pdo PDO connection object
 	 *
 	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \RuntimeException if $pdo is not in the database
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function delete(\PDO $pdo) {
@@ -181,7 +179,7 @@ class Friendship implements \JsonSerializable {
 		$query = "SELECT friendshipInviterId, friendshipInviteeId FROM friendship WHERE friendshipInviterId = :friendshipInviterId";
 		$statement = $pdo->prepare($query);
 
-		// bind the friendshipInviterId to the place holder in the template
+		// bind the friendshipInviterId to the placeholder in the template
 		$parameters = ["friendshipInviterId" => $friendshipInviterId];
 		$statement->execute($parameters);
 
@@ -227,7 +225,7 @@ class Friendship implements \JsonSerializable {
 		$query = "SELECT friendshipInviterId, friendshipInviteeId FROM friendship WHERE friendshipInviteeId = :friendshipInviteeId";
 		$statement = $pdo->prepare($query);
 
-		// bind the friendshipInviteeId to the place holder in the template
+		// bind the friendshipInviteeId to the placeholder in the template
 		$parameters = ["friendshipInviteeId" => $friendshipInviteeId];
 		$statement->execute($parameters);
 

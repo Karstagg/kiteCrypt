@@ -54,6 +54,58 @@ class FriendshipTest extends KiteCryptTest {
 
 
 	/**
+	 * Try creating a Friendship with a negative inviterId
+	 *
+	 * @expectedException RangeException
+	 **/
+	public function testCreatingFriendshipWithNegativeInviterId() {
+
+		// Create a Friendship with a non null tweet id and watch it fail
+		$friendship = new Friendship(-1, $this->invitee->getProfileId());
+
+	}
+
+
+	/**
+	 * Try creating a Friendship with a negative inviteeId
+	 *
+	 * @expectedException RangeException
+	 **/
+	public function testCreatingFriendshipWithNegativeInviteeId() {
+
+		// Create a Friendship with a non null tweet id and watch it fail
+		$friendship = new Friendship($this->inviter->getProfileId(),-1);
+
+	}
+
+
+	/**
+	 * Try creating a Friendship with an inviterId that's a string
+	 *
+	 * @expectedException TypeError
+	 **/
+	public function testCreatingFriendshipWithStringInviterId() {
+
+		// Create a Friendship with a non null tweet id and watch it fail
+		$friendship = new Friendship("id", $this->invitee->getProfileId());
+
+	}
+
+
+	/**
+	 * Try creating a Friendship with an inviteeId that's a string
+	 *
+	 * @expectedException TypeError
+	 **/
+	public function testCreatingFriendshipWithStringInviteeId() {
+
+		// Create a Friendship with a non null tweet id and watch it fail
+		$friendship = new Friendship($this->inviter->getProfileId(), "id");
+
+	}
+
+
+	/**
 	 * Try inserting a valid Friendship and verify that the actual data matches what was inserted
 	 **/
 	public function testInsertValidFriendship() {
@@ -71,7 +123,6 @@ class FriendshipTest extends KiteCryptTest {
 
 		// Use the inviterId to get the Friendship just created and check that it matches what should have been put in.
 		$pdoFriendship1 = Friendship::getFriendshipByFriendshipInviterId($this->getPDO(), $this->inviter->getProfileId());
-		var_dump($pdoFriendship1);
 		$this->assertEquals($pdoFriendship1[0]->getFriendshipInviterId(), $this->inviter->getProfileId());
 
 		// Use the inviteeId to get the Friendship just created and check that it matches what should have been put in.
@@ -112,6 +163,8 @@ class FriendshipTest extends KiteCryptTest {
 	/**
 	 * Try inserting a Friendship and then deleting it
 	 * Verify that the deleted Friendship is not there
+	 *
+	 * @expectedException \RuntimeException
 	 **/
 	public function testDeletingValidFriendship() {
 
@@ -135,26 +188,76 @@ class FriendshipTest extends KiteCryptTest {
 		// Try to get the deleted Friendship from the database (using the inviterId)
 		// and verify that it does not exist (that is a null is returned)
 		$pdoFriendship1 = Friendship::getFriendshipByFriendshipInviterId($this->getPDO(), $this->inviter->getProfileId());
-		$this->assertNull($pdoFriendship1);
+		$this->assertNull($pdoFriendship1[0]);
 
 		// Try to get the deleted Friendship from the database (using the inviteeId)
 		// and verify that it does not exist (that is a null is returned)
 		$pdoFriendship2 = Friendship::getFriendshipByFriendshipInviteeId($this->getPDO(), $this->invitee->getProfileId());
-		$this->assertNull($pdoFriendship2);
+		$this->assertNull($pdoFriendship2[0]);
 
 	}
 
 
 	/**
 	 * Try deleting a Friendship that does not exist
-	 *
-	 * @expectedException PDOException
 	 **/
-	public function testDeleteNonexistentFriendship() {
+	public function testDeletingNonexistentFriendship() {
 
-		// create a Friendship and try to delete it without actually inserting it
+		// Create a Friendship and try to delete it without actually inserting it
 		$friendship = new Friendship($this->inviter->getProfileId(), $this->invitee->getProfileId());
 		$friendship->delete($this->getPDO());
+
+	}
+
+
+	/**
+	 * Try getting a valid Friendship and getting it with an invalid inviterId
+	 *
+	 * @expectedException \RangeException
+	 **/
+	public function testGettingValidFriendshipWithInvalidInviterId() {
+
+		// Count the number of rows (before inserting the new Friendship) and save it,
+		// so, later, we can make sure that a new row was added in the database when we created the new Friendship
+		$numRows = $this->getConnection()->getRowCount("friendship");
+
+		// Create the new Friendship and insert it into the database
+		$friendship = new Friendship($this->inviter->getProfileId(), $this->invitee->getProfileId());
+		$friendship->insert($this->getPDO());
+
+		// Check that the number of rows in the database increased by one, when the new Friendship was inserted
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("friendship"));
+
+		// Use an invalid inviterId to get the Friendship just created.
+		// A RangeException should occur.
+		$pdoFriendship = Friendship::getFriendshipByFriendshipInviterId($this->getPDO(), -1);
+		//$this->assertEquals($pdoFriendship[0]->getFriendshipInviterId(), $this->inviter->getProfileId());
+
+	}
+
+
+	/**
+	 * Try getting a valid Friendship and getting it with an invalid inviteeId
+	 *
+	 * @expectedException \RangeException
+	 **/
+	public function testGettingValidFriendshipWithInvalidInviteeId() {
+
+		// Count the number of rows (before inserting the new Friendship) and save it,
+		// so, later, we can make sure that a new row was added in the database when we created the new Friendship
+		$numRows = $this->getConnection()->getRowCount("friendship");
+
+		// Create the new Friendship and insert it into the database
+		$friendship = new Friendship($this->inviter->getProfileId(), $this->invitee->getProfileId());
+		$friendship->insert($this->getPDO());
+
+		// Check that the number of rows in the database increased by one, when the new Friendship was inserted
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("friendship"));
+
+		// Use an invalid inviterId to get the Friendship just created.
+		// A RangeException should occur.
+		$pdoFriendship = Friendship::getFriendshipByFriendshipInviteeId($this->getPDO(), -1);
+		//$this->assertEquals($pdoFriendship[0]->getFriendshipInviteeId(), $this->inviter->getProfileId());
 
 	}
 

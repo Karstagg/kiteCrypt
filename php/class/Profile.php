@@ -393,7 +393,7 @@ class Profile implements \JsonSerializable {
 		// sanitize the description before searching
 		$profilePublicKeyX = trim($profilePublicKeyX);
 		$profilePublicKeyX = filter_var($profilePublicKeyX, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($profilePublicKey) === true) {
+		if(empty($profilePublicKeyX) === true) {
 			throw(new \PDOException("Public Key X is invalid"));
 		}
 
@@ -427,7 +427,7 @@ class Profile implements \JsonSerializable {
 		// sanitize the description before searching
 		$profilePublicKeyY = trim($profilePublicKeyY);
 		$profilePublicKeyY = filter_var($profilePublicKeyY, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($profilePublicKey) === true) {
+		if(empty($profilePublicKeyY) === true) {
 			throw(new \PDOException("Public Key Y is invalid"));
 		}
 
@@ -460,7 +460,7 @@ class Profile implements \JsonSerializable {
 	public static function getProfileByProfilePasswordSalt(\PDO $pdo, string $profilePasswordSalt) {
 		// sanitize the description before searching
 		$profilePasswordSalt = trim($profilePasswordSalt);
-		$profilePasswordSalt = filter_var($$profilePasswordSalt, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		$profilePasswordSalt = filter_var($profilePasswordSalt, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		if(empty($profilePublicKey) === true) {
 			throw(new \PDOException("Public Key is invalid"));
 		}
