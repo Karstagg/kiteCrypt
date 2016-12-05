@@ -10,7 +10,7 @@ use Edu\Cnm\KiteCrypt\Profile;
 
 
 /**
- * RESTFUL api for the Profile class
+ * RESTFUL api for the Messages class
  *
  * @author Jonathan Guzman <jguzman41@cnm.edu>
  **/
@@ -25,7 +25,7 @@ $reply = new stdClass();
 $reply->status = 200;
 $reply->data = null;
 
-$exceptionMessage = "Username or Password invalid";
+$exceptionMessage = "No chat history";
 $exceptionCode = 401;
 
 
@@ -48,39 +48,39 @@ try {
 		/*-----checking and sanitizing profileUserName, profilePassword--------------*/
 		//check that email and password fields are not empty, and sanitize that input
 
-		if(empty($requestObject->profileUserName) === true) {
+		if(empty($requestObject->messageId) === true) {
 			throw(new \InvalidArgumentException($exceptionMessage, $exceptionCode));
 		} else {
-			$profileUserName = filter_var($requestObject->profileUserName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			$methodId = filter_var($requestObject->methodId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
-		if(empty($requestObject->profilePublicKeyX) === true) {
+		if(empty($requestObject->messageSenderId) === true) {
 			throw(new \InvalidArgumentException($exceptionMessage, $exceptionCode));
 		} else {
-			$profilePublicKeyXFromUser = filter_var($requestObject->profilePublicKeyX, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			$messageSenderId = filter_var($requestObject->messageSenderId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
-		if(empty($requestObject->profilePublicKeyY) === true) {
+		if(empty($requestObject->messageReceiverId) === true) {
 			throw(new \InvalidArgumentException($exceptionMessage, $exceptionCode));
 		} else {
-			$profilePublicKeyYFromUser = filter_var($requestObject->profilePublicKeyY, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-			}
+			$messageReceiverId = filter_var($requestObject->messageReceiverId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		}
 
 
-		//retrieve the data for profileUserName
+		//retrieve the data for messageId
 
 
-		$profileFromDatabase = Profile::getProfileByUserName($pdo, $profileUserName);
+		$messageTextFromDatabase = Message::getMessageByMessageId($pdo, $messageId);
 
-		$profileXFromDatabase = $profileFromDatabase->getProfilePublicKeyX();
+		$messageSenderId = $messageTextFromDatabase->getMessageFromDatabase();
 
-		$profileYFromDatabase = $profileFromDatabase->getProfilePublicKeyY();
+		$messageReceiverId = $messageTextFromDatabase->getMessageFromDatabase();
 
 		if($profileXFromDatabase === null || $profileYFromDatabase === null){
 			throw( new \InvalidArgumentException($exceptionMessage, $exceptionCode));
 		}
 
-		if($profilePublicKeyXFromUser !== $profileXFromDatabase || $profilePublicKeyYFromUser !== $profileYFromDatabase){
+		if($messageSenderId === null || $messageReceiverId === null){
 			throw( new \InvalidArgumentException($exceptionMessage, $exceptionCode));
 		}
 
