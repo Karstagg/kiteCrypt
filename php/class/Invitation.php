@@ -61,7 +61,7 @@ class Invitation implements \JsonSerializable {
 		} catch(\InvalidArgumentException $invalidArgument) {
 			// rethrow the InvalidArgumentException to the caller
 			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
-		}catch(\TypeError $typeError) {
+		} catch(\TypeError $typeError) {
 			// rethrow the TypeError to the caller
 			throw(new \TypeError($typeError->getMessage(), 0, $typeError));
 		} catch(\RangeException $range) {
@@ -96,13 +96,7 @@ class Invitation implements \JsonSerializable {
 		// Verify the $newInvitationInviterId is safe
 		$newInvitationInviterId = filter_var($newInvitationInviterId, FILTER_SANITIZE_NUMBER_INT);
 		if(empty($newInvitationInviterId) === true) {
-			throw(new \InvalidArgumentException("newInvitationInviterId is empty or insecure"));
-		}
-		// Verify that the $newInvitationInviterId in an integer.
-		$newInvitationInviterId = filter_var($newInvitationInviterId, FILTER_VALIDATE_INT);
-		if(empty($newInvitationInviterId) === true) {
-			// If the $newInvitationInviterId is not an integer, throw a TypeError.
-			throw(new \TypeError("newInvitationInviterId is not an integer."));
+			throw(new \TypeError("newInvitationInviterId is not an integer, is empty, or is insecure."));
 		}
 		// Verify the $newInvitationInviterId is positive
 		if($newInvitationInviterId <= 0) {
@@ -138,13 +132,7 @@ class Invitation implements \JsonSerializable {
 		// Verify the $newInvitationInviteeId is safe
 		$newInvitationInviteeId = filter_var($newInvitationInviteeId, FILTER_SANITIZE_NUMBER_INT);
 		if(empty($newInvitationInviteeId) === true) {
-			throw(new \InvalidArgumentException("newInvitationInviteeId is empty or insecure"));
-		}
-		// Verify that the $newInvitationInviteeId in an integer.
-		$newInvitationInviteeId = filter_var($newInvitationInviteeId, FILTER_VALIDATE_INT);
-		if(empty($newInvitationInviteeId) === true) {
-			// If the $newInvitationInviteeId is not an integer, throw a TypeError.
-			throw(new \TypeError("newInvitationInviteeId is not an integer."));
+			throw(new \TypeError("newInvitationInviteeId is not an integer, is empty, or is insecure."));
 		}
 		// Verify the $newInvitationInviteeId is positive
 		if($newInvitationInviteeId <= 0) {
@@ -187,12 +175,12 @@ class Invitation implements \JsonSerializable {
 		if(empty($newInvitationTimestamp) === true) {
 			throw(new \InvalidArgumentException("newInvitationTimestamp is empty or insecure"));
 		}
-		// Verify that the $newInvitationTimestamp is an integer.
-		$newInvitationTimestamp = filter_var($newInvitationTimestamp, FILTER_VALIDATE_INT);
-		if(empty($newInvitationTimestamp) === true) {
-			// If the $newInvitationTimestamp is not an integer, throw a TypeError.
-			throw(new \TypeError("newInvitationTimestamp is not an integer."));
-		}
+//		// Verify that the $newInvitationTimestamp is an integer.
+//		$newInvitationTimestamp = filter_var($newInvitationTimestamp, FILTER_VALIDATE_INT);
+//		if(empty($newInvitationTimestamp) === true) {
+//			// If the $newInvitationTimestamp is not an integer, throw a TypeError.
+//			throw(new \TypeError("newInvitationTimestamp is not an integer."));
+//		}
 		// Verify the $newInvitationTimestamp is positive and from the recent past
 		if($newInvitationTimestamp <= 0) {
 			throw(new \RangeException("newInvitationTimestamp is not positive."));
@@ -326,6 +314,7 @@ class Invitation implements \JsonSerializable {
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$invitation = new Invitation($row["invitationInviterId"], $row["invitationInviteeId"], $row["invitationTimestamp"], $row["invitationPassphrase"]);
+				var_dump($invitation);
 				$invitations[$invitations->key()] = $invitation;
 				$invitations->next();
 			} catch(\Exception $exception) {
@@ -374,7 +363,7 @@ class Invitation implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		// bind the invitationInviteeId to the place holder in the template
-		$parameters = ["invitationInviterId" => $invitationInviterId];
+		$parameters = ["invitationInviteeId" => $invitationInviteeId];
 		$statement->execute($parameters);
 
 		// build an array of invitations
@@ -413,6 +402,7 @@ class Invitation implements \JsonSerializable {
 		// build an array of invitations
 		$invitations = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		var_dump($statement);
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$invitation = new Invitation($row["invitationInviterId"], $row["invitationInviteeId"], $row["invitationTimestamp"], $row["invitationPassphrase"]);

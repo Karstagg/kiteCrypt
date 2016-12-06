@@ -69,13 +69,96 @@ class InvitationTest extends KiteCryptTest {
 
 
 	/**
+	 * Test the get methods of the Invitation class
+	 **/
+	public function testInvitationGetMethods() {
+
+		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
+
+		$testGetInviterId = $invitation->getInvitationInviterId();
+		$testGetInviteeId = $invitation->getInvitationInviteeId();
+		$testGetTimestamp = $invitation->getInvitationTimestamp();
+		$testGetPassphrase = $invitation->getInvitationPassphrase();
+
+	}
+
+
+	/**
+	 * Test the set methods of the Invitation class
+	 *
+	 * @expectedException TypeError
+	 **/
+	public function testInvitationSetEmpty() {
+
+		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
+
+		$testSetInviterId = $invitation->setInvitationInviterId();
+		$testSetInviteeId = $invitation->setInvitationInviteeId();
+		$testSetTimestamp = $invitation->setInvitationTimestamp();
+		$testSetPassphrase = $invitation->setInvitationPassphrase();
+
+	}
+
+
+	/**
+	 * Test the set methods of the Invitation class
+	 **/
+	public function testInvitationSetNewValues() {
+
+		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
+
+		$testSetInviterId = $invitation->setInvitationInviterId(10);
+		$testSetInviteeId = $invitation->setInvitationInviteeId(11);
+		$testSetTimestamp = $invitation->setInvitationTimestamp();
+		$testSetPassphrase = $invitation->setInvitationPassphrase("wubba lubba wub dub");
+
+	}
+
+
+	/**
+	 * Test the set methods of the Invitation class
+	 *
+	 * @expectedException RangeException
+	 * @expectedException InvalidArgumentException
+	 * @expectedException TypeError
+	 **/
+	public function testInvitationSetBadValues() {
+
+		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
+
+		$testSetInviterId = $invitation->setInvitationInviterId(-1);
+		$testSetInviteeId = $invitation->setInvitationInviteeId(-1);
+		$testSetTimestamp = $invitation->setInvitationTimestamp(-1);
+		$testSetPassphrase = $invitation->setInvitationPassphrase("");
+
+	}
+
+
+	/**
+	 * Test the set methods of the Invitation class
+	 *
+	 * @expectedException TypeError
+	 **/
+	public function testInvitationSetWrongTypes() {
+
+		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
+
+		$testSetInviterId = $invitation->setInvitationInviterId("a");
+		$testSetInviteeId = $invitation->setInvitationInviteeId("b");
+		$testSetTimestamp = $invitation->setInvitationTimestamp("c");
+		$testSetPassphrase = $invitation->setInvitationPassphrase("");
+
+	}
+
+
+	/**
 	 * Try creating an Invitation with a negative inviterId
 	 *
 	 * @expectedException RangeException
 	 **/
 	public function testCreatingInvitationWithNegativeInviterId() {
 
-		$friendship = new Friendship(-1, $this->invitee->getProfileId());
+		$invitation = new Invitation(-1, $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
 
 	}
 
@@ -87,7 +170,7 @@ class InvitationTest extends KiteCryptTest {
 	 **/
 	public function testCreatingInvitationWithNegativeInviteeId() {
 
-		$friendship = new Friendship($this->inviter->getProfileId(),-1);
+		$invitation = new Invitation($this->inviter->getProfileId(), -1, $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
 
 	}
 
@@ -99,7 +182,7 @@ class InvitationTest extends KiteCryptTest {
 	 **/
 	public function testCreatingInvitationWithStringInviterId() {
 
-		$friendship = new Friendship("id", $this->invitee->getProfileId());
+		$invitation = new Invitation("id", $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
 
 	}
 
@@ -111,7 +194,7 @@ class InvitationTest extends KiteCryptTest {
 	 **/
 	public function testCreatingInvitationWithStringInviteeId() {
 
-		$friendship = new Friendship($this->inviter->getProfileId(), "id");
+		$invitation = new Invitation($this->inviter->getProfileId(), "id", $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
 
 	}
 
@@ -121,7 +204,7 @@ class InvitationTest extends KiteCryptTest {
 	 *
 	 * @expectedException PDOException
 	 **/
-	public function testInsertingValidInvitation() {
+	public function testInsertingValidInvitationGetByInviter() {
 
 		// Count the number of rows (before inserting the new Invitation) and save it,
 		// so, later, we can make sure that a new row was added in the database when we created the new Invitation
@@ -134,11 +217,32 @@ class InvitationTest extends KiteCryptTest {
 		// Check that the number of rows in the database increased by one, when the new Invitation was inserted
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("invitation"));
 
-		// Use the inviterId to get the Invitation just created and check that it matches what should have been put in.
-		$pdoInvitation1 = Invitation::getInvitationByInvitationInviterId($this->getPDO(), $this->inviter->getProfileId());
-		$this->assertEquals($pdoInvitation1->getInvitationInviterId(), $this->inviter->getProfileId());
-		//$this->assertEquals($pdoInvitation1->getInvitationTimestamp(), $this->VALID_INVITATIONTIMESTAMP); // Commented out because the Timestamp is assigned by MySQL
-		$this->assertEquals($pdoInvitation1->getInvitationPassphrase(), $this->VALID_INVITATIONPASSPHRASE);
+		// Use the inviteeId to get the Invitation just created and check that it matches what should have been put in.
+		$pdoInvitation2 = Invitation::getInvitationByInvitationInviterId($this->getPDO(), $this->inviter->getProfileId());
+		$this->assertEquals($pdoInvitation2->getInvitationInviterId(), $this->inviter->getProfileId());
+		//$this->assertEquals($pdoInvitation2->getInvitationTimestamp(), $this->VALID_INVITATIONTIMESTAMP); // Commented out because the Timestamp is assigned by MySQL
+		$this->assertEquals($pdoInvitation2->getInvitationPassphrase(), $this->VALID_INVITATIONPASSPHRASE);
+
+	}
+
+
+	/**
+	 * Try inserting an valid Invitation and verify that the actual data matches what was inserted
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testInsertingValidInvitationGetByInvitee() {
+
+		// Count the number of rows (before inserting the new Invitation) and save it,
+		// so, later, we can make sure that a new row was added in the database when we created the new Invitation
+		$numRows = $this->getConnection()->getRowCount("invitation");
+
+		// Create the new Invitation and insert it into the database
+		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
+		$invitation->insert($this->getPDO());
+
+		// Check that the number of rows in the database increased by one, when the new Invitation was inserted
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("invitation"));
 
 		// Use the inviteeId to get the Invitation just created and check that it matches what should have been put in.
 		$pdoInvitation2 = Invitation::getInvitationByInvitationInviteeId($this->getPDO(), $this->invitee->getProfileId());
@@ -223,7 +327,7 @@ class InvitationTest extends KiteCryptTest {
 
 		// Delete the Invitation from the database
 		$invitation->delete($this->getPDO());
-
+var_dump($numRows);
 		// Check that the number of rows in the database decreased by one, so that the number of rows
 		// is back to what it was before the new Invitation was inserted
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("invitation"));
@@ -263,7 +367,7 @@ class InvitationTest extends KiteCryptTest {
 		// Create a new Invitation and insert it into the database
 		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
 		$invitation->insert($this->getPDO());
-
+var_dump($invitation);
 		// Get the invitations from the database and verify that they match our expectations
 		$results = Invitation::getAllInvitations($this->getPDO());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("invitation"));
