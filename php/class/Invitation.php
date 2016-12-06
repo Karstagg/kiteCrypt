@@ -52,7 +52,7 @@ class Invitation implements \JsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \RangeException if data values are out of bounds (for example: negative integers)
 	 **/
-	public function __construct(int $newInvitationInviterId , int $newInvitationInviteeId, int $newInvitationTimestamp, string $newInvitationPassphrase) {
+	public function __construct(int $newInvitationInviterId , int $newInvitationInviteeId, int $newInvitationTimestamp = null, string $newInvitationPassphrase) {
 		try {
 			$this->setInvitationInviterId($newInvitationInviterId);
 			$this->setInvitationInviteeId($newInvitationInviteeId);
@@ -313,7 +313,7 @@ class Invitation implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "SELECT invitationInviterId FROM invitation WHERE invitationInviterId = :invitationInviterId";
+		$query = "SELECT invitationInviterId, invitationInviteeId, invitationTimestamp, invitationPassphrase FROM invitation WHERE invitationInviterId = :invitationInviterId";
 		$statement = $pdo->prepare($query);
 
 		// bind the invitationInviterId to the place holder in the template
@@ -325,7 +325,7 @@ class Invitation implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$invitation = new Invitation($row["invitationInviterId"], $row["invitationInviterId"]);
+				$invitation = new Invitation($row["invitationInviterId"], $row["invitationInviteeId"], $row["invitationTimestamp"], $row["invitationPassphrase"]);
 				$invitations[$invitations->key()] = $invitation;
 				$invitations->next();
 			} catch(\Exception $exception) {
@@ -370,7 +370,7 @@ class Invitation implements \JsonSerializable {
 		}
 
 		// create query template
-		$query = "SELECT invitationInviteeId FROM invitation WHERE invitationInviteeId = :invitationInviteeId";
+		$query = "SELECT invitationInviterId, invitationInviteeId, invitationTimestamp, invitationPassphrase FROM invitation WHERE invitationInviteeId = :invitationInviteeId";
 		$statement = $pdo->prepare($query);
 
 		// bind the invitationInviteeId to the place holder in the template
@@ -406,7 +406,7 @@ class Invitation implements \JsonSerializable {
 	 **/
 	public static function getAllInvitations(\PDO $pdo) {
 		// create query template
-		$query = "SELECT invitationInviterId, invitationInviteeId FROM invitation";
+		$query = "SELECT invitationInviterId, invitationInviteeId, invitationTimestamp, invitationPassphrase FROM invitation";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 

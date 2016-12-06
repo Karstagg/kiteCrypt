@@ -60,7 +60,6 @@ class FriendshipTest extends KiteCryptTest {
 	 **/
 	public function testCreatingFriendshipWithNegativeInviterId() {
 
-		// Create a Friendship with a non null tweet id and watch it fail
 		$friendship = new Friendship(-1, $this->invitee->getProfileId());
 
 	}
@@ -73,7 +72,6 @@ class FriendshipTest extends KiteCryptTest {
 	 **/
 	public function testCreatingFriendshipWithNegativeInviteeId() {
 
-		// Create a Friendship with a non null tweet id and watch it fail
 		$friendship = new Friendship($this->inviter->getProfileId(),-1);
 
 	}
@@ -86,7 +84,6 @@ class FriendshipTest extends KiteCryptTest {
 	 **/
 	public function testCreatingFriendshipWithStringInviterId() {
 
-		// Create a Friendship with a non null tweet id and watch it fail
 		$friendship = new Friendship("id", $this->invitee->getProfileId());
 
 	}
@@ -99,7 +96,6 @@ class FriendshipTest extends KiteCryptTest {
 	 **/
 	public function testCreatingFriendshipWithStringInviteeId() {
 
-		// Create a Friendship with a non null tweet id and watch it fail
 		$friendship = new Friendship($this->inviter->getProfileId(), "id");
 
 	}
@@ -231,7 +227,7 @@ class FriendshipTest extends KiteCryptTest {
 		// Use an invalid inviterId to get the Friendship just created.
 		// A RangeException should occur.
 		$pdoFriendship = Friendship::getFriendshipByFriendshipInviterId($this->getPDO(), -1);
-		//$this->assertEquals($pdoFriendship[0]->getFriendshipInviterId(), $this->inviter->getProfileId());
+		//$this->assertEquals($pdoFriendship[0]->getFriendshipInviterId(), $this->inviter->getProfileId()); // Commented out because it is assigned by MySQL
 
 	}
 
@@ -257,7 +253,7 @@ class FriendshipTest extends KiteCryptTest {
 		// Use an invalid inviterId to get the Friendship just created.
 		// A RangeException should occur.
 		$pdoFriendship = Friendship::getFriendshipByFriendshipInviteeId($this->getPDO(), -1);
-		//$this->assertEquals($pdoFriendship[0]->getFriendshipInviteeId(), $this->inviter->getProfileId());
+		//$this->assertEquals($pdoFriendship[0]->getFriendshipInviteeId(), $this->inviter->getProfileId()); // Commented out because it is assigned by MySQL
 
 	}
 

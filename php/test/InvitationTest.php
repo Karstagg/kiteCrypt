@@ -2,7 +2,7 @@
 
 namespace Edu\Cnm\KiteCrypt\Test;
 
-use Edu\Cnm\KiteCrypt\{Invitation};
+use Edu\Cnm\KiteCrypt\{Invitation, Profile};
 
 // Include the project test parameters
 require_once("KiteCryptTest.php");
@@ -44,7 +44,7 @@ class InvitationTest extends KiteCryptTest {
 	 * Passphrase for the Invitation
 	 * @var string $VALID_INVITATIONPASSPHRASE
 	 **/
-	protected $VALID_INVITATIONPASSPHRASE = "Rindfleischetikettierungsueberwachungsaufgabenuebertragungsgesetz!";
+	protected $VALID_INVITATIONPASSPHRASE = "Rindfleischetiketti!";
 
 
 	/**
@@ -55,11 +55,11 @@ class InvitationTest extends KiteCryptTest {
 		parent::setUp();
 
 		// Create (and store in the database) a Profile that sent the Invitation of Invitation (the inviter); it is a foreign key
-		$this->inviter = new Profile(null, "invitation_test_inviter", "1234", "5678", "rock");
+		$this->inviter = new Profile(null, "invitation_inviter", "1234", "5678", "rock");
 		$this->inviter->insert($this->getPDO());
 
 		// Create (and store in the database) a Profile that sent the Invitation of Invitation (the invitee); it is a foreign key
-		$this->invitee = new Profile(null, "invitation_test_invitee", "1234", "5678", "sea");
+		$this->invitee = new Profile(null, "invitation_invitee", "1234", "5678", "sea");
 		$this->invitee->insert($this->getPDO());
 
 		// Create the Timestamp for the Invitation
@@ -69,7 +69,57 @@ class InvitationTest extends KiteCryptTest {
 
 
 	/**
+	 * Try creating an Invitation with a negative inviterId
+	 *
+	 * @expectedException RangeException
+	 **/
+	public function testCreatingInvitationWithNegativeInviterId() {
+
+		$friendship = new Friendship(-1, $this->invitee->getProfileId());
+
+	}
+
+
+	/**
+	 * Try creating an Invitation with a negative inviteeId
+	 *
+	 * @expectedException RangeException
+	 **/
+	public function testCreatingInvitationWithNegativeInviteeId() {
+
+		$friendship = new Friendship($this->inviter->getProfileId(),-1);
+
+	}
+
+
+	/**
+	 * Try creating an Invitation with an inviterId that's a string
+	 *
+	 * @expectedException TypeError
+	 **/
+	public function testCreatingInvitationWithStringInviterId() {
+
+		$friendship = new Friendship("id", $this->invitee->getProfileId());
+
+	}
+
+
+	/**
+	 * Try creating an Invitation with an inviteeId that's a string
+	 *
+	 * @expectedException TypeError
+	 **/
+	public function testCreatingInvitationWithStringInviteeId() {
+
+		$friendship = new Friendship($this->inviter->getProfileId(), "id");
+
+	}
+
+
+	/**
 	 * Try inserting an valid Invitation and verify that the actual data matches what was inserted
+	 *
+	 * @expectedException PDOException
 	 **/
 	public function testInsertingValidInvitation() {
 
@@ -85,13 +135,13 @@ class InvitationTest extends KiteCryptTest {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("invitation"));
 
 		// Use the inviterId to get the Invitation just created and check that it matches what should have been put in.
-		$pdoInvitation1 = Invitation::getInvitationByInvitationInviterId($this->getPDO(), $inviter->getProfileId());
+		$pdoInvitation1 = Invitation::getInvitationByInvitationInviterId($this->getPDO(), $this->inviter->getProfileId());
 		$this->assertEquals($pdoInvitation1->getInvitationInviterId(), $this->inviter->getProfileId());
 		//$this->assertEquals($pdoInvitation1->getInvitationTimestamp(), $this->VALID_INVITATIONTIMESTAMP); // Commented out because the Timestamp is assigned by MySQL
 		$this->assertEquals($pdoInvitation1->getInvitationPassphrase(), $this->VALID_INVITATIONPASSPHRASE);
 
 		// Use the inviteeId to get the Invitation just created and check that it matches what should have been put in.
-		$pdoInvitation2 = Invitation::getInvitationByInvitationInviteeId($this->getPDO(), $invitee->getProfileId());
+		$pdoInvitation2 = Invitation::getInvitationByInvitationInviteeId($this->getPDO(), $this->invitee->getProfileId());
 		$this->assertEquals($pdoInvitation2->getInvitationInviteeId(), $this->invitee->getProfileId());
 		//$this->assertEquals($pdoInvitation2->getInvitationTimestamp(), $this->VALID_INVITATIONTIMESTAMP); // Commented out because the Timestamp is assigned by MySQL
 		$this->assertEquals($pdoInvitation2->getInvitationPassphrase(), $this->VALID_INVITATIONPASSPHRASE);
@@ -130,12 +180,26 @@ class InvitationTest extends KiteCryptTest {
 	/**
 	 * Try inserting an Invitation with an invalid invitationPassphrase
 	 *
-	 * @expectedException PDOException
+	 * @expectedException InvalidArgumentException
 	 **/
 	public function testInsertingInvitationWithInvalidInvitationPassphrase() {
 
 		// Create a Invitation with an invalid invitationPassphrase
-		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, KiteCryptTest::INVALID_KEY);
+		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, "");
+		$invitation->insert($this->getPDO());
+
+	}
+
+
+	/**
+	 * Try inserting an Invitation with a numeric invitationPassphrase
+	 *
+	 * @expectedException InvalidArgumentException
+	 **/
+	public function testInsertingInvitationWithNumericInvitationPassphrase() {
+
+		// Create a Invitation with an invalid invitationPassphrase
+		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, 0);
 		$invitation->insert($this->getPDO());
 
 	}
@@ -166,12 +230,12 @@ class InvitationTest extends KiteCryptTest {
 
 		// Try to get the deleted Invitation from the database (using the inviterId)
 		// and verify that it does not exist (that is a null is returned)
-		$pdoInvitation1 = Invitation::getInvitationByInvitationInviterId($this->getPDO(), $inviter->getProfileId());
+		$pdoInvitation1 = Invitation::getInvitationByInvitationInviterId($this->getPDO(), $this->inviter->getProfileId());
 		$this->assertNull($pdoInvitation1);
 
 		// Try to get the deleted Invitation from the database (using the inviteeId)
 		// and verify that it does not exist (that is a null is returned)
-		$pdoInvitation2 = Invitation::getInvitationByInvitationInviteeId($this->getPDO(), $invitee->getProfileId());
+		$pdoInvitation2 = Invitation::getInvitationByInvitationInviteeId($this->getPDO(), $this->invitee->getProfileId());
 		$this->assertNull($pdoInvitation2);
 
 	}
@@ -179,8 +243,6 @@ class InvitationTest extends KiteCryptTest {
 
 	/**
 	 * Try deleting an Invitation that does not exist
-	 *
-	 * @expectedException PDOException
 	 **/
 	public function testDeletingNonexistentInvitation() {
 
