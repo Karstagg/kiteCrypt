@@ -17,7 +17,8 @@ use Edu\Cnm\KiteCrypt\Profile;
 if(session_status() !== PHP_SESSION_ACTIVE) {
 	session_start();
 }
-
+//set XSRF cookie
+setXsrfCookie("/");
 //prepare an empty reply
 $reply = new stdClass();
 $reply->status = 200;
@@ -37,8 +38,7 @@ try {
 
 	// handle GET request//
 	if($method === "GET") {
-		//set XSRF cookie
-		setXsrfCookie();
+
 		throw(new \BadMethodCallException($exceptionMessage, $exceptionCode));
 
 	} else if($method === "POST") {
