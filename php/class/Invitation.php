@@ -247,11 +247,11 @@ class Invitation implements \JsonSerializable {
 	public function delete(\PDO $pdo) {
 
 		// create query template
-		$query = "DELETE FROM invitation WHERE invitationInviterId = :invitationInviterId AND invitationInviteeId = :invitationInviteeId AND invitationTimestamp = :invitationTimestamp AND invitationPassphrase = :invitationPassphrase";
+		$query = "DELETE FROM invitation WHERE invitationInviterId = :invitationInviterId AND invitationInviteeId = :invitationInviteeId";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holder in the template
-		$parameters = ["invitationInviterId" => $this->invitationInviterId, "invitationInviteeId" => $this->invitationInviteeId, "invitationTimestamp" => $this->invitationTimestamp, "invitationPassphrase" => $this->invitationPassphrase];
+		$parameters = ["invitationInviterId" => $this->invitationInviterId, "invitationInviteeId" => $this->invitationInviteeId];
 		$statement->execute($parameters);
 	}
 

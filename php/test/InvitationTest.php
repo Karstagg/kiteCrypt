@@ -201,8 +201,6 @@ class InvitationTest extends KiteCryptTest {
 
 	/**
 	 * Try inserting an valid Invitation and verify that the actual data matches what was inserted
-	 *
-	 * @expectedException PDOException
 	 **/
 	public function testInsertingValidInvitationGetByInviter() {
 
@@ -219,17 +217,15 @@ class InvitationTest extends KiteCryptTest {
 
 		// Use the inviteeId to get the Invitation just created and check that it matches what should have been put in.
 		$pdoInvitation2 = Invitation::getInvitationByInvitationInviterId($this->getPDO(), $this->inviter->getProfileId());
-		$this->assertEquals($pdoInvitation2->getInvitationInviterId(), $this->inviter->getProfileId());
+		$this->assertEquals($pdoInvitation2[0]->getInvitationInviterId(), $this->inviter->getProfileId());
 		//$this->assertEquals($pdoInvitation2->getInvitationTimestamp(), $this->VALID_INVITATIONTIMESTAMP); // Commented out because the Timestamp is assigned by MySQL
-		$this->assertEquals($pdoInvitation2->getInvitationPassphrase(), $this->VALID_INVITATIONPASSPHRASE);
+		$this->assertEquals($pdoInvitation2[0]->getInvitationPassphrase(), $this->VALID_INVITATIONPASSPHRASE);
 
 	}
 
 
 	/**
 	 * Try inserting an valid Invitation and verify that the actual data matches what was inserted
-	 *
-	 * @expectedException PDOException
 	 **/
 	public function testInsertingValidInvitationGetByInvitee() {
 
@@ -246,9 +242,9 @@ class InvitationTest extends KiteCryptTest {
 
 		// Use the inviteeId to get the Invitation just created and check that it matches what should have been put in.
 		$pdoInvitation2 = Invitation::getInvitationByInvitationInviteeId($this->getPDO(), $this->invitee->getProfileId());
-		$this->assertEquals($pdoInvitation2->getInvitationInviteeId(), $this->invitee->getProfileId());
+		$this->assertEquals($pdoInvitation2[0]->getInvitationInviteeId(), $this->invitee->getProfileId());
 		//$this->assertEquals($pdoInvitation2->getInvitationTimestamp(), $this->VALID_INVITATIONTIMESTAMP); // Commented out because the Timestamp is assigned by MySQL
-		$this->assertEquals($pdoInvitation2->getInvitationPassphrase(), $this->VALID_INVITATIONPASSPHRASE);
+		$this->assertEquals($pdoInvitation2[0]->getInvitationPassphrase(), $this->VALID_INVITATIONPASSPHRASE);
 
 	}
 
@@ -335,12 +331,12 @@ class InvitationTest extends KiteCryptTest {
 		// Try to get the deleted Invitation from the database (using the inviterId)
 		// and verify that it does not exist (that is a null is returned)
 		$pdoInvitation1 = Invitation::getInvitationByInvitationInviterId($this->getPDO(), $this->inviter->getProfileId());
-		$this->assertNull($pdoInvitation1);
+		$this->assertEquals(new \SplFixedArray(), $pdoInvitation1);
 
 		// Try to get the deleted Invitation from the database (using the inviteeId)
 		// and verify that it does not exist (that is a null is returned)
 		$pdoInvitation2 = Invitation::getInvitationByInvitationInviteeId($this->getPDO(), $this->invitee->getProfileId());
-		$this->assertNull($pdoInvitation2);
+		$this->assertEquals(new \SplFixedArray(), $pdoInvitation2);
 
 	}
 
@@ -372,7 +368,7 @@ class InvitationTest extends KiteCryptTest {
 		$results = Invitation::getAllInvitations($this->getPDO());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("invitation"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\KiteCrypt\\DataDesign\\Invitation", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\KiteCrypt\\Invitation", $results);
 
 		// Validate the results
 		$pdoInvitation = $results[0];
