@@ -13,6 +13,7 @@ require_once("autoloader.php");
  * @version 1.0.0
  **/
 class Message implements \JsonSerializable {
+	use ValidateDate;
 
 	/**
 	 * id for message (null if it's a new message, and it will be assigned by MySQL when it's stored in the database); this is the primary key

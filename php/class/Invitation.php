@@ -1,6 +1,8 @@
 <?php
 namespace Edu\Cnm\KiteCrypt;
 
+use Edu\Cnm\Dmcdonald21\DataDesign\ValidateDate;
+
 require_once("autoloader.php");
 
 
@@ -13,6 +15,7 @@ require_once("autoloader.php");
  * @version 1.0.0
  **/
 class Invitation implements \JsonSerializable {
+	use ValidateDate;
 
 	/**
 	 * id for the user (the inviter) inviting the friend (the invitee) in this friendship; it is a foreign key
@@ -167,35 +170,19 @@ class Invitation implements \JsonSerializable {
 
 		// base case: if the timestamp is null, then it will be assigned by MySQL when it's stored in the database
 		if($newInvitationTimestamp === null) {
-			$this->invitationTimestamp = null;
+			$this->invitationTimestamp = new \DateTime();
 			return;
 		}
-		// Verify the $newInvitationTimestamp is safe
-		$newInvitationTimestamp = filter_var($newInvitationTimestamp, FILTER_SANITIZE_NUMBER_INT);
-		if(empty($newInvitationTimestamp) === true) {
-			throw(new \InvalidArgumentException("newInvitationTimestamp is empty or insecure"));
-		}
-//		// Verify that the $newInvitationTimestamp is an integer.
-//		$newInvitationTimestamp = filter_var($newInvitationTimestamp, FILTER_VALIDATE_INT);
-//		if(empty($newInvitationTimestamp) === true) {
-//			// If the $newInvitationTimestamp is not an integer, throw a TypeError.
-//			throw(new \TypeError("newInvitationTimestamp is not an integer."));
-//		}
-		// Verify the $newInvitationTimestamp is positive and from the recent past
-		if($newInvitationTimestamp <= 0) {
-			throw(new \RangeException("newInvitationTimestamp is not positive."));
-		} else {
-			if ($newInvitationTimestamp - time() >= 0) {
-				throw(new \RangeException("newInvitationTimestamp is in the future."));
-			} elseif (time() - $newInvitationTimestamp >= 48 * 60 * 60 * 1000) {
-var_dump($newInvitationTimestamp);
-				throw(new \RangeException("newInvitationTimestamp is more than 48 hours ago, so this invitation should have expired."));
-			}
-		}
 
-		// store the $newInvitationTimestamp
-		//$this->invitationTimestamp = $newInvitationTimestamp;
-		$this->invitationTimestamp = DateTime::createFromFormat("Y-m-d H:i:s", $newInvitationTimestamp);
+		// store the invitation date
+		try {
+			$newInvitationTimestamp = self::validateDateTime($newInvitationTimestamp);
+		} catch(\InvalidArgumentException $invalidArgument) {
+			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
+		} catch(\RangeException $range) {
+			throw(new \RangeException($range->getMessage(), 0, $range));
+		}
+		$this->invitationTimestamp = $newInvitationTimestamp;
 	}
 
 
