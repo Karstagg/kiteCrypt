@@ -81,8 +81,34 @@ try {
 
 		//Use "SET" methods to create new username/password
 
+		//grab the mySQL DataBase connection
+		$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-		$profileFromDatabase = Profile::getProfileByUserName($pdo, $profileUserName);
+
+
+		//determines which HTTP Method needs to be processed and stores the result in $method.
+		$method = array_key_exists("HTTP_x_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
+
+		//stores the Primary Key for the GET, DELETE, and PUT methods in $id. This key will come in the URL sent by the front end. If no key is present, $id will remain empty. Note that the input is filtered.
+		//$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+
+			// If it is a POST request we continue to the proceeding lines and make sure that a Profile ID was sent with the request. A new Tweet cannot be created without the Profile ID. See the constructor in the Tweet class.
+			//make sure profileId is available
+			if(empty($requestObject->profileId) === true) {
+				throw(new \InvalidArgumentException ("No Profile ID", 405));
+			}
+
+
+		// creates a new Tweet object and stores it in $tweet
+		$profile = new Profile(null, $requestObject->username, $requestObject->publicKeyX, null, $requestObject->publicKeyY, null, $requestObject->salt, null);
+		// calls the INSERT method in $tweet which inserts the object into the DataBase.
+		$profile->insert($pdo);;
+
+		// stores the "Tweet created OK" message in the $reply->message state variable.
+		$reply->message = "New User Created";
+
+
+		/*$profileFromDatabase = Profile::getProfileByUserName($pdo, $profileUserName);
 
 		$profileXFromDatabase = $profileFromDatabase->getProfilePublicKeyX();
 
@@ -94,7 +120,7 @@ try {
 
 		if($profilePublicKeyXFromUser !== $profileXFromDatabase || $profilePublicKeyYFromUser !== $profileYFromDatabase){
 			throw( new \InvalidArgumentException($exceptionMessage, $exceptionCode));
-		}
+		}*/
 
 //		If all username, public Key x, and public key Y match, send them to the chat page with friends list
 
