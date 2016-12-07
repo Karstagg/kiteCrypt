@@ -11,7 +11,7 @@ export class SignUpService extends BaseService {
 		super(http);
 	}
 
-	private signUpUrl = "api/salt/";
+	private signUpUrl = "api/signup/";
 
 	signUp(signUp: SignUp) : Observable<Status> {
 		return(this.http.post(this.signUpUrl, signUp)

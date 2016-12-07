@@ -46,11 +46,9 @@ try {
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
-
 		if(empty($requestObject->username) === true) {
 			throw(new \InvalidArgumentException ($exceptionMessage, $exceptionCode));
 		}
-
 //		New User field
 		$newUser = filter_var($requestObject->newUser, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
 		if($newUser === null) {
@@ -64,9 +62,7 @@ try {
 				throw (new \InvalidArgumentException($exceptionMessage, $exceptionCode));
 			}
 		} else {
-
 			//perform the actual post - POST only, GET requests put username in the URL. POST requests are not shareable//
-
 			$profile = Profile::getProfileByUserName($pdo, $requestObject->username);
 			if(empty($profile) === true) {
 				throw (new \InvalidArgumentException($exceptionMessage, $exceptionCode));

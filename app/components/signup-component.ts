@@ -33,7 +33,7 @@ export class SignUpComponent {
 						.subscribe(signUpStatus => {
 							this.signUpStatus = signUpStatus;
 							if (signUpStatus.status === 200) {
-								this.router.navigate(["/"]);
+								this.router.navigate(["/home/"]);
 							}
 						});
 				});

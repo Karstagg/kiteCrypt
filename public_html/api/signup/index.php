@@ -1,7 +1,9 @@
-<!--Does not deviate too much from Login API.  -->
-<!--Inputs are going to be username, publicKeyX, publicKeyY. Logic is to look up profile by username, compare keys and make sure both keys match, if there is any discrepancy, throw them out. Profile object (including Keys) are going to be in the session. Need to getProfilePublicKeyx, getProfilePublicKeyY-->
+
 
 <?php
+
+/*Does not deviate too much from Login API.
+Inputs are going to be username, publicKeyX, publicKeyY. Logic is to look up profile by username, compare keys and make sure both keys match, if there is any discrepancy, throw them out. Profile object (including Keys) are going to be in the session. Need to getProfilePublicKeyx, getProfilePublicKeyY*/
 
 require_once dirname(__DIR__, 3) . "/php/class/autoloader.php";
 require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
@@ -55,25 +57,25 @@ try {
 		/*-----checking and sanitizing profileUserName, profilePassword--------------*/
 		//check that email and password fields are not empty, and sanitize that input
 
-		if(empty($requestObject->profileUserName) === true) {
-			throw(new \InvalidArgumentException($exceptionMessage, $exceptionCode));
+		if(empty($requestObject->username) === true) {
+			throw(new \InvalidArgumentException("user", $exceptionCode));
 		} else {
-			$profileUserName = filter_var($requestObject->profileUserName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			$profileUserName = filter_var($requestObject->username, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
-		if(empty($requestObject->profilePassword) === true) {
-			throw(new \InvalidArgumentException($exceptionMessage, $exceptionCode));
+		if(empty($requestObject->password) === true) {
+			throw(new \InvalidArgumentException("password", $exceptionCode));
 		} else {
-			$profilePassword = filter_var($requestObject->profilePassword, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			$profilePassword = filter_var($requestObject->password, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
-		if(empty($requestObject->profileConfirmPassword) === true) {
-			throw(new \InvalidArgumentException($exceptionMessage, $exceptionCode));
+		if(empty($requestObject->passwordConfirm) === true) {
+			throw(new \InvalidArgumentException("confirm", $exceptionCode));
 		} else {
-			$profileConfirmPassword = filter_var($requestObject->profileConfirmPassword, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			$profileConfirmPassword = filter_var($requestObject->passwordConfirm, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
-		if($requestObject->profilePassword !== $requestObject->confirmProfilePassword) {
+		if($requestObject->password !== $requestObject->passwordConfirm) {
 			throw (new InvalidArgumentException("the passwords you provided do not match"));
 		}
 
