@@ -327,7 +327,7 @@ class InvitationTest extends KiteCryptTest {
 
 		// Delete the Invitation from the database
 		$invitation->delete($this->getPDO());
-var_dump($numRows);
+//var_dump($numRows);
 		// Check that the number of rows in the database decreased by one, so that the number of rows
 		// is back to what it was before the new Invitation was inserted
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("invitation"));
@@ -367,7 +367,7 @@ var_dump($numRows);
 		// Create a new Invitation and insert it into the database
 		$invitation = new Invitation($this->inviter->getProfileId(), $this->invitee->getProfileId(), $this->VALID_INVITATIONTIMESTAMP, $this->VALID_INVITATIONPASSPHRASE);
 		$invitation->insert($this->getPDO());
-var_dump($invitation);
+//var_dump($invitation);
 		// Get the invitations from the database and verify that they match our expectations
 		$results = Invitation::getAllInvitations($this->getPDO());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("invitation"));

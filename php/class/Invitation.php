@@ -188,6 +188,7 @@ class Invitation implements \JsonSerializable {
 			if ($newInvitationTimestamp - time() >= 0) {
 				throw(new \RangeException("newInvitationTimestamp is in the future."));
 			} elseif (time() - $newInvitationTimestamp >= 48 * 60 * 60 * 1000) {
+var_dump($newInvitationTimestamp);
 				throw(new \RangeException("newInvitationTimestamp is more than 48 hours ago, so this invitation should have expired."));
 			}
 		}
@@ -313,7 +314,7 @@ class Invitation implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$invitation = new Invitation($row["invitationInviterId"], $row["invitationInviteeId"], $row["invitationTimestamp"], $row["invitationPassphrase"]);
+				$invitation = new Invitation($row["invitationInviterId"], $row["invitationInviteeId"], intval($row["invitationTimestamp"]), $row["invitationPassphrase"]);
 				var_dump($invitation);
 				$invitations[$invitations->key()] = $invitation;
 				$invitations->next();
@@ -371,7 +372,7 @@ class Invitation implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$invitation = new Invitation($row["invitationInviterId"], $row["invitationInviteeId"], $row["invitationTimestamp"], $row["invitationPassphrase"]);
+				$invitation = new Invitation($row["invitationInviterId"], $row["invitationInviteeId"], intval($row["invitationTimestamp"]), $row["invitationPassphrase"]);
 				$invitations[$invitations->key()] = $invitation;
 				$invitations->next();
 			} catch(\Exception $exception) {
@@ -402,10 +403,10 @@ class Invitation implements \JsonSerializable {
 		// build an array of invitations
 		$invitations = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		var_dump($statement);
+//var_dump($statement);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$invitation = new Invitation($row["invitationInviterId"], $row["invitationInviteeId"], $row["invitationTimestamp"], $row["invitationPassphrase"]);
+				$invitation = new Invitation($row["invitationInviterId"], $row["invitationInviteeId"], intval($row["invitationTimestamp"]), $row["invitationPassphrase"]);
 				$invitations[$invitations->key()] = $invitation;
 				$invitations->next();
 			} catch(\Exception $exception) {
