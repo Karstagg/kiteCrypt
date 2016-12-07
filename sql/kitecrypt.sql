@@ -16,7 +16,7 @@ PRIMARY KEY(profileId)
 CREATE TABLE invitation (
 invitationInviterId INT UNSIGNED NOT NULL,
 invitationInviteeId INT UNSIGNED NOT NULL,
-invitationTimestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+invitationTimestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 invitationPassphrase VARCHAR(64) NOT NULL,
 UNIQUE(invitationPassphrase),
 FOREIGN KEY(invitationInviterId) REFERENCES profile(profileId),
@@ -34,7 +34,7 @@ PRIMARY KEY (friendshipInviterId, friendshipInviteeId)
 
 CREATE TABLE message (
 messageId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-messageTimestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+messageTimestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 messageSenderId INT UNSIGNED NOT NULL,
 messageReceiverId INT UNSIGNED NOT NULL,
 messageText VARCHAR(32768),
