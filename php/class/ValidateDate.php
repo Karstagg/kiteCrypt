@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\Dmcdonald21\DataDesign;
+namespace Edu\Cnm\KiteCrypt;
 
 /**
  * Trait to Validate a mySQL Date

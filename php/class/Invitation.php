@@ -1,8 +1,6 @@
 <?php
 namespace Edu\Cnm\KiteCrypt;
 
-use Edu\Cnm\Dmcdonald21\DataDesign\ValidateDate;
-
 require_once("autoloader.php");
 
 
@@ -55,7 +53,7 @@ class Invitation implements \JsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \RangeException if data values are out of bounds (for example: negative integers)
 	 **/
-	public function __construct(int $newInvitationInviterId , int $newInvitationInviteeId, int $newInvitationTimestamp = null, string $newInvitationPassphrase) {
+	public function __construct(int $newInvitationInviterId , int $newInvitationInviteeId, $newInvitationTimestamp = null, string $newInvitationPassphrase) {
 		try {
 			$this->setInvitationInviterId($newInvitationInviterId);
 			$this->setInvitationInviteeId($newInvitationInviteeId);
@@ -166,7 +164,7 @@ class Invitation implements \JsonSerializable {
 	 * @throws \TypeError if $newInvitationTimestamp is not a date
 	 * @throws \RangeException if $newInvitationTimestamp is not from the recent past
 	 **/
-	public function setInvitationTimestamp(int $newInvitationTimestamp = null) {
+	public function setInvitationTimestamp($newInvitationTimestamp = null) {
 
 		// base case: if the timestamp is null, then it will be assigned by MySQL when it's stored in the database
 		if($newInvitationTimestamp === null) {
@@ -231,7 +229,8 @@ class Invitation implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
-		$parameters = ["invitationInviterId" => $this->invitationInviterId, "invitationInviteeId" => $this->invitationInviteeId, "invitationTimestamp" => $this->invitationTimestamp, "invitationPassphrase" => $this->invitationPassphrase];
+		$formattedDate = $this->invitationTimestamp->format("Y-m-d H:i:s");
+		$parameters = ["invitationInviterId" => $this->invitationInviterId, "invitationInviteeId" => $this->invitationInviteeId, "invitationTimestamp" => $formattedDate, "invitationPassphrase" => $this->invitationPassphrase];
 		$statement->execute($parameters);
 
 	}

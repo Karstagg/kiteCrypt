@@ -307,7 +307,8 @@ class Message implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
-		$parameters = ["messageId" => $this->messageId, "messageTimestamp" => $this->messageTimestamp, "messageSenderId" => $this->messageSenderId, "messageReceiverId" => $this->messageReceiverId, "messageText" => $this->messageText];
+		$formattedDate = $this->messageTimestamp->format("Y-m-d H:i:s");
+		$parameters = ["messageId" => $this->messageId, "messageTimestamp" => $formattedDate, "messageSenderId" => $this->messageSenderId, "messageReceiverId" => $this->messageReceiverId, "messageText" => $this->messageText];
 		$statement->execute($parameters);
 
 	}
