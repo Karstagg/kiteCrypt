@@ -194,7 +194,8 @@ var_dump($newInvitationTimestamp);
 		}
 
 		// store the $newInvitationTimestamp
-		$this->invitationTimestamp = $newInvitationTimestamp;
+		//$this->invitationTimestamp = $newInvitationTimestamp;
+		$this->invitationTimestamp = DateTime::createFromFormat("Y-m-d H:i:s", $newInvitationTimestamp);
 	}
 
 
@@ -314,7 +315,7 @@ var_dump($newInvitationTimestamp);
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$invitation = new Invitation($row["invitationInviterId"], $row["invitationInviteeId"], intval($row["invitationTimestamp"]), $row["invitationPassphrase"]);
+				$invitation = new Invitation($row["invitationInviterId"], $row["invitationInviteeId"], $row["invitationTimestamp"], $row["invitationPassphrase"]);
 				var_dump($invitation);
 				$invitations[$invitations->key()] = $invitation;
 				$invitations->next();
@@ -372,7 +373,7 @@ var_dump($newInvitationTimestamp);
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$invitation = new Invitation($row["invitationInviterId"], $row["invitationInviteeId"], intval($row["invitationTimestamp"]), $row["invitationPassphrase"]);
+				$invitation = new Invitation($row["invitationInviterId"], $row["invitationInviteeId"], $row["invitationTimestamp"], $row["invitationPassphrase"]);
 				$invitations[$invitations->key()] = $invitation;
 				$invitations->next();
 			} catch(\Exception $exception) {
@@ -406,7 +407,7 @@ var_dump($newInvitationTimestamp);
 //var_dump($statement);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$invitation = new Invitation($row["invitationInviterId"], $row["invitationInviteeId"], intval($row["invitationTimestamp"]), $row["invitationPassphrase"]);
+				$invitation = new Invitation($row["invitationInviterId"], $row["invitationInviteeId"], $row["invitationTimestamp"], $row["invitationPassphrase"]);
 				$invitations[$invitations->key()] = $invitation;
 				$invitations->next();
 			} catch(\Exception $exception) {
