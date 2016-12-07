@@ -458,8 +458,8 @@ class Profile implements \JsonSerializable {
 		// sanitize the description before searching
 		$profilePasswordSalt = trim($profilePasswordSalt);
 		$profilePasswordSalt = filter_var($profilePasswordSalt, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($profilePublicKey) === true) {
-			throw(new \PDOException("Public Key is invalid"));
+		if(empty($profilePasswordSalt) === true) {
+			throw(new \PDOException("Public Password Salt is invalid"));
 		}
 
 		//create query template
