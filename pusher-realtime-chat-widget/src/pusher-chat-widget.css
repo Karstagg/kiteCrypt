@@ -1,7 +1,7 @@
 .pusher-chat-widget {
   position: fixed;
   bottom: 0;
-  right: 30px;
+  left: 300px;
   z-index: 10000;
   
   font-size: 13px;
