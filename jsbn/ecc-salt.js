@@ -39,23 +39,13 @@ var decryptedMessage;
 
 function initializeEllipticCurveParameters() {
 
-	if (getN("eccP").value.length == 0) {
-		set_secp256r1();
-	}
-
 	rng = new SecureRandom();
+
 }
 
 
 function set_ec_params(name) {
 	var c = getSECCurveByName(name);
-
-	// getN("eccP").value = c.getCurve().getQ().toString();
-	// getN("eccA").value = c.getCurve().getA().toBigInteger().toString();
-	// getN("eccB").value = c.getCurve().getB().toBigInteger().toString();
-	// getN("eccGx").value = c.getG().getX().toBigInteger().toString();
-	// getN("eccGy").value = c.getG().getY().toBigInteger().toString();
-	// getN("eccN").value = c.getN().toString();
 
 	eccP = c.getCurve().getQ().toString(16);
 	eccA = c.getCurve().getA().toBigInteger().toString(16);
@@ -64,28 +54,6 @@ function set_ec_params(name) {
 	eccGy = c.getG().getY().toBigInteger().toString(16);
 	eccN = c.getN().toString(16);
 
-	getN("eccP").value = eccP;
-	getN("eccA").value = eccA;
-	getN("eccB").value = eccB;
-	getN("eccGx").value = eccGx;
-	getN("eccGy").value = eccGy;
-	getN("eccN").value = eccN;
-
-	// Changing EC params invalidates everything else
-	getN("sendersPassword").value = "";
-	getN("receiversPassword").value = "";
-	getN("sendersSalt").value = "";
-	getN("receiversSalt").value = "";
-	getN("sendersPrivateMultiplier").value = "";
-	getN("receiversPrivateMultiplier").value = "";
-	getN("sendersMultipliedX").value = "";
-	getN("sendersMultipliedY").value = "";
-	getN("receiversMultipliedX").value = "";
-	getN("receiversMultipliedY").value = "";
-	getN("sendersCommonSecretKeyX").value = "";
-	getN("sendersCommonSecretKeyX").value = "";
-	getN("receiversCommonSecretKeyX").value = "";
-	getN("receiversCommonSecretKeyY").value = "";
 }
 
 
@@ -139,84 +107,45 @@ function get_G(curve) {
  */
 
 
-function generateSendersPassword() {
-
-	sendersPassword = generateRandomString(10);
-
-	getN("sendersPassword").value = sendersPassword;
-
-
-	/*
-	 ----------------------------------------------------------------------------
-	 Changing the sender's password implies
-	 the common secret key and the encrypted message.
-	 are no longer valid.
-	 ----------------------------------------------------------------------------
-	 */
-
-	getN("sendersMultipliedX").value = "";
-	getN("sendersMultipliedY").value = "";
-
-	getN("sendersCommonSecretKeyX").value = "";
-	getN("sendersCommonSecretKeyY").value = "";
-
-	getN("receiversCommonSecretKeyX").value = "";
-	getN("receiversCommonSecretKeyY").value = "";
-
-	getN("messageCipherText").value = "";
-	getN("decryptedMessage").value = "";
-
-}
+// function generateSendersPassword() {
+//
+// 	// sendersPassword = generateRandomString(10);
+//
+// 	/*
+// 	 ----------------------------------------------------------------------------
+// 	 Changing the sender's password implies
+// 	 the common secret key and the encrypted message.
+// 	 are no longer valid.
+// 	 ----------------------------------------------------------------------------
+// 	 */
+//
+//
+// }
 
 
 
-function generateSendersSalt() {
-
-
-	sendersSalt = generateRandomString(6);
-
-	getN("sendersSalt").value = sendersSalt;
-
-
-	/*
-	 ----------------------------------------------------------------------------
-	 Changing the sender's salt implies
-	 the common secret key and the encrypted message.
-	 are no longer valid.
-	 ----------------------------------------------------------------------------
-	 */
-
-	getN("sendersMultipliedX").value = "";
-	getN("sendersMultipliedY").value = "";
-
-	getN("sendersCommonSecretKeyX").value = "";
-	getN("sendersCommonSecretKeyY").value = "";
-
-	getN("receiversCommonSecretKeyX").value = "";
-	getN("receiversCommonSecretKeyY").value = "";
-
-	getN("messageCipherText").value = "";
-	getN("decryptedMessage").value = "";
-
-}
+// function generateSendersSalt() {
+//
+//
+// 	// sendersSalt = generateRandomString(6);
+//
+//
+// 	/*
+// 	 ----------------------------------------------------------------------------
+// 	 Changing the sender's salt implies
+// 	 the common secret key and the encrypted message.
+// 	 are no longer valid.
+// 	 ----------------------------------------------------------------------------
+// 	 */
+//
+//
+// }
 
 
 
 function generateSendersPrivateMultiplier() {
 
-	if (getN("sendersPassword").value.length == 0) {
-		alert("Please generate the sender's password first.");
-		return;
-	}
-
-	if (getN("sendersSalt").value.length == 0) {
-		alert("Please generate the sender's salt first.");
-		return;
-	}
-
 	sendersPrivateMultiplier = convertStringToHex(sendersPassword + sendersSalt);
-
-	getN("sendersPrivateMultiplier").value = sendersPrivateMultiplier;
 
 
 	/*
@@ -242,8 +171,6 @@ function calculateSendersMultipliedPoint() {
 	sendersMultipliedX = P.getX().toBigInteger().toString(16);
 	sendersMultipliedY = P.getY().toBigInteger().toString(16);
 
-	getN("sendersMultipliedX").value = sendersMultipliedX;
-	getN("sendersMultipliedY").value = sendersMultipliedY;
 
 	/*
 	 ----------------------------------------------------------------------------
@@ -253,14 +180,6 @@ function calculateSendersMultipliedPoint() {
 	 ----------------------------------------------------------------------------
 	 */
 
-	getN("sendersCommonSecretKeyX").value = "";
-	getN("sendersCommonSecretKeyY").value = "";
-
-	getN("receiversCommonSecretKeyX").value = "";
-	getN("receiversCommonSecretKeyY").value = "";
-
-	getN("messageCipherText").value = "";
-	getN("decryptedMessage").value = "";
 
 }
 
@@ -275,35 +194,6 @@ function calculateSendersCommonSecretKey() {
 	 ----------------------------------------------------------------------------
 	 */
 
-	if(getN("sendersPrivateMultiplier").value.length == 0) {
-		alert("Please enter (or generate) the sender's private multiplier first.");
-		return;
-	}
-
-	if(getN("receiversPrivateMultiplier").value.length == 0) {
-		alert("Please enter (or generate) the receiver's private multiplier first.");
-		return;
-	}
-
-	if(getN("sendersMultipliedX").value.length == 0) {
-		alert("Please calculate the sender's public key first.");
-		return;
-	}
-
-	if(getN("sendersMultipliedY").value.length == 0) {
-		alert("Please calculate the sender's public key first.");
-		return;
-	}
-
-	if(getN("receiversMultipliedX").value.length == 0) {
-		alert("Please calculate the receiver's public key first.");
-		return;
-	}
-
-	if(getN("receiversMultipliedY").value.length == 0) {
-		alert("Please calculate the receiver's public key first.");
-		return;
-	}
 
 	/*
 	 ----------------------------------------------------------------------------
@@ -322,8 +212,6 @@ function calculateSendersCommonSecretKey() {
 	sendersCommonSecretKeyX = S.getX().toBigInteger().toString(16);
 	sendersCommonSecretKeyY = S.getY().toBigInteger().toString(16);
 
-	getN("sendersCommonSecretKeyX").value = sendersCommonSecretKeyX;
-	getN("sendersCommonSecretKeyY").value = sendersCommonSecretKeyY;
 
 	/*
 	 ----------------------------------------------------------------------------
@@ -331,8 +219,6 @@ function calculateSendersCommonSecretKey() {
 	 ----------------------------------------------------------------------------
 	 */
 
-	getN("messageCipherText").value = "";
-	getN("decryptedMessage").value = "";
 
 }
 
@@ -346,85 +232,46 @@ function calculateSendersCommonSecretKey() {
  */
 
 
-function generateReceiversPassword() {
-
-	receiversPassword = generateRandomString(10);
-
-	getN("receiversPassword").value = receiversPassword;
-
-
-	/*
-	 ----------------------------------------------------------------------------
-	 Changing the receiver's password implies
-	 the common secret key and the encrypted message.
-	 are no longer valid.
-	 ----------------------------------------------------------------------------
-	 */
-
-	getN("receiversMultipliedX").value = "";
-	getN("receiversMultipliedY").value = "";
-
-	getN("receiversCommonSecretKeyX").value = "";
-	getN("receiversCommonSecretKeyY").value = "";
-
-	getN("sendersCommonSecretKeyX").value = "";
-	getN("sendersCommonSecretKeyY").value = "";
-
-	getN("messageCipherText").value = "";
-	getN("decryptedMessage").value = "";
-
-}
+// function generateReceiversPassword() {
+//
+// 	receiversPassword = generateRandomString(10);
+//
+//
+//
+// 	/*
+// 	 ----------------------------------------------------------------------------
+// 	 Changing the receiver's password implies
+// 	 the common secret key and the encrypted message.
+// 	 are no longer valid.
+// 	 ----------------------------------------------------------------------------
+// 	 */
+//
+//
+// }
 
 
 
-function generateReceiversSalt() {
-
-
-	receiversSalt = generateRandomString(6);
-
-	getN("receiversSalt").value = receiversSalt;
-
-
-	/*
-	 ----------------------------------------------------------------------------
-	 Changing the receiver's salt implies
-	 the common secret key and the encrypted message.
-	 are no longer valid.
-	 ----------------------------------------------------------------------------
-	 */
-
-	getN("receiversMultipliedX").value = "";
-	getN("receiversMultipliedY").value = "";
-
-	getN("receiversCommonSecretKeyX").value = "";
-	getN("receiversCommonSecretKeyY").value = "";
-
-	getN("sendersCommonSecretKeyX").value = "";
-	getN("sendersCommonSecretKeyY").value = "";
-
-	getN("messageCipherText").value = "";
-	getN("decryptedMessage").value = "";
-
-}
+// function generateReceiversSalt() {
+//
+//
+// 	receiversSalt = generateRandomString(6);
+//
+//
+// 	/*
+// 	 ----------------------------------------------------------------------------
+// 	 Changing the receiver's salt implies
+// 	 the common secret key and the encrypted message.
+// 	 are no longer valid.
+// 	 ----------------------------------------------------------------------------
+// 	 */
+//
+// }
 
 
 
 function generateReceiversPrivateMultiplier() {
 
-	if (getN("receiversPassword").value.length == 0) {
-		alert("Please generate the receiver's password first.");
-		return;
-	}
-
-	if (getN("receiversSalt").value.length == 0) {
-		alert("Please generate the receiver's salt first.");
-		return;
-	}
-
 	receiversPrivateMultiplier = convertStringToHex(receiversPassword + receiversSalt);
-
-	getN("receiversPrivateMultiplier").value = receiversPrivateMultiplier;
-
 
 	/*
 	 ----------------------------------------------------------------------------
@@ -434,27 +281,11 @@ function generateReceiversPrivateMultiplier() {
 	 ----------------------------------------------------------------------------
 	 */
 
-	getN("receiversMultipliedX").value = "";
-	getN("receiversMultipliedY").value = "";
-
-	getN("receiversCommonSecretKeyX").value = "";
-	getN("receiversCommonSecretKeyY").value = "";
-
-	getN("sendersCommonSecretKeyX").value = "";
-	getN("sendersCommonSecretKeyY").value = "";
-
-	getN("messageCipherText").value = "";
-	getN("decryptedMessage").value = "";
 
 }
 
 
 function calculateReceiversMultipliedPoint() {
-
-	if(getN("receiversPrivateMultiplier").value.length == 0) {
-		alert("Please generate the receiver's private multiplier first.");
-		return;
-	}
 
 	var curve = get_curve();
 	var G = get_G(curve);
@@ -464,9 +295,6 @@ function calculateReceiversMultipliedPoint() {
 	receiversMultipliedX = P.getX().toBigInteger().toString(16);
 	receiversMultipliedY = P.getY().toBigInteger().toString(16);
 
-	getN("receiversMultipliedX").value = receiversMultipliedX;
-	getN("receiversMultipliedY").value = receiversMultipliedY;
-
 	/*
 	 ----------------------------------------------------------------------------
 	 Changing the receiver's multiplied point (public key) implies
@@ -474,15 +302,6 @@ function calculateReceiversMultipliedPoint() {
 	 are no longer valid.
 	 ----------------------------------------------------------------------------
 	 */
-
-	getN("sendersCommonSecretKeyX").value = "";
-	getN("sendersCommonSecretKeyY").value = "";
-
-	getN("receiversCommonSecretKeyX").value = "";
-	getN("receiversCommonSecretKeyY").value = "";
-
-	getN("messageCipherText").value = "";
-	getN("decryptedMessage").value = "";
 
 }
 
@@ -497,35 +316,6 @@ function calculateReceiversCommonSecretKey() {
 	 ----------------------------------------------------------------------------
 	 */
 
-	if(getN("sendersPrivateMultiplier").value.length == 0) {
-		alert("Please enter (or generate) the sender's private multiplier first.");
-		return;
-	}
-
-	if(getN("receiversPrivateMultiplier").value.length == 0) {
-		alert("Please enter (or generate) the receiver's private multiplier first.");
-		return;
-	}
-
-	if(getN("sendersMultipliedX").value.length == 0) {
-		alert("Please calculate the sender's public key first.");
-		return;
-	}
-
-	if(getN("sendersMultipliedY").value.length == 0) {
-		alert("Please calculate the sender's public key first.");
-		return;
-	}
-
-	if(getN("receiversMultipliedX").value.length == 0) {
-		alert("Please calculate the receiver's public key first.");
-		return;
-	}
-
-	if(getN("receiversMultipliedY").value.length == 0) {
-		alert("Please calculate the receiver's public key first.");
-		return;
-	}
 
 	/*
 	 ----------------------------------------------------------------------------
@@ -544,17 +334,12 @@ function calculateReceiversCommonSecretKey() {
 	receiversCommonSecretKeyX = S.getX().toBigInteger().toString(16);
 	receiversCommonSecretKeyY = S.getY().toBigInteger().toString(16);
 
-	getN("receiversCommonSecretKeyX").value = receiversCommonSecretKeyX;
-	getN("receiversCommonSecretKeyY").value = receiversCommonSecretKeyY;
 
 	/*
 	 ----------------------------------------------------------------------------
 	 Everything is valid except for the encrypted message.
 	 ----------------------------------------------------------------------------
 	 */
-
-	getN("messageCipherText").value = "";
-	getN("decryptedMessage").value = "";
 
 }
 
@@ -570,12 +355,7 @@ function calculateReceiversCommonSecretKey() {
 
 function encryptMessage() {
 
-	if(getN("messagePlainText").value.length == 0) {
-		alert("Please enter the message before encrypting.");
-		return;
-	}
-
-	messagePlainText = getN("messagePlainText").value;
+	messagePlainText = getN("messagePlainText").value; // We have to change this line to get the message from the chat box that's being sent to the friend.
 	//var eccP = getN("eccP").value;
 	var commonSecretKeyX = receiversCommonSecretKeyX;
 	var commonSecretKeyY = receiversCommonSecretKeyY;
@@ -669,21 +449,12 @@ function encryptMessage() {
 	}
 
 
-
-	getN("messageCipherText").value = messageCipherText;
-
-	// if(d.compareTo(m) >= 0) return d.subtract(m);
-	// BigInteger.ONE
-	// var a = new BigInteger(getN("receiversPrivateMultiplier").value);
-	// curveFpEncodePointHex(p)
-
 }
 
 
 function decryptMessage() {
 
-	messageCipherText = getN("messageCipherText").value;
-	//var decryptedMessage = messageCipherText.split("").reverse().join("");
+	messageCipherText = getN("messageCipherText").value; // We have to change this line to get the incoming message ciphertext from the friend
 
 	var eccP = getN("eccP").value;
 	var commonSecretKeyX = receiversCommonSecretKeyX;
@@ -738,8 +509,6 @@ function decryptMessage() {
 
 	}
 
-
-	getN("decryptedMessage").value = decryptedMessage;
 
 }
 
@@ -798,12 +567,4 @@ function convertStringToHex(originalString) {
 
 	return hexadecimalString;
 }
-
-
-
-
-
-
-
-
 
