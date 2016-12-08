@@ -6,7 +6,7 @@ import {SaltRequest} from "../classes/salt-request";
 import {Router} from "@angular/router";
 import {SaltService} from "../services/salt-service";
 import {Salt} from "../classes/salt";
-
+import '../jsbn/ecc-salt';
 
 @Component({
 	templateUrl: "./templates/signup.php"
@@ -37,8 +37,9 @@ export class SignUpComponent {
 							}
 						});
 				});
-
-
 		}
+	}
+	foo(): void {
+		generateSendersPrivateMultiplier();
 	}
 }
