@@ -48,7 +48,7 @@ try {
 		if(empty($requestObject->username) === true) {
 			throw(new \InvalidArgumentException("empty user field", $exceptionCode));
 		} else {
-			$profileUserName = filter_var($requestObject->profileUserName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			$profileUserName = filter_var($requestObject->username, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
 		if(empty($requestObject->profilePublicKeyX) === true) {
