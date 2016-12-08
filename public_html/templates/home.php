@@ -22,7 +22,7 @@
 							<label for="user-name">Username</label>
 							<div class="input-group col-xs-4 col-xs-offset-4">
 								<input type="text" id="user-name" name="user-name" class="form-control input-sm chat-input"
-										 placeholder="username" maxlength="20" required [(ngModel)]="login.username"
+										 placeholder="username" maxlength="20" required [(ngModel)]="loginData.username"
 										 #username="ngModel"/>
 							</div>
 							<div [hidden]="username.valid || username.pristine"

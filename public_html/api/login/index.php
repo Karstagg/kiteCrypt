@@ -1,4 +1,3 @@
-
 <?php
 /*<!--Inputs are going to be username, publicKeyX, publicKeyY. Logic is to look up profile by username, compare keys and make sure both keys match, if there is any discrepancy, throw them out. Profile object (including Keys) are going to be in the session. Need to getProfilePublicKeyx, getProfilePublicKeyY-->*/
 require_once dirname(__DIR__, 3) . "/php/class/autoloader.php";
@@ -26,7 +25,6 @@ $reply->data = null;
 
 $exceptionMessage = "Username or Password invalid";
 $exceptionCode = 401;
-
 
 
 try {
@@ -63,7 +61,7 @@ try {
 			throw(new \InvalidArgumentException("no y key", $exceptionCode));
 		} else {
 			$profilePublicKeyYFromUser = filter_var($requestObject->profilePublicKeyY, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-			}
+		}
 
 
 		//retrieve the data for profileUserName
@@ -75,12 +73,12 @@ try {
 
 		$profileYFromDatabase = $profileFromDatabase->getProfilePublicKeyY();
 
-		if($profileXFromDatabase === null || $profileYFromDatabase === null){
-			throw( new \InvalidArgumentException("no profile match", $exceptionCode));
+		if($profileXFromDatabase === null || $profileYFromDatabase === null) {
+			throw(new \InvalidArgumentException("no profile match", $exceptionCode));
 		}
 
-		if($profilePublicKeyXFromUser !== $profileXFromDatabase || $profilePublicKeyYFromUser !== $profileYFromDatabase){
-			throw( new \InvalidArgumentException("no key x match", $exceptionCode));
+		if($profilePublicKeyXFromUser !== $profileXFromDatabase || $profilePublicKeyYFromUser !== $profileYFromDatabase) {
+			throw(new \InvalidArgumentException("no key x match", $exceptionCode));
 		}
 
 //		If all username, public Key x, and public key Y match, send them to the chat page with friends list
