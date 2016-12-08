@@ -71,7 +71,7 @@
 
 
 
-		<title>ECC Testing</title>
+		<title>ECC Salt Testing</title>
 
 
 
@@ -389,6 +389,114 @@
 												 senders-parameter-label
 												"
 									>
+										Sender's Password:
+									</label>
+
+								</div>
+
+								<div class="col-sm-10">
+
+									<div class="input-group">
+
+										<textarea
+											class="form-control
+													 senders-parameter
+													"
+											id="sendersPassword"
+											placeholder="Pick a password."
+											required="required"
+											wrap="soft"
+										></textarea>
+
+										<span
+											class="input-group-addon
+													 btn
+													 btn-default
+													"
+											type="button"
+											accesskey="s"
+											onclick="generateSendersPassword()"
+										>
+											Generate
+										</span>
+
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
+
+
+						<div class="row">
+
+							<div class="form-group">
+
+								<div class="col-sm-2
+												text-right
+											  "
+								>
+
+									<label
+										class="control-label
+												 senders-parameter-label
+												"
+									>
+										Sender's Salt:
+									</label>
+
+								</div>
+
+								<div class="col-sm-10">
+
+									<div class="input-group">
+
+										<textarea
+											class="form-control
+													 senders-parameter
+													"
+											id="sendersSalt"
+											placeholder="Put some salt on it."
+											required="required"
+											wrap="soft"
+										></textarea>
+
+										<span
+											class="input-group-addon
+													 btn
+													 btn-default
+													"
+											type="button"
+											accesskey="s"
+											onclick="generateSendersSalt()"
+										>
+											Generate
+										</span>
+
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
+
+
+						<div class="row">
+
+							<div class="form-group">
+
+								<div class="col-sm-2
+												text-right
+											  "
+								>
+
+									<label
+										class="control-label
+												 senders-parameter-label
+												"
+									>
 										Sender's Private Multiplier:
 									</label>
 
@@ -661,6 +769,114 @@
 								<label id="receivers-parameters"></label>
 
 								<h4>Receiver: Comandante Rochelle (aka #1)</h4>
+
+							</div>
+
+						</div>
+
+
+						<div class="row">
+
+							<div class="form-group">
+
+								<div class="col-sm-2
+												text-right
+											  "
+								>
+
+									<label
+										class="control-label
+												 receivers-parameter-label
+												"
+									>
+										Receiver's Password:
+									</label>
+
+								</div>
+
+								<div class="col-sm-10">
+
+									<div class="input-group">
+
+										<textarea
+											class="form-control
+													 receivers-parameter
+													"
+											id="receiversPassword"
+											placeholder="Pick a password."
+											required="required"
+											wrap="soft"
+										></textarea>
+
+										<span
+											class="input-group-addon
+													 btn
+													 btn-default
+													"
+											type="button"
+											accesskey="s"
+											onclick="generateReceiversPassword()"
+										>
+											Generate
+										</span>
+
+									</div>
+
+								</div>
+
+							</div>
+
+						</div>
+
+
+						<div class="row">
+
+							<div class="form-group">
+
+								<div class="col-sm-2
+												text-right
+											  "
+								>
+
+									<label
+										class="control-label
+												 receivers-parameter-label
+												"
+									>
+										Receiver's Salt:
+									</label>
+
+								</div>
+
+								<div class="col-sm-10">
+
+									<div class="input-group">
+
+										<textarea
+											class="form-control
+													 receivers-parameter
+													"
+											id="receiversSalt"
+											placeholder="Put some salt on it."
+											required="required"
+											wrap="soft"
+										></textarea>
+
+										<span
+											class="input-group-addon
+													 btn
+													 btn-default
+													"
+											type="button"
+											accesskey="s"
+											onclick="generateReceiversSalt()"
+										>
+											Generate
+										</span>
+
+									</div>
+
+								</div>
 
 							</div>
 
