@@ -47,7 +47,7 @@ try {
 		/*-----checking and sanitizing profileUserName, profilePassword--------------*/
 		//check that email and password fields are not empty, and sanitize that input
 
-		if(empty($requestObject->profileUserName) === true) {
+		if(empty($requestObject->username) === true) {
 			throw(new \InvalidArgumentException("empty user field", $exceptionCode));
 		} else {
 			$profileUserName = filter_var($requestObject->profileUserName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
