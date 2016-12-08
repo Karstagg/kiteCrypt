@@ -1,3 +1,3 @@
-function addTwo(x, y) {
+exports.addTwo = function(x, y) {
 	return(x + y);
-}
+};
