@@ -7,33 +7,33 @@
  */
 
 
-var rng;
+exports.rng = undefined;
 
-var eccP;
-var eccA;
-var eccB;
-var eccGx;
-var eccGy;
-var eccN;
+exports.eccP = undefined;
+exports.eccA = undefined;
+exports.eccB = undefined;
+exports.eccGx = undefined;
+exports.eccGy = undefined;
+exports.eccN = undefined;
 
-var sendersPassword;
-var sendersSalt;
-var sendersPrivateMultiplier;
-var sendersMultipliedX;
-var sendersMultipliedY;
-var sendersCommonSecretKeyX;
-var sendersCommonSecretKeyY;
+exports.sendersPassword = undefined;
+exports.sendersSalt = undefined;
+exports.sendersPrivateMultiplier = undefined;
+exports.sendersMultipliedX = undefined;
+exports.sendersMultipliedY = undefined;
+exports.sendersCommonSecretKeyX = undefined;
+exports.sendersCommonSecretKeyY = undefined;
 
-var receiversPassword;
-var receiversSalt;
-var receiversPrivateMultiplier;
-var receiversMultipliedX;
-var receiversMultipliedY;
-var receiversCommonSecretKeyX;
-var receiversCommonSecretKeyY;
+exports.receiversPassword = undefined;
+exports.receiversSalt = undefined;
+exports.receiversPrivateMultiplier = undefined;
+exports.receiversMultipliedX = undefined;
+exports.receiversMultipliedY = undefined;
+exports.receiversCommonSecretKeyX = undefined;
+exports.receiversCommonSecretKeyY = undefined;
 
-var messagePlainText;
-var messageCipherText;
+exports.messagePlainText = undefined;
+exports.messageCipherText = undefined;
 exports.decryptedMessage = undefined;
 
 
@@ -57,45 +57,45 @@ exports.set_ec_params = function (name) {
 };
 
 
-function set_secp128r1() {
+exports.set_secp128r1 = function () {
 	set_ec_params("secp128r1");
-}
+};
 
-function set_secp160k1() {
+exports.set_secp160k1 = function () {
 	set_ec_params("secp160k1");
-}
+};
 
-function set_secp160r1() {
+exports.set_secp160r1 = function () {
 	set_ec_params("secp160r1");
-}
+};
 
-function set_secp192k1() {
+exports.set_secp192k1 = function () {
 	set_ec_params("secp192k1");
-}
+};
 
-function set_secp192r1() {
+exports.set_secp192r1 = function () {
 	set_ec_params("secp192r1");
-}
+};
 
-function set_secp224r1() {
+exports.set_secp224r1 = function () {
 	set_ec_params("secp224r1");
-}
+};
 
-function set_secp256r1() {
+exports.set_secp256r1 = function () {
 	set_ec_params("secp256r1");
-}
+};
 
-function get_curve() {
+exports.get_curve = function () {
 	return new ECCurveFp(new BigInteger(eccP, 16),
 		new BigInteger(eccA, 16),
 		new BigInteger(eccB, 16));
-}
+};
 
-function get_G(curve) {
+exports.get_G = function (curve) {
 	return new ECPointFp(curve,
 		curve.fromBigInteger(new BigInteger(eccGx, 16)),
 		curve.fromBigInteger(new BigInteger(eccGy, 16)));
-}
+};
 
 
 
@@ -107,7 +107,7 @@ function get_G(curve) {
  */
 
 
-// function generateSendersPassword() {
+// exports.generateSendersPassword = function () {
 //
 // 	// sendersPassword = generateRandomString(10);
 //
@@ -120,11 +120,11 @@ function get_G(curve) {
 // 	 */
 //
 //
-// }
+// };
 
 
 
-// function generateSendersSalt() {
+// exports.generateSendersSalt = function () {
 //
 //
 // 	// sendersSalt = generateRandomString(6);
@@ -139,11 +139,11 @@ function get_G(curve) {
 // 	 */
 //
 //
-// }
+// };
 
 
 
-function generateSendersPrivateMultiplier() {
+exports.generateSendersPrivateMultiplier = function () {
 
 	sendersPrivateMultiplier = convertStringToHex(sendersPassword + sendersSalt);
 
@@ -157,11 +157,11 @@ function generateSendersPrivateMultiplier() {
 	 */
 
 
-}
+};
 
 
 
-function calculateSendersMultipliedPoint() {
+exports.calculateSendersMultipliedPoint = function () {
 
 	var curve = get_curve();
 	var G = get_G(curve);
@@ -181,10 +181,10 @@ function calculateSendersMultipliedPoint() {
 	 */
 
 
-}
+};
 
 
-function calculateSendersCommonSecretKey() {
+exports.calculateSendersCommonSecretKey = function () {
 
 	/*
 	 ----------------------------------------------------------------------------
@@ -220,7 +220,7 @@ function calculateSendersCommonSecretKey() {
 	 */
 
 
-}
+};
 
 
 
@@ -232,7 +232,7 @@ function calculateSendersCommonSecretKey() {
  */
 
 
-// function generateReceiversPassword() {
+// exports.generateReceiversPassword = function () {
 //
 // 	receiversPassword = generateRandomString(10);
 //
@@ -247,11 +247,11 @@ function calculateSendersCommonSecretKey() {
 // 	 */
 //
 //
-// }
+// };
 
 
 
-// function generateReceiversSalt() {
+// exports.generateReceiversSalt = function () {
 //
 //
 // 	receiversSalt = generateRandomString(6);
@@ -265,11 +265,11 @@ function calculateSendersCommonSecretKey() {
 // 	 ----------------------------------------------------------------------------
 // 	 */
 //
-// }
+// };
 
 
 
-function generateReceiversPrivateMultiplier() {
+exports.generateReceiversPrivateMultiplier = function () {
 
 	receiversPrivateMultiplier = convertStringToHex(receiversPassword + receiversSalt);
 
@@ -282,10 +282,10 @@ function generateReceiversPrivateMultiplier() {
 	 */
 
 
-}
+};
 
 
-function calculateReceiversMultipliedPoint() {
+exports.calculateReceiversMultipliedPoint = function () {
 
 	var curve = get_curve();
 	var G = get_G(curve);
@@ -303,10 +303,10 @@ function calculateReceiversMultipliedPoint() {
 	 ----------------------------------------------------------------------------
 	 */
 
-}
+};
 
 
-function calculateReceiversCommonSecretKey() {
+exports.calculateReceiversCommonSecretKey = function () {
 
 	/*
 	 ----------------------------------------------------------------------------
@@ -341,7 +341,7 @@ function calculateReceiversCommonSecretKey() {
 	 ----------------------------------------------------------------------------
 	 */
 
-}
+};
 
 
 
@@ -353,7 +353,7 @@ function calculateReceiversCommonSecretKey() {
  */
 
 
-function encryptMessage() {
+exports.encryptMessage = function () {
 
 	messagePlainText = getN("messagePlainText").value; // We have to change this line to get the message from the chat box that's being sent to the friend.
 	//var eccP = getN("eccP").value;
@@ -449,10 +449,10 @@ function encryptMessage() {
 	}
 
 
-}
+};
 
 
-function decryptMessage() {
+exports.decryptMessage = function () {
 
 	messageCipherText = getN("messageCipherText").value; // We have to change this line to get the incoming message ciphertext from the friend
 
@@ -510,7 +510,7 @@ function decryptMessage() {
 	}
 
 
-}
+};
 
 
 
@@ -522,7 +522,7 @@ function decryptMessage() {
  */
 
 
-function pick_rand() {
+exports.pick_rand = function () {
 
 	var n = new BigInteger(eccN, 16);
 
@@ -532,17 +532,17 @@ function pick_rand() {
 
 	return r.mod(n1).add(BigInteger.ONE);
 
-}
+};
 
 
-function getN(n) {
+exports.getN = function (n) {
 
 	return typeof n == 'object' ? n : document.getElementById(n);
 
-}
+};
 
 
-function generateRandomString(len) {
+exports.generateRandomString = function (len) {
 	var possibleCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890`-=[]\\;\',./~!@#$%^&*()_+{}|:\"<>?";
 	var randomString = "";
 	for (var i = 0; i < len; i++) {
@@ -550,10 +550,10 @@ function generateRandomString(len) {
 		randomString = randomString + possibleCharacters.substring(randomPosition, randomPosition + 1);
 	}
 	return randomString;
-}
+};
 
 
-function convertStringToHex(originalString) {
+exports.convertStringToHex = function (originalString) {
 
 	// Convert each plain text character to its unicode hex value.
 	var stringUnicodeDecimalArray = [];
@@ -566,5 +566,5 @@ function convertStringToHex(originalString) {
 	var hexadecimalString = stringUnicodeHexArray.join("");
 
 	return hexadecimalString;
-}
+};
 
