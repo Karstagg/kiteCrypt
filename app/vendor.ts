@@ -20,4 +20,4 @@ import '../jsbn/jsbn-jsbn2';
 import '../jsbn/jsbn-prng4';
 import '../jsbn/jsbn-rng';
 import '../jsbn/jsbn-sec';
-import '../jsbn/ecc-testing';
+import '../jsbn/ecc-salt';

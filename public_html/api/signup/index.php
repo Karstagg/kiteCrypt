@@ -84,7 +84,7 @@ try {
 
 		//$profileFromDatabase = Profile::setProfileUserName($pdo, $profileUserName);
 		// creates a new Tweet object and stores it in $tweet
-		$newProfile = new Profile(null, $profileUserName);
+		$newProfile = new Profile($profileUserName);
 		// calls the INSERT method in $tweet which inserts the object into the DataBase.
 		$newProfile->insert($pdo);;
 
