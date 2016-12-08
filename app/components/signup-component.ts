@@ -8,6 +8,8 @@ import {SaltService} from "../services/salt-service";
 import {Salt} from "../classes/salt";
 import * as eccFoo from "../../jsbn/ecc-foo";
 
+
+
 @Component({
 	templateUrl: "./templates/signup.php"
 })

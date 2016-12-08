@@ -34,17 +34,17 @@ var receiversCommonSecretKeyY;
 
 var messagePlainText;
 var messageCipherText;
-var decryptedMessage;
+exports.decryptedMessage = undefined;
 
 
-function initializeEllipticCurveParameters() {
+exports.initializeEllipticCurveParameters = function() {
 
 	rng = new SecureRandom();
 
-}
+};
 
 
-function set_ec_params(name) {
+exports.set_ec_params = function (name) {
 	var c = getSECCurveByName(name);
 
 	eccP = c.getCurve().getQ().toString(16);
@@ -54,7 +54,7 @@ function set_ec_params(name) {
 	eccGy = c.getG().getY().toBigInteger().toString(16);
 	eccN = c.getN().toString(16);
 
-}
+};
 
 
 function set_secp128r1() {

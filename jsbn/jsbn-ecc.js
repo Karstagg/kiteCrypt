@@ -47,14 +47,14 @@ function feFpDivide(b) {
     return new ECFieldElementFp(this.q, this.x.multiply(b.toBigInteger().modInverse(this.q)).mod(this.q));
 }
 
-ECFieldElementFp.prototype.equals = feFpEquals;
-ECFieldElementFp.prototype.toBigInteger = feFpToBigInteger;
-ECFieldElementFp.prototype.negate = feFpNegate;
-ECFieldElementFp.prototype.add = feFpAdd;
-ECFieldElementFp.prototype.subtract = feFpSubtract;
-ECFieldElementFp.prototype.multiply = feFpMultiply;
-ECFieldElementFp.prototype.square = feFpSquare;
-ECFieldElementFp.prototype.divide = feFpDivide;
+exports.ECFieldElementFp.prototype.equals = feFpEquals;
+exports.ECFieldElementFp.prototype.toBigInteger = feFpToBigInteger;
+exports.ECFieldElementFp.prototype.negate = feFpNegate;
+exports.ECFieldElementFp.prototype.add = feFpAdd;
+exports.ECFieldElementFp.prototype.subtract = feFpSubtract;
+exports.ECFieldElementFp.prototype.multiply = feFpMultiply;
+exports.ECFieldElementFp.prototype.square = feFpSquare;
+exports.ECFieldElementFp.prototype.divide = feFpDivide;
 
 // ----------------
 // ECPointFp
