@@ -48,19 +48,19 @@ try {
 		//check that email and password fields are not empty, and sanitize that input
 
 		if(empty($requestObject->profileUserName) === true) {
-			throw(new \InvalidArgumentException($exceptionMessage, $exceptionCode));
+			throw(new \InvalidArgumentException("empty user field", $exceptionCode));
 		} else {
 			$profileUserName = filter_var($requestObject->profileUserName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
 		if(empty($requestObject->profilePublicKeyX) === true) {
-			throw(new \InvalidArgumentException($exceptionMessage, $exceptionCode));
+			throw(new \InvalidArgumentException("no x key", $exceptionCode));
 		} else {
 			$profilePublicKeyXFromUser = filter_var($requestObject->profilePublicKeyX, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
 		if(empty($requestObject->profilePublicKeyY) === true) {
-			throw(new \InvalidArgumentException($exceptionMessage, $exceptionCode));
+			throw(new \InvalidArgumentException("no y key", $exceptionCode));
 		} else {
 			$profilePublicKeyYFromUser = filter_var($requestObject->profilePublicKeyY, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 			}
@@ -76,18 +76,18 @@ try {
 		$profileYFromDatabase = $profileFromDatabase->getProfilePublicKeyY();
 
 		if($profileXFromDatabase === null || $profileYFromDatabase === null){
-			throw( new \InvalidArgumentException($exceptionMessage, $exceptionCode));
+			throw( new \InvalidArgumentException("no profile match", $exceptionCode));
 		}
 
 		if($profilePublicKeyXFromUser !== $profileXFromDatabase || $profilePublicKeyYFromUser !== $profileYFromDatabase){
-			throw( new \InvalidArgumentException($exceptionMessage, $exceptionCode));
+			throw( new \InvalidArgumentException("no key x match", $exceptionCode));
 		}
 
 //		If all username, public Key x, and public key Y match, send them to the chat page with friends list
 
 
 	} else {
-		throw (new InvalidArgumentException($exceptionMessage, $exceptionCode));
+		throw (new InvalidArgumentException("no post", $exceptionCode));
 	}
 
 	// update reply with exception information
