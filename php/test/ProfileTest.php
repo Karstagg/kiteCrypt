@@ -249,7 +249,7 @@ class ProfileTest extends KiteCryptTest {
 	/**
 	 * test creating a Profile and then deleting it
 	 **/
-	public function testDeleteValidTweet() {
+	public function testDeleteValidProfile() {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("profile");
 

@@ -145,13 +145,13 @@ class Message implements \JsonSerializable {
 	 * @throws \RangeException if the time is out of range
 	 **
 	 **/
-	public function setCreateDate($newMessageTimestamp) {
+	public function setMessageTimestamp($newMessageTimestamp) {
 		if($newMessageTimestamp === null) {
 			$this->messageTimestamp = new \DateTime();
 			return;
 		}
 		try {
-			$newMessageTimestamp = validateDate($newMessageTimestamp);
+			$newMessageTimestamp =self::validateDateTime($newMessageTimestamp);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			throw(new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(\RangeException $range) {
@@ -311,11 +311,11 @@ class Message implements \JsonSerializable {
 	public function delete(\PDO $pdo) {
 
 		// create query template
-		$query = "DELETE FROM message WHERE messageId = :messageId AND messageTimestamp = :messageTimestamp AND messageSenderId = :messageSenderId AND messageReceiverId = :messageReceiverId AND messageText = :messageText";
+		$query = "DELETE FROM message WHERE messageId = :messageId";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holder in the template
-		$parameters = ["messageId" => $this->messageId, "messageTimestamp" => $this->messageTimestamp, "messageSenderId" => $this->messageSenderId, "messageReceiverId" => $this->messageReceiverId, "messageText" => $this->messageText];
+		$parameters = ["messageId" => $this->messageId];
 		$statement->execute($parameters);
 	}
 
@@ -458,12 +458,43 @@ class Message implements \JsonSerializable {
 				$message = new Message($row["messageId"], $row["messageTimestamp"], $row["messageSenderId"], $row["messageReceiverId"], $row["messageText"]);
 				$messages[$messages->key()] = $message;
 				$messages->next();
-			} catch(\Exception $exception) {
+			}
+			catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
 		return($messages);
+	}
+
+
+	public static function getMessageByMessageId(\PDO $pdo, int $messageId) {
+		// sanitize the messageId before searching
+		if($messageId <= 0) {
+			throw (new \PDOException("message Id is not positive"));
+		}
+		// create query template
+		$query = "SELECT messageId, messageTimestamp, messageSenderId, messageReceiverId, messageText FROM message WHERE messageId = :messageId";
+		$statement = $pdo->prepare($query);
+
+		// bind the message id to the place holder in the template
+		$parameters = ["messageId" => $messageId];
+		$statement->execute($parameters);
+
+		// grab the message from mySQL
+		try {
+			$message = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$message = new Message($row["messageId"], $row["messageTimestamp"], $row["messageSenderId"], $row["messageReceiverId"], $row["messageText"]);
+			}
+		}
+		catch(\Exception $exception) {
+			// if teh row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(),0, $exception));
+		}
+		return($message);
 	}
 
 
