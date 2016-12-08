@@ -37,7 +37,7 @@
 							<div class="input-group col-xs-4 col-xs-offset-4">
 								<input type="password" id="user-password" name="user-password"
 										 class="form-control input-sm chat-input"
-										 placeholder="password" required [(ngModel)]="login.password" #password="ngModel"/>
+										 placeholder="password" required [(ngModel)]="loginData.password" #password="ngModel"/>
 							</div>
 							<div [hidden]="password.valid || password.pristine"
 								  class="alert alert-danger col-xs-4 col-xs-offset-4" role="alert">

@@ -42,6 +42,7 @@ try {
 
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
+//		var_dump($requestObject);
 		/*-----checking and sanitizing profileUserName, profilePassword--------------*/
 		//check that email and password fields are not empty, and sanitize that input
 

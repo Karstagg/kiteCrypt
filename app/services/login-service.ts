@@ -5,6 +5,8 @@ import {BaseService} from "./base-service";
 import {Login} from "../classes/login";
 import {Status} from "../classes/status";
 
+
+
 @Injectable()
 export class LoginService extends BaseService {
 	constructor(protected http: Http) {
@@ -17,5 +19,6 @@ export class LoginService extends BaseService {
 		return(this.http.post(this.loginUrl, login)
 			.map(this.extractMessage)
 			.catch(this.handleError));
+
 	}
 }
