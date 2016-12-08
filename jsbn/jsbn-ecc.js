@@ -8,44 +8,44 @@
 // ECFieldElementFp
 
 // constructor
-function ECFieldElementFp(q,x) {
+exports.ECFieldElementFp = function (q,x) {
     this.x = x;
     // TODO if(x.compareTo(q) >= 0) error
     this.q = q;
-}
+};
 
-function feFpEquals(other) {
+exports.feFpEquals = function (other) {
     if(other == this) return true;
     return (this.q.equals(other.q) && this.x.equals(other.x));
-}
+};
 
-function feFpToBigInteger() {
+exports.feFpToBigInteger = function () {
     return this.x;
-}
+};
 
-function feFpNegate() {
+exports.feFpNegate = function () {
     return new ECFieldElementFp(this.q, this.x.negate().mod(this.q));
-}
+};
 
-function feFpAdd(b) {
+exports.feFpAdd = function (b) {
     return new ECFieldElementFp(this.q, this.x.add(b.toBigInteger()).mod(this.q));
-}
+};
 
-function feFpSubtract(b) {
+exports.feFpSubtract = function (b) {
     return new ECFieldElementFp(this.q, this.x.subtract(b.toBigInteger()).mod(this.q));
-}
+};
 
-function feFpMultiply(b) {
+exports.feFpMultiply = function (b) {
     return new ECFieldElementFp(this.q, this.x.multiply(b.toBigInteger()).mod(this.q));
-}
+};
 
-function feFpSquare() {
+exports.feFpSquare = function () {
     return new ECFieldElementFp(this.q, this.x.square().mod(this.q));
-}
+};
 
-function feFpDivide(b) {
+exports.feFpDivide = function (b) {
     return new ECFieldElementFp(this.q, this.x.multiply(b.toBigInteger().modInverse(this.q)).mod(this.q));
-}
+};
 
 exports.ECFieldElementFp.prototype.equals = feFpEquals;
 exports.ECFieldElementFp.prototype.toBigInteger = feFpToBigInteger;
@@ -60,7 +60,7 @@ exports.ECFieldElementFp.prototype.divide = feFpDivide;
 // ECPointFp
 
 // constructor
-function ECPointFp(curve,x,y,z) {
+exports.ECPointFp = function (curve,x,y,z) {
     this.curve = curve;
     this.x = x;
     this.y = y;
@@ -74,27 +74,27 @@ function ECPointFp(curve,x,y,z) {
     }
     this.zinv = null;
     //TODO: compression flag
-}
+};
 
-function pointFpGetX() {
+exports.pointFpGetX = function () {
     if(this.zinv == null) {
       this.zinv = this.z.modInverse(this.curve.q);
     }
     var r = this.x.toBigInteger().multiply(this.zinv);
     this.curve.reduce(r);
     return this.curve.fromBigInteger(r);
-}
+};
 
-function pointFpGetY() {
+exports.pointFpGetY = function () {
     if(this.zinv == null) {
       this.zinv = this.z.modInverse(this.curve.q);
     }
     var r = this.y.toBigInteger().multiply(this.zinv);
     this.curve.reduce(r);
     return this.curve.fromBigInteger(r);
-}
+};
 
-function pointFpEquals(other) {
+exports.pointFpEquals = function (other) {
     if(other == this) return true;
     if(this.isInfinity()) return other.isInfinity();
     if(other.isInfinity()) return this.isInfinity();
@@ -105,18 +105,18 @@ function pointFpEquals(other) {
     // v = X2 * Z1 - X1 * Z2
     v = other.x.toBigInteger().multiply(this.z).subtract(this.x.toBigInteger().multiply(other.z)).mod(this.curve.q);
     return v.equals(BigInteger.ZERO);
-}
+};
 
-function pointFpIsInfinity() {
+exports.pointFpIsInfinity = function () {
     if((this.x == null) && (this.y == null)) return true;
     return this.z.equals(BigInteger.ZERO) && !this.y.toBigInteger().equals(BigInteger.ZERO);
-}
+};
 
-function pointFpNegate() {
+exports.pointFpNegate = function () {
     return new ECPointFp(this.curve, this.x, this.y.negate(), this.z);
-}
+};
 
-function pointFpAdd(b) {
+exports.pointFpAdd = function (b) {
     if(this.isInfinity()) return b;
     if(b.isInfinity()) return this;
 
@@ -151,9 +151,9 @@ function pointFpAdd(b) {
     var z3 = v3.multiply(this.z).multiply(b.z).mod(this.curve.q);
 
     return new ECPointFp(this.curve, this.curve.fromBigInteger(x3), this.curve.fromBigInteger(y3), z3);
-}
+};
 
-function pointFpTwice() {
+exports.pointFpTwice = function () {
     if(this.isInfinity()) return this;
     if(this.y.toBigInteger().signum() == 0) return this.curve.getInfinity();
 
@@ -181,11 +181,11 @@ function pointFpTwice() {
     var z3 = y1z1.square().multiply(y1z1).shiftLeft(3).mod(this.curve.q);
 
     return new ECPointFp(this.curve, this.curve.fromBigInteger(x3), this.curve.fromBigInteger(y3), z3);
-}
+};
 
 // Simple NAF (Non-Adjacent Form) multiplication algorithm
 // TODO: modularize the multiplication algorithm
-function pointFpMultiply(k) {
+exports.pointFpMultiply = function (k) {
     if(this.isInfinity()) return this;
     if(k.signum() == 0) return this.curve.getInfinity();
 
@@ -208,10 +208,10 @@ function pointFpMultiply(k) {
     }
 
     return R;
-}
+};
 
 // Compute this*j + x*k (simultaneous multiplication)
-function pointFpMultiplyTwo(j,x,k) {
+exports.pointFpMultiplyTwo = function (j,x,k) {
   var i;
   if(j.bitLength() > k.bitLength())
     i = j.bitLength() - 1;
@@ -239,61 +239,61 @@ function pointFpMultiplyTwo(j,x,k) {
   }
 
   return R;
-}
+};
 
-ECPointFp.prototype.getX = pointFpGetX;
-ECPointFp.prototype.getY = pointFpGetY;
-ECPointFp.prototype.equals = pointFpEquals;
-ECPointFp.prototype.isInfinity = pointFpIsInfinity;
-ECPointFp.prototype.negate = pointFpNegate;
-ECPointFp.prototype.add = pointFpAdd;
-ECPointFp.prototype.twice = pointFpTwice;
-ECPointFp.prototype.multiply = pointFpMultiply;
-ECPointFp.prototype.multiplyTwo = pointFpMultiplyTwo;
+exports.ECPointFp.prototype.getX = pointFpGetX;
+exports.ECPointFp.prototype.getY = pointFpGetY;
+exports.ECPointFp.prototype.equals = pointFpEquals;
+exports.ECPointFp.prototype.isInfinity = pointFpIsInfinity;
+exports.ECPointFp.prototype.negate = pointFpNegate;
+exports.ECPointFp.prototype.add = pointFpAdd;
+exports.ECPointFp.prototype.twice = pointFpTwice;
+exports.ECPointFp.prototype.multiply = pointFpMultiply;
+exports.ECPointFp.prototype.multiplyTwo = pointFpMultiplyTwo;
 
 // ----------------
 // ECCurveFp
 
 // constructor
-function ECCurveFp(q,a,b) {
+exports.ECCurveFp = function (q,a,b) {
     this.q = q;
     this.a = this.fromBigInteger(a);
     this.b = this.fromBigInteger(b);
     this.infinity = new ECPointFp(this, null, null);
     this.reducer = new Barrett(this.q);
-}
+};
 
-function curveFpGetQ() {
+exports.curveFpGetQ = function () {
     return this.q;
-}
+};
 
-function curveFpGetA() {
+exports.curveFpGetA = function () {
     return this.a;
-}
+};
 
-function curveFpGetB() {
+exports.curveFpGetB = function () {
     return this.b;
-}
+};
 
-function curveFpEquals(other) {
+exports.curveFpEquals = function (other) {
     if(other == this) return true;
     return(this.q.equals(other.q) && this.a.equals(other.a) && this.b.equals(other.b));
-}
+};
 
-function curveFpGetInfinity() {
+exports.curveFpGetInfinity = function () {
     return this.infinity;
-}
+};
 
-function curveFpFromBigInteger(x) {
+exports.curveFpFromBigInteger = function (x) {
     return new ECFieldElementFp(this.q, x);
-}
+};
 
-function curveReduce(x) {
+exports.curveReduce = function (x) {
     this.reducer.reduce(x);
-}
+};
 
 // for now, work with hex strings because they're easier in JS
-function curveFpDecodePointHex(s) {
+exports.curveFpDecodePointHex = function (s) {
     switch(parseInt(s.substr(0,2), 16)) { // first byte
     case 0:
 	return this.infinity;
@@ -315,9 +315,9 @@ function curveFpDecodePointHex(s) {
     default: // unsupported
 	return null;
     }
-}
+};
 
-function curveFpEncodePointHex(p) {
+exports.curveFpEncodePointHex = function (p) {
 	if (p.isInfinity()) return "00";
 	var xHex = p.getX().toBigInteger().toString(16);
 	var yHex = p.getY().toBigInteger().toString(16);
@@ -330,14 +330,14 @@ function curveFpEncodePointHex(p) {
 		yHex = "0" + yHex;
 	}
 	return "04" + xHex + yHex;
-}
+};
 
-ECCurveFp.prototype.getQ = curveFpGetQ;
-ECCurveFp.prototype.getA = curveFpGetA;
-ECCurveFp.prototype.getB = curveFpGetB;
-ECCurveFp.prototype.equals = curveFpEquals;
-ECCurveFp.prototype.getInfinity = curveFpGetInfinity;
-ECCurveFp.prototype.fromBigInteger = curveFpFromBigInteger;
-ECCurveFp.prototype.reduce = curveReduce;
-ECCurveFp.prototype.decodePointHex = curveFpDecodePointHex;
-ECCurveFp.prototype.encodePointHex = curveFpEncodePointHex;
+exports.ECCurveFp.prototype.getQ = curveFpGetQ;
+exports.ECCurveFp.prototype.getA = curveFpGetA;
+exports.ECCurveFp.prototype.getB = curveFpGetB;
+exports.ECCurveFp.prototype.equals = curveFpEquals;
+exports.ECCurveFp.prototype.getInfinity = curveFpGetInfinity;
+exports.ECCurveFp.prototype.fromBigInteger = curveFpFromBigInteger;
+exports.ECCurveFp.prototype.reduce = curveReduce;
+exports.ECCurveFp.prototype.decodePointHex = curveFpDecodePointHex;
+exports.ECCurveFp.prototype.encodePointHex = curveFpEncodePointHex;
