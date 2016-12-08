@@ -11,7 +11,7 @@ export class LoginService extends BaseService {
 		super(http);
 	}
 
-	private loginUrl = "api/salt/";
+	private loginUrl = "api/login/";
 
 	login(login: Login) : Observable<Status> {
 		return(this.http.post(this.loginUrl, login)
