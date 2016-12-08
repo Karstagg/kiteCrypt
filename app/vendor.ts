@@ -21,3 +21,4 @@ import '../jsbn/jsbn-prng4';
 import '../jsbn/jsbn-rng';
 import '../jsbn/jsbn-sec';
 import '../jsbn/ecc-salt';
+import '../jsbn/ecc-foo';

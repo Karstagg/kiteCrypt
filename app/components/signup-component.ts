@@ -6,7 +6,8 @@ import {SaltRequest} from "../classes/salt-request";
 import {Router} from "@angular/router";
 import {SaltService} from "../services/salt-service";
 import {Salt} from "../classes/salt";
-import '../jsbn/ecc-salt';
+
+declare function addTwo(x: number, y: number) : number;
 
 @Component({
 	templateUrl: "./templates/signup.php"
@@ -40,6 +41,7 @@ export class SignUpComponent {
 		}
 	}
 	foo(): void {
-		generateSendersPrivateMultiplier();
+		let sum = addTwo(18, 24);
+		console.log("some sum is something like " + sum);
 	}
 }
