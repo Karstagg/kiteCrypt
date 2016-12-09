@@ -175,30 +175,17 @@ class MessageTest extends KiteCryptTest {
 		$message = new Message(null, $this->validMessageTimestamp, $this->validMessageSenderId->getProfileId(), $this->validMessageReceiverId->getProfileId(), $this->validMessageText);
 		$message->insert($this->getPDO());
 
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoMessage = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
 
-		// Check that the number of rows in the database increased by one, when the new Message was inserted
+		$this->assertEquals($numRows +1, $this->getConnection()->getRowCount("message"));
+		$this->assertEquals($pdoMessage->getMessageSenderId(), $this->validMessageSenderId->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageReceiverId(), $this->validMessageReceiverId->getProfileId());
+		$this->assertEquals($pdoMessage->getMessageText(), $this->validMessageText);
 
 
-//		// Delete the Message from the database
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
+
 		$message->delete($this->getPDO());
-
-		// Check that the number of rows in the database decreased by one, so that the number of rows
-		// is back to what it was before the new Message was inserted
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
-
-		// Try to get the deleted Message from the database (using the senderId)
-		// and verify that it does not exist (that is a null is returned)
-		$pdoMessage1 = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
-		$this->assertNull($pdoMessage1);
-
-//		// Try to get the deleted Message from the database (using the receiverId)
-//		// and verify that it does not exist (that is a null is returned)
-//		$pdoMessage2 = Message::getMessageByMessageReceiverId($this->getPDO(), $this->profile->getProfileId());
-//		$this->assertNull($pdoMessage2);
-
-// clearing out database before running test
-// $this->cleanUp();
 	}
 
 
@@ -245,18 +232,18 @@ $this->setUp();
 	/**
 	 * test inserting a profile that already exist
 	 *
-	 * @expectedException PDOException
+	 * @expectedException \TypeError
 	 **/
 	public function testBlankReceiverId() {
 // create a Message with a non null tweet id and watch it fail
 //		$Profile = new Message(DataDesignTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_TWEETCONTENT, $this->VALID_TWEETDATE);
 //		$tweet->insert($this->getPDO());
 
-	$profile = new Message(null, $this->validMessageTimestamp, $this->validMessageSenderId->getProfileId(), $this->validMessageReceiverId->getProfileId(), $this->validMessageText);
+	$profile = new Message(null, $this->validMessageTimestamp, $this->validMessageSenderId->getProfileId(), null, $this->validMessageText);
 		$profile->insert($this->getPDO());
 
-		$profile2 = new Message(null, null, $this->validMessageSenderId->getProfileId(), $this->validMessageReceiverId->getProfileId(), $this->validMessageText);
-		$profile2->insert($this->getPDO());
+//		$profile2 = new Message(null, $this->validMessageTimestamp, $this->validMessageSenderId->getProfileId(), $this->validMessageReceiverId->getProfileId(), $this->validMessageText);
+//		$profile2->insert($this->getPDO());
 
 
 	}

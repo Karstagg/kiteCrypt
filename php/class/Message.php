@@ -17,7 +17,7 @@ class Message implements \JsonSerializable {
 
 	/**
 	 * id for message (null if it's a new message, and it will be assigned by MySQL when it's stored in the database); this is the primary key
-	 * @var int|null $profileId
+	 * @var int|null $messageId
 	 **/
 	private $messageId;
 
@@ -290,16 +290,21 @@ class Message implements \JsonSerializable {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function insert(\PDO $pdo) {
-
+		if($this->messageId !== null) {
+			throw(new \PDOException("not a new message"));
+		}
 		// create query template
-		$query = "INSERT INTO message(messageTimestamp, messageSenderId, messageReceiverId, messageText) VALUES(:messageTimestamp, :messageSenderId, :messageReceiverId, :messageText)";
+		$query = "INSERT INTO message(messageTimestamp, messageSenderId, messageReceiverId, messageText) VALUES(:messageTimestamp,:messageSenderId, :messageReceiverId, :messageText)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
 		$formattedDate = $this->messageTimestamp->format("Y-m-d H:i:s");
-		$parameters = [/*"messageId" => $this->messageId, */"messageTimestamp" => $formattedDate, "messageSenderId" => $this->messageSenderId, "messageReceiverId" => $this->messageReceiverId, "messageText" => $this->messageText];
+		$parameters = ["messageTimestamp" => $formattedDate, "messageSenderId" => $this->messageSenderId, "messageReceiverId" => $this->messageReceiverId, "messageText" => $this->messageText];
 		$statement->execute($parameters);
 
+
+		// update the null profileId with what mySQL just gave us
+		$this->messageId = intval($pdo->lastInsertId());
 	}
 
 
@@ -470,8 +475,15 @@ class Message implements \JsonSerializable {
 		return($messages);
 	}
 
-
+	/**
+	 * Getting a message by the message ID
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 *
+	 * @param int $messageId
+	 **/
 	public static function getMessageByMessageId(\PDO $pdo, int $messageId) {
+
 		// sanitize the messageId before searching
 		if($messageId <= 0) {
 			throw (new \PDOException("message Id is not positive"));
@@ -492,10 +504,9 @@ class Message implements \JsonSerializable {
 			if($row !== false) {
 				$message = new Message($row["messageId"], $row["messageTimestamp"], $row["messageSenderId"], $row["messageReceiverId"], $row["messageText"]);
 			}
-		}
-		catch(\Exception $exception) {
-			// if teh row couldn't be converted, rethrow it
-			throw(new \PDOException($exception->getMessage(),0, $exception));
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 		return($message);
 	}
@@ -511,3 +522,4 @@ class Message implements \JsonSerializable {
 		return($fields);
 	}
 }
+

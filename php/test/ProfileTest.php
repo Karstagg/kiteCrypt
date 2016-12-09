@@ -129,7 +129,7 @@ class ProfileTest extends KiteCryptTest {
 		// create a new profile and insert to mySQL
 		$profile = new Profile($this->validProfileId, $this->validProfileUserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfileSalt);
 		$profile->insert($this->getPDO());
-
+//var_dump($profile);
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
@@ -137,6 +137,7 @@ class ProfileTest extends KiteCryptTest {
 		$this->assertEquals($pdoProfile->getProfilePublicKeyX(), $this->validProfilePublicKeyX);
 		$this->assertEquals($pdoProfile->getProfilePublicKeyY(), $this->validProfilePublicKeyY);
 		$this->assertEquals($pdoProfile->getProfilePasswordSalt(), $this->validProfileSalt);
+//	var_dump($profile);
 	}
 
 	/**

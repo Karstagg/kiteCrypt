@@ -2,8 +2,8 @@
 	<testsuites>
 		<testsuite name="KiteCryptTest">
 			<file>ProfileTest.php</file>
-			<!--<file>FriendshipTest.php</file>-->
-			<!--<file>InvitationTest.php</file>-->
+			<file>FriendshipTest.php</file>
+			<file>InvitationTest.php</file>
 			<file>MessagesTest.php</file>
 		</testsuite>
 	</testsuites>

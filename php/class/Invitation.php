@@ -302,7 +302,6 @@ class Invitation implements \JsonSerializable {
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$invitation = new Invitation($row["invitationInviterId"], $row["invitationInviteeId"], $row["invitationTimestamp"], $row["invitationPassphrase"]);
-				var_dump($invitation);
 				$invitations[$invitations->key()] = $invitation;
 				$invitations->next();
 			} catch(\Exception $exception) {
@@ -390,7 +389,7 @@ class Invitation implements \JsonSerializable {
 		// build an array of invitations
 		$invitations = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-//var_dump($statement);
+
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$invitation = new Invitation($row["invitationInviterId"], $row["invitationInviteeId"], $row["invitationTimestamp"], $row["invitationPassphrase"]);
