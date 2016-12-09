@@ -1,13 +1,7 @@
-// Copyright (c) 2005  Tom Wu
-// All Rights Reserved.
-// See "LICENSE" for details.
 
-// Basic JavaScript BN library - subset useful for RSA encryption.
-
-// Bits per digit
 exports.dbits = undefined;
 
-// JavaScript engine analysis
+
 exports.canary = 0xdeadbeefcafe;
 exports.j_lm = ((canary&0xffffff)==0xefcafe);
 
