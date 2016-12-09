@@ -332,10 +332,10 @@ exports.nNop = function (x) { return x; };
 exports.nMulTo = function (x,y,r) { x.multiplyTo(y,r); };
 exports.nSqrTo = function (x,r) { x.squareTo(r); };
 
-NullExp.prototype.convert = nNop;
-NullExp.prototype.revert = nNop;
-NullExp.prototype.mulTo = nMulTo;
-NullExp.prototype.sqrTo = nSqrTo;
+exports.NullExp.prototype.convert = nNop;
+exports.NullExp.prototype.revert = nNop;
+exports.NullExp.prototype.mulTo = nMulTo;
+exports.NullExp.prototype.sqrTo = nSqrTo;
 
 // (public) this^e
 exports.bnPow = function (e) { return this.exp(e,new NullExp()); };
@@ -401,11 +401,11 @@ exports.barrettSqrTo = function (x,r) { x.squareTo(r); this.reduce(r); };
 // r = x*y mod m; x,y != r
 exports.barrettMulTo = function (x,y,r) { x.multiplyTo(y,r); this.reduce(r); };
 
-Barrett.prototype.convert = barrettConvert;
-Barrett.prototype.revert = barrettRevert;
-Barrett.prototype.reduce = barrettReduce;
-Barrett.prototype.mulTo = barrettMulTo;
-Barrett.prototype.sqrTo = barrettSqrTo;
+exports.Barrett.prototype.convert = barrettConvert;
+exports.Barrett.prototype.revert = barrettRevert;
+exports.Barrett.prototype.reduce = barrettReduce;
+exports.Barrett.prototype.mulTo = barrettMulTo;
+exports.Barrett.prototype.sqrTo = barrettSqrTo;
 
 // (public) this^e % m (HAC 14.85)
 exports.bnModPow = function (e,m) {
@@ -594,57 +594,57 @@ exports.bnpMillerRabin = function (t) {
 };
 
 // protected
-BigInteger.prototype.chunkSize = bnpChunkSize;
-BigInteger.prototype.toRadix = bnpToRadix;
-BigInteger.prototype.fromRadix = bnpFromRadix;
-BigInteger.prototype.fromNumber = bnpFromNumber;
-BigInteger.prototype.bitwiseTo = bnpBitwiseTo;
-BigInteger.prototype.changeBit = bnpChangeBit;
-BigInteger.prototype.addTo = bnpAddTo;
-BigInteger.prototype.dMultiply = bnpDMultiply;
-BigInteger.prototype.dAddOffset = bnpDAddOffset;
-BigInteger.prototype.multiplyLowerTo = bnpMultiplyLowerTo;
-BigInteger.prototype.multiplyUpperTo = bnpMultiplyUpperTo;
-BigInteger.prototype.modInt = bnpModInt;
-BigInteger.prototype.millerRabin = bnpMillerRabin;
+exports.BigInteger.prototype.chunkSize = bnpChunkSize;
+exports.BigInteger.prototype.toRadix = bnpToRadix;
+exports.BigInteger.prototype.fromRadix = bnpFromRadix;
+exports.BigInteger.prototype.fromNumber = bnpFromNumber;
+exports.BigInteger.prototype.bitwiseTo = bnpBitwiseTo;
+exports.BigInteger.prototype.changeBit = bnpChangeBit;
+exports.BigInteger.prototype.addTo = bnpAddTo;
+exports.BigInteger.prototype.dMultiply = bnpDMultiply;
+exports.BigInteger.prototype.dAddOffset = bnpDAddOffset;
+exports.BigInteger.prototype.multiplyLowerTo = bnpMultiplyLowerTo;
+exports.BigInteger.prototype.multiplyUpperTo = bnpMultiplyUpperTo;
+exports.BigInteger.prototype.modInt = bnpModInt;
+exports.BigInteger.prototype.millerRabin = bnpMillerRabin;
 
 // public
-BigInteger.prototype.clone = bnClone;
-BigInteger.prototype.intValue = bnIntValue;
-BigInteger.prototype.byteValue = bnByteValue;
-BigInteger.prototype.shortValue = bnShortValue;
-BigInteger.prototype.signum = bnSigNum;
-BigInteger.prototype.toByteArray = bnToByteArray;
-BigInteger.prototype.equals = bnEquals;
-BigInteger.prototype.min = bnMin;
-BigInteger.prototype.max = bnMax;
-BigInteger.prototype.and = bnAnd;
-BigInteger.prototype.or = bnOr;
-BigInteger.prototype.xor = bnXor;
-BigInteger.prototype.andNot = bnAndNot;
-BigInteger.prototype.not = bnNot;
-BigInteger.prototype.shiftLeft = bnShiftLeft;
-BigInteger.prototype.shiftRight = bnShiftRight;
-BigInteger.prototype.getLowestSetBit = bnGetLowestSetBit;
-BigInteger.prototype.bitCount = bnBitCount;
-BigInteger.prototype.testBit = bnTestBit;
-BigInteger.prototype.setBit = bnSetBit;
-BigInteger.prototype.clearBit = bnClearBit;
-BigInteger.prototype.flipBit = bnFlipBit;
-BigInteger.prototype.add = bnAdd;
-BigInteger.prototype.subtract = bnSubtract;
-BigInteger.prototype.multiply = bnMultiply;
-BigInteger.prototype.divide = bnDivide;
-BigInteger.prototype.remainder = bnRemainder;
-BigInteger.prototype.divideAndRemainder = bnDivideAndRemainder;
-BigInteger.prototype.modPow = bnModPow;
-BigInteger.prototype.modInverse = bnModInverse;
-BigInteger.prototype.pow = bnPow;
-BigInteger.prototype.gcd = bnGCD;
-BigInteger.prototype.isProbablePrime = bnIsProbablePrime;
+exports.BigInteger.prototype.clone = bnClone;
+exports.BigInteger.prototype.intValue = bnIntValue;
+exports.BigInteger.prototype.byteValue = bnByteValue;
+exports.BigInteger.prototype.shortValue = bnShortValue;
+exports.BigInteger.prototype.signum = bnSigNum;
+exports.BigInteger.prototype.toByteArray = bnToByteArray;
+exports.BigInteger.prototype.equals = bnEquals;
+exports.BigInteger.prototype.min = bnMin;
+exports.BigInteger.prototype.max = bnMax;
+exports.BigInteger.prototype.and = bnAnd;
+exports.BigInteger.prototype.or = bnOr;
+exports.BigInteger.prototype.xor = bnXor;
+exports.BigInteger.prototype.andNot = bnAndNot;
+exports.BigInteger.prototype.not = bnNot;
+exports.BigInteger.prototype.shiftLeft = bnShiftLeft;
+exports.BigInteger.prototype.shiftRight = bnShiftRight;
+exports.BigInteger.prototype.getLowestSetBit = bnGetLowestSetBit;
+exports.BigInteger.prototype.bitCount = bnBitCount;
+exports.BigInteger.prototype.testBit = bnTestBit;
+exports.BigInteger.prototype.setBit = bnSetBit;
+exports.BigInteger.prototype.clearBit = bnClearBit;
+exports.BigInteger.prototype.flipBit = bnFlipBit;
+exports.BigInteger.prototype.add = bnAdd;
+exports.BigInteger.prototype.subtract = bnSubtract;
+exports.BigInteger.prototype.multiply = bnMultiply;
+exports.BigInteger.prototype.divide = bnDivide;
+exports.BigInteger.prototype.remainder = bnRemainder;
+exports.BigInteger.prototype.divideAndRemainder = bnDivideAndRemainder;
+exports.BigInteger.prototype.modPow = bnModPow;
+exports.BigInteger.prototype.modInverse = bnModInverse;
+exports.BigInteger.prototype.pow = bnPow;
+exports.BigInteger.prototype.gcd = bnGCD;
+exports.BigInteger.prototype.isProbablePrime = bnIsProbablePrime;
 
 // JSBN-specific extension
-BigInteger.prototype.square = bnSquare;
+exports.BigInteger.prototype.square = bnSquare;
 
 // BigInteger interfaces not implemented in jsbn:
 
