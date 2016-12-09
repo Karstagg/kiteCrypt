@@ -8,10 +8,10 @@
 // Version 1.2: square() API, isProbablePrime fix
 
 // (public)
-function bnClone() { var r = nbi(); this.copyTo(r); return r; }
+exports.bnClone = function () { var r = nbi(); this.copyTo(r); return r; };
 
 // (public) return value as integer
-function bnIntValue() {
+exports.bnIntValue = function () {
   if(this.s < 0) {
     if(this.t == 1) return this[0]-this.DV;
     else if(this.t == 0) return -1;
@@ -20,26 +20,26 @@ function bnIntValue() {
   else if(this.t == 0) return 0;
   // assumes 16 < DB < 32
   return ((this[1]&((1<<(32-this.DB))-1))<<this.DB)|this[0];
-}
+};
 
 // (public) return value as byte
-function bnByteValue() { return (this.t==0)?this.s:(this[0]<<24)>>24; }
+exports.bnByteValue = function () { return (this.t==0)?this.s:(this[0]<<24)>>24; };
 
 // (public) return value as short (assumes DB>=16)
-function bnShortValue() { return (this.t==0)?this.s:(this[0]<<16)>>16; }
+exports.bnShortValue = function () { return (this.t==0)?this.s:(this[0]<<16)>>16; };
 
 // (protected) return x s.t. r^x < DV
-function bnpChunkSize(r) { return Math.floor(Math.LN2*this.DB/Math.log(r)); }
+exports.bnpChunkSize = function (r) { return Math.floor(Math.LN2*this.DB/Math.log(r)); };
 
 // (public) 0 if this == 0, 1 if this > 0
-function bnSigNum() {
+exports.bnSigNum = function () {
   if(this.s < 0) return -1;
   else if(this.t <= 0 || (this.t == 1 && this[0] <= 0)) return 0;
   else return 1;
-}
+};
 
 // (protected) convert to radix string
-function bnpToRadix(b) {
+exports.bnpToRadix = function (b) {
   if(b == null) b = 10;
   if(this.signum() == 0 || b < 2 || b > 36) return "0";
   var cs = this.chunkSize(b);
@@ -51,10 +51,10 @@ function bnpToRadix(b) {
     y.divRemTo(d,y,z);
   }
   return z.intValue().toString(b) + r;
-}
+};
 
 // (protected) convert from radix string
-function bnpFromRadix(s,b) {
+exports.bnpFromRadix = function (s,b) {
   this.fromInt(0);
   if(b == null) b = 10;
   var cs = this.chunkSize(b);
@@ -78,10 +78,10 @@ function bnpFromRadix(s,b) {
     this.dAddOffset(w,0);
   }
   if(mi) BigInteger.ZERO.subTo(this,this);
-}
+};
 
 // (protected) alternate constructor
-function bnpFromNumber(a,b,c) {
+exports.bnpFromNumber = function (a,b,c) {
   if("number" == typeof b) {
     // new BigInteger(int,int,RNG)
     if(a < 2) this.fromInt(1);
@@ -104,10 +104,10 @@ function bnpFromNumber(a,b,c) {
     if(t > 0) x[0] &= ((1<<t)-1); else x[0] = 0;
     this.fromString(x,256);
   }
-}
+};
 
 // (public) convert to bigendian byte array
-function bnToByteArray() {
+exports.bnToByteArray = function () {
   var i = this.t, r = new Array();
   r[0] = this.s;
   var p = this.DB-(i*this.DB)%8, d, k = 0;
@@ -129,14 +129,14 @@ function bnToByteArray() {
     }
   }
   return r;
-}
+};
 
-function bnEquals(a) { return(this.compareTo(a)==0); }
-function bnMin(a) { return(this.compareTo(a)<0)?this:a; }
-function bnMax(a) { return(this.compareTo(a)>0)?this:a; }
+exports.bnEquals = function (a) { return(this.compareTo(a)==0); }
+exports.bnMin = function (a) { return(this.compareTo(a)<0)?this:a; }
+exports.bnMax = function (a) { return(this.compareTo(a)>0)?this:a; }
 
 // (protected) r = this op a (bitwise)
-function bnpBitwiseTo(a,op,r) {
+exports.bnpBitwiseTo = function (a,op,r) {
   var i, f, m = Math.min(a.t,this.t);
   for(i = 0; i < m; ++i) r[i] = op(this[i],a[i]);
   if(a.t < this.t) {
@@ -151,49 +151,49 @@ function bnpBitwiseTo(a,op,r) {
   }
   r.s = op(this.s,a.s);
   r.clamp();
-}
+};
 
 // (public) this & a
-function op_and(x,y) { return x&y; }
-function bnAnd(a) { var r = nbi(); this.bitwiseTo(a,op_and,r); return r; }
+exports.op_and = function (x,y) { return x&y; }
+exports.bnAnd = function (a) { var r = nbi(); this.bitwiseTo(a,op_and,r); return r; }
 
 // (public) this | a
-function op_or(x,y) { return x|y; }
-function bnOr(a) { var r = nbi(); this.bitwiseTo(a,op_or,r); return r; }
+exports.op_or = function (x,y) { return x|y; }
+exports.bnOr = function (a) { var r = nbi(); this.bitwiseTo(a,op_or,r); return r; }
 
 // (public) this ^ a
-function op_xor(x,y) { return x^y; }
-function bnXor(a) { var r = nbi(); this.bitwiseTo(a,op_xor,r); return r; }
+exports.op_xor = function (x,y) { return x^y; }
+exports.bnXor = function (a) { var r = nbi(); this.bitwiseTo(a,op_xor,r); return r; }
 
 // (public) this & ~a
-function op_andnot(x,y) { return x&~y; }
-function bnAndNot(a) { var r = nbi(); this.bitwiseTo(a,op_andnot,r); return r; }
+exports.op_andnot = function (x,y) { return x&~y; }
+exports.bnAndNot = function (a) { var r = nbi(); this.bitwiseTo(a,op_andnot,r); return r; }
 
 // (public) ~this
-function bnNot() {
+exports.bnNot = function () {
   var r = nbi();
   for(var i = 0; i < this.t; ++i) r[i] = this.DM&~this[i];
   r.t = this.t;
   r.s = ~this.s;
   return r;
-}
+};
 
 // (public) this << n
-function bnShiftLeft(n) {
+exports.bnShiftLeft = function (n) {
   var r = nbi();
   if(n < 0) this.rShiftTo(-n,r); else this.lShiftTo(n,r);
   return r;
-}
+};
 
 // (public) this >> n
-function bnShiftRight(n) {
+exports.bnShiftRight = function (n) {
   var r = nbi();
   if(n < 0) this.lShiftTo(-n,r); else this.rShiftTo(n,r);
   return r;
-}
+};
 
 // return index of lowest 1-bit in x, x < 2^31
-function lbit(x) {
+exports.lbit = function (x) {
   if(x == 0) return -1;
   var r = 0;
   if((x&0xffff) == 0) { x >>= 16; r += 16; }
@@ -202,55 +202,55 @@ function lbit(x) {
   if((x&3) == 0) { x >>= 2; r += 2; }
   if((x&1) == 0) ++r;
   return r;
-}
+};
 
 // (public) returns index of lowest 1-bit (or -1 if none)
-function bnGetLowestSetBit() {
+exports.bnGetLowestSetBit = function () {
   for(var i = 0; i < this.t; ++i)
     if(this[i] != 0) return i*this.DB+lbit(this[i]);
   if(this.s < 0) return this.t*this.DB;
   return -1;
-}
+};
 
 // return number of 1 bits in x
-function cbit(x) {
+exports.cbit = function (x) {
   var r = 0;
   while(x != 0) { x &= x-1; ++r; }
   return r;
-}
+};
 
 // (public) return number of set bits
-function bnBitCount() {
+exports.bnBitCount = function () {
   var r = 0, x = this.s&this.DM;
   for(var i = 0; i < this.t; ++i) r += cbit(this[i]^x);
   return r;
-}
+};
 
 // (public) true iff nth bit is set
-function bnTestBit(n) {
+exports.bnTestBit = function (n) {
   var j = Math.floor(n/this.DB);
   if(j >= this.t) return(this.s!=0);
   return((this[j]&(1<<(n%this.DB)))!=0);
-}
+};
 
 // (protected) this op (1<<n)
-function bnpChangeBit(n,op) {
+exports.bnpChangeBit = function (n,op) {
   var r = BigInteger.ONE.shiftLeft(n);
   this.bitwiseTo(r,op,r);
   return r;
-}
+};
 
 // (public) this | (1<<n)
-function bnSetBit(n) { return this.changeBit(n,op_or); }
+exports.bnSetBit = function (n) { return this.changeBit(n,op_or); };
 
 // (public) this & ~(1<<n)
-function bnClearBit(n) { return this.changeBit(n,op_andnot); }
+exports.bnClearBit = function (n) { return this.changeBit(n,op_andnot); };
 
 // (public) this ^ (1<<n)
-function bnFlipBit(n) { return this.changeBit(n,op_xor); }
+exports.bnFlipBit = function (n) { return this.changeBit(n,op_xor); };
 
 // (protected) r = this + a
-function bnpAddTo(a,r) {
+exports.bnpAddTo = function (a,r) {
   var i = 0, c = 0, m = Math.min(a.t,this.t);
   while(i < m) {
     c += this[i]+a[i];
@@ -280,42 +280,42 @@ function bnpAddTo(a,r) {
   else if(c < -1) r[i++] = this.DV+c;
   r.t = i;
   r.clamp();
-}
+};
 
 // (public) this + a
-function bnAdd(a) { var r = nbi(); this.addTo(a,r); return r; }
+exports.bnAdd = function (a) { var r = nbi(); this.addTo(a,r); return r; };
 
 // (public) this - a
-function bnSubtract(a) { var r = nbi(); this.subTo(a,r); return r; }
+exports.bnSubtract = function (a) { var r = nbi(); this.subTo(a,r); return r; };
 
 // (public) this * a
-function bnMultiply(a) { var r = nbi(); this.multiplyTo(a,r); return r; }
+exports.bnMultiply = function (a) { var r = nbi(); this.multiplyTo(a,r); return r; };
 
 // (public) this^2
-function bnSquare() { var r = nbi(); this.squareTo(r); return r; }
+exports.bnSquare = function () { var r = nbi(); this.squareTo(r); return r; };
 
 // (public) this / a
-function bnDivide(a) { var r = nbi(); this.divRemTo(a,r,null); return r; }
+exports.bnDivide = function (a) { var r = nbi(); this.divRemTo(a,r,null); return r; };
 
 // (public) this % a
-function bnRemainder(a) { var r = nbi(); this.divRemTo(a,null,r); return r; }
+exports.bnRemainder = function (a) { var r = nbi(); this.divRemTo(a,null,r); return r; };
 
 // (public) [this/a,this%a]
-function bnDivideAndRemainder(a) {
+exports.bnDivideAndRemainder = function (a) {
   var q = nbi(), r = nbi();
   this.divRemTo(a,q,r);
   return new Array(q,r);
-}
+};
 
 // (protected) this *= n, this >= 0, 1 < n < DV
-function bnpDMultiply(n) {
+exports.bnpDMultiply = function (n) {
   this[this.t] = this.am(0,n-1,this,0,0,this.t);
   ++this.t;
   this.clamp();
-}
+};
 
 // (protected) this += n << w words, this >= 0
-function bnpDAddOffset(n,w) {
+exports.bnpDAddOffset = function (n,w) {
   if(n == 0) return;
   while(this.t <= w) this[this.t++] = 0;
   this[w] += n;
@@ -324,13 +324,13 @@ function bnpDAddOffset(n,w) {
     if(++w >= this.t) this[this.t++] = 0;
     ++this[w];
   }
-}
+};
 
 // A "null" reducer
-function NullExp() {}
-function nNop(x) { return x; }
-function nMulTo(x,y,r) { x.multiplyTo(y,r); }
-function nSqrTo(x,r) { x.squareTo(r); }
+exports.NullExp = function () {};
+exports.nNop = function (x) { return x; };
+exports.nMulTo = function (x,y,r) { x.multiplyTo(y,r); };
+exports.nSqrTo = function (x,r) { x.squareTo(r); };
 
 NullExp.prototype.convert = nNop;
 NullExp.prototype.revert = nNop;
@@ -338,11 +338,11 @@ NullExp.prototype.mulTo = nMulTo;
 NullExp.prototype.sqrTo = nSqrTo;
 
 // (public) this^e
-function bnPow(e) { return this.exp(e,new NullExp()); }
+exports.bnPow = function (e) { return this.exp(e,new NullExp()); };
 
 // (protected) r = lower n words of "this * a", a.t <= n
 // "this" should be the larger one if appropriate.
-function bnpMultiplyLowerTo(a,n,r) {
+exports.bnpMultiplyLowerTo = function (a,n,r) {
   var i = Math.min(this.t+a.t,n);
   r.s = 0; // assumes a,this >= 0
   r.t = i;
@@ -351,11 +351,11 @@ function bnpMultiplyLowerTo(a,n,r) {
   for(j = r.t-this.t; i < j; ++i) r[i+this.t] = this.am(0,a[i],r,i,0,this.t);
   for(j = Math.min(a.t,n); i < j; ++i) this.am(0,a[i],r,i,0,n-i);
   r.clamp();
-}
+};
 
 // (protected) r = "this * a" without lower n words, n > 0
 // "this" should be the larger one if appropriate.
-function bnpMultiplyUpperTo(a,n,r) {
+exports.bnpMultiplyUpperTo = function (a,n,r) {
   --n;
   var i = r.t = this.t+a.t-n;
   r.s = 0; // assumes a,this >= 0
@@ -364,28 +364,28 @@ function bnpMultiplyUpperTo(a,n,r) {
     r[this.t+i-n] = this.am(n-i,a[i],r,0,0,this.t+i-n);
   r.clamp();
   r.drShiftTo(1,r);
-}
+};
 
 // Barrett modular reduction
-function Barrett(m) {
+exports.Barrett = function (m) {
   // setup Barrett
   this.r2 = nbi();
   this.q3 = nbi();
   BigInteger.ONE.dlShiftTo(2*m.t,this.r2);
   this.mu = this.r2.divide(m);
   this.m = m;
-}
+};
 
-function barrettConvert(x) {
+exports.barrettConvert = function (x) {
   if(x.s < 0 || x.t > 2*this.m.t) return x.mod(this.m);
   else if(x.compareTo(this.m) < 0) return x;
   else { var r = nbi(); x.copyTo(r); this.reduce(r); return r; }
-}
+};
 
-function barrettRevert(x) { return x; }
+exports.barrettRevert = function (x) { return x; };
 
 // x = x mod m (HAC 14.42)
-function barrettReduce(x) {
+exports.barrettReduce = function (x) {
   x.drShiftTo(this.m.t-1,this.r2);
   if(x.t > this.m.t+1) { x.t = this.m.t+1; x.clamp(); }
   this.mu.multiplyUpperTo(this.r2,this.m.t+1,this.q3);
@@ -393,13 +393,13 @@ function barrettReduce(x) {
   while(x.compareTo(this.r2) < 0) x.dAddOffset(1,this.m.t+1);
   x.subTo(this.r2,x);
   while(x.compareTo(this.m) >= 0) x.subTo(this.m,x);
-}
+};
 
 // r = x^2 mod m; x != r
-function barrettSqrTo(x,r) { x.squareTo(r); this.reduce(r); }
+exports.barrettSqrTo = function (x,r) { x.squareTo(r); this.reduce(r); };
 
 // r = x*y mod m; x,y != r
-function barrettMulTo(x,y,r) { x.multiplyTo(y,r); this.reduce(r); }
+exports.barrettMulTo = function (x,y,r) { x.multiplyTo(y,r); this.reduce(r); };
 
 Barrett.prototype.convert = barrettConvert;
 Barrett.prototype.revert = barrettRevert;
@@ -408,7 +408,7 @@ Barrett.prototype.mulTo = barrettMulTo;
 Barrett.prototype.sqrTo = barrettSqrTo;
 
 // (public) this^e % m (HAC 14.85)
-function bnModPow(e,m) {
+exports.bnModPow = function (e,m) {
   var i = e.bitLength(), k, r = nbv(1), z;
   if(i <= 0) return r;
   else if(i < 18) k = 1;
@@ -464,10 +464,10 @@ function bnModPow(e,m) {
     }
   }
   return z.revert(r);
-}
+};
 
 // (public) gcd(this,a) (HAC 14.54)
-function bnGCD(a) {
+exports.bnGCD = function (a) {
   var x = (this.s<0)?this.negate():this.clone();
   var y = (a.s<0)?a.negate():a.clone();
   if(x.compareTo(y) < 0) { var t = x; x = y; y = t; }
@@ -492,20 +492,20 @@ function bnGCD(a) {
   }
   if(g > 0) y.lShiftTo(g,y);
   return y;
-}
+};
 
 // (protected) this % n, n < 2^26
-function bnpModInt(n) {
+exports.bnpModInt = function (n) {
   if(n <= 0) return 0;
   var d = this.DV%n, r = (this.s<0)?n-1:0;
   if(this.t > 0)
     if(d == 0) r = this[0]%n;
     else for(var i = this.t-1; i >= 0; --i) r = (d*r+this[i])%n;
   return r;
-}
+};
 
 // (public) 1/this % m (HAC 14.61)
-function bnModInverse(m) {
+exports.bnModInverse = function (m) {
   var ac = m.isEven();
   if((this.isEven() && ac) || m.signum() == 0) return BigInteger.ZERO;
   var u = m.clone(), v = this.clone();
@@ -544,13 +544,13 @@ function bnModInverse(m) {
   if(d.compareTo(m) >= 0) return d.subtract(m);
   if(d.signum() < 0) d.addTo(m,d); else return d;
   if(d.signum() < 0) return d.add(m); else return d;
-}
+};
 
-var lowprimes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179,181,191,193,197,199,211,223,227,229,233,239,241,251,257,263,269,271,277,281,283,293,307,311,313,317,331,337,347,349,353,359,367,373,379,383,389,397,401,409,419,421,431,433,439,443,449,457,461,463,467,479,487,491,499,503,509,521,523,541,547,557,563,569,571,577,587,593,599,601,607,613,617,619,631,641,643,647,653,659,661,673,677,683,691,701,709,719,727,733,739,743,751,757,761,769,773,787,797,809,811,821,823,827,829,839,853,857,859,863,877,881,883,887,907,911,919,929,937,941,947,953,967,971,977,983,991,997];
-var lplim = (1<<26)/lowprimes[lowprimes.length-1];
+exports.lowprimes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179,181,191,193,197,199,211,223,227,229,233,239,241,251,257,263,269,271,277,281,283,293,307,311,313,317,331,337,347,349,353,359,367,373,379,383,389,397,401,409,419,421,431,433,439,443,449,457,461,463,467,479,487,491,499,503,509,521,523,541,547,557,563,569,571,577,587,593,599,601,607,613,617,619,631,641,643,647,653,659,661,673,677,683,691,701,709,719,727,733,739,743,751,757,761,769,773,787,797,809,811,821,823,827,829,839,853,857,859,863,877,881,883,887,907,911,919,929,937,941,947,953,967,971,977,983,991,997];
+exports.lplim = (1<<26)/lowprimes[lowprimes.length-1];
 
 // (public) test primality with certainty >= 1-.5^t
-function bnIsProbablePrime(t) {
+exports.bnIsProbablePrime = function (t) {
   var i, x = this.abs();
   if(x.t == 1 && x[0] <= lowprimes[lowprimes.length-1]) {
     for(i = 0; i < lowprimes.length; ++i)
@@ -566,10 +566,10 @@ function bnIsProbablePrime(t) {
     while(i < j) if(m%lowprimes[i++] == 0) return false;
   }
   return x.millerRabin(t);
-}
+};
 
 // (protected) true if probably prime (HAC 4.24, Miller-Rabin)
-function bnpMillerRabin(t) {
+exports.bnpMillerRabin = function (t) {
   var n1 = this.subtract(BigInteger.ONE);
   var k = n1.getLowestSetBit();
   if(k <= 0) return false;
@@ -591,7 +591,7 @@ function bnpMillerRabin(t) {
     }
   }
   return true;
-}
+};
 
 // protected
 BigInteger.prototype.chunkSize = bnpChunkSize;
