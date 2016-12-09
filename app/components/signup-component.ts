@@ -46,7 +46,7 @@ export class SignUpComponent {
 	}
 	foo(): void {
 		let sendersPrivateMultiplier = eccSalt.generateSendersPrivateMultiplier(this.signUpData.password, this.salt.salt);
-		let luckyBoy = convertStringToHex("one" + "two");
-		console.log("please let this work " + this.signUpData.password + this.salt.salt + sendersPrivateMultiplier);
+		// let luckyBoy = convertStringToHex("one" + "two");
+		console.log(this.signUpData.password + this.salt.salt + sendersPrivateMultiplier);
 	}
 }

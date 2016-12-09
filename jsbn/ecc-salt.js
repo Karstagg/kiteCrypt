@@ -147,6 +147,8 @@ exports.generateSendersPrivateMultiplier = function (sendersPassword, sendersSal
 
 	sendersPrivateMultiplier = exports.convertStringToHex(sendersPassword + sendersSalt);
 
+	return(sendersPrivateMultiplier)
+
 	//
 
 
