@@ -145,7 +145,7 @@ exports.get_G = function (curve) {
 
 exports.generateSendersPrivateMultiplier = function (sendersPassword, sendersSalt) {
 
-	sendersPrivateMultiplier = convertStringToHex(sendersPassword + sendersSalt);
+	sendersPrivateMultiplier = exports.convertStringToHex(sendersPassword + sendersSalt);
 
 
 	/*
