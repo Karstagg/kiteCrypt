@@ -39,13 +39,13 @@ exports.decryptedMessage = undefined;
 
 exports.initializeEllipticCurveParameters = function() {
 
-	rng = new SecureRandom();
+	rng = new exports.SecureRandom();
 
 };
 
 
 exports.set_ec_params = function (name) {
-	var c = getSECCurveByName(name);
+	var c = exports.getSECCurveByName(name);
 
 	eccP = c.getCurve().getQ().toString(16);
 	eccA = c.getCurve().getA().toBigInteger().toString(16);
@@ -58,31 +58,31 @@ exports.set_ec_params = function (name) {
 
 
 exports.set_secp128r1 = function () {
-	set_ec_params("secp128r1");
+	exports.set_ec_params("secp128r1");
 };
 
 exports.set_secp160k1 = function () {
-	set_ec_params("secp160k1");
+	exports.set_ec_params("secp160k1");
 };
 
 exports.set_secp160r1 = function () {
-	set_ec_params("secp160r1");
+	exports.set_ec_params("secp160r1");
 };
 
 exports.set_secp192k1 = function () {
-	set_ec_params("secp192k1");
+	exports.set_ec_params("secp192k1");
 };
 
 exports.set_secp192r1 = function () {
-	set_ec_params("secp192r1");
+	exports.set_ec_params("secp192r1");
 };
 
 exports.set_secp224r1 = function () {
-	set_ec_params("secp224r1");
+	exports.set_ec_params("secp224r1");
 };
 
 exports.set_secp256r1 = function () {
-	set_ec_params("secp256r1");
+	exports.set_ec_params("secp256r1");
 };
 
 exports.get_curve = function () {
@@ -201,7 +201,7 @@ exports.calculateSendersCommonSecretKey = function () {
 	 ----------------------------------------------------------------------------
 	 */
 
-	var curve = get_curve();
+	var curve = exports.get_curve();
 	var P = new ECPointFp(curve,
 		curve.fromBigInteger(new BigInteger(receiversMultipliedX, 16)),
 		curve.fromBigInteger(new BigInteger(receiversMultipliedY, 16)));
@@ -271,7 +271,7 @@ exports.calculateSendersCommonSecretKey = function () {
 
 exports.generateReceiversPrivateMultiplier = function () {
 
-	receiversPrivateMultiplier = convertStringToHex(receiversPassword + receiversSalt);
+	receiversPrivateMultiplier = exports.convertStringToHex(receiversPassword + receiversSalt);
 
 	/*
 	 ----------------------------------------------------------------------------
@@ -287,8 +287,8 @@ exports.generateReceiversPrivateMultiplier = function () {
 
 exports.calculateReceiversMultipliedPoint = function () {
 
-	var curve = get_curve();
-	var G = get_G(curve);
+	var curve = exports.get_curve();
+	var G = exports.get_G(curve);
 	var a = new BigInteger(receiversPrivateMultiplier, 16);
 	var P = G.multiply(a);
 
@@ -323,7 +323,7 @@ exports.calculateReceiversCommonSecretKey = function () {
 	 ----------------------------------------------------------------------------
 	 */
 
-	var curve = get_curve();
+	var curve = exports.get_curve();
 	var P = new ECPointFp(curve,
 		curve.fromBigInteger(new BigInteger(sendersMultipliedX, 16)),
 		curve.fromBigInteger(new BigInteger(sendersMultipliedY, 16)));
@@ -353,9 +353,9 @@ exports.calculateReceiversCommonSecretKey = function () {
  */
 
 
-exports.encryptMessage = function () {
+exports.encryptMessage = function (messagePlainText) {
 
-	messagePlainText = getN("messagePlainText").value; // We have to change this line to get the message from the chat box that's being sent to the friend.
+	//messagePlainText = getN("messagePlainText").value; // We have to change this line to get the message from the chat box that's being sent to the friend.
 	//var eccP = getN("eccP").value;
 	var commonSecretKeyX = receiversCommonSecretKeyX;
 	var commonSecretKeyY = receiversCommonSecretKeyY;
@@ -452,9 +452,9 @@ exports.encryptMessage = function () {
 };
 
 
-exports.decryptMessage = function () {
+exports.decryptMessage = function (messageCipherText) {
 
-	messageCipherText = getN("messageCipherText").value; // We have to change this line to get the incoming message ciphertext from the friend
+	//messageCipherText = getN("messageCipherText").value; // We have to change this line to get the incoming message ciphertext from the friend
 
 	var eccP = getN("eccP").value;
 	var commonSecretKeyX = receiversCommonSecretKeyX;
