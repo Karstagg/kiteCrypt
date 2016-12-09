@@ -4,23 +4,23 @@
 // <body onClick='rng_seed_time();' onKeyPress='rng_seed_time();'>
 // in your main HTML document.
 
-var rng_state;
-var rng_pool;
-var rng_pptr;
+exports.rng_state = undefined;
+exports.rng_pool = undefined;
+exports.rng_pptr = undefined;
 
 // Mix in a 32-bit integer into the pool
-function rng_seed_int(x) {
+exports.rng_seed_int = function (x) {
   rng_pool[rng_pptr++] ^= x & 255;
   rng_pool[rng_pptr++] ^= (x >> 8) & 255;
   rng_pool[rng_pptr++] ^= (x >> 16) & 255;
   rng_pool[rng_pptr++] ^= (x >> 24) & 255;
   if(rng_pptr >= rng_psize) rng_pptr -= rng_psize;
-}
+};
 
 // Mix in the current time (w/milliseconds) into the pool
-function rng_seed_time() {
+exports.rng_seed_time = function () {
   rng_seed_int(new Date().getTime());
-}
+};
 
 // Initialize the pool with junk if needed.
 if(rng_pool == null) {
@@ -51,7 +51,7 @@ if(rng_pool == null) {
   //rng_seed_int(window.screenY);
 }
 
-function rng_get_byte() {
+exports.rng_get_byte = function () {
   if(rng_state == null) {
     rng_seed_time();
     rng_state = prng_newstate();
@@ -63,13 +63,13 @@ function rng_get_byte() {
   }
   // TODO: allow reseeding after first request
   return rng_state.next();
-}
+};
 
-function rng_get_bytes(ba) {
+exports.rng_get_bytes = function (ba) {
   var i;
   for(i = 0; i < ba.length; ++i) ba[i] = rng_get_byte();
-}
+};
 
-function SecureRandom() {}
+exports.SecureRandom = function () {};
 
-SecureRandom.prototype.nextBytes = rng_get_bytes;
+exports.SecureRandom.prototype.nextBytes = rng_get_bytes;
