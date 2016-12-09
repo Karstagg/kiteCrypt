@@ -41,13 +41,14 @@ exports.initializeEllipticCurveParameters = function() {
 
 	rng = new exports.SecureRandom();
 
+	return(rng);
 };
 
 
 exports.set_ec_params = function (name) {
 	var c = exports.getSECCurveByName(name);
 
-	eccP = c.getCurve().getQ().toString(16);
+	exports.eccP = exports.c.getCurve().getQ().toString(16);
 	eccA = c.getCurve().getA().toBigInteger().toString(16);
 	eccB = c.getCurve().getB().toBigInteger().toString(16);
 	eccGx = c.getG().getX().toBigInteger().toString(16);
@@ -86,13 +87,13 @@ exports.set_secp256r1 = function () {
 };
 
 exports.get_curve = function () {
-	return new ECCurveFp(new BigInteger(eccP, 16),
-		new BigInteger(eccA, 16),
-		new BigInteger(eccB, 16));
+	return new exports.ECCurveFp(new exports.BigInteger(exports.eccP, 16),
+		new exports.BigInteger(eccA, 16),
+		new exports.BigInteger(eccB, 16));
 };
 
 exports.get_G = function (curve) {
-	return new ECPointFp(curve,
+	return new exports.ECPointFp(curve,
 		curve.fromBigInteger(new BigInteger(eccGx, 16)),
 		curve.fromBigInteger(new BigInteger(eccGy, 16)));
 };
@@ -147,7 +148,7 @@ exports.generateSendersPrivateMultiplier = function (sendersPassword, sendersSal
 
 	sendersPrivateMultiplier = exports.convertStringToHex(sendersPassword + sendersSalt);
 
-	return(sendersPrivateMultiplier)
+	return(sendersPrivateMultiplier);
 
 	//
 

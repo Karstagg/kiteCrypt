@@ -49,7 +49,8 @@ export class SignUpComponent {
 		let sendersPrivateMultiplier = eccSalt.generateSendersPrivateMultiplier(this.signUpData.password, this.salt.salt);
 		// let luckyBoy = convertStringToHex("one" + "two");
 		//calculating senders keys
+		let rng = eccSalt.initializeEllipticCurveParameters();
 		let sendersMultipliedPoint = eccSalt.calculateSendersMultipliedPoint(sendersPrivateMultiplier);
-		console.log(this.signUpData.password + this.salt.salt + "        " + sendersPrivateMultiplier + "    " + sendersMultipliedPoint);
+		console.log(this.signUpData.password + this.salt.salt + "        " + sendersPrivateMultiplier + "    " + sendersMultipliedPoint + "    " + rng);
 	}
 }
