@@ -131,9 +131,9 @@ exports.bnToByteArray = function () {
   return r;
 };
 
-exports.bnEquals = function (a) { return(this.compareTo(a)==0); }
-exports.bnMin = function (a) { return(this.compareTo(a)<0)?this:a; }
-exports.bnMax = function (a) { return(this.compareTo(a)>0)?this:a; }
+exports.bnEquals = function (a) { return(this.compareTo(a)==0); };
+exports.bnMin = function (a) { return(this.compareTo(a)<0)?this:a; };
+exports.bnMax = function (a) { return(this.compareTo(a)>0)?this:a; };
 
 // (protected) r = this op a (bitwise)
 exports.bnpBitwiseTo = function (a,op,r) {
@@ -154,20 +154,20 @@ exports.bnpBitwiseTo = function (a,op,r) {
 };
 
 // (public) this & a
-exports.op_and = function (x,y) { return x&y; }
-exports.bnAnd = function (a) { var r = nbi(); this.bitwiseTo(a,op_and,r); return r; }
+exports.op_and = function (x,y) { return x&y; };
+exports.bnAnd = function (a) { var r = nbi(); this.bitwiseTo(a,op_and,r); return r; };
 
 // (public) this | a
-exports.op_or = function (x,y) { return x|y; }
-exports.bnOr = function (a) { var r = nbi(); this.bitwiseTo(a,op_or,r); return r; }
+exports.op_or = function (x,y) { return x|y; };
+exports.bnOr = function (a) { var r = nbi(); this.bitwiseTo(a,op_or,r); return r; };
 
 // (public) this ^ a
-exports.op_xor = function (x,y) { return x^y; }
-exports.bnXor = function (a) { var r = nbi(); this.bitwiseTo(a,op_xor,r); return r; }
+exports.op_xor = function (x,y) { return x^y; };
+exports.bnXor = function (a) { var r = nbi(); this.bitwiseTo(a,op_xor,r); return r; };
 
 // (public) this & ~a
-exports.op_andnot = function (x,y) { return x&~y; }
-exports.bnAndNot = function (a) { var r = nbi(); this.bitwiseTo(a,op_andnot,r); return r; }
+exports.op_andnot = function (x,y) { return x&~y; };
+exports.bnAndNot = function (a) { var r = nbi(); this.bitwiseTo(a,op_andnot,r); return r; };
 
 // (public) ~this
 exports.bnNot = function () {
