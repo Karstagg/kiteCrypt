@@ -6,7 +6,8 @@ import {SaltRequest} from "../classes/salt-request";
 import {Router} from "@angular/router";
 import {SaltService} from "../services/salt-service";
 import {Salt} from "../classes/salt";
-import * as eccFoo from "../../jsbn/ecc-foo";
+import * as eccSalt from "../../jsbn/ecc-salt";
+
 
 
 
@@ -42,7 +43,7 @@ export class SignUpComponent {
 		}
 	}
 	foo(): void {
-		let sum = eccFoo.addTwo(18, 24);
-		console.log("some sum is something like " + sum);
+		let sendersPrivateMultiplier = eccSalt.generateSendersPrivateMultiplier(this.signUpData.password, this.salt.salt);
+		console.log("please let this work " + sendersPrivateMultiplier);
 	}
 }
