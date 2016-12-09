@@ -76,6 +76,9 @@ class Message implements \JsonSerializable {
 		} catch(\RangeException $range) {
 			// rethrow the RangeException to the caller
 			throw(new \RangeException($range->getMessage(), 0, $range));
+		} catch(\Exception $exception) {
+			// rethrow the exception to the caller
+			throw(new \Exception($exception->getMessage(), 0, $exception));
 		}
 	}
 
@@ -83,7 +86,7 @@ class Message implements \JsonSerializable {
 	/**
 	 * accessor method for messageId
 	 *
-	 * @return int id for message (null if it's a new message, and it will be assigned by MySQL when it's stored in the database); this is the primary key
+	 * @return int | null id for message (null if it's a new message, and it will be assigned by MySQL when it's stored in the database); this is the primary key
 	 **/
 	public function getMessageId() {
 		return($this->messageId);
@@ -289,12 +292,12 @@ class Message implements \JsonSerializable {
 	public function insert(\PDO $pdo) {
 
 		// create query template
-		$query = "INSERT INTO message(messageId, messageTimestamp, messageSenderId, messageReceiverId, messageText) VALUES(:messageId, :messageTimestamp, :messageSenderId, :messageReceiverId, :messageText)";
+		$query = "INSERT INTO message(messageTimestamp, messageSenderId, messageReceiverId, messageText) VALUES(:messageTimestamp, :messageSenderId, :messageReceiverId, :messageText)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
 		$formattedDate = $this->messageTimestamp->format("Y-m-d H:i:s");
-		$parameters = ["messageId" => $this->messageId, "messageTimestamp" => $formattedDate, "messageSenderId" => $this->messageSenderId, "messageReceiverId" => $this->messageReceiverId, "messageText" => $this->messageText];
+		$parameters = [/*"messageId" => $this->messageId, */"messageTimestamp" => $formattedDate, "messageSenderId" => $this->messageSenderId, "messageReceiverId" => $this->messageReceiverId, "messageText" => $this->messageText];
 		$statement->execute($parameters);
 
 	}

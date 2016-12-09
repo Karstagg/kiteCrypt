@@ -65,7 +65,7 @@ class MessageTest extends KiteCryptTest {
 		parent::setUp();
 
 //		 Create a Timestamp for the Message
-		//$this->validMessageTimestamp = new \DateTime(); // Commented out because the Timestamp is assigned by MySQL
+		$this->validMessageTimestamp = new \DateTime(); // Commented out because the Timestamp is assigned by MySQL
 
 		// Create (and store in the database) a Profile that sent the Message (the sender); it is a foreign key
 		$this->validMessageSenderId = new Profile(null, "UserSender", "1234", "5678", "rock");
@@ -95,7 +95,7 @@ class MessageTest extends KiteCryptTest {
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		// Create the new Message and insert it into the database
-		$message = new Message(null, null, $this->validMessageSenderId->getProfileId(), $this->validMessageReceiverId->getProfileId(), $this->validMessageText);
+		$message = new Message(null, $this->validMessageTimestamp, $this->validMessageSenderId->getProfileId(), $this->validMessageReceiverId->getProfileId(), $this->validMessageText);
 		$message->insert($this->getPDO());
 
 		// Check that the number of rows in the database increased by one, when the new Message was inserted
@@ -124,7 +124,7 @@ class MessageTest extends KiteCryptTest {
 	public function testInsertingMessageWithInvalidSenderId() {
 
 		// Create a Message with a non null message id and watch it fail
-		$message = new Message(null, null, -1, $this->validMessageReceiverId->getProfileId(), $this->validMessageText);
+		$message = new Message(null, $this->validMessageTimestamp, -1, $this->validMessageReceiverId->getProfileId(), $this->validMessageText);
 		$message->insert($this->getPDO());
 
 	}
@@ -138,7 +138,7 @@ class MessageTest extends KiteCryptTest {
 	public function testInsertingMessageWithInvalidReceiverId() {
 
 		// Create a Message with a non null senderId and watch it fail
-		$message = new Message(null,null, 1, KiteCryptTest::INVALID_KEY, "test");
+		$message = new Message(null, $this->validMessageTimestamp, 1, KiteCryptTest::INVALID_KEY, "test");
 		$message->insert($this->getPDO());
 
 	}
@@ -172,7 +172,7 @@ class MessageTest extends KiteCryptTest {
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		// Create a new Message and insert it into the database
-		$message = new Message(null, null, $this->validMessageSenderId->getProfileId(), $this->validMessageReceiverId->getProfileId(), $this->validMessageText);
+		$message = new Message(null, $this->validMessageTimestamp, $this->validMessageSenderId->getProfileId(), $this->validMessageReceiverId->getProfileId(), $this->validMessageText);
 		$message->insert($this->getPDO());
 
 
@@ -185,11 +185,11 @@ class MessageTest extends KiteCryptTest {
 
 		// Check that the number of rows in the database decreased by one, so that the number of rows
 		// is back to what it was before the new Message was inserted
-		$this->assertEquals($numRows +1, $this->getConnection()->getRowCount("message"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("message"));
 
 		// Try to get the deleted Message from the database (using the senderId)
 		// and verify that it does not exist (that is a null is returned)
-		$pdoMessage1 = Message::getMessageByMessageId($this->getPDO(), $this->getMessageId());
+		$pdoMessage1 = Message::getMessageByMessageId($this->getPDO(), $message->getMessageId());
 		$this->assertNull($pdoMessage1);
 
 //		// Try to get the deleted Message from the database (using the receiverId)
@@ -198,7 +198,7 @@ class MessageTest extends KiteCryptTest {
 //		$this->assertNull($pdoMessage2);
 
 // clearing out database before running test
-//		$this->cleanUp();
+// $this->cleanUp();
 	}
 
 
@@ -208,9 +208,9 @@ class MessageTest extends KiteCryptTest {
 	 * @expectedException \PDOException
 	 **/
 	public function testDeletingNonexistentMessage() {
-
+$this->setUp();
 		// create a Message and try to delete it without actually inserting it
-		$message = new Message(KiteCryptTest::INVALID_KEY, null, 1, 2, "test");
+		$message = new Message(null, null, 1, 3, "test");
 		$message->delete($this->getPDO());
 
 	}
@@ -224,7 +224,7 @@ class MessageTest extends KiteCryptTest {
 		$numRows = $this->getConnection()->getRowCount("message");
 
 		// Create a new Message and insert it into the database
-		$message = new Message(null, null, $this->validMessageSenderId->getProfileId(), $this->validMessageReceiverId->getProfileId(), $this->validMessageText);
+		$message = new Message(null, $this->validMessageTimestamp, $this->validMessageSenderId->getProfileId(), $this->validMessageReceiverId->getProfileId(), $this->validMessageText);
 		$message->insert($this->getPDO());
 
 		// Get the messages from the database and verify that they match our expectations
@@ -240,8 +240,27 @@ class MessageTest extends KiteCryptTest {
 		//$this->assertEquals($pdoMessage->getMessageTimestamp(), $this->validMessageTimestamp); // Commented out because the Timestamp is assigned by MySQL
 		$this->assertEquals($pdoMessage->getMessageText(), $this->validMessageText);
 
+//		InvalidArgumentException
+	}
+	/**
+	 * test inserting a profile that already exist
+	 *
+	 * @expectedException PDOException
+	 **/
+	public function testBlankReceiverId() {
+// create a Message with a non null tweet id and watch it fail
+//		$Profile = new Message(DataDesignTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_TWEETCONTENT, $this->VALID_TWEETDATE);
+//		$tweet->insert($this->getPDO());
+
+	$profile = new Message(null, $this->validMessageTimestamp, $this->validMessageSenderId->getProfileId(), $this->validMessageReceiverId->getProfileId(), $this->validMessageText);
+		$profile->insert($this->getPDO());
+
+		$profile2 = new Message(null, null, $this->validMessageSenderId->getProfileId(), $this->validMessageReceiverId->getProfileId(), $this->validMessageText);
+		$profile2->insert($this->getPDO());
+
 
 	}
+
 
 
 }
