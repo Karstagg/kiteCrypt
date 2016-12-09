@@ -80,14 +80,14 @@ else { // Mozilla/Netscape seems to prefer am3
   dbits = 28;
 }
 
-BigInteger.prototype.DB = dbits;
-BigInteger.prototype.DM = ((1<<dbits)-1);
-BigInteger.prototype.DV = (1<<dbits);
+exports.BigInteger.prototype.DB = dbits;
+exports.BigInteger.prototype.DM = ((1<<dbits)-1);
+exports.BigInteger.prototype.DV = (1<<dbits);
 
-var BI_FP = 52;
-BigInteger.prototype.FV = Math.pow(2,BI_FP);
-BigInteger.prototype.F1 = BI_FP-dbits;
-BigInteger.prototype.F2 = 2*dbits-BI_FP;
+exports.BI_FP = 52;
+exports.BigInteger.prototype.FV = Math.pow(2,BI_FP);
+exports.BigInteger.prototype.F1 = BI_FP-dbits;
+exports.BigInteger.prototype.F2 = 2*dbits-BI_FP;
 
 // Digit conversions
 exports.BI_RM = "0123456789abcdefghijklmnopqrstuvwxyz";
