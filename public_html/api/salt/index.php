@@ -57,7 +57,9 @@ try {
 		if($newUser === true) {
 			$profileFromDatabase = Profile::getProfileByUserName($pdo, $requestObject->username);
 			if($profileFromDatabase->getSize() === 0) {
-				$reply->data = bin2hex(random_bytes(16));
+				$pepper = new stdClass();
+				$pepper->salt = bin2hex(random_bytes(16));
+				$reply->data = $pepper;
 			} else {
 				throw (new \InvalidArgumentException($exceptionMessage, $exceptionCode));
 			}

@@ -11,6 +11,7 @@ import * as eccSalt from "../../jsbn/ecc-salt";
 
 
 
+
 @Component({
 	templateUrl: "./templates/signup.php"
 })
@@ -44,6 +45,6 @@ export class SignUpComponent {
 	}
 	foo(): void {
 		let sendersPrivateMultiplier = eccSalt.generateSendersPrivateMultiplier(this.signUpData.password, this.salt.salt);
-		console.log("please let this work " + sendersPrivateMultiplier);
+		console.log("please let this work " + this.signUpData.password + this.salt.salt + sendersPrivateMultiplier);
 	}
 }

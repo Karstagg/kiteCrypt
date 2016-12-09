@@ -15,7 +15,7 @@ export class SaltService extends BaseService {
 
 	salt(saltRequest: SaltRequest) : Observable<Salt> {
 		return(this.http.post(this.saltUrl, saltRequest)
-			.map(this.extractMessage)
+			.map(this.extractData)
 			.catch(this.handleError));
 	}
 }
