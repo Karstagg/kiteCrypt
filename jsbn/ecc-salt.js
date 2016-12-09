@@ -165,7 +165,7 @@ exports.generateSendersPrivateMultiplier = function (sendersPassword, sendersSal
 
 
 
-exports.calculateSendersMultipliedPoint = function () {
+exports.calculateSendersMultipliedPoint = function (sendersPrivateMultiplier) {
 
 	var curve = exports.get_curve();
 	var G = exports.get_G(curve);
@@ -174,6 +174,10 @@ exports.calculateSendersMultipliedPoint = function () {
 
 	sendersMultipliedX = P.getX().toBigInteger().toString(16);
 	sendersMultipliedY = P.getY().toBigInteger().toString(16);
+
+	keys = [sendersMultipliedX, sendersMultipliedY];
+
+	return(keys);
 
 
 	/*

@@ -10,7 +10,7 @@ export function set_secp256r1() : any;
 export function get_curve() : any;
 export function get_G(curve: any) : any;
 export function generateSendersPrivateMultiplier(sendersPassword: any, sendersSalt: any) : any;
-export function calculateSendersMultipliedPoint() : string;
+export function calculateSendersMultipliedPoint(sendersPrivateMultiplier: any) : any;
 export function calculateSendersCommonSecretKey() : string;
 export function generateReceiversPrivateMultiplier() : string;
 export function calculateReceiversMultipliedPoint() : string;
