@@ -372,7 +372,7 @@ exports.encryptMessage = function (messagePlainText) {
 	// 	messageCipherTextUnicodeHexArray[i] = messageCipherTextUnicodeDecimalArray[i].toString(16);
 	// }
 	// var messageCipherTextHexString = messageCipherTextUnicodeHexArray.join("");
-	var messageCipherTextHexString = convertStringToHex(messagePlainText);
+	var messageCipherTextHexString = exports.convertStringToHex(messagePlainText);
 	//alert("Message plain text hex: " + messageCipherTextHexString); // Message. = 4d6573736167652e in plain text.
 
 	// Determine the size of the message block by finding the what number of characters
@@ -456,7 +456,7 @@ exports.decryptMessage = function (messageCipherText) {
 
 	//messageCipherText = getN("messageCipherText").value; // We have to change this line to get the incoming message ciphertext from the friend
 
-	var eccP = getN("eccP").value;
+	//var eccP = getN("eccP").value;
 	var commonSecretKeyX = receiversCommonSecretKeyX;
 	var commonSecretKeyY = receiversCommonSecretKeyY;
 
