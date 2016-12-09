@@ -67,9 +67,11 @@ exports.rng_get_byte = function () {
 
 exports.rng_get_bytes = function (ba) {
   var i;
-  for(i = 0; i < ba.length; ++i) ba[i] = rng_get_byte();
+  for(i = 0; i < ba.length; ++i) ba[i] = exports.rng_get_byte();
 };
 
-exports.SecureRandom = function () {};
+exports.SecureRandom = function () {
+  return(rng_get_bytes)
+};
 
-exports.SecureRandom.prototype.nextBytes = rng_get_bytes;
+exports.SecureRandom.prototype.nextBytes = exports.rng_get_bytes;

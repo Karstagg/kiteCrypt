@@ -261,6 +261,8 @@ exports.ECCurveFp = function (q,a,b) {
     this.b = this.fromBigInteger(b);
     this.infinity = new ECPointFp(this, null, null);
     this.reducer = new Barrett(this.q);
+
+   return(ECCurveFp);
 };
 
 exports.curveFpGetQ = function () {

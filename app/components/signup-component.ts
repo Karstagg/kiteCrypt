@@ -7,8 +7,12 @@ import {Router} from "@angular/router";
 import {SaltService} from "../services/salt-service";
 import {Salt} from "../classes/salt";
 import * as eccSalt from "../../jsbn/ecc-salt";
-
-
+import * as jsbnEcc from "../../jsbn/jsbn-ecc";
+import * as jsbnJsbn1 from "../../jsbn/jsbn-jsbn1";
+import * as jsbnJsbn2 from "../../jsbn/jsbn-jsbn2";
+import * as jsbnPrng4 from "../../jsbn/jsbn-prng4";
+import * as jsbnRng from "../../jsbn/jsbn-rng";
+import * as jsbnSec from "../../jsbn/jsbn-sec";
 
 
 
