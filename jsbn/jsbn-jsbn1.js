@@ -196,7 +196,7 @@ exports.bnToString = function (b) {
 };
 
 // (public) -this
-exports.bnNegate = function () { var r = nbi(); BigInteger.ZERO.subTo(this,r); return r; };
+exports.bnNegate = function () { var r = exports.nbi(); BigInteger.ZERO.subTo(this,r); return r; };
 
 // (public) |this|
 exports.bnAbs = function () { return (this.s<0)?this.negate():this; };
@@ -454,7 +454,7 @@ exports.Montgomery = function (m) {
 
 // xR mod m
 exports.montConvert = function (x) {
-  var r = nbi();
+  var r = exports.nbi();
   x.abs().dlShiftTo(this.m.t,r);
   r.divRemTo(this.m,null,r);
   if(x.s < 0 && r.compareTo(BigInteger.ZERO) > 0) this.m.subTo(r,r);
@@ -463,7 +463,7 @@ exports.montConvert = function (x) {
 
 // x/R mod m
 exports.montRevert = function (x) {
-  var r = nbi();
+  var r = exports.nbi();
   x.copyTo(r);
   this.reduce(r);
   return r;
@@ -506,7 +506,7 @@ exports.bnpIsEven = function () { return ((this.t>0)?(this[0]&1):this.s) == 0; }
 // (protected) this^e, e < 2^32, doing sqr and mul with "r" (HAC 14.79)
 exports.bnpExp = function (e,z) {
   if(e > 0xffffffff || e < 1) return BigInteger.ONE;
-  var r = nbi(), r2 = nbi(), g = z.convert(this), i = nbits(e)-1;
+  var r = exports.nbi(), r2 = exports.nbi(), g = z.convert(this), i = nbits(e)-1;
   g.copyTo(r);
   while(--i >= 0) {
     z.sqrTo(r,r2);

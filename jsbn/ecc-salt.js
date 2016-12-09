@@ -163,8 +163,8 @@ exports.generateSendersPrivateMultiplier = function (sendersPassword, sendersSal
 
 exports.calculateSendersMultipliedPoint = function () {
 
-	var curve = get_curve();
-	var G = get_G(curve);
+	var curve = exports.get_curve();
+	var G = exports.get_G(curve);
 	var a = new BigInteger(sendersPrivateMultiplier, 16);
 	var P = G.multiply(a);
 
