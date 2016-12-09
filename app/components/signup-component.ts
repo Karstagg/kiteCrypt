@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import {SaltService} from "../services/salt-service";
 import {Salt} from "../classes/salt";
 import * as eccSalt from "../../jsbn/ecc-salt";
+import {convertStringToHex} from "../../jsbn/ecc-salt";
 
 
 
@@ -44,7 +45,8 @@ export class SignUpComponent {
 		}
 	}
 	foo(): void {
-		let sendersPrivateMultiplier = eccSalt.generateSendersPrivateMultiplier(this.signUpData.password, this.salt.salt);
-		console.log("please let this work " + this.signUpData.password + this.salt.salt + sendersPrivateMultiplier);
+		let sendersPrivateMultiplier = eccSalt.generateSendersPrivateMultiplier("signUpData.password", "this.salt.salt");
+		let luckyBoy = convertStringToHex("one" + "two");
+		console.log("please let this work " + this.signUpData.password + this.salt.salt + "    " + luckyBoy);
 	}
 }
