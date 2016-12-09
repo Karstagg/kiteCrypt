@@ -417,11 +417,11 @@ exports.cReduce = function (x) { x.divRemTo(this.m,null,x); };
 exports.cMulTo = function (x,y,r) { x.multiplyTo(y,r); this.reduce(r); };
 exports.cSqrTo = function (x,r) { x.squareTo(r); this.reduce(r); };
 
-Classic.prototype.convert = cConvert;
-Classic.prototype.revert = cRevert;
-Classic.prototype.reduce = cReduce;
-Classic.prototype.mulTo = cMulTo;
-Classic.prototype.sqrTo = cSqrTo;
+exports.Classic.prototype.convert = cConvert;
+exports.Classic.prototype.revert = cRevert;
+exports.Classic.prototype.reduce = cReduce;
+exports.Classic.prototype.mulTo = cMulTo;
+exports.Classic.prototype.sqrTo = cSqrTo;
 
 // (protected) return "-1/this % 2^DB"; useful for Mont. reduction
 // justification:
@@ -500,11 +500,11 @@ exports.montSqrTo = function (x,r) { x.squareTo(r); this.reduce(r); };
 // r = "xy/R mod m"; x,y != r
 exports.montMulTo = function (x,y,r) { x.multiplyTo(y,r); this.reduce(r); };
 
-Montgomery.prototype.convert = montConvert;
-Montgomery.prototype.revert = montRevert;
-Montgomery.prototype.reduce = montReduce;
-Montgomery.prototype.mulTo = montMulTo;
-Montgomery.prototype.sqrTo = montSqrTo;
+exports.Montgomery.prototype.convert = montConvert;
+exports.Montgomery.prototype.revert = montRevert;
+exports.Montgomery.prototype.reduce = montReduce;
+exports.Montgomery.prototype.mulTo = montMulTo;
+exports.Montgomery.prototype.sqrTo = montSqrTo;
 
 // (protected) true iff this is even
 exports.bnpIsEven = function () { return ((this.t>0)?(this[0]&1):this.s) == 0; };
