@@ -6,40 +6,40 @@
 // X9ECParameters
 
 // constructor
-function X9ECParameters(curve,g,n,h) {
+exports.X9ECParameters = function (curve,g,n,h) {
     this.curve = curve;
     this.g = g;
     this.n = n;
     this.h = h;
-}
+};
 
-function x9getCurve() {
+exports.x9getCurve = function () {
     return this.curve;
-}
+};
 
-function x9getG() {
+exports.x9getG = function () {
     return this.g;
-}
+};
 
-function x9getN() {
+exports.x9getN = function () {
     return this.n;
-}
+};
 
-function x9getH() {
+exports.x9getH = function () {
     return this.h;
-}
+};
 
-X9ECParameters.prototype.getCurve = x9getCurve;
-X9ECParameters.prototype.getG = x9getG;
-X9ECParameters.prototype.getN = x9getN;
-X9ECParameters.prototype.getH = x9getH;
+exports.X9ECParameters.prototype.getCurve = x9getCurve;
+exports.X9ECParameters.prototype.getG = x9getG;
+exports.X9ECParameters.prototype.getN = x9getN;
+exports.X9ECParameters.prototype.getH = x9getH;
 
 // ----------------
 // SECNamedCurves
 
-function fromHex(s) { return new BigInteger(s, 16); }
+exports.fromHex = function (s) { return new BigInteger(s, 16); };
 
-function secp128r1() {
+exports.secp128r1 = function () {
     // p = 2^128 - 2^97 - 1
     var p = fromHex("FFFFFFFDFFFFFFFFFFFFFFFFFFFFFFFF");
     var a = fromHex("FFFFFFFDFFFFFFFFFFFFFFFFFFFFFFFC");
@@ -52,9 +52,9 @@ function secp128r1() {
                 + "161FF7528B899B2D0C28607CA52C5B86"
 		+ "CF5AC8395BAFEB13C02DA292DDED7A83");
     return new X9ECParameters(curve, G, n, h);
-}
+};
 
-function secp160k1() {
+exports.secp160k1 = function () {
     // p = 2^160 - 2^32 - 2^14 - 2^12 - 2^9 - 2^8 - 2^7 - 2^3 - 2^2 - 1
     var p = fromHex("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFAC73");
     var a = BigInteger.ZERO;
@@ -67,9 +67,9 @@ function secp160k1() {
                 + "3B4C382CE37AA192A4019E763036F4F5DD4D7EBB"
                 + "938CF935318FDCED6BC28286531733C3F03C4FEE");
     return new X9ECParameters(curve, G, n, h);
-}
+};
 
-function secp160r1() {
+exports.secp160r1 = function () {
     // p = 2^160 - 2^31 - 1
     var p = fromHex("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7FFFFFFF");
     var a = fromHex("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7FFFFFFC");
@@ -82,9 +82,9 @@ function secp160r1() {
 		+ "4A96B5688EF573284664698968C38BB913CBFC82"
 		+ "23A628553168947D59DCC912042351377AC5FB32");
     return new X9ECParameters(curve, G, n, h);
-}
+};
 
-function secp192k1() {
+exports.secp192k1 = function () {
     // p = 2^192 - 2^32 - 2^12 - 2^8 - 2^7 - 2^6 - 2^3 - 1
     var p = fromHex("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFEE37");
     var a = BigInteger.ZERO;
@@ -97,9 +97,9 @@ function secp192k1() {
                 + "DB4FF10EC057E9AE26B07D0280B7F4341DA5D1B1EAE06C7D"
                 + "9B2F2F6D9C5628A7844163D015BE86344082AA88D95E2F9D");
     return new X9ECParameters(curve, G, n, h);
-}
+};
 
-function secp192r1() {
+exports.secp192r1 = function () {
     // p = 2^192 - 2^64 - 1
     var p = fromHex("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFF");
     var a = fromHex("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFC");
@@ -112,9 +112,9 @@ function secp192r1() {
                 + "188DA80EB03090F67CBF20EB43A18800F4FF0AFD82FF1012"
                 + "07192B95FFC8DA78631011ED6B24CDD573F977A11E794811");
     return new X9ECParameters(curve, G, n, h);
-}
+};
 
-function secp224r1() {
+exports.secp224r1 = function () {
     // p = 2^224 - 2^96 + 1
     var p = fromHex("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000000000000001");
     var a = fromHex("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFFFFFFFFFE");
@@ -127,9 +127,9 @@ function secp224r1() {
                 + "B70E0CBD6BB4BF7F321390B94A03C1D356C21122343280D6115C1D21"
                 + "BD376388B5F723FB4C22DFE6CD4375A05A07476444D5819985007E34");
     return new X9ECParameters(curve, G, n, h);
-}
+};
 
-function secp256r1() {
+exports.secp256r1 = function () {
     // p = 2^224 (2^32 - 1) + 2^192 + 2^96 - 1
     var p = fromHex("FFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFF");
     var a = fromHex("FFFFFFFF00000001000000000000000000000000FFFFFFFFFFFFFFFFFFFFFFFC");
@@ -142,10 +142,10 @@ function secp256r1() {
                 + "6B17D1F2E12C4247F8BCE6E563A440F277037D812DEB33A0F4A13945D898C296"
 		+ "4FE342E2FE1A7F9B8EE7EB4A7C0F9E162BCE33576B315ECECBB6406837BF51F5");
     return new X9ECParameters(curve, G, n, h);
-}
+};
 
 // TODO: make this into a proper hashtable
-function getSECCurveByName(name) {
+exports.getSECCurveByName = function (name) {
     if(name == "secp128r1") return secp128r1();
     if(name == "secp160k1") return secp160k1();
     if(name == "secp160r1") return secp160r1();
@@ -154,4 +154,4 @@ function getSECCurveByName(name) {
     if(name == "secp224r1") return secp224r1();
     if(name == "secp256r1") return secp256r1();
     return null;
-}
+};
