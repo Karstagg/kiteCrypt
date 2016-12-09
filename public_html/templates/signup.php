@@ -22,7 +22,7 @@
 							<div class="input-group col-xs-4 col-xs-offset-4">
 								<input type="text" id="user-name" name="user-name" class="form-control input-sm chat-input"
 										 placeholder="username" maxlength="20" required [(ngModel)]="signUpData.username"
-										 #username="ngModel"/>
+										 #username="ngModel">test</input>
 							</div>
 							<div [hidden]="username.valid || username.pristine"
 								  class="alert alert-danger col-xs-4 col-xs-offset-4" role="alert">
@@ -36,7 +36,7 @@
 							<div class="input-group col-xs-4 col-xs-offset-4">
 								<input type="password" id="password" name="password"
 										 class="form-control input-sm chat-input"
-										 placeholder="password" required validateEqual="passwordConfirm" reverse="false" [(ngModel)]="signUpData.password" #password="ngModel"/>
+										 placeholder="password" required validateEqual="passwordConfirm" reverse="false" [(ngModel)]="signUpData.password" #password="ngModel">test</input>
 							</div>
 							<div [hidden]="password.valid || password.pristine"
 								  class="alert alert-danger col-xs-4 col-xs-offset-4" role="alert">
@@ -50,7 +50,7 @@
 							<div class="input-group col-xs-4 col-xs-offset-4">
 								<input type="password" id="passwordConfirm" name="passwordConfirm"
 										 class="form-control input-sm chat-input" [(ngModel)]="signUpData.passwordConfirm"
-										 required validateEqual="password" reverse="true" #passwordConfirm="ngModel"/>
+										 required validateEqual="password" reverse="true" #passwordConfirm="ngModel">test</input>
 							</div>
 							<div [hidden]="passwordConfirm.valid || passwordConfirm.pristine"
 								  class="alert alert-danger col-xs-4 col-xs-offset-4" role="alert">
