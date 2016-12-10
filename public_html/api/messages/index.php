@@ -8,6 +8,7 @@
 require_once dirname(__DIR__, 3) . "/php/class/autoloader.php";
 require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
+require_once dirname(__DIR__, 3) . "/vendor/autoload.php";
 
 use Edu\Cnm\KiteCrypt\Message;
 
@@ -56,34 +57,23 @@ try {
 	}
 
 	if($method === "GET") {
+		setXsrfCookie("/");
 		if(empty($id) === false) {
 			$reply->data = Message::getMessageByMessageId($pdo, $id);
 		}
 
 
-	}
-
-
-
-
-
-
-	if($method === "POST") {
+	} else if($method === "POST") {
 
 		//set XSRF cookie
-		setXsrfCookie("/");
-		verifyXsrf();
+		//verifyXsrf();
 
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 		/*-----checking and sanitizing message text--------------*/
 		//check that email and password fields are not empty, and sanitize that input
 
-		if(empty($requestObject->messageId) === true) {
-			throw(new \InvalidArgumentException($exceptionMessage, $exceptionCode));
-		} else {
-			$methodId = filter_var($requestObject->methodId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		}
+
 
 		if(empty($requestObject->messageSenderId) === true) {
 			throw(new \InvalidArgumentException($exceptionMessage, $exceptionCode));
@@ -97,29 +87,22 @@ try {
 			$messageReceiverId = filter_var($requestObject->messageReceiverId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
-
-		//retrieve the data for messageId
-
-
-		$messageTextFromDatabase = \Edu\Cnm\KiteCrypt\Message::getMessageByMessageSenderId($pdo, $messageId);
-
-		$messageSenderId = $messageTextFromDatabase->getMessageFromDatabase();
-
-		$messageReceiverId = $messageTextFromDatabase->getMessageFromDatabase();
-
-		if($messageTextFromDatabase === null || $messageId === null){
-			throw( new \InvalidArgumentException($exceptionMessage, $exceptionCode));
+		if(empty($requestObject->messageText) === true) {
+			throw(new \InvalidArgumentException($exceptionMessage, $exceptionCode));
+		} else {
+			$messageText = filter_var($requestObject->messageReceiverId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
-		if($messageSenderId === null || $messageReceiverId === null){
-			throw( new \InvalidArgumentException($exceptionMessage, $exceptionCode));
-		}
+		$message = new Message(null, null, $messageSenderId, $messageReceiverId, $messageText);
+		$message->insert($pdo);
+
+
 
 //		If all username, public Key x, and public key Y match, send them to the chat page with friends list
 
 
 	} else {
-		throw (new InvalidArgumentException($exceptionMessage, $exceptionCode));
+		throw (new InvalidArgumentException("Invalid Method",400));
 	}
 
 	// update reply with exception information
