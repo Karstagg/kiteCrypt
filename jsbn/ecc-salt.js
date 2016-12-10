@@ -1,4 +1,4 @@
-
+var jsbnRng = require("./jsbn-rng");
 
 /*
  ----------------------------------------------------------------------------
@@ -39,7 +39,7 @@ exports.decryptedMessage = undefined;
 
 exports.initializeEllipticCurveParameters = function() {
 
-	rng = new exports.SecureRandom();
+	rng = new jsbnRng.SecureRandom();
 
 	return(rng);
 };
