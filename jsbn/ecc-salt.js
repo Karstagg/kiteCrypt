@@ -1,6 +1,6 @@
 var jsbnRng = require("./jsbn-rng");
 var jsbnBn1 = require("./jsbn-jsbn1");
-
+var jsbnSec = require("./jsbn-sec");
 /*
  ----------------------------------------------------------------------------
  Elliptic Curve Parameters
@@ -88,9 +88,9 @@ exports.set_secp256r1 = function () {
 };
 
 exports.get_curve = function () {
-	return new exports.ECCurveFp(new exports.BigInteger(exports.eccP, 16),
-		new jsbnBn1.BigInteger(exports.eccA, 16),
-		new jsbnBn1.BigInteger(exports.eccB, 16));
+	return new jsbnSec.ECCurveFp(new exports.BigInteger(exports.eccP, 16),
+		new jsbnBn1.BigInteger(eccA, 16),
+		new jsbnBn1.BigInteger(eccB, 16));
 };
 // jsbnBn1
 exports.get_G = function (curve) {
