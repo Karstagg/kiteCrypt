@@ -34,12 +34,12 @@ if(exports.rng_pool == null) {
     for(t = 0; t < 32; ++t)
       exports.rng_pool[exports.rng_pptr++] = ua[t];
   }
-  if(navigator.appName == "Netscape" && navigator.appVersion < "5" && window.crypto) {
-    // Extract entropy (256 bits) from NS4 RNG if available
-    var z = window.crypto.random(32);
-    for(t = 0; t < z.length; ++t)
-      exports.rng_pool[exports.rng_pptr++] = z.charCodeAt(t) & 255;
-  }  
+  // if(exports.navigator.appName == "Netscape" && navigator.appVersion < "5" && window.crypto) {
+  //   // Extract entropy (256 bits) from NS4 RNG if available
+  //   var z = window.crypto.random(32);
+  //   for(t = 0; t < z.length; ++t)
+  //     exports.rng_pool[exports.rng_pptr++] = exports.z.charCodeAt(t) & 255;
+  // }
   while(exports.rng_pptr < exports.rng_psize) {  // extract some randomness from Math.random()
     t = Math.floor(65536 * Math.random());
     exports.rng_pool[exports.rng_pptr++] = t >>> 8;

@@ -61,27 +61,27 @@ exports.am3 = function (i,x,w,j,c,n) {
   }
   return c;
 };
-if(exports.j_lm && (exports.navigator.appName == "Microsoft Internet Explorer")) {
-  exports.BigInteger.prototype.am = am2;
-  exports.dbits = 30;
-}
-else if(exports.j_lm && (exports.navigator.appName != "Netscape")) {
-  exports.BigInteger.prototype.am = am1;
+// if(exports.j_lm && (exports.navigator.appName == "Microsoft Internet Explorer")) {
+//   exports.BigInteger.prototype.am = am2;
+//   exports.dbits = 30;
+// }
+// else if(exports.j_lm && (exports.navigator.appName != "Netscape")) {
+  exports.BigInteger.prototype.am = exports.am1;
   exports.dbits = 26;
-}
-else { // Mozilla/Netscape seems to prefer am3
-  exports.BigInteger.prototype.am = am3;
-  exports.dbits = 28;
-}
+// }
+// else { // Mozilla/Netscape seems to prefer am3
+//   exports.BigInteger.prototype.am = am3;
+//   exports.dbits = 28;
+// }
 
-exports.BigInteger.prototype.DB = dbits;
-exports.BigInteger.prototype.DM = ((1<<dbits)-1);
-exports.BigInteger.prototype.DV = (1<<dbits);
+exports.BigInteger.prototype.DB = exports.dbits;
+exports.BigInteger.prototype.DM = ((1<<exports.dbits)-1);
+exports.BigInteger.prototype.DV = (1<<exports.dbits);
 
 exports.BI_FP = 52;
-exports.BigInteger.prototype.FV = Math.pow(2,BI_FP);
-exports.BigInteger.prototype.F1 = BI_FP-dbits;
-exports.BigInteger.prototype.F2 = 2*dbits-BI_FP;
+exports.BigInteger.prototype.FV = Math.pow(2,exports.BI_FP);
+exports.BigInteger.prototype.F1 = exports.BI_FP-exports.dbits;
+exports.BigInteger.prototype.F2 = 2*exports.dbits-exports.BI_FP;
 
 // Digit conversions
 exports.BI_RM = "0123456789abcdefghijklmnopqrstuvwxyz";
@@ -89,15 +89,15 @@ exports.BI_RC = new Array();
 exports.rr = undefined;
 exports.vv = undefined;
 rr = "0".charCodeAt(0);
-for(vv = 0; vv <= 9; ++vv) BI_RC[rr++] = vv;
+for(vv = 0; vv <= 9; ++vv) exports.BI_RC[rr++] = vv;
 rr = "a".charCodeAt(0);
-for(vv = 10; vv < 36; ++vv) BI_RC[rr++] = vv;
+for(vv = 10; vv < 36; ++vv) exports.BI_RC[rr++] = vv;
 rr = "A".charCodeAt(0);
-for(vv = 10; vv < 36; ++vv) BI_RC[rr++] = vv;
+for(vv = 10; vv < 36; ++vv) exports.BI_RC[rr++] = vv;
 
 exports.int2char = function (n) { return BI_RM.charAt(n); };
 exports.intAt = function (s,i) {
-  var c = BI_RC[s.charCodeAt(i)];
+  var c = exports.BI_RC[s.charCodeAt(i)];
   return (c==null)?-1:c;
 };
 
@@ -411,11 +411,11 @@ exports.cReduce = function (x) { x.divRemTo(this.m,null,x); };
 exports.cMulTo = function (x,y,r) { x.multiplyTo(y,r); this.reduce(r); };
 exports.cSqrTo = function (x,r) { x.squareTo(r); this.reduce(r); };
 
-exports.Classic.prototype.convert = cConvert;
-exports.Classic.prototype.revert = cRevert;
-exports.Classic.prototype.reduce = cReduce;
-exports.Classic.prototype.mulTo = cMulTo;
-exports.Classic.prototype.sqrTo = cSqrTo;
+exports.Classic.prototype.convert = exports.cConvert;
+exports.Classic.prototype.revert = exports.cRevert;
+exports.Classic.prototype.reduce = exports.cReduce;
+exports.Classic.prototype.mulTo = exports.cMulTo;
+exports.Classic.prototype.sqrTo = exports.cSqrTo;
 
 // (protected) return "-1/this % 2^DB"; useful for Mont. reduction
 // justification:
@@ -494,11 +494,11 @@ exports.montSqrTo = function (x,r) { x.squareTo(r); this.reduce(r); };
 // r = "xy/R mod m"; x,y != r
 exports.montMulTo = function (x,y,r) { x.multiplyTo(y,r); this.reduce(r); };
 
-exports.Montgomery.prototype.convert = montConvert;
-exports.Montgomery.prototype.revert = montRevert;
-exports.Montgomery.prototype.reduce = montReduce;
-exports.Montgomery.prototype.mulTo = montMulTo;
-exports.Montgomery.prototype.sqrTo = montSqrTo;
+exports.Montgomery.prototype.convert = exports.montConvert;
+exports.Montgomery.prototype.revert = exports.montRevert;
+exports.Montgomery.prototype.reduce = exports.montReduce;
+exports.Montgomery.prototype.mulTo = exports.montMulTo;
+exports.Montgomery.prototype.sqrTo = exports.montSqrTo;
 
 // (protected) true iff this is even
 exports.bnpIsEven = function () { return ((this.t>0)?(this[0]&1):this.s) == 0; };
@@ -524,31 +524,31 @@ exports.bnModPowInt = function (e,m) {
 };
 
 // protected
-exports.BigInteger.prototype.copyTo = bnpCopyTo;
-exports.BigInteger.prototype.fromInt = bnpFromInt;
-exports.BigInteger.prototype.fromString = bnpFromString;
-exports.BigInteger.prototype.clamp = bnpClamp;
-exports.BigInteger.prototype.dlShiftTo = bnpDLShiftTo;
-exports.BigInteger.prototype.drShiftTo = bnpDRShiftTo;
-exports.BigInteger.prototype.lShiftTo = bnpLShiftTo;
-exports.BigInteger.prototype.rShiftTo = bnpRShiftTo;
-exports.BigInteger.prototype.subTo = bnpSubTo;
-exports.BigInteger.prototype.multiplyTo = bnpMultiplyTo;
-exports.BigInteger.prototype.squareTo = bnpSquareTo;
-exports.BigInteger.prototype.divRemTo = bnpDivRemTo;
-exports.BigInteger.prototype.invDigit = bnpInvDigit;
-exports.BigInteger.prototype.isEven = bnpIsEven;
-exports.BigInteger.prototype.exp = bnpExp;
+exports.BigInteger.prototype.copyTo = exports.bnpCopyTo;
+exports.BigInteger.prototype.fromInt = exports.bnpFromInt;
+exports.BigInteger.prototype.fromString = exports.bnpFromString;
+exports.BigInteger.prototype.clamp = exports.bnpClamp;
+exports.BigInteger.prototype.dlShiftTo = exports.bnpDLShiftTo;
+exports.BigInteger.prototype.drShiftTo = exports.bnpDRShiftTo;
+exports.BigInteger.prototype.lShiftTo = exports.bnpLShiftTo;
+exports.BigInteger.prototype.rShiftTo = exports.bnpRShiftTo;
+exports.BigInteger.prototype.subTo = exports.bnpSubTo;
+exports.BigInteger.prototype.multiplyTo = exports.bnpMultiplyTo;
+exports.BigInteger.prototype.squareTo = exports.bnpSquareTo;
+exports.BigInteger.prototype.divRemTo = exports.bnpDivRemTo;
+exports.BigInteger.prototype.invDigit = exports.bnpInvDigit;
+exports.BigInteger.prototype.isEven = exports.bnpIsEven;
+exports.BigInteger.prototype.exp = exports.bnpExp;
 
 // public
-exports.BigInteger.prototype.toString = bnToString;
-exports.BigInteger.prototype.negate = bnNegate;
-exports.BigInteger.prototype.abs = bnAbs;
-exports.BigInteger.prototype.compareTo = bnCompareTo;
-exports.BigInteger.prototype.bitLength = bnBitLength;
-exports.BigInteger.prototype.mod = bnMod;
-exports.BigInteger.prototype.modPowInt = bnModPowInt;
+exports.BigInteger.prototype.toString = exports.bnToString;
+exports.BigInteger.prototype.negate = exports.bnNegate;
+exports.BigInteger.prototype.abs = exports.bnAbs;
+exports.BigInteger.prototype.compareTo = exports.bnCompareTo;
+exports.BigInteger.prototype.bitLength = exports.bnBitLength;
+exports.BigInteger.prototype.mod = exports.bnMod;
+exports.BigInteger.prototype.modPowInt = exports.bnModPowInt;
 
 // "constants"
-exports.BigInteger.ZERO = nbv(0);
-exports.BigInteger.ONE = nbv(1);
+exports.BigInteger.ZERO = exports.nbv(0);
+exports.BigInteger.ONE = exports.nbv(1);
