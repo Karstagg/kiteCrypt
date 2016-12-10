@@ -1,12 +1,15 @@
-<!--Inputs are going to be username, publicKeyX, publicKeyY. Logic is to look up profile by username, compare keys and make sure both keys match, if there is any discrepancy, throw them out. Profile object (including Keys) are going to be in the session. Need to getProfilePublicKeyx, getProfilePublicKeyY-->
-
 <?php
+
+
+/**
+ * Inputs are going to be username, publicKeyX, publicKeyY. Logic is to look up profile by *  username, compare keys and make sure both keys match, if there is any discrepancy, throw them out. Profile object (including Keys) are going to be in the session. Need to getProfilePublicKeyx, getProfilePublicKeyY
+ */
 
 require_once dirname(__DIR__, 3) . "/php/class/autoloader.php";
 require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\KiteCrypt\Profile;
+use Edu\Cnm\KiteCrypt\Message;
 
 
 /**
@@ -25,23 +28,51 @@ $reply = new stdClass();
 $reply->status = 200;
 $reply->data = null;
 
-$exceptionMessage = "No chat history";
+$exceptionMessage = "no encrypted message for you";
 $exceptionCode = 401;
 
 
 
 try {
-	//grab the mySQL connection
-	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/kitecrypt.ini");
+	$config = readConfig("/etc/apache2/capstone-mysql/kitecrypt.ini");
+	$pusherConfig = json_decode($config["pusher"]);
+	$pusher = new Pusher($pusherConfig->key, $pusherConfig->secret, $pusherConfig->id, ["encrypted" => true]);
+
 
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
+	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	$messageText = filter_input(INPUT_GET, "messageText", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$messageReceiverId = filter_input(INPUT_GET, "messageReceiverId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$messageSenderId= filter_input(INPUT_GET, "messageSenderId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
+	//establish pdo connection
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/kitecrypt.ini");
+
+
+	if(($method === "DELETE") && (empty($id) === true || $id < 0)) {
+		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
+	}
+
+	if($method === "GET") {
+		if(empty($id) === false) {
+			$reply->data = Message::getMessageByMessageId($pdo, $id);
+		}
+
+
+	}
+
+
+
+
+
+
 	if($method === "POST") {
 
 		//set XSRF cookie
-//		setXsrfCookie();
-//		verifyXsrf();
+		setXsrfCookie("/");
+		verifyXsrf();
 
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
