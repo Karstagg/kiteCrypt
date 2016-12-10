@@ -598,7 +598,6 @@ exports.convertStringToHex = function (originalString) {
 // constructor
 exports.ECFieldElementFp = function (q,x) {
 	this.x = x;
-	// TODO if(x.compareTo(q) >= 0) error
 	this.q = q;
 };
 
@@ -661,7 +660,6 @@ exports.ECPointFp = function (curve,x,y,z) {
 		this.z = z;
 	}
 	this.zinv = null;
-	//TODO: compression flag
 };
 
 exports.pointFpGetX = function () {
@@ -745,7 +743,6 @@ exports.pointFpTwice = function () {
 	if(this.isInfinity()) return this;
 	if(this.y.toBigInteger().signum() == 0) return this.curve.getInfinity();
 
-	// TODO: optimized handling of constants
 	var THREE = new BigInteger("3");
 	var x1 = this.x.toBigInteger();
 	var y1 = this.y.toBigInteger();
@@ -772,7 +769,6 @@ exports.pointFpTwice = function () {
 };
 
 // Simple NAF (Non-Adjacent Form) multiplication algorithm
-// TODO: modularize the multiplication algorithm
 exports.pointFpMultiply = function (k) {
 	if(this.isInfinity()) return this;
 	if(k.signum() == 0) return this.curve.getInfinity();
@@ -2328,7 +2324,6 @@ exports.rng_get_byte = function () {
 		rng_pptr = 0;
 		//rng_pool = null;
 	}
-	// TODO: allow reseeding after first request
 	return rng_state.next();
 };
 
@@ -2494,7 +2489,6 @@ exports.secp256r1 = function () {
 	return new X9ECParameters(curve, G, n, h);
 };
 
-// TODO: make this into a proper hashtable
 exports.getSECCurveByName = function (name) {
 	if(name == "secp128r1") return exports.secp128r1();
 	if(name == "secp160k1") return exports.secp160k1();
