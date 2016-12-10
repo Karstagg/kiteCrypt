@@ -24,7 +24,7 @@ $reply->status = 200;
 $reply->data = null;
 
 
-$exceptionMessage = "Username or Password invalid";
+$exceptionMessage = "Forever alone :'(";
 $exceptionCode = 401;
 
 try {
@@ -39,7 +39,6 @@ try {
 	if($method === "GET") {
 		//set XSRF cookie
 		setXsrfCookie("/");
-		throw(new \BadMethodCallException($exceptionMessage, $exceptionCode));
 
 	} else if($method === "POST") {
 
@@ -49,30 +48,11 @@ try {
 		if(empty($requestObject->username) === true) {
 			throw(new \InvalidArgumentException ($exceptionMessage, $exceptionCode));
 		}
-//		New User field
-		$newUser = filter_var($requestObject->newUser, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-		if($newUser === null) {
-			throw (new \InvalidArgumentException($exceptionMessage, $exceptionCode));
-		}
-		if($newUser === true) {
-			$profileFromDatabase = Profile::getProfileByUserName($pdo, $requestObject->username);
-			if($profileFromDatabase->getSize() === 0) {
-				$pepper = new stdClass();
-				$pepper->salt = bin2hex(random_bytes(16));
-				$reply->data = $pepper;
-			} else {
-				throw (new \InvalidArgumentException($exceptionMessage, $exceptionCode));
-			}
-		} else {
-			//perform the actual post - POST only, GET requests put username in the URL. POST requests are not shareable//
-			$profile = Profile::getProfileByUserName($pdo, $requestObject->username);
-			if(empty($profile) === true) {
-				throw (new \InvalidArgumentException($exceptionMessage, $exceptionCode));
-			}
-			$reply->data = $profile->getProfilePasswordSalt();
-		}
+//
 
 
+	} else if($method === "DELETE") {
+		verifyXsrf();
 	} else {
 		throw (new InvalidArgumentException($exceptionMessage, $exceptionCode));
 	}

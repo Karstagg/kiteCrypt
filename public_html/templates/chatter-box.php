@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-xs-12 bg-color"
+
 	<h2>Welcome</h2>
 	<div class="panel panel-default">
 		<div class="panel-heading">

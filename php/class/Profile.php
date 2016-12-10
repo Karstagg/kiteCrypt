@@ -521,6 +521,39 @@ class Profile implements \JsonSerializable {
 		return ($profiles);
 	}
 
+	public static function getFriendship (\PDO $pdo, int $profileId) {
+		$profileId = trim($profileId);
+		if(empty($profileId) === true) {
+			throw(new \PDOException("Public Password Salt is invalid"));
+		}
+		// create query template
+		$query = "SELECT profileId, profilePasswordSalt, profilePublicKeyX, profilePublicKeyY, profileUserName
+FROM profile
+WHERE profileId IN(SELECT DISTINCT friendshipInviteeId AS friendshipProfileId
+						 FROM friendship
+						 WHERE friendshipInviterId = :profileId
+						 UNION SELECT DISTINCT friendshipInviterId AS friendshipProfileId
+						 FROM friendship
+						 WHERE friendshipInviteeId = :profileId)
+ORDER BY profileId;";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		// build an array of profiles
+		$profiles = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$profile = new Profile($row["profileId"], $row["profileUserName"], $row["profilePublicKeyX"], $row["profilePublicKeyY"], $row["profilePasswordSalt"]);
+				$profiles[$profiles->key()] = $profile;
+				$profiles->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+	}
+
 
 	/**
 	 * formats the state variables for JSON serialization
