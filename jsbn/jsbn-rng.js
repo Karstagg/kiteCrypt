@@ -71,7 +71,7 @@ exports.rng_get_bytes = function (ba) {
 };
 
 exports.SecureRandom = function () {
-  return(rng_get_bytes)
+  return(exports.rng_get_bytes);
 };
 
 exports.SecureRandom.prototype.nextBytes = exports.rng_get_bytes;

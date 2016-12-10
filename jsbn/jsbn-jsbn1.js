@@ -3,7 +3,7 @@ exports.dbits = undefined;
 
 
 exports.canary = 0xdeadbeefcafe;
-exports.j_lm = ((canary&0xffffff)==0xefcafe);
+exports.j_lm = ((exports.canary&0xffffff)==0xefcafe);
 
 // (public) Constructor
 exports.BigInteger = function (a,b,c) {

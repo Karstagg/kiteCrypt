@@ -1,4 +1,5 @@
 var jsbnRng = require("./jsbn-rng");
+var jsbnBn1 = require("./jsbn-jsbn1");
 
 /*
  ----------------------------------------------------------------------------
@@ -87,9 +88,9 @@ exports.set_secp256r1 = function () {
 };
 
 exports.get_curve = function () {
-	return new exports.ECCurveFp(new exports.BigInteger(exports.eccP, 16),
-		new exports.BigInteger(eccA, 16),
-		new exports.BigInteger(eccB, 16));
+	return new exports.ECCurveFp(new jsbnBn1.BigInteger(exports.eccP, 16),
+		new jsbnBn1.BigInteger(eccA, 16),
+		new jsbnBn1.BigInteger(eccB, 16));
 };
 
 exports.get_G = function (curve) {

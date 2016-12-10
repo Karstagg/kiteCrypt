@@ -47,14 +47,14 @@ exports.feFpDivide = function (b) {
     return new ECFieldElementFp(this.q, this.x.multiply(b.toBigInteger().modInverse(this.q)).mod(this.q));
 };
 
-exports.ECFieldElementFp.prototype.equals = feFpEquals;
-exports.ECFieldElementFp.prototype.toBigInteger = feFpToBigInteger;
-exports.ECFieldElementFp.prototype.negate = feFpNegate;
-exports.ECFieldElementFp.prototype.add = feFpAdd;
-exports.ECFieldElementFp.prototype.subtract = feFpSubtract;
-exports.ECFieldElementFp.prototype.multiply = feFpMultiply;
-exports.ECFieldElementFp.prototype.square = feFpSquare;
-exports.ECFieldElementFp.prototype.divide = feFpDivide;
+exports.ECFieldElementFp.prototype.equals = exports.feFpEquals;
+exports.ECFieldElementFp.prototype.toBigInteger = exports.feFpToBigInteger;
+exports.ECFieldElementFp.prototype.negate = exports.feFpNegate;
+exports.ECFieldElementFp.prototype.add = exports.feFpAdd;
+exports.ECFieldElementFp.prototype.subtract = exports.feFpSubtract;
+exports.ECFieldElementFp.prototype.multiply = exports.feFpMultiply;
+exports.ECFieldElementFp.prototype.square = exports.feFpSquare;
+exports.ECFieldElementFp.prototype.divide = exports.feFpDivide;
 
 // ----------------
 // ECPointFp
@@ -241,15 +241,15 @@ exports.pointFpMultiplyTwo = function (j,x,k) {
   return R;
 };
 
-exports.ECPointFp.prototype.getX = pointFpGetX;
-exports.ECPointFp.prototype.getY = pointFpGetY;
-exports.ECPointFp.prototype.equals = pointFpEquals;
-exports.ECPointFp.prototype.isInfinity = pointFpIsInfinity;
-exports.ECPointFp.prototype.negate = pointFpNegate;
-exports.ECPointFp.prototype.add = pointFpAdd;
-exports.ECPointFp.prototype.twice = pointFpTwice;
-exports.ECPointFp.prototype.multiply = pointFpMultiply;
-exports.ECPointFp.prototype.multiplyTwo = pointFpMultiplyTwo;
+exports.ECPointFp.prototype.getX = exports.pointFpGetX;
+exports.ECPointFp.prototype.getY = exports.pointFpGetY;
+exports.ECPointFp.prototype.equals = exports.pointFpEquals;
+exports.ECPointFp.prototype.isInfinity = exports.pointFpIsInfinity;
+exports.ECPointFp.prototype.negate = exports.pointFpNegate;
+exports.ECPointFp.prototype.add = exports.pointFpAdd;
+exports.ECPointFp.prototype.twice = exports.pointFpTwice;
+exports.ECPointFp.prototype.multiply = exports.pointFpMultiply;
+exports.ECPointFp.prototype.multiplyTwo = exports.pointFpMultiplyTwo;
 
 // ----------------
 // ECCurveFp
@@ -334,12 +334,12 @@ exports.curveFpEncodePointHex = function (p) {
 	return "04" + xHex + yHex;
 };
 
-exports.ECCurveFp.prototype.getQ = curveFpGetQ;
-exports.ECCurveFp.prototype.getA = curveFpGetA;
-exports.ECCurveFp.prototype.getB = curveFpGetB;
-exports.ECCurveFp.prototype.equals = curveFpEquals;
-exports.ECCurveFp.prototype.getInfinity = curveFpGetInfinity;
-exports.ECCurveFp.prototype.fromBigInteger = curveFpFromBigInteger;
-exports.ECCurveFp.prototype.reduce = curveReduce;
-exports.ECCurveFp.prototype.decodePointHex = curveFpDecodePointHex;
-exports.ECCurveFp.prototype.encodePointHex = curveFpEncodePointHex;
+exports.ECCurveFp.prototype.getQ = exports.curveFpGetQ;
+exports.ECCurveFp.prototype.getA = exports.curveFpGetA;
+exports.ECCurveFp.prototype.getB = exports.curveFpGetB;
+exports.ECCurveFp.prototype.equals = exports.curveFpEquals;
+exports.ECCurveFp.prototype.getInfinity = exports.curveFpGetInfinity;
+exports.ECCurveFp.prototype.fromBigInteger = exports.curveFpFromBigInteger;
+exports.ECCurveFp.prototype.reduce = exports.curveReduce;
+exports.ECCurveFp.prototype.decodePointHex = exports.curveFpDecodePointHex;
+exports.ECCurveFp.prototype.encodePointHex = exports.curveFpEncodePointHex;
