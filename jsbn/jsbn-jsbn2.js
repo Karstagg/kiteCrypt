@@ -77,7 +77,7 @@ exports.bnpFromRadix = function (s,b) {
     this.dMultiply(Math.pow(b,j));
     this.dAddOffset(w,0);
   }
-  if(mi) BigInteger.ZERO.subTo(this,this);
+  if(mi) exports.BigInteger.ZERO.subTo(this,this);
 };
 
 // (protected) alternate constructor
@@ -88,11 +88,11 @@ exports.bnpFromNumber = function (a,b,c) {
     else {
       this.fromNumber(a,c);
       if(!this.testBit(a-1))	// force MSB set
-        this.bitwiseTo(BigInteger.ONE.shiftLeft(a-1),op_or,this);
+        this.bitwiseTo(exports.BigInteger.ONE.shiftLeft(a-1),op_or,this);
       if(this.isEven()) this.dAddOffset(1,0); // force odd
       while(!this.isProbablePrime(b)) {
         this.dAddOffset(2,0);
-        if(this.bitLength() > a) this.subTo(BigInteger.ONE.shiftLeft(a-1),this);
+        if(this.bitLength() > a) this.subTo(exports.BigInteger.ONE.shiftLeft(a-1),this);
       }
     }
   }
@@ -235,7 +235,7 @@ exports.bnTestBit = function (n) {
 
 // (protected) this op (1<<n)
 exports.bnpChangeBit = function (n,op) {
-  var r = BigInteger.ONE.shiftLeft(n);
+  var r = exports.BigInteger.ONE.shiftLeft(n);
   this.bitwiseTo(r,op,r);
   return r;
 };
@@ -332,10 +332,10 @@ exports.nNop = function (x) { return x; };
 exports.nMulTo = function (x,y,r) { x.multiplyTo(y,r); };
 exports.nSqrTo = function (x,r) { x.squareTo(r); };
 
-exports.NullExp.prototype.convert = nNop;
-exports.NullExp.prototype.revert = nNop;
-exports.NullExp.prototype.mulTo = nMulTo;
-exports.NullExp.prototype.sqrTo = nSqrTo;
+exports.NullExp.prototype.convert = exports.nNop;
+exports.NullExp.prototype.revert = exports.nNop;
+exports.NullExp.prototype.mulTo = exports.nMulTo;
+exports.NullExp.prototype.sqrTo = exports.nSqrTo;
 
 // (public) this^e
 exports.bnPow = function (e) { return this.exp(e,new NullExp()); };
@@ -371,7 +371,7 @@ exports.Barrett = function (m) {
   // setup Barrett
   this.r2 = nbi();
   this.q3 = nbi();
-  BigInteger.ONE.dlShiftTo(2*m.t,this.r2);
+  exports.BigInteger.ONE.dlShiftTo(2*m.t,this.r2);
   this.mu = this.r2.divide(m);
   this.m = m;
 };
@@ -401,11 +401,11 @@ exports.barrettSqrTo = function (x,r) { x.squareTo(r); this.reduce(r); };
 // r = x*y mod m; x,y != r
 exports.barrettMulTo = function (x,y,r) { x.multiplyTo(y,r); this.reduce(r); };
 
-exports.Barrett.prototype.convert = barrettConvert;
-exports.Barrett.prototype.revert = barrettRevert;
-exports.Barrett.prototype.reduce = barrettReduce;
-exports.Barrett.prototype.mulTo = barrettMulTo;
-exports.Barrett.prototype.sqrTo = barrettSqrTo;
+exports.Barrett.prototype.convert = exports.barrettConvert;
+exports.Barrett.prototype.revert = exports.barrettRevert;
+exports.Barrett.prototype.reduce = exports.barrettReduce;
+exports.Barrett.prototype.mulTo = exports.barrettMulTo;
+exports.Barrett.prototype.sqrTo = exports.barrettSqrTo;
 
 // (public) this^e % m (HAC 14.85)
 exports.bnModPow = function (e,m) {
@@ -507,7 +507,7 @@ exports.bnpModInt = function (n) {
 // (public) 1/this % m (HAC 14.61)
 exports.bnModInverse = function (m) {
   var ac = m.isEven();
-  if((this.isEven() && ac) || m.signum() == 0) return BigInteger.ZERO;
+  if((this.isEven() && ac) || m.signum() == 0) return exports.BigInteger.ZERO;
   var u = m.clone(), v = this.clone();
   var a = nbv(1), b = nbv(0), c = nbv(0), d = nbv(1);
   while(u.signum() != 0) {
@@ -540,52 +540,52 @@ exports.bnModInverse = function (m) {
       d.subTo(b,d);
     }
   }
-  if(v.compareTo(BigInteger.ONE) != 0) return BigInteger.ZERO;
+  if(v.compareTo(exports.BigInteger.ONE) != 0) return exports.BigInteger.ZERO;
   if(d.compareTo(m) >= 0) return d.subtract(m);
   if(d.signum() < 0) d.addTo(m,d); else return d;
   if(d.signum() < 0) return d.add(m); else return d;
 };
 
 exports.lowprimes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179,181,191,193,197,199,211,223,227,229,233,239,241,251,257,263,269,271,277,281,283,293,307,311,313,317,331,337,347,349,353,359,367,373,379,383,389,397,401,409,419,421,431,433,439,443,449,457,461,463,467,479,487,491,499,503,509,521,523,541,547,557,563,569,571,577,587,593,599,601,607,613,617,619,631,641,643,647,653,659,661,673,677,683,691,701,709,719,727,733,739,743,751,757,761,769,773,787,797,809,811,821,823,827,829,839,853,857,859,863,877,881,883,887,907,911,919,929,937,941,947,953,967,971,977,983,991,997];
-exports.lplim = (1<<26)/lowprimes[lowprimes.length-1];
+exports.lplim = (1<<26)/exports.lowprimes[exports.lowprimes.length-1];
 
 // (public) test primality with certainty >= 1-.5^t
 exports.bnIsProbablePrime = function (t) {
   var i, x = this.abs();
-  if(x.t == 1 && x[0] <= lowprimes[lowprimes.length-1]) {
-    for(i = 0; i < lowprimes.length; ++i)
-      if(x[0] == lowprimes[i]) return true;
+  if(x.t == 1 && x[0] <= exports.lowprimes[exports.lowprimes.length-1]) {
+    for(i = 0; i < exports.lowprimes.length; ++i)
+      if(x[0] == exports.lowprimes[i]) return true;
     return false;
   }
   if(x.isEven()) return false;
   i = 1;
-  while(i < lowprimes.length) {
-    var m = lowprimes[i], j = i+1;
-    while(j < lowprimes.length && m < lplim) m *= lowprimes[j++];
+  while(i < exports.lowprimes.length) {
+    var m = exports.lowprimes[i], j = i+1;
+    while(j < exports.lowprimes.length && m < lplim) m *= exports.lowprimes[j++];
     m = x.modInt(m);
-    while(i < j) if(m%lowprimes[i++] == 0) return false;
+    while(i < j) if(m%exports.lowprimes[i++] == 0) return false;
   }
   return x.millerRabin(t);
 };
 
 // (protected) true if probably prime (HAC 4.24, Miller-Rabin)
 exports.bnpMillerRabin = function (t) {
-  var n1 = this.subtract(BigInteger.ONE);
+  var n1 = this.subtract(exports.BigInteger.ONE);
   var k = n1.getLowestSetBit();
   if(k <= 0) return false;
   var r = n1.shiftRight(k);
   t = (t+1)>>1;
-  if(t > lowprimes.length) t = lowprimes.length;
+  if(t > exports.lowprimes.length) t = exports.lowprimes.length;
   var a = nbi();
   for(var i = 0; i < t; ++i) {
     //Pick bases at random, instead of starting at 2
-    a.fromInt(lowprimes[Math.floor(Math.random()*lowprimes.length)]);
+    a.fromInt(exports.lowprimes[Math.floor(Math.random()*exports.lowprimes.length)]);
     var y = a.modPow(r,this);
-    if(y.compareTo(BigInteger.ONE) != 0 && y.compareTo(n1) != 0) {
+    if(y.compareTo(exports.BigInteger.ONE) != 0 && y.compareTo(n1) != 0) {
       var j = 1;
       while(j++ < k && y.compareTo(n1) != 0) {
         y = y.modPowInt(2,this);
-        if(y.compareTo(BigInteger.ONE) == 0) return false;
+        if(y.compareTo(exports.BigInteger.ONE) == 0) return false;
       }
       if(y.compareTo(n1) != 0) return false;
     }
@@ -594,59 +594,114 @@ exports.bnpMillerRabin = function (t) {
 };
 
 // protected
-exports.BigInteger.prototype.chunkSize = bnpChunkSize;
-exports.BigInteger.prototype.toRadix = bnpToRadix;
-exports.BigInteger.prototype.fromRadix = bnpFromRadix;
-exports.BigInteger.prototype.fromNumber = bnpFromNumber;
-exports.BigInteger.prototype.bitwiseTo = bnpBitwiseTo;
-exports.BigInteger.prototype.changeBit = bnpChangeBit;
-exports.BigInteger.prototype.addTo = bnpAddTo;
-exports.BigInteger.prototype.dMultiply = bnpDMultiply;
-exports.BigInteger.prototype.dAddOffset = bnpDAddOffset;
-exports.BigInteger.prototype.multiplyLowerTo = bnpMultiplyLowerTo;
-exports.BigInteger.prototype.multiplyUpperTo = bnpMultiplyUpperTo;
-exports.BigInteger.prototype.modInt = bnpModInt;
-exports.BigInteger.prototype.millerRabin = bnpMillerRabin;
-
-// public
-exports.BigInteger.prototype.clone = bnClone;
-exports.BigInteger.prototype.intValue = bnIntValue;
-exports.BigInteger.prototype.byteValue = bnByteValue;
-exports.BigInteger.prototype.shortValue = bnShortValue;
-exports.BigInteger.prototype.signum = bnSigNum;
-exports.BigInteger.prototype.toByteArray = bnToByteArray;
-exports.BigInteger.prototype.equals = bnEquals;
-exports.BigInteger.prototype.min = bnMin;
-exports.BigInteger.prototype.max = bnMax;
-exports.BigInteger.prototype.and = bnAnd;
-exports.BigInteger.prototype.or = bnOr;
-exports.BigInteger.prototype.xor = bnXor;
-exports.BigInteger.prototype.andNot = bnAndNot;
-exports.BigInteger.prototype.not = bnNot;
-exports.BigInteger.prototype.shiftLeft = bnShiftLeft;
-exports.BigInteger.prototype.shiftRight = bnShiftRight;
-exports.BigInteger.prototype.getLowestSetBit = bnGetLowestSetBit;
-exports.BigInteger.prototype.bitCount = bnBitCount;
-exports.BigInteger.prototype.testBit = bnTestBit;
-exports.BigInteger.prototype.setBit = bnSetBit;
-exports.BigInteger.prototype.clearBit = bnClearBit;
-exports.BigInteger.prototype.flipBit = bnFlipBit;
-exports.BigInteger.prototype.add = bnAdd;
-exports.BigInteger.prototype.subtract = bnSubtract;
-exports.BigInteger.prototype.multiply = bnMultiply;
-exports.BigInteger.prototype.divide = bnDivide;
-exports.BigInteger.prototype.remainder = bnRemainder;
-exports.BigInteger.prototype.divideAndRemainder = bnDivideAndRemainder;
-exports.BigInteger.prototype.modPow = bnModPow;
-exports.BigInteger.prototype.modInverse = bnModInverse;
-exports.BigInteger.prototype.pow = bnPow;
-exports.BigInteger.prototype.gcd = bnGCD;
-exports.BigInteger.prototype.isProbablePrime = bnIsProbablePrime;
-
-// JSBN-specific extension
-exports.BigInteger.prototype.square = bnSquare;
+// exports.BigInteger.prototype.chunkSize = exports.bnpChunkSize;
+// exports.BigInteger.prototype.toRadix = exports.bnpToRadix;
+// exports.BigInteger.prototype.fromRadix = exports.bnpFromRadix;
+// exports.BigInteger.prototype.fromNumber = exports.bnpFromNumber;
+// exports.BigInteger.prototype.bitwiseTo = exports.bnpBitwiseTo;
+// exports.BigInteger.prototype.changeBit = exports.bnpChangeBit;
+// exports.BigInteger.prototype.addTo = exports.bnpAddTo;
+// exports.BigInteger.prototype.dMultiply = exports.bnpDMultiply;
+// exports.BigInteger.prototype.dAddOffset = exports.bnpDAddOffset;
+// exports.BigInteger.prototype.multiplyLowerTo = exports.bnpMultiplyLowerTo;
+// exports.BigInteger.prototype.multiplyUpperTo = exports.bnpMultiplyUpperTo;
+// exports.BigInteger.prototype.modInt = exports.bnpModInt;
+// exports.BigInteger.prototype.millerRabin = exports.bnpMillerRabin;
+//
+// // public
+// exports.BigInteger.prototype.clone = exports.bnClone;
+// exports.BigInteger.prototype.intValue = exports.bnIntValue;
+// exports.BigInteger.prototype.byteValue = exports.bnByteValue;
+// exports.BigInteger.prototype.shortValue = exports.bnShortValue;
+// exports.BigInteger.prototype.signum = exports.bnSigNum;
+// exports.BigInteger.prototype.toByteArray = exports.bnToByteArray;
+// exports.BigInteger.prototype.equals = exports.bnEquals;
+// exports.BigInteger.prototype.min = exports.bnMin;
+// exports.BigInteger.prototype.max = exports.bnMax;
+// exports.BigInteger.prototype.and = exports.bnAnd;
+// exports.BigInteger.prototype.or = exports.bnOr;
+// exports.BigInteger.prototype.xor = exports.bnXor;
+// exports.BigInteger.prototype.andNot = exports.bnAndNot;
+// exports.BigInteger.prototype.not = exports.bnNot;
+// exports.BigInteger.prototype.shiftLeft = exports.bnShiftLeft;
+// exports.BigInteger.prototype.shiftRight = exports.bnShiftRight;
+// exports.BigInteger.prototype.getLowestSetBit = exports.bnGetLowestSetBit;
+// exports.BigInteger.prototype.bitCount = exports.bnBitCount;
+// exports.BigInteger.prototype.testBit = exports.bnTestBit;
+// exports.BigInteger.prototype.setBit = exports.bnSetBit;
+// exports.BigInteger.prototype.clearBit = exports.bnClearBit;
+// exports.BigInteger.prototype.flipBit = exports.bnFlipBit;
+// exports.BigInteger.prototype.add = exports.bnAdd;
+// exports.BigInteger.prototype.subtract = exports.bnSubtract;
+// exports.BigInteger.prototype.multiply = exports.bnMultiply;
+// exports.BigInteger.prototype.divide = exports.bnDivide;
+// exports.BigInteger.prototype.remainder = exports.bnRemainder;
+// exports.BigInteger.prototype.divideAndRemainder = exports.bnDivideAndRemainder;
+// exports.BigInteger.prototype.modPow = exports.bnModPow;
+// exports.BigInteger.prototype.modInverse = exports.bnModInverse;
+// exports.BigInteger.prototype.pow = exports.bnPow;
+// exports.BigInteger.prototype.gcd = exports.bnGCD;
+// exports.BigInteger.prototype.isProbablePrime = exports.bnIsProbablePrime;
+//
+// // JSBN-specific extension
+// exports.BigInteger.prototype.square = exports.bnSquare;
 
 // BigInteger interfaces not implemented in jsbn:
+exports.BigInteger = function () {
+  exports.this.bnpChunkSize = exports.bnpChunkSize;
+}
+exports.BigInteger.prototype.chunkSize = exports.bnpChunkSize;
+exports.BigInteger.prototype.toRadix = exports.bnpToRadix;
+exports.BigInteger.prototype.fromRadix = exports.bnpFromRadix;
+exports.BigInteger.prototype.fromNumber = exports.bnpFromNumber;
+exports.BigInteger.prototype.bitwiseTo = exports.bnpBitwiseTo;
+exports.BigInteger.prototype.changeBit = exports.bnpChangeBit;
+exports.BigInteger.prototype.addTo = exports.bnpAddTo;
+exports.BigInteger.prototype.dMultiply = exports.bnpDMultiply;
+exports.BigInteger.prototype.dAddOffset = exports.bnpDAddOffset;
+exports.BigInteger.prototype.multiplyLowerTo = exports.bnpMultiplyLowerTo;
+exports.BigInteger.prototype.multiplyUpperTo = exports.bnpMultiplyUpperTo;
+exports.BigInteger.prototype.modInt = exports.bnpModInt;
+exports.BigInteger.prototype.millerRabin = exports.bnpMillerRabin;
+
+// public
+exports.BigInteger.prototype.clone = exports.bnClone;
+exports.BigInteger.prototype.intValue = exports.bnIntValue;
+exports.BigInteger.prototype.byteValue = exports.bnByteValue;
+exports.BigInteger.prototype.shortValue = exports.bnShortValue;
+exports.BigInteger.prototype.signum = exports.bnSigNum;
+exports.BigInteger.prototype.toByteArray = exports.bnToByteArray;
+exports.BigInteger.prototype.equals = exports.bnEquals;
+exports.BigInteger.prototype.min = exports.bnMin;
+exports.BigInteger.prototype.max = exports.bnMax;
+exports.BigInteger.prototype.and = exports.bnAnd;
+exports.BigInteger.prototype.or = exports.bnOr;
+exports.BigInteger.prototype.xor = exports.bnXor;
+exports.BigInteger.prototype.andNot = exports.bnAndNot;
+exports.BigInteger.prototype.not = exports.bnNot;
+exports.BigInteger.prototype.shiftLeft = exports.bnShiftLeft;
+exports.BigInteger.prototype.shiftRight = exports.bnShiftRight;
+exports.BigInteger.prototype.getLowestSetBit = exports.bnGetLowestSetBit;
+exports.BigInteger.prototype.bitCount = exports.bnBitCount;
+exports.BigInteger.prototype.testBit = exports.bnTestBit;
+exports.BigInteger.prototype.setBit = exports.bnSetBit;
+exports.BigInteger.prototype.clearBit = exports.bnClearBit;
+exports.BigInteger.prototype.flipBit = exports.bnFlipBit;
+exports.BigInteger.prototype.add = exports.bnAdd;
+exports.BigInteger.prototype.subtract = exports.bnSubtract;
+exports.BigInteger.prototype.multiply = exports.bnMultiply;
+exports.BigInteger.prototype.divide = exports.bnDivide;
+exports.BigInteger.prototype.remainder = exports.bnRemainder;
+exports.BigInteger.prototype.divideAndRemainder = exports.bnDivideAndRemainder;
+exports.BigInteger.prototype.modPow = exports.bnModPow;
+exports.BigInteger.prototype.modInverse = exports.bnModInverse;
+exports.BigInteger.prototype.pow = exports.bnPow;
+exports.BigInteger.prototype.gcd = exports.bnGCD;
+exports.BigInteger.prototype.isProbablePrime = exports.bnIsProbablePrime;
+
+// JSBN-specific extension
+exports.BigInteger.prototype.square = exports.bnSquare;
+
 
 // BigInteger(int signum, byte[] magnitude)
 // double doubleValue()

@@ -32,8 +32,8 @@ exports.ARC4next = function () {
   return this.S[(t + this.S[this.i]) & 255];
 };
 
-exports.Arcfour.prototype.init = ARC4init;
-exports.Arcfour.prototype.next = ARC4next;
+exports.Arcfour.prototype.init = exports.ARC4init;
+exports.Arcfour.prototype.next = exports.ARC4next;
 
 // Plug in your RNG constructor here
 exports.prng_newstate = function () {

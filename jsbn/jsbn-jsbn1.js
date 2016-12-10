@@ -14,7 +14,7 @@ exports.BigInteger = function (a,b,c) {
 };
 
 // return new, unset BigInteger
-exports.nbi = function () { return new BigInteger(null); };
+exports.nbi = function () { return new exports.BigInteger(null); };
 
 // am: Compute w_j += (x*this_i), propagate carries,
 // c is initial carry, returns final carry.
@@ -62,7 +62,7 @@ exports.am3 = function (i,x,w,j,c,n) {
   return c;
 };
 // if(exports.j_lm && (exports.navigator.appName == "Microsoft Internet Explorer")) {
-//   exports.BigInteger.prototype.am = am2;
+//   exports.BigInteger.exports.prototype.am = am2;
 //   exports.dbits = 30;
 // }
 // else if(exports.j_lm && (exports.navigator.appName != "Netscape")) {
@@ -70,7 +70,7 @@ exports.am3 = function (i,x,w,j,c,n) {
   exports.dbits = 26;
 // }
 // else { // Mozilla/Netscape seems to prefer am3
-//   exports.BigInteger.prototype.am = am3;
+//   exports.BigInteger.exports.prototype.am = am3;
 //   exports.dbits = 28;
 // }
 
@@ -118,7 +118,7 @@ exports.bnpFromInt = function (x) {
 };
 
 // return bigint initialized to value
-exports.nbv = function (i) { var r = nbi(); r.fromInt(i); return r; };
+exports.nbv = function (i) { var r = exports.nbi(); r.fromInt(i); return r; };
 
 // (protected) set from string and radix
 exports.bnpFromString = function (s,b) {
@@ -156,7 +156,7 @@ exports.bnpFromString = function (s,b) {
     if(sh > 0) this[this.t-1] |= ((1<<(this.DB-sh))-1)<<sh;
   }
   this.clamp();
-  if(mi) BigInteger.ZERO.subTo(this,this);
+  if(mi) exports.BigInteger.ZERO.subTo(this,this);
 };
 
 // (protected) clamp off excess high words
@@ -196,7 +196,7 @@ exports.bnToString = function (b) {
 };
 
 // (public) -this
-exports.bnNegate = function () { var r = exports.nbi(); BigInteger.ZERO.subTo(this,r); return r; };
+exports.bnNegate = function () { var r = exports.nbi(); exports.BigInteger.ZERO.subTo(this,r); return r; };
 
 // (public) |this|
 exports.bnAbs = function () { return (this.s<0)?this.negate():this; };
@@ -323,7 +323,7 @@ exports.bnpMultiplyTo = function (a,r) {
   for(i = 0; i < y.t; ++i) r[i+x.t] = x.am(0,y[i],r,i,0,x.t);
   r.s = 0;
   r.clamp();
-  if(this.s != a.s) BigInteger.ZERO.subTo(r,r);
+  if(this.s != a.s) exports.BigInteger.ZERO.subTo(r,r);
 };
 
 // (protected) r = this^2, r != this (HAC 14.16)
@@ -354,8 +354,8 @@ exports.bnpDivRemTo = function (m,q,r) {
     if(r != null) this.copyTo(r);
     return;
   }
-  if(r == null) r = nbi();
-  var y = nbi(), ts = this.s, ms = m.s;
+  if(r == null) r = exports.nbi();
+  var y = exports.nbi(), ts = this.s, ms = m.s;
   var nsh = this.DB-nbits(pm[pm.t-1]);	// normalize modulus
   if(nsh > 0) { pm.lShiftTo(nsh,y); pt.lShiftTo(nsh,r); }
   else { pm.copyTo(y); pt.copyTo(r); }
@@ -364,13 +364,13 @@ exports.bnpDivRemTo = function (m,q,r) {
   if(y0 == 0) return;
   var yt = y0*(1<<this.F1)+((ys>1)?y[ys-2]>>this.F2:0);
   var d1 = this.FV/yt, d2 = (1<<this.F1)/yt, e = 1<<this.F2;
-  var i = r.t, j = i-ys, t = (q==null)?nbi():q;
+  var i = r.t, j = i-ys, t = (q==null)?exports.nbi():q;
   y.dlShiftTo(j,t);
   if(r.compareTo(t) >= 0) {
     r[r.t++] = 1;
     r.subTo(t,r);
   }
-  BigInteger.ONE.dlShiftTo(ys,t);
+  exports.BigInteger.ONE.dlShiftTo(ys,t);
   t.subTo(y,y);	// "negative" y so we can replace sub with am later
   while(y.t < ys) y[y.t++] = 0;
   while(--j >= 0) {
@@ -384,19 +384,19 @@ exports.bnpDivRemTo = function (m,q,r) {
   }
   if(q != null) {
     r.drShiftTo(ys,q);
-    if(ts != ms) BigInteger.ZERO.subTo(q,q);
+    if(ts != ms) exports.BigInteger.ZERO.subTo(q,q);
   }
   r.t = ys;
   r.clamp();
   if(nsh > 0) r.rShiftTo(nsh,r);	// Denormalize remainder
-  if(ts < 0) BigInteger.ZERO.subTo(r,r);
+  if(ts < 0) exports.BigInteger.ZERO.subTo(r,r);
 };
 
 // (public) this mod a
 exports.bnMod = function (a) {
-  var r = nbi();
+  var r = exports.nbi();
   this.abs().divRemTo(a,null,r);
-  if(this.s < 0 && r.compareTo(BigInteger.ZERO) > 0) a.subTo(r,r);
+  if(this.s < 0 && r.compareTo(exports.BigInteger.ZERO) > 0) a.subTo(r,r);
   return r;
 };
 
@@ -457,7 +457,7 @@ exports.montConvert = function (x) {
   var r = exports.nbi();
   x.abs().dlShiftTo(this.m.t,r);
   r.divRemTo(this.m,null,r);
-  if(x.s < 0 && r.compareTo(BigInteger.ZERO) > 0) this.m.subTo(r,r);
+  if(x.s < 0 && r.compareTo(exports.BigInteger.ZERO) > 0) this.m.subTo(r,r);
   return r;
 };
 
@@ -505,7 +505,7 @@ exports.bnpIsEven = function () { return ((this.t>0)?(this[0]&1):this.s) == 0; }
 
 // (protected) this^e, e < 2^32, doing sqr and mul with "r" (HAC 14.79)
 exports.bnpExp = function (e,z) {
-  if(e > 0xffffffff || e < 1) return BigInteger.ONE;
+  if(e > 0xffffffff || e < 1) return exports.BigInteger.ONE;
   var r = exports.nbi(), r2 = exports.nbi(), g = z.convert(this), i = nbits(e)-1;
   g.copyTo(r);
   while(--i >= 0) {
