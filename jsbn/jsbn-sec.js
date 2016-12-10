@@ -29,10 +29,10 @@ exports.x9getH = function () {
     return this.h;
 };
 
-exports.X9ECParameters.prototype.getCurve = x9getCurve;
-exports.X9ECParameters.prototype.getG = x9getG;
-exports.X9ECParameters.prototype.getN = x9getN;
-exports.X9ECParameters.prototype.getH = x9getH;
+exports.X9ECParameters.prototype.getCurve = exports.x9getCurve;
+exports.X9ECParameters.prototype.getG = exports.x9getG;
+exports.X9ECParameters.prototype.getN = exports.x9getN;
+exports.X9ECParameters.prototype.getH = exports.x9getH;
 
 // ----------------
 // SECNamedCurves
