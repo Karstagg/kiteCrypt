@@ -536,8 +536,10 @@ WHERE profileId IN(SELECT DISTINCT friendshipInviteeId AS friendshipProfileId
 						 FROM friendship
 						 WHERE friendshipInviteeId = :profileId)
 ORDER BY profileId;";
+
 		$statement = $pdo->prepare($query);
-		$statement->execute();
+		$parameters = ["profileId" => $profileId];
+		$statement->execute($parameters);
 
 		// build an array of profiles
 		$profiles = new \SplFixedArray($statement->rowCount());

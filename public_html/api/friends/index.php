@@ -48,8 +48,9 @@ try {
 		if(empty($requestObject->username) === true) {
 			throw(new \InvalidArgumentException ($exceptionMessage, $exceptionCode));
 		}
-//
-
+		else {
+			//$newFriends = new Profile($profileUserName);
+		}
 
 	} else if($method === "DELETE") {
 		verifyXsrf();
