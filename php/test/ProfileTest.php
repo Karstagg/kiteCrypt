@@ -415,6 +415,23 @@ class ProfileTest extends KiteCryptTest {
 		$this->assertEquals($pdoProfile->getProfilePasswordSalt(), $this->validProfileSalt);
 	}
 
+	public function testGettingFriendsListByProfileId() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		// create a new profile and insert to mySQL
+		$profile = new Profile($this->validProfileId, $this->validProfileUserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfileSalt);
+		$profile->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoProfile = Profile::getFriendshipByProfileId($this->getPDO(), $profile->getProfileId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$this->assertEquals($pdoProfile->getProfileUserName(), $this->validProfileUserName);
+		$this->assertEquals($pdoProfile->getProfilePublicKeyX(), $this->validProfilePublicKeyX);
+		$this->assertEquals($pdoProfile->getProfilePublicKeyY(), $this->validProfilePublicKeyY);
+		$this->assertEquals($pdoProfile->getProfilePasswordSalt(), $this->validProfileSalt);
+	}
+
 
 
 

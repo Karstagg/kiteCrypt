@@ -521,7 +521,7 @@ class Profile implements \JsonSerializable {
 		return ($profiles);
 	}
 	//getFriendship method
-	public static function getFriendship (\PDO $pdo, int $profileId) {
+	public static function getFriendshipByProfileId (\PDO $pdo, int $profileId) {
 		$profileId = trim($profileId);
 		if(empty($profileId) === true) {
 			throw(new \PDOException("Public Password Salt is invalid"));
