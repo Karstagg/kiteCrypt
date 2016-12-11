@@ -42,7 +42,7 @@ exports.decryptedMessage = undefined;
 
 exports.initializeEllipticCurveParameters = function() {
 
-	rng = new jsbnRng.SecureRandom();
+	rng = new exports.SecureRandom();
 
 	return(rng);
 };
@@ -90,9 +90,9 @@ exports.set_secp256r1 = function () {
 };
 
 exports.get_curve = function () {
-	return new jsbnSec.ECCurveFp(new exports.BigInteger(exports.eccP, 16),
-		new jsbnBn1.BigInteger(eccA, 16),
-		new jsbnBn1.BigInteger(eccB, 16));
+	return new exports.ECCurveFp(new exports.BigInteger(exports.eccP, 16),
+		new exports.BigInteger(eccA, 16),
+		new exports.BigInteger(eccB, 16));
 };
 // jsbnBn1
 exports.get_G = function (curve) {
@@ -214,7 +214,7 @@ exports.calculateSendersCommonSecretKey = function () {
 	 */
 
 	var curve = exports.get_curve();
-	var P = new ECPointFp(curve,
+	var P = new exports.ECPointFp(curve,
 		curve.fromBigInteger(new BigInteger(receiversMultipliedX, 16)),
 		curve.fromBigInteger(new BigInteger(receiversMultipliedY, 16)));
 
@@ -336,7 +336,7 @@ exports.calculateReceiversCommonSecretKey = function () {
 	 */
 
 	var curve = exports.get_curve();
-	var P = new ECPointFp(curve,
+	var P = new exports.ECPointFp(curve,
 		curve.fromBigInteger(new BigInteger(sendersMultipliedX, 16)),
 		curve.fromBigInteger(new BigInteger(sendersMultipliedY, 16)));
 

@@ -85,7 +85,7 @@ exports.BigInteger.prototype.F2 = 2*exports.dbits-exports.BI_FP;
 
 // Digit conversions
 exports.BI_RM = "0123456789abcdefghijklmnopqrstuvwxyz";
-exports.BI_RC = new Array();
+exports.BI_RC = new exports.Array();
 exports.rr = undefined;
 exports.vv = undefined;
 rr = "0".charCodeAt(0);
