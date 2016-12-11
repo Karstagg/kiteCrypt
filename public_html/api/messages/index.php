@@ -66,7 +66,7 @@ try {
 	} else if($method === "POST") {
 
 		//set XSRF cookie
-		//verifyXsrf();
+		verifyXsrf();
 
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
@@ -104,7 +104,7 @@ try {
 	}
 // determins if the request is a DELETE request.
 	else if($method === "DELETE") {
-//		verifyXsrf();
+		verifyXsrf();
 
 		// retrieve the Message to be deleted
 		$Message = Message::getMessageByMessageId($pdo, $id);
