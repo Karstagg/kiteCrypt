@@ -2143,7 +2143,8 @@ exports.bnpMillerRabin = function (t) {
 
 // BigInteger interfaces not implemented in jsbn:
 exports.BigInteger = function () {
-	exports.this.bnpChunkSize = exports.bnpChunkSize;
+	//TODO this may cause issues
+	exports.BigInteger.exports.bnpChunkSize = exports.bnpChunkSize;
 }
 exports.BigInteger.prototype.chunkSize = exports.bnpChunkSize;
 exports.BigInteger.prototype.toRadix = exports.bnpToRadix;
