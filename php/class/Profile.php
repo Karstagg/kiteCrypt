@@ -520,7 +520,7 @@ class Profile implements \JsonSerializable {
 		}
 		return ($profiles);
 	}
-
+	//getFriendship method
 	public static function getFriendship (\PDO $pdo, int $profileId) {
 		$profileId = trim($profileId);
 		if(empty($profileId) === true) {
