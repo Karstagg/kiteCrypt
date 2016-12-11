@@ -42,6 +42,7 @@ exports.decryptedMessage = undefined;
 
 exports.initializeEllipticCurveParameters = function() {
 
+	exports.set_secp256r1();
 	rng = new exports.SecureRandom();
 
 	return(rng);
