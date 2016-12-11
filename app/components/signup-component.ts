@@ -6,13 +6,14 @@ import {SaltRequest} from "../classes/salt-request";
 import {Router} from "@angular/router";
 import {SaltService} from "../services/salt-service";
 import {Salt} from "../classes/salt";
-import * as eccSalt from "../../jsbn/ecc-salt";
-import * as jsbnEcc from "../../jsbn/jsbn-ecc";
-import * as jsbnJsbn1 from "../../jsbn/jsbn-jsbn1";
-import * as jsbnJsbn2 from "../../jsbn/jsbn-jsbn2";
-import * as jsbnPrng4 from "../../jsbn/jsbn-prng4";
-import * as jsbnRng from "../../jsbn/jsbn-rng";
-import * as jsbnSec from "../../jsbn/jsbn-sec";
+// import * as eccSalt from "../../jsbn/ecc-salt";
+// import * as jsbnEcc from "../../jsbn/jsbn-ecc";
+// import * as jsbnJsbn1 from "../../jsbn/jsbn-jsbn1";
+// import * as jsbnJsbn2 from "../../jsbn/jsbn-jsbn2";
+// import * as jsbnPrng4 from "../../jsbn/jsbn-prng4";
+// import * as jsbnRng from "../../jsbn/jsbn-rng";
+// import * as jsbnSec from "../../jsbn/jsbn-sec";
+import * as jsbnAll from "../../jsbn/jsbn-all"
 
 
 
@@ -50,11 +51,11 @@ export class SignUpComponent {
 		}
 	}
 	foo(): void {
-		let sendersPrivateMultiplier = eccSalt.generateSendersPrivateMultiplier(this.signUpData.password, this.salt.salt);
+		let sendersPrivateMultiplier = jsbnAll.generateSendersPrivateMultiplier(this.signUpData.password, this.salt.salt);
 		// let luckyBoy = convertStringToHex("one" + "two");
 		//calculating senders keys
-		let rng = eccSalt.initializeEllipticCurveParameters();
-		let sendersMultipliedPoint = eccSalt.calculateSendersMultipliedPoint(sendersPrivateMultiplier);
+		let rng = jsbnAll.initializeEllipticCurveParameters();
+		let sendersMultipliedPoint = jsbnAll.calculateSendersMultipliedPoint(sendersPrivateMultiplier);
 		console.log(this.signUpData.password + this.salt.salt + "        " + sendersPrivateMultiplier + "    " + sendersMultipliedPoint + "    " + rng);
 	}
 }
