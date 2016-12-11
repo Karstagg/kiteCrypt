@@ -346,6 +346,9 @@ class Profile implements \JsonSerializable {
 		return ($profile);
 	}
 
+	/**
+	 * profile User Name search
+	 */
 	public static function getProfileByUserName(\PDO $pdo, string $profileUserName) {
 		// sanitize the description before searching
 		$profileUserName = trim($profileUserName);
