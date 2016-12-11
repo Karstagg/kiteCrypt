@@ -92,8 +92,8 @@ exports.set_secp256r1 = function () {
 
 exports.get_curve = function () {
 	return new exports.ECCurveFp(new exports.BigInteger(exports.eccP, 16),
-		new exports.BigInteger(eccA, 16),
-		new exports.BigInteger(eccB, 16));
+		new exports.BigInteger(exports.eccA, 16),
+		new exports.BigInteger(exports.eccB, 16));
 };
 // jsbnBn1
 exports.get_G = function (curve) {
@@ -655,7 +655,7 @@ exports.ECPointFp = function (curve,x,y,z) {
 	// Projective coordinates: either zinv == null or z * zinv == 1
 	// z and zinv are just BigIntegers, not fieldElements
 	if(z == null) {
-		this.z = BigInteger.ONE;
+		this.z = exports.BigInteger.ONE;
 	}
 	else {
 		this.z = z;
@@ -845,7 +845,7 @@ exports.ECCurveFp = function (q,a,b) {
 	this.a = this.fromBigInteger(a);
 	this.b = this.fromBigInteger(b);
 	this.infinity = new exports.ECPointFp(this, null, null);
-	this.reducer = new Barrett(this.q);
+	this.reducer = new exports.Barrett(this.q);
 
 	return(exports.ECCurveFp);
 };
@@ -1301,7 +1301,7 @@ exports.bnpDivRemTo = function (m,q,r) {
 	var yt = y0*(1<<this.F1)+((ys>1)?y[ys-2]>>this.F2:0);
 	var d1 = this.FV/yt, d2 = (1<<this.F1)/yt, e = 1<<this.F2;
 	var i = r.t, j = i-ys, t = (q==null)?exports.nbi():q;
-	y.dlShiftTo(j,t);
+	exports.y.dlShiftTo(j,t);
 	if(r.compareTo(t) >= 0) {
 		r[r.t++] = 1;
 		r.subTo(t,r);
@@ -1313,7 +1313,7 @@ exports.bnpDivRemTo = function (m,q,r) {
 		// Estimate quotient digit
 		var qd = (r[--i]==y0)?this.DM:Math.floor(r[i]*d1+(r[i-1]+e)*d2);
 		if((r[i]+=y.am(0,qd,r,j,0,ys)) < qd) {	// Try it out
-			y.dlShiftTo(j,t);
+			exports.y.dlShiftTo(j,t);
 			r.subTo(t,r);
 			while(r[i] < --qd) r.subTo(t,r);
 		}
@@ -1391,7 +1391,7 @@ exports.Montgomery = function (m) {
 // xR mod m
 exports.montConvert = function (x) {
 	var r = exports.nbi();
-	x.abs().dlShiftTo(this.m.t,r);
+	exports.x.abs().dlShiftTo(this.m.t,r);
 	r.divRemTo(this.m,null,r);
 	if(x.s < 0 && r.compareTo(exports.BigInteger.ZERO) > 0) this.m.subTo(r,r);
 	return r;
@@ -1865,11 +1865,11 @@ exports.bnpMultiplyUpperTo = function (a,n,r) {
 // Barrett modular reduction
 exports.Barrett = function (m) {
 	// setup Barrett
-	this.r2 = nbi();
-	this.q3 = nbi();
+	this.r2 = exports.nbi();
+	this.q3 = exports.nbi();
 	exports.BigInteger.ONE.dlShiftTo(2*m.t,this.r2);
-	this.mu = this.r2.divide(m);
-	this.m = m;
+	this.mu = this.r2.divide(exports.m);
+	this.m = exports.m;
 };
 
 exports.barrettConvert = function (x) {
@@ -1882,7 +1882,7 @@ exports.barrettRevert = function (x) { return x; };
 
 // x = x mod m (HAC 14.42)
 exports.barrettReduce = function (x) {
-	x.drShiftTo(this.m.t-1,this.r2);
+	exports.x.drShiftTo(this.m.t-1,this.r2);
 	if(x.t > this.m.t+1) { x.t = this.m.t+1; x.clamp(); }
 	this.mu.multiplyUpperTo(this.r2,this.m.t+1,this.q3);
 	this.m.multiplyLowerTo(this.q3,this.m.t+1,this.r2);
