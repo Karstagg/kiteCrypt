@@ -45,11 +45,15 @@ try {
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
-		if(empty($requestObject->username) === true) {
+		if(empty($requestObject->userId) === true) {
 			throw(new \InvalidArgumentException ($exceptionMessage, $exceptionCode));
 		}
 		else {
-			//$newFriends = new Profile($profileUserName);
+			$friendship = Profile::getFriendship($pdo, $requestObject->userId);
+			if(empty($friendship) === true) {
+				throw (new \InvalidArgumentException("Forever Alone", $exceptionCode));
+			}
+			$reply->data = $friendship->getFriendship();
 		}
 
 	} else if($method === "DELETE") {
