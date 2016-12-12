@@ -3,6 +3,7 @@
 //==============================================================================================================================
 
 
+
 /*
  ----------------------------------------------------------------------------
  Elliptic Curve Parameters
@@ -97,7 +98,6 @@ exports.get_curve = function() {
 };
 // jsbnBn1
 exports.get_G = function(curve) {
-	console.log(curve);
 	return new exports.ECPointFp(curve,
 		curve.fromBigInteger(new exports.BigInteger(exports.eccGx, 16)),
 		curve.fromBigInteger(new exports.BigInteger(exports.eccGy, 16)));
@@ -832,8 +832,6 @@ exports.ECCurveFp = function(q, a, b) {
 	this.b = this.fromBigInteger(b);
 	this.infinity = new exports.ECPointFp(this, null, null);
 	this.reducer = new exports.Barrett(this.q);
-
-	return (exports.ECCurveFp);
 };
 
 exports.curveFpGetQ = function() {
@@ -929,7 +927,7 @@ exports.j_lm = ((exports.canary & 0xffffff) == 0xefcafe);
 
 // (public) Constructor
 exports.BigInteger = function(a, b, c) {
-	console.log(this);
+	// console.log(this);
 	if(a != null)
 		if("number" == typeof a) this.fromNumber(a, b, c);
 		else if(b == null && "string" != typeof a) this.fromString(a, 256);
@@ -1069,7 +1067,7 @@ exports.bnpFromString = function(s, b) {
 	this.s = 0;
 	var i = s.length, mi = false, sh = 0;
 	while(--i >= 0) {
-		var x = (k == 8) ? s[i] & 0xff : intAt(s, i);
+		var x = (k == 8) ? s[i] & 0xff : exports.intAt(s, i);
 		if(x < 0) {
 			if(s.charAt(i) == "-") mi = true;
 			continue;
@@ -1102,7 +1100,7 @@ exports.bnpClamp = function() {
 
 // (public) return string representation in given radix
 exports.bnToString = function(b) {
-	console.log(this);
+	// console.log(this);
 	if(this.s < 0) return "-" + this.negate().toString(b);
 	var k;
 	if(b == 16) k = 4;
@@ -1543,7 +1541,7 @@ exports.bnModPowInt = function(e, m) {
 
 // (public)
 exports.bnClone = function() {
-	var r = nbi();
+	var r = exports.nbi();
 	this.copyTo(r);
 	return r;
 };
@@ -1599,12 +1597,12 @@ exports.bnpToRadix = function(b) {
 
 // (protected) convert from radix string
 exports.bnpFromRadix = function(s, b) {
-	this.bnpFromInt(0);
+	this.fromInt(0);
 	if(b == null) b = 10;
-	var cs = this.bnpChunkSize(b);
+	var cs = this.chunkSize(b);
 	var d = Math.pow(b, cs), mi = false, j = 0, w = 0;
 	for(var i = 0; i < s.length; ++i) {
-		var x = intAt(s, i);
+		var x = exports.intAt(s, i);
 		if(x < 0) {
 			if(s.charAt(i) == "-" && this.bnSigNum() == 0) mi = true;
 			continue;
@@ -1721,7 +1719,7 @@ exports.op_or = function(x, y) {
 	return x | y;
 };
 exports.bnOr = function(a) {
-	var r = nbi();
+	var r = exports.nbi();
 	this.bitwiseTo(a, op_or, r);
 	return r;
 };
@@ -1731,7 +1729,7 @@ exports.op_xor = function(x, y) {
 	return x ^ y;
 };
 exports.bnXor = function(a) {
-	var r = nbi();
+	var r = exports.nbi();
 	this.bitwiseTo(a, op_xor, r);
 	return r;
 };
@@ -1741,14 +1739,14 @@ exports.op_andnot = function(x, y) {
 	return x & ~y;
 };
 exports.bnAndNot = function(a) {
-	var r = nbi();
+	var r = exports.nbi();
 	this.bitwiseTo(a, op_andnot, r);
 	return r;
 };
 
 // (public) ~this
 exports.bnNot = function() {
-	var r = nbi();
+	var r = exports.nbi();
 	for(var i = 0; i < this.t; ++i) r[i] = this.DM & ~this[i];
 	r.t = this.t;
 	r.s = ~this.s;
@@ -1757,14 +1755,14 @@ exports.bnNot = function() {
 
 // (public) this << n
 exports.bnShiftLeft = function(n) {
-	var r = nbi();
+	var r = exports.nbi();
 	if(n < 0) this.rShiftTo(-n, r); else this.lShiftTo(n, r);
 	return r;
 };
 
 // (public) this >> n
 exports.bnShiftRight = function(n) {
-	var r = nbi();
+	var r = exports.nbi();
 	if(n < 0) this.lShiftTo(-n, r); else this.rShiftTo(n, r);
 	return r;
 };
@@ -1882,28 +1880,28 @@ exports.bnpAddTo = function(a, r) {
 
 // (public) this + a
 exports.bnAdd = function(a) {
-	var r = nbi();
+	var r = exports.nbi();
 	this.addTo(a, r);
 	return r;
 };
 
 // (public) this - a
 exports.bnSubtract = function(a) {
-	var r = nbi();
+	var r = exports.nbi();
 	this.subTo(a, r);
 	return r;
 };
 
 // (public) this * a
 exports.bnMultiply = function(a) {
-	var r = nbi();
+	var r = exports.nbi();
 	this.multiplyTo(a, r);
 	return r;
 };
 
 // (public) this^2
 exports.bnSquare = function() {
-	var r = nbi();
+	var r = exports.nbi();
 	this.squareTo(r);
 	return r;
 };
@@ -1917,7 +1915,7 @@ exports.bnDivide = function(a) {
 
 // (public) this % a
 exports.bnRemainder = function(a) {
-	var r = nbi();
+	var r = exports.nbi();
 	this.divRemTo(a, null, r);
 	return r;
 };
@@ -2180,7 +2178,7 @@ exports.bnModInverse = function(m) {
 	var ac = m.isEven();
 	if((this.isEven() && ac) || m.signum() == 0) return exports.BigInteger.ZERO;
 	var u = m.clone(), v = this.clone();
-	var a = nbv(1), b = nbv(0), c = nbv(0), d = nbv(1);
+	var a = exports.nbv(1), b = exports.nbv(0), c = exports.nbv(0), d = exports.nbv(1);
 	while(u.signum() != 0) {
 		while(u.isEven()) {
 			u.rShiftTo(1, u);
