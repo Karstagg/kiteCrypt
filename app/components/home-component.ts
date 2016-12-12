@@ -13,6 +13,7 @@ import * as jsbnJsbn2 from "../../jsbn/jsbn-jsbn2";
 import * as jsbnPrng4 from "../../jsbn/jsbn-prng4";
 import * as jsbnRng from "../../jsbn/jsbn-rng";
 import * as jsbnSec from "../../jsbn/jsbn-sec";
+import * as jsbnAll from "../../jsbn/jsbn-all"
 
 @Component({
 	templateUrl: "./templates/home.php"
