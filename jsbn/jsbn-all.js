@@ -43,21 +43,21 @@ exports.decryptedMessage = undefined;
 exports.initializeEllipticCurveParameters = function() {
 
 	exports.set_secp256r1();
-	rng = new exports.SecureRandom();
+	exports.rng = new exports.SecureRandom();
 
-	return(rng);
+	return(exports.rng);
 };
 
 
 exports.set_ec_params = function (name) {
-	var c = exports.getSECCurveByName(name);
+	exports.c = exports.getSECCurveByName(name);
 
 	exports.eccP = exports.c.getCurve().getQ().toString(16);
-	eccA = c.getCurve().getA().toBigInteger().toString(16);
-	eccB = c.getCurve().getB().toBigInteger().toString(16);
-	eccGx = c.getG().getX().toBigInteger().toString(16);
-	eccGy = c.getG().getY().toBigInteger().toString(16);
-	eccN = c.getN().toString(16);
+	exports.eccA = exports.c.getCurve().getA().toBigInteger().toString(16);
+	exports.eccB = exports.c.getCurve().getB().toBigInteger().toString(16);
+	exports.eccGx = exports.c.getG().getX().toBigInteger().toString(16);
+	exports.eccGy = exports.c.getG().getY().toBigInteger().toString(16);
+	exports.eccN = exports.c.getN().toString(16);
 
 };
 
@@ -688,19 +688,19 @@ exports.pointFpEquals = function (other) {
 	var u, v;
 	// u = Y2 * Z1 - Y1 * Z2
 	u = other.y.toBigInteger().multiply(this.z).subtract(this.y.toBigInteger().multiply(other.z)).mod(this.curve.q);
-	if(!u.equals(BigInteger.ZERO)) return false;
+	if(!u.equals(exports.BigInteger.ZERO)) return false;
 	// v = X2 * Z1 - X1 * Z2
 	v = other.x.toBigInteger().multiply(this.z).subtract(this.x.toBigInteger().multiply(other.z)).mod(this.curve.q);
-	return v.equals(BigInteger.ZERO);
+	return v.equals(exports.BigInteger.ZERO);
 };
 
 exports.pointFpIsInfinity = function () {
 	if((this.x == null) && (this.y == null)) return true;
-	return this.z.equals(BigInteger.ZERO) && !this.y.toBigInteger().equals(BigInteger.ZERO);
+	return this.z.equals(exports.BigInteger.ZERO) && !this.y.toBigInteger().equals(BigInteger.ZERO);
 };
 
 exports.pointFpNegate = function () {
-	return new ECPointFp(this.curve, this.x, this.y.negate(), this.z);
+	return new exports.ECPointFp(this.curve, this.x, this.y.negate(), this.z);
 };
 
 exports.pointFpAdd = function (b) {
@@ -712,8 +712,8 @@ exports.pointFpAdd = function (b) {
 	// v = X2 * Z1 - X1 * Z2
 	var v = b.x.toBigInteger().multiply(this.z).subtract(this.x.toBigInteger().multiply(b.z)).mod(this.curve.q);
 
-	if(BigInteger.ZERO.equals(v)) {
-		if(BigInteger.ZERO.equals(u)) {
+	if(exports.BigInteger.ZERO.equals(v)) {
+		if(exports.BigInteger.ZERO.equals(u)) {
 			return this.twice(); // this == b, so double
 		}
 		return this.curve.getInfinity(); // this = -b, so infinity
@@ -1460,11 +1460,16 @@ exports.bnModPowInt = function (e,m) {
 };
 
 // protected
+exports.BigInteger = function () {
+	this.bnpDLShiftTo = exports.bnpDLShiftTo;
+};
+
+
 exports.BigInteger.prototype.copyTo = exports.bnpCopyTo;
 exports.BigInteger.prototype.fromInt = exports.bnpFromInt;
 exports.BigInteger.prototype.fromString = exports.bnpFromString;
 exports.BigInteger.prototype.clamp = exports.bnpClamp;
-exports.BigInteger.prototype.dlShiftTo = exports.bnpDLShiftTo;
+exports.BigInteger.dlShiftTo = exports.bnpDLShiftTo;
 exports.BigInteger.prototype.drShiftTo = exports.bnpDRShiftTo;
 exports.BigInteger.prototype.lShiftTo = exports.bnpLShiftTo;
 exports.BigInteger.prototype.rShiftTo = exports.bnpRShiftTo;
@@ -1840,26 +1845,26 @@ exports.bnPow = function (e) { return this.exp(e,new NullExp()); };
 // "this" should be the larger one if appropriate.
 exports.bnpMultiplyLowerTo = function (a,n,r) {
 	var i = Math.min(this.t+a.t,n);
-	r.s = 0; // assumes a,this >= 0
-	r.t = i;
+	exports.r.s = 0; // assumes a,this >= 0
+	exports.r.t = i;
 	while(i > 0) r[--i] = 0;
 	var j;
 	for(j = r.t-this.t; i < j; ++i) r[i+this.t] = this.am(0,a[i],r,i,0,this.t);
 	for(j = Math.min(a.t,n); i < j; ++i) this.am(0,a[i],r,i,0,n-i);
-	r.clamp();
+	exports.r.clamp();
 };
 
 // (protected) r = "this * a" without lower n words, n > 0
 // "this" should be the larger one if appropriate.
 exports.bnpMultiplyUpperTo = function (a,n,r) {
-	--n;
-	var i = r.t = this.t+a.t-n;
-	r.s = 0; // assumes a,this >= 0
-	while(--i >= 0) r[i] = 0;
-	for(i = Math.max(n-this.t,0); i < a.t; ++i)
-		r[this.t+i-n] = this.am(n-i,a[i],r,0,0,this.t+i-n);
-	r.clamp();
-	r.drShiftTo(1,r);
+	--exports.n;
+	var i = exports.r.t = this.t+exports.a.t-exports.n;
+	exports.r.s = 0; // assumes a,this >= 0
+	while(--i >= 0) exports.r[i] = 0;
+	for(i = Math.max(exports.n-this.t,0); i < exports.a.t; ++i)
+		exports.r[this.t+i-exports.n] = this.am(exports.n-i,exports.a[i],exports.r,0,0,this.t+i-exports.n);
+	exports.r.clamp();
+	exports.r.drShiftTo(1,exports.r);
 };
 
 // Barrett modular reduction
@@ -2037,9 +2042,9 @@ exports.bnModInverse = function (m) {
 		}
 	}
 	if(v.compareTo(exports.BigInteger.ONE) != 0) return exports.BigInteger.ZERO;
-	if(d.compareTo(m) >= 0) return d.subtract(m);
-	if(d.signum() < 0) d.addTo(m,d); else return d;
-	if(d.signum() < 0) return d.add(m); else return d;
+	if(d.compareTo(m) >= 0) return exports.d.subtract(m);
+	if(d.signum() < 0) d.addTo(m,d); else return exports.d;
+	if(d.signum() < 0) return exports.d.add(m); else return exports.d;
 };
 
 exports.lowprimes = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79,83,89,97,101,103,107,109,113,127,131,137,139,149,151,157,163,167,173,179,181,191,193,197,199,211,223,227,229,233,239,241,251,257,263,269,271,277,281,283,293,307,311,313,317,331,337,347,349,353,359,367,373,379,383,389,397,401,409,419,421,431,433,439,443,449,457,461,463,467,479,487,491,499,503,509,521,523,541,547,557,563,569,571,577,587,593,599,601,607,613,617,619,631,641,643,647,653,659,661,673,677,683,691,701,709,719,727,733,739,743,751,757,761,769,773,787,797,809,811,821,823,827,829,839,853,857,859,863,877,881,883,887,907,911,919,929,937,941,947,953,967,971,977,983,991,997];
@@ -2143,9 +2148,7 @@ exports.bnpMillerRabin = function (t) {
 // exports.BigInteger.prototype.square = exports.bnSquare;
 
 // BigInteger interfaces not implemented in jsbn:
-exports.BigInteger = function () {
-	this.bnpChunkSize = exports.bnpChunkSize;
-}
+
 exports.BigInteger.prototype.chunkSize = exports.bnpChunkSize;
 exports.BigInteger.prototype.toRadix = exports.bnpToRadix;
 exports.BigInteger.prototype.fromRadix = exports.bnpFromRadix;
@@ -2197,6 +2200,10 @@ exports.BigInteger.prototype.isProbablePrime = exports.bnIsProbablePrime;
 
 // JSBN-specific extension
 exports.BigInteger.prototype.square = exports.bnSquare;
+
+exports.BigInteger = function () {
+	this.bnpChunkSize = exports.bnpChunkSize;
+}
 
 
 // BigInteger(int signum, byte[] magnitude)
@@ -2353,7 +2360,7 @@ exports.SecureRandom.prototype.nextBytes = exports.rng_get_bytes;
 
 // constructor
 exports.X9ECParameters = function (curve,g,n,h) {
-	this.curve = curve;
+	this.curve = exports.curve;
 	this.g = g;
 	this.n = n;
 	this.h = h;
@@ -2491,12 +2498,12 @@ exports.secp256r1 = function () {
 };
 
 exports.getSECCurveByName = function (name) {
-	if(name == "secp128r1") return exports.secp128r1();
-	if(name == "secp160k1") return exports.secp160k1();
-	if(name == "secp160r1") return exports.secp160r1();
-	if(name == "secp192k1") return exports.secp192k1();
-	if(name == "secp192r1") return exports.secp192r1();
-	if(name == "secp224r1") return exports.secp224r1();
+	// if(name == "secp128r1") return exports.secp128r1();
+	// if(name == "secp160k1") return exports.secp160k1();
+	// if(name == "secp160r1") return exports.secp160r1();
+	// if(name == "secp192k1") return exports.secp192k1();
+	// if(name == "secp192r1") return exports.secp192r1();
+	// if(name == "secp224r1") return exports.secp224r1();
 	if(name == "secp256r1") return exports.secp256r1();
 	return null;
 };
