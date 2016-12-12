@@ -52,6 +52,7 @@ export class SignUpComponent {
 	}
 	foo(): void {
 		let sendersPrivateMultiplier = jsbnAll.generateSendersPrivateMultiplier(this.signUpData.password, this.salt.salt);
+		console.log("sender multiplier = " + sendersPrivateMultiplier);
 		// let luckyBoy = convertStringToHex("one" + "two");
 		//calculating senders keys
 		// let rng = jsbnAll.initializeEllipticCurveParameters();
