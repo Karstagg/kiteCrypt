@@ -928,6 +928,7 @@ exports.j_lm = ((exports.canary & 0xffffff) == 0xefcafe);
 
 // (public) Constructor
 exports.BigInteger = function(a, b, c) {
+	console.log(this + "\n" + a + "\n" + b + "\n" + c);
 	if(a != null)
 		if("number" == typeof a) this.fromNumber(a, b, c);
 		else if(b == null && "string" != typeof a) this.fromString(a, 256);
@@ -936,7 +937,7 @@ exports.BigInteger = function(a, b, c) {
 
 // return new, unset BigInteger
 exports.nbi = function() {
-	return new exports.BigInteger(null);
+	return new exports.BigInteger("0");
 };
 
 // am: Compute w_j += (x*this_i), propagate carries,
@@ -1045,8 +1046,10 @@ exports.bnpFromInt = function(x) {
 // return bigint initialized to value
 exports.nbv = function(i) {
 	var r = exports.nbi();
+	console.log(r);
 	r.fromInt(i);
 	return r;
+	// return new exports.BigInteger(i);
 };
 
 // (protected) set from string and radix
@@ -1099,6 +1102,7 @@ exports.bnpClamp = function() {
 
 // (public) return string representation in given radix
 exports.bnToString = function(b) {
+	console.log(this);
 	if(this.s < 0) return "-" + this.negate().toString(b);
 	var k;
 	if(b == 16) k = 4;
@@ -1318,7 +1322,7 @@ exports.bnpDivRemTo = function(m, q, r) {
 	}
 	if(r == null) r = exports.nbi();
 	var y = exports.nbi(), ts = this.s, ms = m.s;
-	var nsh = this.DB - nbits(pm[pm.t - 1]);	// normalize modulus
+	var nsh = this.DB - exports.nbits(pm[pm.t - 1]);	// normalize modulus
 	if(nsh > 0) {
 		pm.lShiftTo(nsh, y);
 		pt.lShiftTo(nsh, r);
@@ -1519,39 +1523,9 @@ exports.bnModPowInt = function(e, m) {
 };
 
 // protected
-exports.BigInteger = function() {
-	this.bnpDLShiftTo = exports.bnpDLShiftTo;
-};
-
-
-exports.BigInteger.prototype.copyTo = exports.bnpCopyTo;
-exports.BigInteger.prototype.fromInt = exports.bnpFromInt;
-exports.BigInteger.prototype.fromString = exports.bnpFromString;
-exports.BigInteger.prototype.clamp = exports.bnpClamp;
-exports.BigInteger.prototype.dlShiftTo = exports.bnpDLShiftTo;
-exports.BigInteger.prototype.drShiftTo = exports.bnpDRShiftTo;
-exports.BigInteger.prototype.lShiftTo = exports.bnpLShiftTo;
-exports.BigInteger.prototype.rShiftTo = exports.bnpRShiftTo;
-exports.BigInteger.prototype.subTo = exports.bnpSubTo;
-exports.BigInteger.prototype.multiplyTo = exports.bnpMultiplyTo;
-exports.BigInteger.prototype.squareTo = exports.bnpSquareTo;
-exports.BigInteger.prototype.divRemTo = exports.bnpDivRemTo;
-exports.BigInteger.prototype.invDigit = exports.bnpInvDigit;
-exports.BigInteger.prototype.isEven = exports.bnpIsEven;
-exports.BigInteger.prototype.exp = exports.bnpExp;
-
-// public
-exports.BigInteger.prototype.toString = exports.bnToString;
-exports.BigInteger.prototype.negate = exports.bnNegate;
-exports.BigInteger.prototype.abs = exports.bnAbs;
-exports.BigInteger.prototype.compareTo = exports.bnCompareTo;
-exports.BigInteger.prototype.bitLength = exports.bnBitLength;
-exports.BigInteger.prototype.mod = exports.bnMod;
-exports.BigInteger.prototype.modPowInt = exports.bnModPowInt;
-
-// "constants"
-exports.BigInteger.ZERO = exports.nbv(0);
-exports.BigInteger.ONE = exports.nbv(1);
+// exports.BigInteger = function() {
+// 	this.bnpDLShiftTo = exports.bnpDLShiftTo;
+// };
 
 // exports.nbv().dlShiftTo = exports.bnpDLShiftTo;
 //==============================================================================================================================
@@ -1936,7 +1910,7 @@ exports.bnSquare = function() {
 
 // (public) this / a
 exports.bnDivide = function(a) {
-	var r = nbi();
+	var r = exports.nbi();
 	this.divRemTo(a, r, null);
 	return r;
 };
@@ -2349,6 +2323,43 @@ exports.bnpMillerRabin = function(t) {
 // // JSBN-specific extension
 // exports.BigInteger.prototype.square = exports.bnSquare;
 
+// exports.BigInteger = function() {
+// 	this.bnpChunkSize = exports.bnpChunkSize;
+// }
+
+
+// BigInteger(int signum, byte[] magnitude)
+// double doubleValue()
+// float floatValue()
+// int hashCode()
+// long longValue()
+// static BigInteger valueOf(long val)
+
+exports.BigInteger.prototype.copyTo = exports.bnpCopyTo;
+exports.BigInteger.prototype.fromInt = exports.bnpFromInt;
+exports.BigInteger.prototype.fromString = exports.bnpFromString;
+exports.BigInteger.prototype.clamp = exports.bnpClamp;
+exports.BigInteger.prototype.dlShiftTo = exports.bnpDLShiftTo;
+exports.BigInteger.prototype.drShiftTo = exports.bnpDRShiftTo;
+exports.BigInteger.prototype.lShiftTo = exports.bnpLShiftTo;
+exports.BigInteger.prototype.rShiftTo = exports.bnpRShiftTo;
+exports.BigInteger.prototype.subTo = exports.bnpSubTo;
+exports.BigInteger.prototype.multiplyTo = exports.bnpMultiplyTo;
+exports.BigInteger.prototype.squareTo = exports.bnpSquareTo;
+exports.BigInteger.prototype.divRemTo = exports.bnpDivRemTo;
+exports.BigInteger.prototype.invDigit = exports.bnpInvDigit;
+exports.BigInteger.prototype.isEven = exports.bnpIsEven;
+exports.BigInteger.prototype.exp = exports.bnpExp;
+
+// public
+exports.BigInteger.prototype.toString = exports.bnToString;
+exports.BigInteger.prototype.negate = exports.bnNegate;
+exports.BigInteger.prototype.abs = exports.bnAbs;
+exports.BigInteger.prototype.compareTo = exports.bnCompareTo;
+exports.BigInteger.prototype.bitLength = exports.bnBitLength;
+exports.BigInteger.prototype.mod = exports.bnMod;
+exports.BigInteger.prototype.modPowInt = exports.bnModPowInt;
+
 // BigInteger interfaces not implemented in jsbn:
 
 exports.BigInteger.prototype.chunkSize = exports.bnpChunkSize;
@@ -2403,17 +2414,9 @@ exports.BigInteger.prototype.isProbablePrime = exports.bnIsProbablePrime;
 // JSBN-specific extension
 exports.BigInteger.prototype.square = exports.bnSquare;
 
-exports.BigInteger = function() {
-	this.bnpChunkSize = exports.bnpChunkSize;
-}
-
-
-// BigInteger(int signum, byte[] magnitude)
-// double doubleValue()
-// float floatValue()
-// int hashCode()
-// long longValue()
-// static BigInteger valueOf(long val)
+// "constants"
+exports.BigInteger.ZERO = exports.nbv(0);
+exports.BigInteger.ONE = exports.nbv(1);
 
 
 //==============================================================================================================================
