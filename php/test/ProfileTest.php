@@ -1,7 +1,7 @@
 <?php
 namespace Edu\Cnm\KiteCrypt\Test;
 
-use Edu\Cnm\KiteCrypt\{Profile, friendship};
+use Edu\Cnm\KiteCrypt\{Profile, Friendship};
 
 // grab the project test parameters
 require_once("KiteCryptTest.php");
@@ -430,7 +430,7 @@ class ProfileTest extends KiteCryptTest {
 		$profile2->insert($this->getPDO());
 
 		// create data in friendship table
-		$friends = new Friendship($this->profile->getProfileId(), $this->profile->getProfileId());
+		$friends = new Friendship($this->profile->getProfileId(), $this->profile2->getProfileId());
 //var_dump($profile);
 //		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoProfile = Profile::getFriendshipByProfileId($this->getPDO(), $profile->getProfileId());
