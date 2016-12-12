@@ -424,27 +424,42 @@ class ProfileTest extends KiteCryptTest {
 		$profile = new Profile($this->validProfileId, $this->validProfileUserName, $this->validProfilePublicKeyX, $this->validProfilePublicKeyY, $this->validProfileSalt);
 		$profile->insert($this->getPDO());
 
-
 		// create a 2nd new profile and insert to mySQL
 		$profile2 = new Profile($this->validProfileId2, $this->validProfileUserName2, $this->validProfilePublicKeyX2, $this->validProfilePublicKeyY2, $this->validProfileSalt);
 		$profile2->insert($this->getPDO());
 
+		// create a 3es new profile and insert to mySQL
+		$profile3 = new Profile(null, "Third Person", "dkfjldkja", "fjdikjoid", "saltingAllDay");
+		$profile3->insert($this->getPDO());
+
 		// create data in friendship table
-		$friends = new Friendship($this->profile->getProfileId(), $this->profile2->getProfileId());
-//var_dump($profile);
+		$friends = new Friendship($profile->getProfileId(), $profile2->getProfileId());
+		$friends->insert($this->getPDO());
+
+		// create data in friendship 2 table
+		$friends2 = new Friendship($profile->getProfileId(), $profile3->getProfileId());
+		$friends2->insert($this->getPDO());
 //		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoProfile = Profile::getFriendshipByProfileId($this->getPDO(), $profile->getProfileId());
-		$this->assertEquals($numRows + 2, $this->getConnection()->getRowCount("profile"));
-		$this->assertEquals($pdoProfile->getProfileUserName(), $this->validProfileUserName);
-		$this->assertEquals($pdoProfile->getProfilePublicKeyX(), $this->validProfilePublicKeyX);
-		$this->assertEquals($pdoProfile->getProfilePublicKeyY(), $this->validProfilePublicKeyY);
-		$this->assertEquals($pdoProfile->getProfilePasswordSalt(), $this->validProfileSalt);
-//$this->setUp();
-		// grab the data from mySQL and enforce the fields match our expectations
-//		$results = Profile::getFriendshipByProfileId($this->getPDO(), $profile->getProfileId());
-//		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
-//		$this->assertCount(1, $results);
-//		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\KiteCrypt\\Profile", $results);
+
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+		$pdoProfile2 = Profile::getProfileByProfileId($this->getPDO(), $profile2->getProfileId());
+		$pdoProfile3 = Profile::getProfileByProfileId($this->getPDO(), $profile3->getProfileId());
+
+		$pdoFriend = Friendship::getFriendshipByFriendshipInviterId($this->getPDO(), $pdoProfile->getProfileId());
+		$pdoFriend2 = Friendship::getFriendshipByFriendshipInviterId($this->getPDO(), $pdoProfile->getProfileId());
+
+		$results = Profile::getFriendshipByProfileId($this->getPDO(), $pdoProfile->getProfileId());
+		$myFriend = $results[0];
+
+//		var_dump($results);
+
+		$this->assertEquals($myFriend->getProfileId(), $pdoProfile2->getProfileId());
+
+
+
+		//$this->assertEquals($pdoFriendship->getProfileId(), $profile->getProfileId());
+
+
 	}
 
 

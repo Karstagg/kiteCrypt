@@ -535,7 +535,7 @@ class Profile implements \JsonSerializable {
 	public static function getFriendshipByProfileId (\PDO $pdo, int $profileId) {
 		$profileId = trim($profileId);
 		if(empty($profileId) === true) {
-			throw(new \PDOException("Public Password Salt is invalid"));
+			throw(new \PDOException("profile id is invalid"));
 		}
 		// create query template
 		$query = "SELECT profileId, profilePasswordSalt, profilePublicKeyX, profilePublicKeyY, profileUserName
@@ -565,6 +565,7 @@ ORDER BY profileId;";
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
+		return($profiles);
 	}
 
 
