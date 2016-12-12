@@ -92,8 +92,8 @@ exports.set_secp256r1 = function() {
 
 exports.get_curve = function() {
 	return new exports.ECCurveFp(new exports.BigInteger(exports.eccP, 16),
-		new exports.BigInteger(eccA, 16),
-		new exports.BigInteger(eccB, 16));
+		new exports.BigInteger(exports.eccA, 16),
+		new exports.BigInteger(exports.eccB, 16));
 };
 // jsbnBn1
 exports.get_G = function(curve) {
@@ -146,9 +146,9 @@ exports.get_G = function(curve) {
 
 exports.generateSendersPrivateMultiplier = function(sendersPassword, sendersSalt) {
 
-	sendersPrivateMultiplier = exports.convertStringToHex(sendersPassword + sendersSalt);
+	exports.sendersPrivateMultiplier = exports.convertStringToHex(sendersPassword + sendersSalt);
 
-	return (sendersPrivateMultiplier);
+	return (exports.sendersPrivateMultiplier);
 
 	//
 
@@ -169,15 +169,15 @@ exports.calculateSendersMultipliedPoint = function(sendersPrivateMultiplier) {
 
 	exports.curve = exports.get_curve();
 	var G = exports.get_G(curve);
-	var a = new BigInteger(sendersPrivateMultiplier, 16);
+	var a = new exports.BigInteger(exports.sendersPrivateMultiplier, 16);
 	var P = G.multiply(a);
 
-	sendersMultipliedX = P.getX().toBigInteger().toString(16);
-	sendersMultipliedY = P.getY().toBigInteger().toString(16);
+	exports.sendersMultipliedX = P.getX().toBigInteger().toString(16);
+	exports.sendersMultipliedY = P.getY().toBigInteger().toString(16);
 
-	keys = [sendersMultipliedX, sendersMultipliedY];
+	exports.keys = [exports.sendersMultipliedX, exports.sendersMultipliedY];
 
-	return (keys);
+	return (exports.keys);
 
 
 	/*
@@ -211,14 +211,14 @@ exports.calculateSendersCommonSecretKey = function() {
 
 	var curve = exports.get_curve();
 	var P = new exports.ECPointFp(curve,
-		curve.fromBigInteger(new BigInteger(receiversMultipliedX, 16)),
-		curve.fromBigInteger(new BigInteger(receiversMultipliedY, 16)));
+		curve.fromBigInteger(new exports.BigInteger(exports.receiversMultipliedX, 16)),
+		curve.fromBigInteger(new exports.BigInteger(exports.receiversMultipliedY, 16)));
 
-	var a = new BigInteger(sendersPrivateMultiplier, 16);
+	var a = new exports.BigInteger(exports.sendersPrivateMultiplier, 16);
 	var S = P.multiply(a);
 
-	sendersCommonSecretKeyX = S.getX().toBigInteger().toString(16);
-	sendersCommonSecretKeyY = S.getY().toBigInteger().toString(16);
+	exports.sendersCommonSecretKeyX = S.getX().toBigInteger().toString(16);
+	exports.sendersCommonSecretKeyY = S.getY().toBigInteger().toString(16);
 
 
 	/*
@@ -275,7 +275,7 @@ exports.calculateSendersCommonSecretKey = function() {
 
 exports.generateReceiversPrivateMultiplier = function() {
 
-	receiversPrivateMultiplier = exports.convertStringToHex(receiversPassword + receiversSalt);
+	exports.receiversPrivateMultiplier = exports.convertStringToHex(exports.receiversPassword + exports.receiversSalt);
 
 	/*
 	 ----------------------------------------------------------------------------
@@ -293,7 +293,7 @@ exports.calculateReceiversMultipliedPoint = function() {
 
 	var curve = exports.get_curve();
 	var G = exports.get_G(curve);
-	var a = new BigInteger(receiversPrivateMultiplier, 16);
+	var a = new exports.BigInteger(exports.receiversPrivateMultiplier, 16);
 	var P = G.multiply(a);
 
 	receiversMultipliedX = P.getX().toBigInteger().toString(16);
@@ -329,14 +329,14 @@ exports.calculateReceiversCommonSecretKey = function() {
 
 	var curve = exports.get_curve();
 	var P = new exports.ECPointFp(curve,
-		curve.fromBigInteger(new BigInteger(sendersMultipliedX, 16)),
-		curve.fromBigInteger(new BigInteger(sendersMultipliedY, 16)));
+		curve.fromBigInteger(new exports.BigInteger(exports.sendersMultipliedX, 16)),
+		curve.fromBigInteger(new exports.BigInteger(exports.sendersMultipliedY, 16)));
 
-	var a = new BigInteger(receiversPrivateMultiplier, 16);
+	var a = new exports.BigInteger(exports.receiversPrivateMultiplier, 16);
 	var S = P.multiply(a);
 
-	receiversCommonSecretKeyX = S.getX().toBigInteger().toString(16);
-	receiversCommonSecretKeyY = S.getY().toBigInteger().toString(16);
+	exports.receiversCommonSecretKeyX = S.getX().toBigInteger().toString(16);
+	exports.receiversCommonSecretKeyY = S.getY().toBigInteger().toString(16);
 
 
 	/*
@@ -359,8 +359,8 @@ exports.encryptMessage = function(messagePlainText) {
 
 	//messagePlainText = getN("messagePlainText").value; // We have to change this line to get the message from the chat box that's being sent to the friend.
 	//var eccP = getN("eccP").value;
-	var commonSecretKeyX = receiversCommonSecretKeyX;
-	var commonSecretKeyY = receiversCommonSecretKeyY;
+	var commonSecretKeyX = exports.receiversCommonSecretKeyX;
+	var commonSecretKeyY = exports.receiversCommonSecretKeyY;
 
 	var i;
 	//var messageCipherText = messagePlainText.split("").reverse().join("");
@@ -381,13 +381,13 @@ exports.encryptMessage = function(messagePlainText) {
 	// is less than the ECC prime.
 	var blockSize = 0;
 	var messageBlock;
-	var eccPBigInteger = new BigInteger(eccP, 16);
+	var eccPBigInteger = new exports.BigInteger(exports.eccP, 16);
 	var comparisonValue;
 
 	for(i = 1; i < messageCipherTextHexString.length; i = i + 2) { // Step by two characters to get a complete 8-bit byte (an octet).
 
-		messageBlock = new BigInteger(messageCipherTextHexString.substr(0, i), 16);
-		comparisonValue = messageBlock.compareTo(eccPBigInteger);
+		exports.messageBlock = new exports.BigInteger(messageCipherTextHexString.substr(0, i), 16);
+		exports.comparisonValue = exports.messageBlock.compareTo(eccPBigInteger);
 
 		if(messageBlock.compareTo(eccPBigInteger) >= 0) {
 			//blockSize = i - 2;
@@ -402,9 +402,9 @@ exports.encryptMessage = function(messagePlainText) {
 	// the message length.
 	//
 	// After determining the block size, encrypt the message.
-	var commonSecretKeyXBigInteger = new BigInteger(commonSecretKeyX, 16);
-	var commonSecretKeyYBigInteger = new BigInteger(commonSecretKeyY, 16);
-	var cipherTextBlock = new BigInteger("0");
+	var commonSecretKeyXBigInteger = new exports.BigInteger(commonSecretKeyX, 16);
+	var commonSecretKeyYBigInteger = new exports.BigInteger(commonSecretKeyY, 16);
+	var cipherTextBlock = new exports.BigInteger("0");
 	var messageCipherText = "";
 
 	if(blockSize == 0) {
@@ -412,9 +412,9 @@ exports.encryptMessage = function(messagePlainText) {
 		blockSize = messageCipherTextHexString.length;
 
 		// Encrypt the message (when the blockSize is the same as the message length).
-		messageBlock = new BigInteger(messageCipherTextHexString, 16);
-		cipherTextBlock = messageBlock.add(commonSecretKeyXBigInteger);
-		cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);
+		exports.messageBlock = new exports.BigInteger(messageCipherTextHexString, 16);
+		exports.cipherTextBlock = messageBlock.add(commonSecretKeyXBigInteger);
+		exports.cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);
 		messageCipherText = cipherTextBlock.toString(16);
 
 	} else {
@@ -436,9 +436,9 @@ exports.encryptMessage = function(messagePlainText) {
 			}
 
 			messageCipherTextHexSubstring = messageCipherTextHexString.substr(startOfSubstring, lengthOfSubstring);
-			messageBlock = new BigInteger(messageCipherTextHexSubstring, 16);
-			cipherTextBlock = messageBlock.add(commonSecretKeyXBigInteger);
-			cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);
+			exports.messageBlock = new exports.BigInteger(messageCipherTextHexSubstring, 16);
+			exports.cipherTextBlock = messageBlock.add(commonSecretKeyXBigInteger);
+			exports.cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);
 
 			if(messageCipherText == "") {
 				messageCipherText = cipherTextBlock.toString(16);
@@ -462,9 +462,9 @@ exports.decryptMessage = function(messageCipherText) {
 	var commonSecretKeyX = receiversCommonSecretKeyX;
 	var commonSecretKeyY = receiversCommonSecretKeyY;
 
-	var eccPBigInteger = new BigInteger(eccP, 16);
-	var commonSecretKeyXBigInteger = new BigInteger(commonSecretKeyX, 16);  // 233977799535295621105177301016782318690314960717
-	var commonSecretKeyYBigInteger = new BigInteger(commonSecretKeyY, 16);  // 610964657955290730928475511523514880516430485303
+	var eccPBigInteger = new exports.BigInteger(eccP, 16);
+	var commonSecretKeyXBigInteger = new exports.BigInteger(commonSecretKeyX, 16);  // 233977799535295621105177301016782318690314960717
+	var commonSecretKeyYBigInteger = new exports.BigInteger(commonSecretKeyY, 16);  // 610964657955290730928475511523514880516430485303
 
 
 	// The message blocks will be separated by hyphens "-", so split the cipher text
@@ -488,7 +488,7 @@ exports.decryptMessage = function(messageCipherText) {
 
 		messageCipherTextHexString = messageCipherTextBlockArray[i];
 
-		cipherTextHexBlock = new BigInteger(messageCipherTextHexString, 16);
+		cipherTextHexBlock = new exports.BigInteger(messageCipherTextHexString, 16);
 
 		cipherTextHexBlock = cipherTextHexBlock.subtract(commonSecretKeyXBigInteger);
 		cipherTextHexBlock = cipherTextHexBlock.mod(eccPBigInteger);
@@ -523,20 +523,20 @@ exports.decryptMessage = function(messageCipherText) {
 
 exports.pick_rand = function() {
 
-	var n = new BigInteger(eccN, 16);
+	var n = new exports.BigInteger(eccN, 16);
 
-	var n1 = n.subtract(BigInteger.ONE);
+	var n1 = n.subtract(exports.BigInteger.ONE);
 
-	var r = new BigInteger(n.bitLength(), rng);
+	var r = new exports.BigInteger(n.bitLength(), rng);
 
-	return r.mod(n1).add(BigInteger.ONE);
+	return r.mod(n1).add(exports.BigInteger.ONE);
 
 };
 
 
 exports.getN = function(n) {
 
-	return typeof n == 'object' ? n : document.getElementById(n);
+	return typeof n == 'object' ? n : exports.document.getElementById(n);
 
 };
 
@@ -597,27 +597,27 @@ exports.feFpToBigInteger = function() {
 };
 
 exports.feFpNegate = function() {
-	return new ECFieldElementFp(this.q, this.x.negate().mod(this.q));
+	return new exports.ECFieldElementFp(this.q, this.x.negate().mod(this.q));
 };
 
 exports.feFpAdd = function(b) {
-	return new ECFieldElementFp(this.q, this.x.add(b.toBigInteger()).mod(this.q));
+	return new exports.ECFieldElementFp(this.q, this.x.add(b.toBigInteger()).mod(this.q));
 };
 
 exports.feFpSubtract = function(b) {
-	return new ECFieldElementFp(this.q, this.x.subtract(b.toBigInteger()).mod(this.q));
+	return new exports.ECFieldElementFp(this.q, this.x.subtract(b.toBigInteger()).mod(this.q));
 };
 
 exports.feFpMultiply = function(b) {
-	return new ECFieldElementFp(this.q, this.x.multiply(b.toBigInteger()).mod(this.q));
+	return new exports.ECFieldElementFp(this.q, this.x.multiply(b.toBigInteger()).mod(this.q));
 };
 
 exports.feFpSquare = function() {
-	return new ECFieldElementFp(this.q, this.x.square().mod(this.q));
+	return new exports.ECFieldElementFp(this.q, this.x.square().mod(this.q));
 };
 
 exports.feFpDivide = function(b) {
-	return new ECFieldElementFp(this.q, this.x.multiply(b.toBigInteger().modInverse(this.q)).mod(this.q));
+	return new exports.ECFieldElementFp(this.q, this.x.multiply(b.toBigInteger().modInverse(this.q)).mod(this.q));
 };
 
 exports.ECFieldElementFp.prototype.equals = exports.feFpEquals;
@@ -704,7 +704,7 @@ exports.pointFpAdd = function(b) {
 		return this.curve.getInfinity(); // this = -b, so infinity
 	}
 
-	var THREE = new BigInteger("3");
+	var THREE = new exports.BigInteger("3");
 	var x1 = this.x.toBigInteger();
 	var y1 = this.y.toBigInteger();
 	var x2 = b.x.toBigInteger();
@@ -722,14 +722,14 @@ exports.pointFpAdd = function(b) {
 	// z3 = v^3 * z1 * z2
 	var z3 = v3.multiply(this.z).multiply(b.z).mod(this.curve.q);
 
-	return new ECPointFp(this.curve, this.curve.fromBigInteger(x3), this.curve.fromBigInteger(y3), z3);
+	return new exports.ECPointFp(this.curve, this.curve.fromBigInteger(x3), this.curve.fromBigInteger(y3), z3);
 };
 
 exports.pointFpTwice = function() {
 	if(this.isInfinity()) return this;
 	if(this.y.toBigInteger().signum() == 0) return this.curve.getInfinity();
 
-	var THREE = new BigInteger("3");
+	var THREE = new exports.BigInteger("3");
 	var x1 = this.x.toBigInteger();
 	var y1 = this.y.toBigInteger();
 
@@ -739,7 +739,7 @@ exports.pointFpTwice = function() {
 
 	// w = 3 * x1^2 + a * z1^2
 	var w = x1.square().multiply(THREE);
-	if(!BigInteger.ZERO.equals(a)) {
+	if(!(exports.BigInteger("0").equals(a))) {
 		w = w.add(this.z.square().multiply(a));
 	}
 	w = w.mod(this.curve.q);
@@ -751,7 +751,7 @@ exports.pointFpTwice = function() {
 	// z3 = 8 * (y1 * z1)^3
 	var z3 = y1z1.square().multiply(y1z1).shiftLeft(3).mod(this.curve.q);
 
-	return new ECPointFp(this.curve, this.curve.fromBigInteger(x3), this.curve.fromBigInteger(y3), z3);
+	return new exports.ECPointFp(this.curve, this.curve.fromBigInteger(x3), this.curve.fromBigInteger(y3), z3);
 };
 
 // Simple NAF (Non-Adjacent Form) multiplication algorithm
@@ -760,7 +760,7 @@ exports.pointFpMultiply = function(k) {
 	if(k.signum() == 0) return this.curve.getInfinity();
 
 	var e = k;
-	var h = e.multiply(new BigInteger("3"));
+	var h = e.multiply(new exports.BigInteger("3"));
 
 	var neg = this.negate();
 	var R = this;
@@ -880,9 +880,9 @@ exports.curveFpDecodePointHex = function(s) {
 			var xHex = s.substr(2, len);
 			var yHex = s.substr(len + 2, len);
 
-			return new ECPointFp(this,
-				this.fromBigInteger(new BigInteger(xHex, 16)),
-				this.fromBigInteger(new BigInteger(yHex, 16)));
+			return new exports.ECPointFp(this,
+				this.fromBigInteger(new exports.BigInteger(xHex, 16)),
+				this.fromBigInteger(new exports.BigInteger(yHex, 16)));
 
 		default: // unsupported
 			return null;
@@ -1088,7 +1088,7 @@ exports.bnpFromString = function(s, b) {
 		if(sh > 0) this[this.t - 1] |= ((1 << (this.DB - sh)) - 1) << sh;
 	}
 	this.clamp();
-	if(mi) exports.BigInteger.ZERO.subTo(this, this);
+	if(mi) exports.BigInteger("0").subTo(this, this);
 };
 
 // (protected) clamp off excess high words
@@ -1136,7 +1136,7 @@ exports.bnToString = function(b) {
 // (public) -this
 exports.bnNegate = function() {
 	var r = exports.nbi();
-	exports.BigInteger.ZERO.subTo(this, r);
+	exports.BigInteger("0").subTo(this, r);
 	return r;
 };
 
@@ -1185,7 +1185,7 @@ exports.nbits = function(x) {
 // (public) return the number of bits in "this"
 exports.bnBitLength = function() {
 	if(this.t <= 0) return 0;
-	return this.DB * (this.t - 1) + nbits(this[this.t - 1] ^ (this.s & this.DM));
+	return this.DB * (this.t - 1) + exports.nbits(this[this.t - 1] ^ (this.s & this.DM));
 };
 
 // (protected) r = this << n*DB
@@ -1285,7 +1285,7 @@ exports.bnpMultiplyTo = function(a, r) {
 	for(i = 0; i < y.t; ++i) r[i + x.t] = x.am(0, y[i], r, i, 0, x.t);
 	r.s = 0;
 	r.clamp();
-	if(this.s != a.s) exports.BigInteger.ZERO.subTo(r, r);
+	if(this.s != a.s) exports.BigInteger("0").subTo(r, r);
 };
 
 // (protected) r = this^2, r != this (HAC 14.16)
@@ -1338,7 +1338,7 @@ exports.bnpDivRemTo = function(m, q, r) {
 		r[r.t++] = 1;
 		r.subTo(t, r);
 	}
-	exports.BigInteger.ONE.dlShiftTo(ys, t);
+	exports.BigInteger("1").dlShiftTo(ys, t);
 	t.subTo(y, y);	// "negative" y so we can replace sub with am later
 	while(y.t < ys) y[y.t++] = 0;
 	while(--j >= 0) {
@@ -1352,19 +1352,19 @@ exports.bnpDivRemTo = function(m, q, r) {
 	}
 	if(q != null) {
 		r.drShiftTo(ys, q);
-		if(ts != ms) exports.BigInteger.ZERO.subTo(q, q);
+		if(ts != ms) exports.BigInteger("0").subTo(q, q);
 	}
 	r.t = ys;
 	r.clamp();
 	if(nsh > 0) r.rShiftTo(nsh, r);	// Denormalize remainder
-	if(ts < 0) exports.BigInteger.ZERO.subTo(r, r);
+	if(ts < 0) exports.BigInteger("0").subTo(r, r);
 };
 
 // (public) this mod a
 exports.bnMod = function(a) {
 	var r = exports.nbi();
 	this.abs().divRemTo(a, null, r);
-	if(this.s < 0 && r.compareTo(exports.BigInteger.ZERO) > 0) a.subTo(r, r);
+	if(this.s < 0 && r.compareTo(exports.BigInteger("0")) > 0) a.subTo(r, r);
 	return r;
 };
 
@@ -1437,7 +1437,7 @@ exports.montConvert = function(x) {
 	var r = exports.nbi();
 	x.abs().dlShiftTo(this.m.t, r);
 	r.divRemTo(this.m, null, r);
-	if(x.s < 0 && r.compareTo(exports.BigInteger.ZERO) > 0) this.m.subTo(r, r);
+	if(x.s < 0 && r.compareTo(exports.BigInteger("0")) > 0) this.m.subTo(r, r);
 	return r;
 };
 
@@ -1496,7 +1496,7 @@ exports.bnpIsEven = function() {
 
 // (protected) this^e, e < 2^32, doing sqr and mul with "r" (HAC 14.79)
 exports.bnpExp = function(e, z) {
-	if(e > 0xffffffff || e < 1) return exports.BigInteger.ONE;
+	if(e > 0xffffffff || e < 1) return exports.BigInteger("1");
 	var r = exports.nbi(), r2 = exports.nbi(), g = z.convert(this), i = nbits(e) - 1;
 	g.copyTo(r);
 	while(--i >= 0) {
@@ -1514,7 +1514,7 @@ exports.bnpExp = function(e, z) {
 // (public) this^e % m, 0 <= e < 2^32
 exports.bnModPowInt = function(e, m) {
 	var z;
-	if(e < 256 || m.isEven()) z = new Classic(m); else z = new Montgomery(m);
+	if(e < 256 || m.isEven()) z = new exports.Classic(m); else z = new exports.Montgomery(m);
 	return this.exp(e, z);
 };
 
@@ -1625,14 +1625,14 @@ exports.bnpToRadix = function(b) {
 
 // (protected) convert from radix string
 exports.bnpFromRadix = function(s, b) {
-	this.fromInt(0);
+	this.bnpFromInt(0);
 	if(b == null) b = 10;
-	var cs = this.chunkSize(b);
+	var cs = this.bnpChunkSize(b);
 	var d = Math.pow(b, cs), mi = false, j = 0, w = 0;
 	for(var i = 0; i < s.length; ++i) {
 		var x = intAt(s, i);
 		if(x < 0) {
-			if(s.charAt(i) == "-" && this.signum() == 0) mi = true;
+			if(s.charAt(i) == "-" && this.bnSigNum() == 0) mi = true;
 			continue;
 		}
 		w = b * w + x;
@@ -1647,7 +1647,7 @@ exports.bnpFromRadix = function(s, b) {
 		this.dMultiply(Math.pow(b, j));
 		this.dAddOffset(w, 0);
 	}
-	if(mi) exports.BigInteger.ZERO.subTo(this, this);
+	if(mi) exports.BigInteger("0").subTo(this, this);
 };
 
 // (protected) alternate constructor
@@ -1658,7 +1658,7 @@ exports.bnpFromNumber = function(a, b, c) {
 		else {
 			this.fromNumber(a, c);
 			if(!this.testBit(a - 1))	// force MSB set
-				this.bitwiseTo(exports.BigInteger.ONE.shiftLeft(a - 1), op_or, this);
+				this.bitwiseTo(exports.BigInteger("1").shiftLeft(a - 1), op_or, this);
 			if(this.isEven()) this.dAddOffset(1, 0); // force odd
 			while(!this.isProbablePrime(b)) {
 				this.dAddOffset(2, 0);
@@ -1853,7 +1853,7 @@ exports.bnTestBit = function(n) {
 
 // (protected) this op (1<<n)
 exports.bnpChangeBit = function(n, op) {
-	var r = exports.BigInteger.ONE.shiftLeft(n);
+	var r = exports.BigInteger("1").shiftLeft(n);
 	this.bitwiseTo(r, op, r);
 	return r;
 };
@@ -2204,7 +2204,7 @@ exports.bnpModInt = function(n) {
 // (public) 1/this % m (HAC 14.61)
 exports.bnModInverse = function(m) {
 	var ac = m.isEven();
-	if((this.isEven() && ac) || m.signum() == 0) return exports.BigInteger.ZERO;
+	if((this.isEven() && ac) || m.signum() == 0) return exports.BigInteger("0");
 	var u = m.clone(), v = this.clone();
 	var a = nbv(1), b = nbv(0), c = nbv(0), d = nbv(1);
 	while(u.signum() != 0) {
@@ -2243,7 +2243,7 @@ exports.bnModInverse = function(m) {
 			d.subTo(b, d);
 		}
 	}
-	if(v.compareTo(exports.BigInteger.ONE) != 0) return exports.BigInteger.ZERO;
+	if(v.compareTo(exports.BigInteger.ONE) != 0) return exports.BigInteger("0");
 	if(d.compareTo(m) >= 0) return exports.d.subtract(m);
 	if(d.signum() < 0) d.addTo(m, d); else return exports.d;
 	if(d.signum() < 0) return exports.d.add(m); else return exports.d;
@@ -2273,7 +2273,7 @@ exports.bnIsProbablePrime = function(t) {
 
 // (protected) true if probably prime (HAC 4.24, Miller-Rabin)
 exports.bnpMillerRabin = function(t) {
-	var n1 = this.subtract(exports.BigInteger.ONE);
+	var n1 = this.subtract(exports.BigInteger("1"));
 	var k = n1.getLowestSetBit();
 	if(k <= 0) return false;
 	var r = n1.shiftRight(k);
@@ -2284,11 +2284,11 @@ exports.bnpMillerRabin = function(t) {
 		//Pick bases at random, instead of starting at 2
 		a.fromInt(exports.lowprimes[Math.floor(Math.random() * exports.lowprimes.length)]);
 		var y = a.modPow(r, this);
-		if(y.compareTo(exports.BigInteger.ONE) != 0 && y.compareTo(n1) != 0) {
+		if(y.compareTo(exports.BigInteger("1")) != 0 && y.compareTo(n1) != 0) {
 			var j = 1;
 			while(j++ < k && y.compareTo(n1) != 0) {
 				y = y.modPowInt(2, this);
-				if(y.compareTo(exports.BigInteger.ONE) == 0) return false;
+				if(y.compareTo(exports.BigInteger("1")) == 0) return false;
 			}
 			if(y.compareTo(n1) != 0) return false;
 		}
@@ -2593,7 +2593,7 @@ exports.X9ECParameters.prototype.getH = exports.x9getH;
 // SECNamedCurves
 
 exports.fromHex = function(s) {
-	return new exports.BigInteger(s, 16);
+	return new exports.BigInteger(exports.s, 16);
 };
 
 exports.secp128r1 = function() {
@@ -2603,7 +2603,7 @@ exports.secp128r1 = function() {
 	var b = exports.fromHex("E87579C11079F43DD824993C2CEE5ED3");
 	//byte[] S = Hex.decode("000E0D4D696E6768756151750CC03A4473D03679");
 	var n = exports.fromHex("FFFFFFFE0000000075A30D1B9038A115");
-	var h = exports.BigInteger.ONE;
+	var h = exports.BigInteger("1");
 	var curve = new exports.ECCurveFp(p, a, b);
 	var G = curve.decodePointHex("04"
 		+ "161FF7528B899B2D0C28607CA52C5B86"
@@ -2614,11 +2614,11 @@ exports.secp128r1 = function() {
 exports.secp160k1 = function() {
 	// p = 2^160 - 2^32 - 2^14 - 2^12 - 2^9 - 2^8 - 2^7 - 2^3 - 2^2 - 1
 	var p = exports.fromHex("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFAC73");
-	var a = exports.BigInteger.ZERO;
+	var a = exports.BigInteger("0");
 	var b = exports.fromHex("7");
 	//byte[] S = null;
 	var n = exports.fromHex("0100000000000000000001B8FA16DFAB9ACA16B6B3");
-	var h = exports.BigInteger.ONE;
+	var h = exports.BigInteger("1");
 	var curve = new exports.ECCurveFp(p, a, b);
 	var G = curve.decodePointHex("04"
 		+ "3B4C382CE37AA192A4019E763036F4F5DD4D7EBB"
@@ -2633,7 +2633,7 @@ exports.secp160r1 = function() {
 	var b = exports.fromHex("1C97BEFC54BD7A8B65ACF89F81D4D4ADC565FA45");
 	//byte[] S = Hex.decode("1053CDE42C14D696E67687561517533BF3F83345");
 	var n = exports.fromHex("0100000000000000000001F4C8F927AED3CA752257");
-	var h = exports.BigInteger.ONE;
+	var h = exports.BigInteger("1");
 	var curve = new exports.ECCurveFp(p, a, b);
 	var G = curve.decodePointHex("04"
 		+ "4A96B5688EF573284664698968C38BB913CBFC82"
@@ -2644,11 +2644,11 @@ exports.secp160r1 = function() {
 exports.secp192k1 = function() {
 	// p = 2^192 - 2^32 - 2^12 - 2^8 - 2^7 - 2^6 - 2^3 - 1
 	var p = exports.fromHex("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFEE37");
-	var a = exports.BigInteger.ZERO;
+	var a = exports.BigInteger("0");
 	var b = exports.fromHex("3");
 	//byte[] S = null;
 	var n = exports.fromHex("FFFFFFFFFFFFFFFFFFFFFFFE26F2FC170F69466A74DEFD8D");
-	var h = exports.BigInteger.ONE;
+	var h = exports.BigInteger("1");
 	var curve = new exports.ECCurveFp(p, a, b);
 	var G = curve.decodePointHex("04"
 		+ "DB4FF10EC057E9AE26B07D0280B7F4341DA5D1B1EAE06C7D"
@@ -2663,7 +2663,7 @@ exports.secp192r1 = function() {
 	var b = exports.fromHex("64210519E59C80E70FA7E9AB72243049FEB8DEECC146B9B1");
 	//byte[] S = Hex.decode("3045AE6FC8422F64ED579528D38120EAE12196D5");
 	var n = exports.fromHex("FFFFFFFFFFFFFFFFFFFFFFFF99DEF836146BC9B1B4D22831");
-	var h = exports.BigInteger.ONE;
+	var h = exports.BigInteger("1");
 	var curve = new ECCurveFp(p, a, b);
 	var G = curve.decodePointHex("04"
 		+ "188DA80EB03090F67CBF20EB43A18800F4FF0AFD82FF1012"
@@ -2678,7 +2678,7 @@ exports.secp224r1 = function() {
 	var b = exports.fromHex("B4050A850C04B3ABF54132565044B0B7D7BFD8BA270B39432355FFB4");
 	//byte[] S = Hex.decode("BD71344799D5C7FCDC45B59FA3B9AB8F6A948BC5");
 	var n = exports.fromHex("FFFFFFFFFFFFFFFFFFFFFFFFFFFF16A2E0B8F03E13DD29455C5C2A3D");
-	var h = exports.BigInteger.ONE;
+	var h = exports.BigInteger("1");
 	var curve = new exports.ECCurveFp(p, a, b);
 	var G = curve.decodePointHex("04"
 		+ "B70E0CBD6BB4BF7F321390B94A03C1D356C21122343280D6115C1D21"
@@ -2693,7 +2693,7 @@ exports.secp256r1 = function() {
 	var b = exports.fromHex("5AC635D8AA3A93E7B3EBBD55769886BC651D06B0CC53B0F63BCE3C3E27D2604B");
 	//byte[] S = Hex.decode("C49D360886E704936A6678E1139D26B7819F7E90");
 	var n = exports.fromHex("FFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC632551");
-	var h = exports.BigInteger.ONE;
+	var h = exports.BigInteger("1");
 	var curve = new exports.ECCurveFp(p, a, b);
 	var G = curve.decodePointHex("04"
 		+ "6B17D1F2E12C4247F8BCE6E563A440F277037D812DEB33A0F4A13945D898C296"
