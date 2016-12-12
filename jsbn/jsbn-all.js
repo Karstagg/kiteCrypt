@@ -97,6 +97,7 @@ exports.get_curve = function() {
 };
 // jsbnBn1
 exports.get_G = function(curve) {
+	console.log(curve);
 	return new exports.ECPointFp(curve,
 		curve.fromBigInteger(new exports.BigInteger(exports.eccGx, 16)),
 		curve.fromBigInteger(new exports.BigInteger(exports.eccGy, 16)));
@@ -168,7 +169,7 @@ exports.generateSendersPrivateMultiplier = function(sendersPassword, sendersSalt
 exports.calculateSendersMultipliedPoint = function(sendersPrivateMultiplier) {
 
 	exports.curve = exports.get_curve();
-	var G = exports.get_G(curve);
+	var G = exports.get_G(exports.curve);
 	var a = new exports.BigInteger(exports.sendersPrivateMultiplier, 16);
 	var P = G.multiply(a);
 
@@ -404,7 +405,7 @@ exports.encryptMessage = function(messagePlainText) {
 	// After determining the block size, encrypt the message.
 	var commonSecretKeyXBigInteger = new exports.BigInteger(commonSecretKeyX, 16);
 	var commonSecretKeyYBigInteger = new exports.BigInteger(commonSecretKeyY, 16);
-	var cipherTextBlock = new exports.BigInteger("0");
+	var cipherTextBlock = new exports.BigInteger.ZERO;
 	var messageCipherText = "";
 
 	if(blockSize == 0) {
@@ -739,7 +740,7 @@ exports.pointFpTwice = function() {
 
 	// w = 3 * x1^2 + a * z1^2
 	var w = x1.square().multiply(THREE);
-	if(!(exports.BigInteger("0").equals(a))) {
+	if(!(exports.BigInteger.ZERO.equals(a))) {
 		w = w.add(this.z.square().multiply(a));
 	}
 	w = w.mod(this.curve.q);
@@ -928,7 +929,7 @@ exports.j_lm = ((exports.canary & 0xffffff) == 0xefcafe);
 
 // (public) Constructor
 exports.BigInteger = function(a, b, c) {
-	console.log(this + "\n" + a + "\n" + b + "\n" + c);
+	console.log(this);
 	if(a != null)
 		if("number" == typeof a) this.fromNumber(a, b, c);
 		else if(b == null && "string" != typeof a) this.fromString(a, 256);
@@ -937,7 +938,7 @@ exports.BigInteger = function(a, b, c) {
 
 // return new, unset BigInteger
 exports.nbi = function() {
-	return new exports.BigInteger("0");
+	return new exports.BigInteger(null);
 };
 
 // am: Compute w_j += (x*this_i), propagate carries,
@@ -1046,7 +1047,6 @@ exports.bnpFromInt = function(x) {
 // return bigint initialized to value
 exports.nbv = function(i) {
 	var r = exports.nbi();
-	console.log(r);
 	r.fromInt(i);
 	return r;
 	// return new exports.BigInteger(i);
@@ -1091,7 +1091,7 @@ exports.bnpFromString = function(s, b) {
 		if(sh > 0) this[this.t - 1] |= ((1 << (this.DB - sh)) - 1) << sh;
 	}
 	this.clamp();
-	if(mi) exports.BigInteger("0").subTo(this, this);
+	if(mi) exports.BigInteger.ZERO.subTo(this, this);
 };
 
 // (protected) clamp off excess high words
@@ -1140,7 +1140,7 @@ exports.bnToString = function(b) {
 // (public) -this
 exports.bnNegate = function() {
 	var r = exports.nbi();
-	exports.BigInteger("0").subTo(this, r);
+	exports.BigInteger.ZERO.subTo(this, r);
 	return r;
 };
 
@@ -1289,7 +1289,7 @@ exports.bnpMultiplyTo = function(a, r) {
 	for(i = 0; i < y.t; ++i) r[i + x.t] = x.am(0, y[i], r, i, 0, x.t);
 	r.s = 0;
 	r.clamp();
-	if(this.s != a.s) exports.BigInteger("0").subTo(r, r);
+	if(this.s != a.s) exports.BigInteger.ZERO.subTo(r, r);
 };
 
 // (protected) r = this^2, r != this (HAC 14.16)
@@ -1342,7 +1342,7 @@ exports.bnpDivRemTo = function(m, q, r) {
 		r[r.t++] = 1;
 		r.subTo(t, r);
 	}
-	exports.BigInteger("1").dlShiftTo(ys, t);
+	exports.BigInteger.ONE.dlShiftTo(ys, t);
 	t.subTo(y, y);	// "negative" y so we can replace sub with am later
 	while(y.t < ys) y[y.t++] = 0;
 	while(--j >= 0) {
@@ -1356,19 +1356,19 @@ exports.bnpDivRemTo = function(m, q, r) {
 	}
 	if(q != null) {
 		r.drShiftTo(ys, q);
-		if(ts != ms) exports.BigInteger("0").subTo(q, q);
+		if(ts != ms) exports.BigInteger.ZERO.subTo(q, q);
 	}
 	r.t = ys;
 	r.clamp();
 	if(nsh > 0) r.rShiftTo(nsh, r);	// Denormalize remainder
-	if(ts < 0) exports.BigInteger("0").subTo(r, r);
+	if(ts < 0) exports.BigInteger.ZERO.subTo(r, r);
 };
 
 // (public) this mod a
 exports.bnMod = function(a) {
 	var r = exports.nbi();
 	this.abs().divRemTo(a, null, r);
-	if(this.s < 0 && r.compareTo(exports.BigInteger("0")) > 0) a.subTo(r, r);
+	if(this.s < 0 && r.compareTo(exports.BigInteger.ZERO) > 0) a.subTo(r, r);
 	return r;
 };
 
@@ -1441,7 +1441,7 @@ exports.montConvert = function(x) {
 	var r = exports.nbi();
 	x.abs().dlShiftTo(this.m.t, r);
 	r.divRemTo(this.m, null, r);
-	if(x.s < 0 && r.compareTo(exports.BigInteger("0")) > 0) this.m.subTo(r, r);
+	if(x.s < 0 && r.compareTo(exports.BigInteger.ZERO) > 0) this.m.subTo(r, r);
 	return r;
 };
 
@@ -1500,7 +1500,7 @@ exports.bnpIsEven = function() {
 
 // (protected) this^e, e < 2^32, doing sqr and mul with "r" (HAC 14.79)
 exports.bnpExp = function(e, z) {
-	if(e > 0xffffffff || e < 1) return exports.BigInteger("1");
+	if(e > 0xffffffff || e < 1) return exports.BigInteger.ONE;
 	var r = exports.nbi(), r2 = exports.nbi(), g = z.convert(this), i = nbits(e) - 1;
 	g.copyTo(r);
 	while(--i >= 0) {
@@ -1588,7 +1588,7 @@ exports.bnpToRadix = function(b) {
 	if(this.signum() == 0 || b < 2 || b > 36) return "0";
 	var cs = this.chunkSize(b);
 	var a = Math.pow(b, cs);
-	var d = nbv(a), y = nbi(), z = nbi(), r = "";
+	var d = exports.nbv(a), y = exports.nbi(), z = exports.nbi(), r = "";
 	this.divRemTo(d, y, z);
 	while(y.signum() > 0) {
 		r = (a + z.intValue()).toString(b).substr(1) + r;
@@ -1621,7 +1621,7 @@ exports.bnpFromRadix = function(s, b) {
 		this.dMultiply(Math.pow(b, j));
 		this.dAddOffset(w, 0);
 	}
-	if(mi) exports.BigInteger("0").subTo(this, this);
+	if(mi) exports.BigInteger.ZERO.subTo(this, this);
 };
 
 // (protected) alternate constructor
@@ -1632,7 +1632,7 @@ exports.bnpFromNumber = function(a, b, c) {
 		else {
 			this.fromNumber(a, c);
 			if(!this.testBit(a - 1))	// force MSB set
-				this.bitwiseTo(exports.BigInteger("1").shiftLeft(a - 1), op_or, this);
+				this.bitwiseTo(exports.BigInteger.ONE.shiftLeft(a - 1), op_or, this);
 			if(this.isEven()) this.dAddOffset(1, 0); // force odd
 			while(!this.isProbablePrime(b)) {
 				this.dAddOffset(2, 0);
@@ -1827,7 +1827,7 @@ exports.bnTestBit = function(n) {
 
 // (protected) this op (1<<n)
 exports.bnpChangeBit = function(n, op) {
-	var r = exports.BigInteger("1").shiftLeft(n);
+	var r = exports.BigInteger.ONE.shiftLeft(n);
 	this.bitwiseTo(r, op, r);
 	return r;
 };
@@ -2002,7 +2002,7 @@ exports.Barrett = function(m) {
 	// setup Barrett
 	this.r2 = exports.nbi();
 	this.q3 = exports.nbi();
-	exports.nbv(1).dlShiftTo(2 * m.t, this.r2);
+	exports.BigInteger.ONE.dlShiftTo(2 * m.t, this.r2);
 	this.mu = this.r2.divide(m);
 	this.m = m;
 };
@@ -2178,7 +2178,7 @@ exports.bnpModInt = function(n) {
 // (public) 1/this % m (HAC 14.61)
 exports.bnModInverse = function(m) {
 	var ac = m.isEven();
-	if((this.isEven() && ac) || m.signum() == 0) return exports.BigInteger("0");
+	if((this.isEven() && ac) || m.signum() == 0) return exports.BigInteger.ZERO;
 	var u = m.clone(), v = this.clone();
 	var a = nbv(1), b = nbv(0), c = nbv(0), d = nbv(1);
 	while(u.signum() != 0) {
@@ -2217,7 +2217,7 @@ exports.bnModInverse = function(m) {
 			d.subTo(b, d);
 		}
 	}
-	if(v.compareTo(exports.BigInteger.ONE) != 0) return exports.BigInteger("0");
+	if(v.compareTo(exports.BigInteger.ONE) != 0) return exports.BigInteger.ZERO;
 	if(d.compareTo(m) >= 0) return exports.d.subtract(m);
 	if(d.signum() < 0) d.addTo(m, d); else return exports.d;
 	if(d.signum() < 0) return exports.d.add(m); else return exports.d;
@@ -2247,7 +2247,7 @@ exports.bnIsProbablePrime = function(t) {
 
 // (protected) true if probably prime (HAC 4.24, Miller-Rabin)
 exports.bnpMillerRabin = function(t) {
-	var n1 = this.subtract(exports.BigInteger("1"));
+	var n1 = this.subtract(exports.BigInteger.ONE);
 	var k = n1.getLowestSetBit();
 	if(k <= 0) return false;
 	var r = n1.shiftRight(k);
@@ -2258,11 +2258,11 @@ exports.bnpMillerRabin = function(t) {
 		//Pick bases at random, instead of starting at 2
 		a.fromInt(exports.lowprimes[Math.floor(Math.random() * exports.lowprimes.length)]);
 		var y = a.modPow(r, this);
-		if(y.compareTo(exports.BigInteger("1")) != 0 && y.compareTo(n1) != 0) {
+		if(y.compareTo(exports.BigInteger.ONE) != 0 && y.compareTo(n1) != 0) {
 			var j = 1;
 			while(j++ < k && y.compareTo(n1) != 0) {
 				y = y.modPowInt(2, this);
-				if(y.compareTo(exports.BigInteger("1")) == 0) return false;
+				if(y.compareTo(exports.BigInteger.ONE) == 0) return false;
 			}
 			if(y.compareTo(n1) != 0) return false;
 		}
@@ -2606,7 +2606,7 @@ exports.secp128r1 = function() {
 	var b = exports.fromHex("E87579C11079F43DD824993C2CEE5ED3");
 	//byte[] S = Hex.decode("000E0D4D696E6768756151750CC03A4473D03679");
 	var n = exports.fromHex("FFFFFFFE0000000075A30D1B9038A115");
-	var h = exports.BigInteger("1");
+	var h = exports.BigInteger.ONE;
 	var curve = new exports.ECCurveFp(p, a, b);
 	var G = curve.decodePointHex("04"
 		+ "161FF7528B899B2D0C28607CA52C5B86"
@@ -2617,11 +2617,11 @@ exports.secp128r1 = function() {
 exports.secp160k1 = function() {
 	// p = 2^160 - 2^32 - 2^14 - 2^12 - 2^9 - 2^8 - 2^7 - 2^3 - 2^2 - 1
 	var p = exports.fromHex("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFAC73");
-	var a = exports.BigInteger("0");
+	var a = exports.BigInteger.ZERO;
 	var b = exports.fromHex("7");
 	//byte[] S = null;
 	var n = exports.fromHex("0100000000000000000001B8FA16DFAB9ACA16B6B3");
-	var h = exports.BigInteger("1");
+	var h = exports.BigInteger.ONE;
 	var curve = new exports.ECCurveFp(p, a, b);
 	var G = curve.decodePointHex("04"
 		+ "3B4C382CE37AA192A4019E763036F4F5DD4D7EBB"
@@ -2636,7 +2636,7 @@ exports.secp160r1 = function() {
 	var b = exports.fromHex("1C97BEFC54BD7A8B65ACF89F81D4D4ADC565FA45");
 	//byte[] S = Hex.decode("1053CDE42C14D696E67687561517533BF3F83345");
 	var n = exports.fromHex("0100000000000000000001F4C8F927AED3CA752257");
-	var h = exports.BigInteger("1");
+	var h = exports.BigInteger.ONE;
 	var curve = new exports.ECCurveFp(p, a, b);
 	var G = curve.decodePointHex("04"
 		+ "4A96B5688EF573284664698968C38BB913CBFC82"
@@ -2647,11 +2647,11 @@ exports.secp160r1 = function() {
 exports.secp192k1 = function() {
 	// p = 2^192 - 2^32 - 2^12 - 2^8 - 2^7 - 2^6 - 2^3 - 1
 	var p = exports.fromHex("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFEE37");
-	var a = exports.BigInteger("0");
+	var a = exports.BigInteger.ZERO;
 	var b = exports.fromHex("3");
 	//byte[] S = null;
 	var n = exports.fromHex("FFFFFFFFFFFFFFFFFFFFFFFE26F2FC170F69466A74DEFD8D");
-	var h = exports.BigInteger("1");
+	var h = exports.BigInteger.ONE;
 	var curve = new exports.ECCurveFp(p, a, b);
 	var G = curve.decodePointHex("04"
 		+ "DB4FF10EC057E9AE26B07D0280B7F4341DA5D1B1EAE06C7D"
@@ -2666,7 +2666,7 @@ exports.secp192r1 = function() {
 	var b = exports.fromHex("64210519E59C80E70FA7E9AB72243049FEB8DEECC146B9B1");
 	//byte[] S = Hex.decode("3045AE6FC8422F64ED579528D38120EAE12196D5");
 	var n = exports.fromHex("FFFFFFFFFFFFFFFFFFFFFFFF99DEF836146BC9B1B4D22831");
-	var h = exports.BigInteger("1");
+	var h = exports.BigInteger.ONE;
 	var curve = new ECCurveFp(p, a, b);
 	var G = curve.decodePointHex("04"
 		+ "188DA80EB03090F67CBF20EB43A18800F4FF0AFD82FF1012"
@@ -2681,7 +2681,7 @@ exports.secp224r1 = function() {
 	var b = exports.fromHex("B4050A850C04B3ABF54132565044B0B7D7BFD8BA270B39432355FFB4");
 	//byte[] S = Hex.decode("BD71344799D5C7FCDC45B59FA3B9AB8F6A948BC5");
 	var n = exports.fromHex("FFFFFFFFFFFFFFFFFFFFFFFFFFFF16A2E0B8F03E13DD29455C5C2A3D");
-	var h = exports.BigInteger("1");
+	var h = exports.BigInteger.ONE;
 	var curve = new exports.ECCurveFp(p, a, b);
 	var G = curve.decodePointHex("04"
 		+ "B70E0CBD6BB4BF7F321390B94A03C1D356C21122343280D6115C1D21"
@@ -2696,7 +2696,7 @@ exports.secp256r1 = function() {
 	var b = exports.fromHex("5AC635D8AA3A93E7B3EBBD55769886BC651D06B0CC53B0F63BCE3C3E27D2604B");
 	//byte[] S = Hex.decode("C49D360886E704936A6678E1139D26B7819F7E90");
 	var n = exports.fromHex("FFFFFFFF00000000FFFFFFFFFFFFFFFFBCE6FAADA7179E84F3B9CAC2FC632551");
-	var h = exports.BigInteger("1");
+	var h = exports.BigInteger.ONE;
 	var curve = new exports.ECCurveFp(p, a, b);
 	var G = curve.decodePointHex("04"
 		+ "6B17D1F2E12C4247F8BCE6E563A440F277037D812DEB33A0F4A13945D898C296"
@@ -2705,12 +2705,12 @@ exports.secp256r1 = function() {
 };
 
 exports.getSECCurveByName = function(name) {
-	// if(name == "secp128r1") return exports.secp128r1();
-	// if(name == "secp160k1") return exports.secp160k1();
-	// if(name == "secp160r1") return exports.secp160r1();
-	// if(name == "secp192k1") return exports.secp192k1();
-	// if(name == "secp192r1") return exports.secp192r1();
-	// if(name == "secp224r1") return exports.secp224r1();
+	if(name == "secp128r1") return exports.secp128r1();
+	if(name == "secp160k1") return exports.secp160k1();
+	if(name == "secp160r1") return exports.secp160r1();
+	if(name == "secp192k1") return exports.secp192k1();
+	if(name == "secp192r1") return exports.secp192r1();
+	if(name == "secp224r1") return exports.secp224r1();
 	if(name == "secp256r1") return exports.secp256r1();
 	return null;
 };
