@@ -521,7 +521,17 @@ class Profile implements \JsonSerializable {
 		}
 		return ($profiles);
 	}
-	//getFriendship method
+
+	/**
+	 * getFriendship method
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $profilePublicKey to search
+	 * @return \SplFixArray SplFixedArray of public key found
+	 * @throw \PDOException when mySQL related errors occur
+	 * @throw \TypeError when variable are not the correct data type
+	 **/
+
 	public static function getFriendshipByProfileId (\PDO $pdo, int $profileId) {
 		$profileId = trim($profileId);
 		if(empty($profileId) === true) {
