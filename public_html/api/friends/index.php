@@ -49,11 +49,16 @@ try {
 			throw(new \InvalidArgumentException ($exceptionMessage, $exceptionCode));
 		}
 		else {
-			$friendship = Profile::getFriendship($pdo, $requestObject->userId);
+			$friendship = Profile::getFriendshipByProfileId($pdo, $requestObject->userId);
 			if(empty($friendship) === true) {
-				throw (new \InvalidArgumentException("Forever Alone", $exceptionCode));
+				throw (new \InvalidArgumentException($exceptionMessage, $exceptionCode));
 			}
-			$reply->data = $friendship->getFriendship();
+			$friendsArray = [];
+			foreach ($friendship as $value) {
+
+				$friendsArray[] = $friendship->getProfileUserName();
+			}
+			$reply->data = $friendsArray;
 		}
 
 	} else if($method === "DELETE") {

@@ -499,6 +499,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
+
 	public static function getAllProfiles(\PDO $pdo) {
 		// create query template
 		$query = "SELECT profileId, profileUserName, profilePublicKeyX, profilePublicKeyY,profilePasswordSalt FROM profile";
