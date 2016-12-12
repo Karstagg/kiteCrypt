@@ -655,7 +655,7 @@ exports.ECPointFp = function (curve,x,y,z) {
 	// Projective coordinates: either zinv == null or z * zinv == 1
 	// z and zinv are just BigIntegers, not fieldElements
 	if(z == null) {
-		this.z = BigInteger.ONE;
+		this.z = exports.BigInteger.ONE;
 	}
 	else {
 		this.z = z;
@@ -845,7 +845,7 @@ exports.ECCurveFp = function (q,a,b) {
 	this.a = this.fromBigInteger(a);
 	this.b = this.fromBigInteger(b);
 	this.infinity = new exports.ECPointFp(this, null, null);
-	this.reducer = new Barrett(this.q);
+	this.reducer = new exports.Barrett(this.q);
 
 	return(exports.ECCurveFp);
 };
@@ -1010,9 +1010,9 @@ exports.dbits = 26;
 //   exports.dbits = 28;
 // }
 
-exports.BigInteger.prototype.DB = exports.dbits;
-exports.BigInteger.prototype.DM = ((1<<exports.dbits)-1);
-exports.BigInteger.prototype.DV = (1<<exports.dbits);
+exports.BigInteger.prototype.DB = dbits;
+exports.BigInteger.prototype.DM = ((1<<dbits)-1);
+exports.BigInteger.prototype.DV = (1<<dbits);
 
 exports.BI_FP = 52;
 exports.BigInteger.prototype.FV = Math.pow(2,exports.BI_FP);
@@ -1466,10 +1466,10 @@ exports.BigInteger = function () {
 
 
 exports.BigInteger.prototype.copyTo = exports.bnpCopyTo;
-exports.BigInteger.prototype.fromInt = exports.bnpFromInt;
+exports.BigInteger.fromInt = exports.bnpFromInt;
 exports.BigInteger.prototype.fromString = exports.bnpFromString;
 exports.BigInteger.prototype.clamp = exports.bnpClamp;
-exports.BigInteger.dlShiftTo = exports.bnpDLShiftTo;
+exports.BigInteger.prototype.dlShiftTo = exports.bnpDLShiftTo;
 exports.BigInteger.prototype.drShiftTo = exports.bnpDRShiftTo;
 exports.BigInteger.prototype.lShiftTo = exports.bnpLShiftTo;
 exports.BigInteger.prototype.rShiftTo = exports.bnpRShiftTo;
@@ -1494,7 +1494,7 @@ exports.BigInteger.prototype.modPowInt = exports.bnModPowInt;
 exports.BigInteger.ZERO = exports.nbv(0);
 exports.BigInteger.ONE = exports.nbv(1);
 
-
+// exports.nbv().dlShiftTo = exports.bnpDLShiftTo;
 //==============================================================================================================================
 // jsbn-jsbn2.js
 //==============================================================================================================================
@@ -1870,9 +1870,9 @@ exports.bnpMultiplyUpperTo = function (a,n,r) {
 // Barrett modular reduction
 exports.Barrett = function (m) {
 	// setup Barrett
-	this.r2 = nbi();
-	this.q3 = nbi();
-	exports.BigInteger.ONE.dlShiftTo(2*m.t,this.r2);
+	this.r2 = exports.nbi();
+	this.q3 = exports.nbi();
+	exports.nbv(1).dlShiftTo(2*m.t,this.r2);
 	this.mu = this.r2.divide(m);
 	this.m = m;
 };
