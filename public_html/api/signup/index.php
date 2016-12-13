@@ -55,17 +55,32 @@ try {
 		if(empty($requestObject->username) === true) {
 			throw(new \InvalidArgumentException("user", $exceptionCode));
 		} else {
-			$profileUserName = filter_var($requestObject->username, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			$usernameCheck = Profile::getProfileByUserName($requestObject->username);
+			if (!empty($usernameCheck)) {
+				throw(new \InvalidArgumentException("username already taken", $exceptionCode));
+			} else {
+				$profileUserName = filter_var($requestObject->username, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			}
 		}
 
 		if(empty($requestObject->password) === true) {
-			throw(new \InvalidArgumentException("password", $exceptionCode));
+			throw(new \InvalidArgumentException("password empty", $exceptionCode));
 		} else {
 			$profilePassword = filter_var($requestObject->password, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
 		if(empty($requestObject->passwordConfirm) === true) {
-			throw(new \InvalidArgumentException("confirm", $exceptionCode));
+			throw(new \InvalidArgumentException("confirm password empty", $exceptionCode));
+		} else {
+			$profileConfirmPassword = filter_var($requestObject->passwordConfirm, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		}
+		if(empty($requestObject->publicKeyX) === true) {
+			throw(new \InvalidArgumentException("no x", $exceptionCode));
+		} else {
+			$profileConfirmPassword = filter_var($requestObject->passwordConfirm, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		}
+		if(empty($requestObject->publicKeyY) === true) {
+			throw(new \InvalidArgumentException("no y", $exceptionCode));
 		} else {
 			$profileConfirmPassword = filter_var($requestObject->passwordConfirm, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
@@ -74,19 +89,20 @@ try {
 			throw (new InvalidArgumentException("the passwords you provided do not match"));
 		}
 
-		$profileUserName= filter_input(INPUT_POST, $requestObject->username, FILTER_SANITIZE_STRING);
-		$profilePassword = filter_input(INPUT_POST, $requestObject->password, FILTER_SANITIZE_STRING);
-		//$profileSalt = filter_input(INPUT_POST, $requestObject->salt, FILTER_SANITIZE_STRING);
-		//$pofilePublicKeyX = filter_input(INPUT_POST, $requestObject->profilePublicKeyX, FILTER_SANITIZE_STRING);
-		//$pofilePublicKeyY = filter_input(INPUT_POST, $requestObject->profilePublicKeyY, FILTER_SANITIZE_STRING);
-		//Use "SET" methods to create new username/password
+		$username = filter_var($requestObject->username, FILTER_SANITIZE_STRING);
+		$salt = filter_var($requestObject->salt, FILTER_SANITIZE_STRING);
+		$profilePublicKeyX = filter_var($requestObject->publicKeyX, FILTER_SANITIZE_STRING);
+		$profilePublicKeyY = filter_var($requestObject->publicKeyY, FILTER_SANITIZE_STRING);
 
+		//Use "SET" methods to create new username/password
 
 		//$profileFromDatabase = Profile::setProfileUserName($pdo, $profileUserName);
 		// creates a new profile object and stores it in $profile
-		$newProfile = new Profile($profileUserName);
+		$profileUserId = null;
+//		$newProfile = new Profile($profileUserId, $username, $profilePublicKeyX, $profilePublicKeyY, $salt);
+		$newProfile = new Profile($profileUserId, $username, $profilePublicKeyX, $profilePublicKeyY, $salt);
 		// calls the INSERT method in $profile which inserts the object into the DataBase.
-		$newProfile->insert($pdo);;
+		$newProfile->insert($pdo);
 
 	} else {
 		throw (new InvalidArgumentException($exceptionMessage, $exceptionCode));

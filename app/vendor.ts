@@ -15,3 +15,4 @@ import 'jquery';
 import 'bootstrap-loader';
 import 'font-awesome-webpack';
 import '../jsbn/jsbn-all';
+import '../node_modules/ng2-webstorage'

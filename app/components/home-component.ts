@@ -6,15 +6,8 @@ import {Status} from "../classes/status";
 import {SaltRequest} from "../classes/salt-request";
 import {SaltService} from "../services/salt-service";
 import {Salt} from "../classes/salt";
-import * as eccSalt from "../../jsbn/ecc-salt";
-import * as jsbnEcc from "../../jsbn/jsbn-ecc";
-import * as jsbnJsbn1 from "../../jsbn/jsbn-jsbn1";
-import * as jsbnJsbn2 from "../../jsbn/jsbn-jsbn2";
-import * as jsbnPrng4 from "../../jsbn/jsbn-prng4";
-import * as jsbnRng from "../../jsbn/jsbn-rng";
-import * as jsbnSec from "../../jsbn/jsbn-sec";
 import * as jsbnAll from "../../jsbn/jsbn-all"
-
+import {LocalStorageService} from "../../node_modules/ng2-webstorage";
 @Component({
 	templateUrl: "./templates/home.php"
 })
@@ -25,8 +18,10 @@ export class HomeComponent {
 	salt: Salt = null;
 	loginStatus : Status = null;
 	saltRequest: SaltRequest = new SaltRequest("", false);
+	// localStorageService: LocalStorageService = new LocalStorageService("", "", "", "", "", "", "");
+	//storing: 1) Username, 2)Password, 3)Multiplier, 4)PublicKeyX, 5)PublicKeyY, 6) eCCP,
 
-	constructor(private SaltService: SaltService, private loginService: LoginService, private router: Router) {
+	constructor(private SaltService: SaltService, private loginService: LoginService, private router: Router, private localStorage: LocalStorageService) {
 
 	}
 
@@ -38,8 +33,11 @@ export class HomeComponent {
 				this.loginService.login(this.loginData)
 					.subscribe(currentStatus => {
 						this.loginStatus = currentStatus;
+
 						if(this.loginStatus.status === 200) {
-							//	This is where we react to a successful login//
+							//	This is where we react to a successful login
+							// localStorage.setItem('sendersData', JSON.stringify({ sendersPrivateMultiplier: sendersPrivateMultiplier, sendersMultipliedPointX: sendersMultipliedPoint[0], sendersMultipliedPointY: sendersMultipliedPoint[1] }));
+
 							this.router.navigate(["/chat/"]);
 						}
 					});

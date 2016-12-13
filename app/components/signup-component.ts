@@ -14,6 +14,7 @@ import {Salt} from "../classes/salt";
 // import * as jsbnRng from "../../jsbn/jsbn-rng";
 // import * as jsbnSec from "../../jsbn/jsbn-sec";
 import * as jsbnAll from "../../jsbn/jsbn-all"
+import {LocalStorageService} from "../../node_modules/ng2-webstorage";
 
 
 
@@ -24,10 +25,11 @@ import * as jsbnAll from "../../jsbn/jsbn-all"
 
 export class SignUpComponent {
 	@ViewChild("signUpForm") signUpForm: any;
-	signUpData: SignUp = new SignUp("", "", "", "", "");
+	signUpData: SignUp = new SignUp("", "", "", "", "", "");
 	salt: Salt = null;
 	signUpStatus : Status = null;
 	saltRequest: SaltRequest = new SaltRequest("", true);
+
 
 	constructor(private SaltService: SaltService, private signUpService: SignUpService, private router: Router) {
 
@@ -44,8 +46,13 @@ export class SignUpComponent {
 					let sendersPrivateMultiplier = jsbnAll.generateSendersPrivateMultiplier(this.signUpData.password, this.salt.salt);
 
 					let sendersMultipliedPoint = jsbnAll.calculateSendersMultipliedPoint(sendersPrivateMultiplier);
+
+					this.signUpData.salt = this.salt.salt;
 					this.signUpData.publicKeyX = sendersMultipliedPoint[0];
 					this.signUpData.publicKeyY = sendersMultipliedPoint[1];
+						this.signUpData.password = "I wish that shotgun was my penis";
+						this.signUpData.passwordConfirm = "I wish that shotgun was my penis";
+
 					this.signUpService.signUp(this.signUpData)
 						.subscribe(signUpStatus => {
 							this.signUpStatus = signUpStatus;
@@ -56,14 +63,14 @@ export class SignUpComponent {
 				});
 		}
 	}
-	foo(): void {
-		let sendersPrivateMultiplier = jsbnAll.generateSendersPrivateMultiplier(this.signUpData.password, this.salt.salt);
-		console.log("sender keys = " + sendersPrivateMultiplier);
-		// let luckyBoy = convertStringToHex("one" + "two");
-		//calculating senders keys
-		// let rng = jsbnAll.initializeEllipticCurveParameters();
-
-		let sendersMultipliedPoint = jsbnAll.calculateSendersMultipliedPoint(sendersPrivateMultiplier);
-		console.log(this.signUpData.password + this.salt.salt + "        " + sendersPrivateMultiplier + "               " + sendersMultipliedPoint);
-	}
+// 	createUser(): void {
+// 		let sendersPrivateMultiplier = jsbnAll.generateSendersPrivateMultiplier(this.signUpData.password, this.salt.salt);
+// 		console.log("sender keys = " + sendersPrivateMultiplier);
+// 		// let luckyBoy = convertStringToHex("one" + "two");
+// 		//calculating senders keys
+// 		// let rng = jsbnAll.initializeEllipticCurveParameters();
+//
+// 		let sendersMultipliedPoint = jsbnAll.calculateSendersMultipliedPoint(sendersPrivateMultiplier);
+// 		console.log(this.signUpData.password + this.salt.salt + "        " + sendersPrivateMultiplier + "               " + sendersMultipliedPoint);
+// 	}
 }

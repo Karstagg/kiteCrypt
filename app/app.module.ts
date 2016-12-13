@@ -8,14 +8,18 @@ import {LoginService} from "./services/login-service";
 import {SignUpService} from "./services/signup-service";
 import { EqualValidator } from './directives/validate-equal.directive';
 import {SaltService} from "./services/salt-service";  // import validator
-
+//importing session storage components////////////
+import {Ng2Webstorage} from 'ng2-webstorage';
 const moduleDeclarations = [AppComponent];
 
 @NgModule({
-	imports:      [BrowserModule, FormsModule, HttpModule, routing],
+	imports:      [BrowserModule, FormsModule, HttpModule, routing, Ng2Webstorage],
 	declarations: [...moduleDeclarations, ...allAppComponents, EqualValidator],
 	bootstrap:    [AppComponent],
 	providers:    [appRoutingProviders, LoginService, SaltService, SignUpService]
 })
 export class AppModule {}
+
+
+
 

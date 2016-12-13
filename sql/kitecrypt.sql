@@ -5,11 +5,11 @@ DROP TABLE IF EXISTS profile;
 
 CREATE TABLE profile (
 profileId INT UNSIGNED AUTO_INCREMENT NOT NULL,
-profileUserName VARCHAR(20) NOT NULL,
+profileUserName VARCHAR(20) NOT NULL UNIQUE,
 profilePublicKeyX VARCHAR(256) NOT NULL,
 profilePublicKeyY VARCHAR(256) NOT NULL,
 profilePasswordSalt VARCHAR(256) NOT NULL,
-UNIQUE(profileUserName, profilePublicKeyX,profilePublicKeyY),
+UNIQUE(profileUserName, profilePublicKeyX, profilePublicKeyY),
 PRIMARY KEY(profileId)
 );
 
