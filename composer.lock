@@ -1,0 +1,114 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "130be4a9c8cb5f6e3faa47cfa4177083",
+    "content-hash": "ea1beecb4f7ca3e4426269ed158c4e99",
+    "packages": [
+        {
+            "name": "pubnub/pubnub",
+            "version": "3.8.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pubnub/php.git",
+                "reference": "42abab2557e1fe7cd39edc5d38af7fab817a2ff4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pubnub/php/zipball/42abab2557e1fe7cd39edc5d38af7fab817a2ff4",
+                "reference": "42abab2557e1fe7cd39edc5d38af7fab817a2ff4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Pubnub\\": "composer/lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PubNub",
+                    "email": "support@pubnub.com"
+                }
+            ],
+            "description": "The Only Global Network For Real-Time Data -- PubNub!",
+            "homepage": "http://www.pubnub.com/",
+            "keywords": [
+                "ajax",
+                "api",
+                "push",
+                "real time",
+                "real-time",
+                "realtime"
+            ],
+            "time": "2016-10-07 22:34:50"
+        },
+        {
+            "name": "pusher/pusher-php-server",
+            "version": "2.6.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pusher/pusher-http-php.git",
+                "reference": "598d08dfeda85352b0ec684be4b87888ba3727f5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pusher/pusher-http-php/zipball/598d08dfeda85352b0ec684be4b87888ba3727f5",
+                "reference": "598d08dfeda85352b0ec684be4b87888ba3727f5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "lib/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Library for interacting with the Pusher REST API",
+            "homepage": "https://github.com/pusher/pusher-php-server",
+            "keywords": [
+                "events",
+                "php-pusher-server",
+                "publish",
+                "pusher",
+                "realtime",
+                "rest",
+                "trigger"
+            ],
+            "time": "2016-12-04 18:53:56"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "pusher/pusher-php-server": 0,
+        "pubnub/pubnub": 0
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
