@@ -57,6 +57,6 @@ export class SignUpComponent {
 		//calculating senders keys
 		// let rng = jsbnAll.initializeEllipticCurveParameters();
 		let sendersMultipliedPoint = jsbnAll.calculateSendersMultipliedPoint(sendersPrivateMultiplier);
-		console.log(this.signUpData.password + this.salt.salt + "        " + sendersPrivateMultiplier + "    ");
+		console.log(this.signUpData.password + this.salt.salt + "        " + sendersPrivateMultiplier + "    " + sendersMultipliedPoint);
 	}
 }
