@@ -357,7 +357,7 @@ class Profile implements \JsonSerializable {
 			throw(new \PDOException("profile User Name is invalid"));
 		}
 		// create query template
-		$query = "SELECT profileId, profileUserName, profilePublicKeyX, profilePublicKeyY, profilePasswordSalt FROM profile WHERE profileUserName LIKE ':profileUserName'";
+		$query = "SELECT profileId, profileUserName, profilePublicKeyX, profilePublicKeyY, profilePasswordSalt FROM profile WHERE profileUserName LIKE :profileUserName";
 		$statement = $pdo->prepare($query);
 
 		// bind teh profile user name to the place holder in the template

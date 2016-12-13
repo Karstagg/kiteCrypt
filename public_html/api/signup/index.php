@@ -55,12 +55,17 @@ try {
 		if(empty($requestObject->username) === true) {
 			throw(new \InvalidArgumentException("user", $exceptionCode));
 		} else {
-			$usernameCheck = Profile::getProfileByUserName($requestObject->username);
-			if (!empty($usernameCheck)) {
-				throw(new \InvalidArgumentException("username already taken", $exceptionCode));
-			} else {
-				$profileUserName = filter_var($requestObject->username, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-			}
+			$profileUserName = filter_var($requestObject->username, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+//			try {
+//				$usernameCheck = Profile::getProfileByUserName($pdo, $requestObject->username);
+//			} catch (\PDOException $usernameCheck) {
+//				$usernameCheck = "username is available";
+//			}
+//			if ($usernameCheck === "username is available") {
+//					$profileUserName = filter_var($requestObject->username, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+//			} else {
+//			throw(new \InvalidArgumentException("username already taken", $exceptionCode));
+//			}
 		}
 
 		if(empty($requestObject->password) === true) {
@@ -100,10 +105,14 @@ try {
 		// creates a new profile object and stores it in $profile
 		$profileUserId = null;
 //		$newProfile = new Profile($profileUserId, $username, $profilePublicKeyX, $profilePublicKeyY, $salt);
+
 		$newProfile = new Profile($profileUserId, $username, $profilePublicKeyX, $profilePublicKeyY, $salt);
 		// calls the INSERT method in $profile which inserts the object into the DataBase.
-		$newProfile->insert($pdo);
-
+		try {
+			$newProfile->insert($pdo);
+		} catch (\PDOException $exception) {
+			throw(new \InvalidArgumentException("username already taken", $exceptionCode));
+		}
 	} else {
 		throw (new InvalidArgumentException($exceptionMessage, $exceptionCode));
 	}

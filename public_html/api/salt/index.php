@@ -66,10 +66,16 @@ try {
 		} else {
 			//perform the actual post - POST only, GET requests put username in the URL. POST requests are not shareable//
 			$profile = Profile::getProfileByUserName($pdo, $requestObject->username);
-			if(empty($profile) === true) {
+			if(count($profile) === 0) {
 				throw (new \InvalidArgumentException($exceptionMessage, $exceptionCode));
 			}
-			$reply->data = $profile->getProfilePasswordSalt();
+//			$profiles = $profile->getProfilePasswordSalt();
+//			$reply->data = $profiles[0];
+//			$singleProfile = $profile[0];
+//			$reply->data = $singleProfile->getProfilePasswordSalt();
+			$angularizedSalt = new stdClass();
+			$angularizedSalt->salt = $profile->getProfilePasswordSalt();
+			$reply->data = $angularizedSalt;
 		}
 
 

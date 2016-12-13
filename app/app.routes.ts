@@ -1,14 +1,14 @@
 import {RouterModule, Routes} from "@angular/router";
 import {HomeComponent} from "./components/home-component";
 import {SignUpComponent} from "./components/signup-component";
-import {ChatterBoxComponent} from "./components/chatter-box-component";
+import {ChatComponent} from "./components/chat-component";
 
-export const allAppComponents = [HomeComponent, SignUpComponent, ChatterBoxComponent];
+export const allAppComponents = [HomeComponent, SignUpComponent, ChatComponent];
 
 export const routes: Routes = [
 	{path: "", component: HomeComponent},
 	{path: "signup", component: SignUpComponent},
-	{path: "chatter-box", component: ChatterBoxComponent}
+	{path: "chat", component: ChatComponent}
 ];
 
 export const appRoutingProviders: any[] = [];

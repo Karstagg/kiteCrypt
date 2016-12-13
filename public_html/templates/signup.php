@@ -61,7 +61,7 @@
 						</div>
 						<br>
 						<button type="submit" class="btn btn-lg btn-login" [disabled]="signUpForm.invalid"><i
-								class="fa fa-user"></i> Login
+								class="fa fa-user"></i> Sign Up
 						</button>
 						<pre>{{ signUpData | json }}</pre>
 					</form>
