@@ -52,7 +52,7 @@ exports.initializeEllipticCurveParameters = function() {
 
 exports.set_ec_params = function(name) {
 	exports.c = exports.getSECCurveByName(name);
-
+	console.log(exports.c)
 	exports.eccP = exports.c.getCurve().getQ().toString(16);
 	exports.eccA = exports.c.getCurve().getA().toBigInteger().toString(16);
 	exports.eccB = exports.c.getCurve().getB().toBigInteger().toString(16);
@@ -167,7 +167,7 @@ exports.generateSendersPrivateMultiplier = function(sendersPassword, sendersSalt
 
 
 exports.calculateSendersMultipliedPoint = function(sendersPrivateMultiplier) {
-
+	exports.initializeEllipticCurveParameters();
 	exports.curve = exports.get_curve();
 	var G = exports.get_G(exports.curve);
 	var a = new exports.BigInteger(exports.sendersPrivateMultiplier, 16);
@@ -651,7 +651,7 @@ exports.ECPointFp = function(curve, x, y, z) {
 
 exports.pointFpGetX = function() {
 	if(this.zinv == null) {
-		console.log(this.curve.q)
+		console.log(this)
 		this.zinv = this.z.modInverse(this.curve.q);
 	}
 	var r = this.x.toBigInteger().multiply(this.zinv);
@@ -1020,7 +1020,7 @@ rr = "A".charCodeAt(0);
 for(vv = 10; vv < 36; ++vv) exports.BI_RC[rr++] = vv;
 
 exports.int2char = function(n) {
-	return BI_RM.charAt(n);
+	return exports.BI_RM.charAt(n);
 };
 exports.intAt = function(s, i) {
 	var c = exports.BI_RC[s.charCodeAt(i)];
@@ -1115,7 +1115,7 @@ exports.bnToString = function(b) {
 	if(i-- > 0) {
 		if(p < this.DB && (d = this[i] >> p) > 0) {
 			m = true;
-			r = int2char(d);
+			r = exports.int2char(d);
 		}
 		while(i >= 0) {
 			if(p < k) {
@@ -1130,7 +1130,7 @@ exports.bnToString = function(b) {
 				}
 			}
 			if(d > 0) m = true;
-			if(m) r += int2char(d);
+			if(m) r += exports.int2char(d);
 		}
 	}
 	return m ? r : "0";
@@ -1974,26 +1974,26 @@ exports.bnPow = function(e) {
 // "this" should be the larger one if appropriate.
 exports.bnpMultiplyLowerTo = function(a, n, r) {
 	var i = Math.min(this.t + a.t, n);
-	exports.r.s = 0; // assumes a,this >= 0
-	exports.r.t = i;
+	r.s = 0; // assumes a,this >= 0
+	r.t = i;
 	while(i > 0) r[--i] = 0;
 	var j;
 	for(j = r.t - this.t; i < j; ++i) r[i + this.t] = this.am(0, a[i], r, i, 0, this.t);
 	for(j = Math.min(a.t, n); i < j; ++i) this.am(0, a[i], r, i, 0, n - i);
-	exports.r.clamp();
+	r.clamp();
 };
 
 // (protected) r = "this * a" without lower n words, n > 0
 // "this" should be the larger one if appropriate.
 exports.bnpMultiplyUpperTo = function(a, n, r) {
-	--exports.n;
-	var i = exports.r.t = this.t + exports.a.t - exports.n;
-	exports.r.s = 0; // assumes a,this >= 0
-	while(--i >= 0) exports.r[i] = 0;
-	for(i = Math.max(exports.n - this.t, 0); i < exports.a.t; ++i)
-		exports.r[this.t + i - exports.n] = this.am(exports.n - i, exports.a[i], exports.r, 0, 0, this.t + i - exports.n);
-	exports.r.clamp();
-	exports.r.drShiftTo(1, exports.r);
+	--n;
+	var i = r.t = this.t + a.t - n;
+	r.s = 0; // assumes a,this >= 0
+	while(--i >= 0) r[i] = 0;
+	for(i = Math.max(n - this.t, 0); i < a.t; ++i)
+		r[this.t + i - n] = this.am(n - i, a[i], r, 0, 0, this.t + i - n);
+	r.clamp();
+	r.drShiftTo(1, r);
 };
 
 // Barrett modular reduction
@@ -2558,7 +2558,7 @@ exports.SecureRandom.prototype.nextBytes = exports.rng_get_bytes;
 
 // constructor
 exports.X9ECParameters = function(curve, g, n, h) {
-	this.curve = exports.curve;
+	this.curve = curve;
 	this.g = g;
 	this.n = n;
 	this.h = h;
@@ -2589,7 +2589,7 @@ exports.X9ECParameters.prototype.getH = exports.x9getH;
 // SECNamedCurves
 
 exports.fromHex = function(s) {
-	return new exports.BigInteger(exports.s, 16);
+	return new exports.BigInteger(s, 16);
 };
 
 exports.secp128r1 = function() {
