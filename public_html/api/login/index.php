@@ -52,16 +52,16 @@ try {
 			$profileUserName = filter_var($requestObject->username, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
-		if(empty($requestObject->profilePublicKeyX) === true) {
+		if(empty($requestObject->publicKeyX) === true) {
 			throw(new \InvalidArgumentException("no x key", $exceptionCode));
 		} else {
-			$profilePublicKeyXFromUser = filter_var($requestObject->profilePublicKeyX, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			$profilePublicKeyXFromUser = filter_var($requestObject->publicKeyX, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
-		if(empty($requestObject->profilePublicKeyY) === true) {
+		if(empty($requestObject->publicKeyY) === true) {
 			throw(new \InvalidArgumentException("no y key", $exceptionCode));
 		} else {
-			$profilePublicKeyYFromUser = filter_var($requestObject->profilePublicKeyY, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			$profilePublicKeyYFromUser = filter_var($requestObject->publicKeyY, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
 
@@ -69,7 +69,7 @@ try {
 
 
 		$profileFromDatabase = Profile::getProfileByUserName($pdo, $profileUserName);
-
+		$profileFromDatabase = $profileFromDatabase[0];
 		$profileXFromDatabase = $profileFromDatabase->getProfilePublicKeyX();
 
 		$profileYFromDatabase = $profileFromDatabase->getProfilePublicKeyY();
@@ -79,7 +79,7 @@ try {
 		}
 
 		if($profilePublicKeyXFromUser !== $profileXFromDatabase || $profilePublicKeyYFromUser !== $profileYFromDatabase) {
-			throw(new \InvalidArgumentException("no key x match", $exceptionCode));
+			throw(new \InvalidArgumentException("no key x match. \ndatabase: " . $profileXFromDatabase . "\nfrom user: " . $profilePublicKeyXFromUser, $exceptionCode));
 		}
 
 //		If all username, public Key x, and public key Y match, send them to the chat page with friends list

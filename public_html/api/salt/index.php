@@ -69,20 +69,13 @@ try {
 			if(count($profile) === 0) {
 				throw (new \InvalidArgumentException($exceptionMessage, $exceptionCode));
 			}
-//			$profiles = $profile->getProfilePasswordSalt();
-//			$reply->data = $profiles[0];
-//			$singleProfile = $profile[0];
-//			$reply->data = $singleProfile->getProfilePasswordSalt();
-//			$angularizedSalt = new stdClass();
-//			$angularizedSalt->salt = $profile->getProfilePasswordSalt();
-//			$reply->data = $angularizedSalt;
-//			$reply = new stdClass();
-//			$reply->status = 200;
-//			$reply->data = print_r($profile);
-//			$reply->data = $profile[0]->profilePasswordSalt;
 			$singleProfile = $profile[0];
-//			$reply->data = print_r($singleProfile);
-			$reply->data = $singleProfile->getProfilePasswordSalt();
+			$pepper = new stdClass();
+			$pepper->salt = $singleProfile->getProfilePasswordSalt();
+			$reply->data = $pepper;
+//
+////			$reply->data = print_r($singleProfile);
+//			$reply->data = $singleProfile->getProfilePasswordSalt();
 		}
 
 
