@@ -17,6 +17,7 @@ export class ChatComponent implements OnInit {
 	status: Status = null;
 	keys: Keys[] = [];
 	receiversPublicKeyX: string = null;
+	receiversPublicKeyY: string = null;
 	sendersPrivateMultiplier: string = null;
 	sendersMultipliedX: string = null;
 	sendersCommonSecretKey: string = null;
@@ -55,9 +56,10 @@ export class ChatComponent implements OnInit {
 	danielMinusMinus(): void {
 		console.log(this.message.messageText);
 		this.receiversPublicKeyX = this.keys[0]["profilePublicKeyX"];
+		this.receiversPublicKeyY = this.keys[0]["profilePublicKeyY"];
 		console.log(this.receiversPublicKeyX);
 		console.log(this.sendersPrivateMultiplier);
-		this.sendersCommonSecretKey = jsbnAll.calculateSendersCommonSecretKey(this.sendersPrivateMultiplier, this.receiversPublicKeyX);
+		this.sendersCommonSecretKey = jsbnAll.calculateSendersCommonSecretKey(this.sendersPrivateMultiplier, this.receiversPublicKeyX, this.receiversPublicKeyY);
 		console.log(this.sendersCommonSecretKey);
 		this.cipherText = jsbnAll.encryptMessage(this.sendersCommonSecretKey, this.message);
 		console.log(this.cipherText);

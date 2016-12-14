@@ -1,6 +1,6 @@
-<h1>@deaton747--</h1>
+<h1>KiteCrypt/h1>
 <form class="form-horizontal" id="danielForm" name="danielForm" #danielForm="ngForm" (ngSubmit)="danielMinusMinus();" novalidate>
-	<h2>Make Fun of Daniel</h2>
+	<h2>Welcome to your secure chat</h2>
 	<hr />
 
 	<div class="form-group" [ngClass]="{ 'has-error': messageReceiverId.touched && messageReceiverId.invalid }">

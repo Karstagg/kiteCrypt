@@ -17,7 +17,7 @@ export function get_curve() : any;
 export function get_G(curve: any) : any;
 export function generateSendersPrivateMultiplier(sendersPassword: any, sendersSalt: any) : any;
 export function calculateSendersMultipliedPoint(sendersPrivateMultiplier: any) : any;
-export function calculateSendersCommonSecretKey(sendersPrivateMultiplier: string, receiversMultipliedX: string) : any;
+export function calculateSendersCommonSecretKey(sendersPrivateMultiplier: string, receiversMultipliedX: string, receiversMultipliedY: string) : any;
 export function generateReceiversPrivateMultiplier(receiversPassword: any, receiversSalt: any) : any;
 export function calculateReceiversMultipliedPoint(receiversPrivateMultiplier: any) : any;
 export function calculateReceiversCommonSecretKey() : any;

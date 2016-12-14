@@ -193,7 +193,7 @@ exports.calculateSendersMultipliedPoint = function(sendersPrivateMultiplier) {
 };
 
 
-exports.calculateSendersCommonSecretKey = function(sendersPrivateMultiplier, receiversMultipliedX) {
+exports.calculateSendersCommonSecretKey = function(sendersPrivateMultiplier, receiversMultipliedX, receiversMultipliedY) {
 
 
 	/*
@@ -213,10 +213,10 @@ exports.calculateSendersCommonSecretKey = function(sendersPrivateMultiplier, rec
 
 	var curve = exports.get_curve();
 	var P = new exports.ECPointFp(curve,
-		curve.fromBigInteger(new exports.BigInteger(exports.receiversMultipliedX, 16)),
-		curve.fromBigInteger(new exports.BigInteger(exports.receiversMultipliedY, 16)));
+		curve.fromBigInteger(new exports.BigInteger(receiversMultipliedX, 16)),
+		curve.fromBigInteger(new exports.BigInteger(receiversMultipliedY, 16)));
 
-	var a = new exports.BigInteger(exports.sendersPrivateMultiplier, 16);
+	var a = new exports.BigInteger(sendersPrivateMultiplier, 16);
 	var S = P.multiply(a);
 
 	exports.sendersCommonSecretKeyX = S.getX().toBigInteger().toString(16);
