@@ -36,7 +36,8 @@ class Friendship implements \JsonSerializable {
 	 * constructor for this Friendship
 	 *
 	 * @param int $newFriendshipInviterId id for the user (the inviter) inviting the friend in this friendship; it is a foreign key
-	 * @param int $newFriendshipInviteeId id for the user (the invitee) being invited in this friendship; it is a foreign key
+	 * @param int $newFriendshipInviteeId id for the user (the invitee) being invited in this friendship; it is a foreign
+	 * * @param int $newFriendshipId id is a concatenation of InviterId and InviteeId, but lower number first on concatenation.
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe
 	 * @throws \TypeError if data types violate type hints
@@ -132,7 +133,9 @@ class Friendship implements \JsonSerializable {
 	/**
 	 * mutator method for friendshipId
 	 *
-	 * @param int $newFriendshipId id creating a friendship channel
+	 * @param int $newFriendshipInviteeId  id creating a friendship channel
+	 *
+	 * @param int $newFriendshipInviterId  id creating a friendship channel
 	 *
 	 * @throws \InvalidArgumentException if the argument is not safe
 	 * @throws \TypeError if $newFriendshipId is not an integer
@@ -160,7 +163,7 @@ class Friendship implements \JsonSerializable {
 		}
 
 		// store the $newFriendshipId
-		$this->friendshipId = $newFriendshipId;
+		$this->friendshipId = intval($newFriendshipId);
 	}
 
 

@@ -434,10 +434,14 @@ class ProfileTest extends KiteCryptTest {
 
 		// create data in friendship table
 		$friends = new Friendship($profile->getProfileId(), $profile2->getProfileId());
+		$friends->setFriendshipId($profile->getProfileId(), $profile2->getProfileId());
+
 		$friends->insert($this->getPDO());
 
 		// create data in friendship 2 table
 		$friends2 = new Friendship($profile->getProfileId(), $profile3->getProfileId());
+		$friends2->setFriendshipId($profile->getProfileId(), $profile3->getProfileId());
+
 		$friends2->insert($this->getPDO());
 //		// grab the data from mySQL and enforce the fields match our expectations
 
