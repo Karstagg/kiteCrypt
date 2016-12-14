@@ -193,7 +193,8 @@ exports.calculateSendersMultipliedPoint = function(sendersPrivateMultiplier) {
 };
 
 
-exports.calculateSendersCommonSecretKey = function() {
+exports.calculateSendersCommonSecretKey = function(sendersPrivateMultiplier, receiversMultipliedX) {
+
 
 	/*
 	 ----------------------------------------------------------------------------
@@ -227,7 +228,7 @@ exports.calculateSendersCommonSecretKey = function() {
 	 Everything is valid except for the encrypted message.
 	 ----------------------------------------------------------------------------
 	 */
-
+		return (exports.sendersCommonSecretKeyX);
 
 };
 

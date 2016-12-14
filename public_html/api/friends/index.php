@@ -47,7 +47,6 @@ try {
 
 		//Creating functionality to retrieve sender/receiver IDs//
 
-
 		$reply->data = $friendship->toArray();
 
 	} else if($method === "POST") {

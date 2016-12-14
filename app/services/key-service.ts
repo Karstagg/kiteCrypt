@@ -3,6 +3,7 @@ import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import {BaseService} from "./base-service";
 import {Keys} from "../classes/keys";
+import {KeyRequest} from "../classes/key-request";
 
 
 @Injectable()

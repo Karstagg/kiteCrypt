@@ -75,10 +75,8 @@ try {
 
 
 
-		if(empty($requestObject->messageSenderId) === true) {
+		if(empty($_SESSION["profile"]) === true){
 			throw(new \InvalidArgumentException($exceptionMessage, $exceptionCode));
-		} else {
-			$messageSenderId = filter_var($requestObject->messageSenderId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
 		if(empty($requestObject->messageReceiverId) === true) {
@@ -93,7 +91,7 @@ try {
 			$messageText = filter_var($requestObject->messageText, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
-		$message = new Message(null, null, $messageSenderId, $messageReceiverId, $messageText);
+		$message = new Message(null, null, $_SESSION["profile"]->getProfileId(), $messageReceiverId, $messageText);
 		$message->insert($pdo);
 		$pusher->trigger("danielMinusMinus", "newMessage", ["message" => $messageText]);
 		$reply->message = "Message sent";
