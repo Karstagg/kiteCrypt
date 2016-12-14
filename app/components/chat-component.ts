@@ -3,6 +3,8 @@ import {Message} from "../classes/message";
 import {Status} from "../classes/status";
 import {ChatService} from "../services/chat-service";
 import {PusherService} from "../services/pusher-service";
+import {KeyService} from "../services/key-service"
+import {Keys} from "../classes/keys";
 
 @Component({
 	templateUrl: "./templates/chat.php"
@@ -12,8 +14,9 @@ export class ChatComponent implements OnInit {
 	@ViewChild("danielForm") danielForm : any;
 	message : Message = new Message(null, null, null);
 	status : Status = null;
+	keys : Keys = new Keys(null, "", "");
 
-	constructor(protected chatService: ChatService, protected pusherService : PusherService) {}
+	constructor(protected chatService: ChatService, protected pusherService : PusherService, protected keyService: KeyService) {}
 
 	ngOnInit() : void {
 		this.subscribeToTest();
@@ -22,7 +25,11 @@ export class ChatComponent implements OnInit {
 	subscribeToTest() : void {
 		this.pusherService.subscribeToTest();
 	}
-
+	keyChain () : void {
+		this.keyService.getKeys(this.keys)
+			.subscribe(status => this.status = status);
+		console.log(this.keys);
+	}
 	danielMinusMinus() : void {
 		this.chatService.chat(this.message)
 			.subscribe(status => this.status = status);

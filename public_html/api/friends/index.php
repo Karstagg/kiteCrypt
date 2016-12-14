@@ -45,7 +45,7 @@ try {
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
-		if(empty($requestObject->userId) === true) {
+		if(empty($requestObject->keyHolderId) === true) {
 			throw(new \InvalidArgumentException ($exceptionMessage, $exceptionCode));
 		}
 		else {
@@ -58,7 +58,13 @@ try {
 
 				$friendsArray[] = $friendship->getProfileUserName();
 			}
-			$reply->data = $friendsArray;
+			//Creating functionality to retrieve sender/receiver IDs//
+
+			$idPair = $friendsArray[0];
+			$friendshipChat = new stdClass();
+			$friendshipChat -> sendersPublicKeyX = $friendsArray[0][2];
+			$reply->data = $friendshipChat;
+
 		}
 
 	} else if($method === "DELETE") {
@@ -77,12 +83,7 @@ try {
 	$reply->message = $typeError->getMessage();
 }
 
-//Creating functionality to retrieve sender/receiver IDs//
 
-//$idPair = $friendsArray[0];
-//$friendshipChat = new stdClass();
-//$friendshipChat -> sendersPublicKeyX = $friendsArray[0][2];
-//$reply->data = $friendshipChat;
 
 
 

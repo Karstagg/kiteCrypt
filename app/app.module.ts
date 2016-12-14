@@ -7,6 +7,7 @@ import {allAppComponents, appRoutingProviders, routing} from "./app.routes";
 import {ChatService} from "./services/chat-service";
 import {LoginService} from "./services/login-service";
 import {SignUpService} from "./services/signup-service";
+import {KeyService} from "./services/key-service";
 import {EqualValidator} from './directives/validate-equal.directive';
 import {SaltService} from "./services/salt-service";  // import validator
 //importing session storage components////////////
@@ -19,7 +20,7 @@ const moduleDeclarations = [AppComponent];
 	imports: [BrowserModule, FormsModule, HttpModule, routing, Ng2Webstorage],
 	declarations: [...moduleDeclarations, ...allAppComponents, EqualValidator],
 	bootstrap: [AppComponent],
-	providers: [appRoutingProviders, ChatService, LoginService, PusherService, SaltService, SignUpService]
+	providers: [appRoutingProviders, ChatService, LoginService, PusherService, SaltService, SignUpService, KeyService]
 })
 
 export class AppModule {}
