@@ -7,7 +7,7 @@ import {Router} from "@angular/router";
 import {SaltService} from "../services/salt-service";
 import {Salt} from "../classes/salt";
 import * as jsbnAll from "../../jsbn/jsbn-all"
-import {LocalStorageService} from "../../node_modules/ng2-webstorage";
+//import {LocalStorageService} from "../../node_modules/ng2-webstorage";
 
 
 

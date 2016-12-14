@@ -26,5 +26,6 @@ export class ChatComponent implements OnInit {
 	danielMinusMinus() : void {
 		this.chatService.chat(this.message)
 			.subscribe(status => this.status = status);
+			console.log(this.message);
 	}
 }

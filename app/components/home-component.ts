@@ -7,7 +7,7 @@ import {SaltRequest} from "../classes/salt-request";
 import {SaltService} from "../services/salt-service";
 import {Salt} from "../classes/salt";
 import * as jsbnAll from "../../jsbn/jsbn-all"
-import {LocalStorageService} from "../../node_modules/ng2-webstorage";
+//import {LocalStorageService} from "../../node_modules/ng2-webstorage";
 @Component({
 	templateUrl: "./templates/home.php"
 })
@@ -21,7 +21,7 @@ export class HomeComponent {
 	// localStorageService: LocalStorageService = new LocalStorageService("", "", "", "", "", "", "");
 	//storing: 1) Username, 2)Password, 3)Multiplier, 4)PublicKeyX, 5)PublicKeyY, 6) eCCP,
 
-	constructor(private SaltService: SaltService, private loginService: LoginService, private router: Router, private localStorage: LocalStorageService) {
+	constructor(private SaltService: SaltService, private loginService: LoginService, private router: Router) {
 
 	}
 
