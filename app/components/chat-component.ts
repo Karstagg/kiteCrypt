@@ -14,7 +14,7 @@ export class ChatComponent implements OnInit {
 	@ViewChild("danielForm") danielForm : any;
 	message : Message = new Message(null, null, null);
 	status : Status = null;
-	keys : Keys = new Keys(null, "", "");
+	keys : Keys[] = [];
 
 	constructor(protected chatService: ChatService, protected pusherService : PusherService, protected keyService: KeyService) {}
 
@@ -22,13 +22,13 @@ export class ChatComponent implements OnInit {
 		this.subscribeToTest();
 	}
 
+	keyChain () : void {
+		this.keyService.getKeys()
+		.subscribe(keys => this.keys = keys);
+		console.log(this.keys);
+	}
 	subscribeToTest() : void {
 		this.pusherService.subscribeToTest();
-	}
-	keyChain () : void {
-		this.keyService.getKeys(this.keys)
-			.subscribe(status => this.status = status);
-		console.log(this.keys);
 	}
 	danielMinusMinus() : void {
 		this.chatService.chat(this.message)

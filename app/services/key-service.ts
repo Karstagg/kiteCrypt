@@ -2,7 +2,6 @@ import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import {BaseService} from "./base-service";
-import {Status} from "../classes/status";
 import {Keys} from "../classes/keys";
 
 
@@ -14,8 +13,8 @@ export class KeyService extends BaseService {
 
 	private keysUrl = "api/friends/";
 
-	getKeys(keys : Keys) : Observable<Status> {
-		return(this.http.post(this.keysUrl, keys)
+	getKeys() : Observable<Keys[]> {
+		return(this.http.get(this.keysUrl)
 			.map(this.extractData)
 			.catch(this.handleError));
 	}

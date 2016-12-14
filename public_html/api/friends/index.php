@@ -40,25 +40,21 @@ try {
 		//set XSRF cookie
 		setXsrfCookie("/");
 
+		$friendship = Profile::getFriendshipByProfileId($pdo, $_SESSION["profile"]->getProfileId());
+		if(empty($friendship) === true) {
+			throw (new \InvalidArgumentException($exceptionMessage, $exceptionCode));
+		}
+
+		//Creating functionality to retrieve sender/receiver IDs//
+
+
+		$reply->data = $friendship->toArray();
+
 	} else if($method === "POST") {
 
 		verifyXsrf();
 
-			$friendship = Profile::getFriendshipByProfileId($pdo, $_SESSION["profile"]->getProfileId());
-			if(empty($friendship) === true) {
-				throw (new \InvalidArgumentException($exceptionMessage, $exceptionCode));
-			}
-			$friendsArray = [];
-			foreach ($friendship as $value) {
 
-				$friendsArray[] = $friendship;
-			}
-			//Creating functionality to retrieve sender/receiver IDs//
-
-			$idPair = $friendsArray[2];
-			$friendshipChat = new stdClass();
-			$friendshipChat -> sendersPublicKeyX = $friendsArray[0][2];
-			$reply->data = print_r($friendshipChat);
 
 
 
