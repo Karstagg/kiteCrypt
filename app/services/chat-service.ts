@@ -2,26 +2,20 @@ import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import {BaseService} from "./base-service";
-import {Login} from "../classes/login";
 import {Status} from "../classes/status";
-
-
+import {Message} from "../classes/message";
 
 @Injectable()
-export class LoginService extends BaseService {
+export class ChatService extends BaseService {
 	constructor(protected http: Http) {
 		super(http);
 	}
 
-	private loginUrl = "api/login/";
+	private messageUrl = "api/messages/";
 
-	login(login: Login) : Observable<Status> {
-		return(this.http.post(this.loginUrl, login)
+	chat(message : Message) : Observable<Status> {
+		return(this.http.post(this.messageUrl, message)
 			.map(this.extractMessage)
 			.catch(this.handleError));
-
 	}
 }
-/**
- * Created by Jonathan on 12/13/16.
- */

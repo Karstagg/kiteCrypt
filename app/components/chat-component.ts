@@ -1,5 +1,7 @@
 import {Component, OnInit, ViewChild} from "@angular/core";
 import {Message} from "../classes/message";
+import {Status} from "../classes/status";
+import {ChatService} from "../services/chat-service";
 import {PusherService} from "../services/pusher-service";
 
 @Component({
@@ -9,8 +11,9 @@ import {PusherService} from "../services/pusher-service";
 export class ChatComponent implements OnInit {
 	@ViewChild("danielForm") danielForm : any;
 	message : Message = new Message(null, null, null);
+	status : Status = null;
 
-	constructor(protected pusherService : PusherService) {}
+	constructor(protected chatService: ChatService, protected pusherService : PusherService) {}
 
 	ngOnInit() : void {
 		this.subscribeToTest();
@@ -18,5 +21,10 @@ export class ChatComponent implements OnInit {
 
 	subscribeToTest() : void {
 		this.pusherService.subscribeToTest();
+	}
+
+	danielMinusMinus() : void {
+		this.chatService.chat(this.message)
+			.subscribe(status => this.status = status);
 	}
 }

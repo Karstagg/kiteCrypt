@@ -95,7 +95,7 @@ try {
 
 		$message = new Message(null, null, $messageSenderId, $messageReceiverId, $messageText);
 		$message->insert($pdo);
-
+		$reply->message = "Message sent";
 
 
 //		If all username, public Key x, and public key Y match, send them to the chat page with friends list

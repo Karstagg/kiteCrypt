@@ -1,5 +1,5 @@
 <h1>@deaton747--</h1>
-<form class="form-horizontal" id="danielForm" name="danielForm" #danielForm="ngForm" (ngSubmit)="danielMinusMinus();">
+<form class="form-horizontal" id="danielForm" name="danielForm" #danielForm="ngForm" (ngSubmit)="danielMinusMinus();" novalidate>
 	<h2>Make Fun of Daniel</h2>
 	<hr />
 	<div class="form-group" [ngClass]="{ 'has-error': messageSenderId.touched && messageSenderId.invalid }">
@@ -34,7 +34,7 @@
 			<div class="input-group-addon">
 				<i class="fa fa-envelope" aria-hidden="true"></i>
 			</div>
-			<input type="text" name="messageText" id="messageText" class="form-control" maxlength="64" required [(ngModel)]="message.messageText" #messageText="ngModel" />
+			<input type="text" name="messageText" id="messageText" class="form-control" maxlength="255" required [(ngModel)]="message.messageText" #messageText="ngModel" />
 		</div>
 		<div [hidden]="messageText.valid || messageText.pristine" class="alert alert-danger" role="alert">
 			<p *ngIf="messageText.errors?.required">Message text is required.</p>
@@ -44,3 +44,7 @@
 	<button type="submit" class="btn btn-info btn-lg" [disabled]="danielForm.invalid"><i class="fa fa-paper-plane"></i> Send Message</button>
 	<button type="reset" class="btn btn-warning btn-lg"><i class="fa fa-ban"></i> Cancel</button>
 </form>
+<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
+	<button type="button" class="close" aria-label="Close" (click)="status = null;"><span aria-hidden="true">&times;</span></button>
+	{{ status.message }}
+</div>
