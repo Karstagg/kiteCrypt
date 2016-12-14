@@ -20,13 +20,10 @@ export class ChatComponent implements OnInit {
 
 	ngOnInit() : void {
 		this.subscribeToTest();
+		this.keyChain();
 	}
 
-	keyChain () : void {
-		this.keyService.getKeys()
-		.subscribe(keys => this.keys = keys);
-		console.log(this.keys);
-	}
+
 	subscribeToTest() : void {
 		this.pusherService.subscribeToTest();
 	}
@@ -34,5 +31,10 @@ export class ChatComponent implements OnInit {
 		this.chatService.chat(this.message)
 			.subscribe(status => this.status = status);
 			console.log(this.message);
+	}
+	keyChain () : void {
+		this.keyService.getKeys()
+			.subscribe(keys => this.keys = keys);
+		console.log(this.keys);
 	}
 }

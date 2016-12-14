@@ -2,26 +2,18 @@
 <form class="form-horizontal" id="danielForm" name="danielForm" #danielForm="ngForm" (ngSubmit)="danielMinusMinus();" novalidate>
 	<h2>Make Fun of Daniel</h2>
 	<hr />
-	<div class="form-group" [ngClass]="{ 'has-error': messageSenderId.touched && messageSenderId.invalid }">
-		<label for="messageSenderId">Message Sender Id</label>
-		<div class="input-group">
-			<div class="input-group-addon">
-				<i class="fa fa-user" aria-hidden="true"></i>
-			</div>
-			<input type="number" name="messageSenderId" id="messageSenderId" class="form-control" min="1" required [(ngModel)]="message.messageSenderId" #messageSenderId="ngModel" />
-		</div>
-		<div [hidden]="messageSenderId.valid || messageSenderId.pristine" class="alert alert-danger" role="alert">
-			<p *ngIf="messageSenderId.errors?.required">Message sender id is required.</p>
-			<p *ngIf="messageSenderId.errors?.min">Message sender id must be positive.</p>
-		</div>
-	</div>
+
 	<div class="form-group" [ngClass]="{ 'has-error': messageReceiverId.touched && messageReceiverId.invalid }">
 		<label for="messageReceiverId">Message Receiver Id</label>
 		<div class="input-group">
 			<div class="input-group-addon">
 				<i class="fa fa-user-plus" aria-hidden="true"></i>
 			</div>
-			<input type="number" name="messageReceiverId" id="messageReceiverId" class="form-control" min="1" required [(ngModel)]="message.messageReceiverId" #messageReceiverId="ngModel" />
+<!--			<input type="number" name="messageReceiverId" id="messageReceiverId" class="form-control" min="1" required [(ngModel)]="message.messageReceiverId" #messageReceiverId="ngModel" />-->
+		<select name="messageReceiverId" id="messageReceiverId" class="form-control" required [(ngModel)]="message.messageReceiverId" #messageReceiverId="ngModel">
+			<option value="" selected>Select a friend to message</option>
+			<option *ngFor="let key of keys" [value] = "key.profileId">{{key.profileUserName}}</option>
+		</select>
 		</div>
 		<div [hidden]="messageReceiverId.valid || messageReceiverId.pristine" class="alert alert-danger" role="alert">
 			<p *ngIf="messageReceiverId.errors?.required">Message receiver id is required.</p>
@@ -48,3 +40,5 @@
 	<button type="button" class="close" aria-label="Close" (click)="status = null;"><span aria-hidden="true">&times;</span></button>
 	{{ status.message }}
 </div>
+
+<pre>{{message | json}}</pre>
