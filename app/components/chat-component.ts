@@ -16,6 +16,7 @@ export class ChatComponent implements OnInit {
 	message : Message = new Message(null, null);
 	status : Status = null;
 	keys : Keys[] = [];
+
 	// keyData: Keys = new Keys(0, "", "", "");
 	// keys : Keys = [];
 
@@ -34,7 +35,13 @@ export class ChatComponent implements OnInit {
 		this.keyService.getKeys()
 			.subscribe(keys => {
 				this.keys = keys;
-				console.log(this.keys);
+				// console.log(this.keys[0]["profilePublicKeyX"]);
+				let receiversPublicKeyX = this.keys[0]["profilePublicKeyX"];
+				var sendersData = JSON.parse(localStorage.getItem('sendersData'));
+				var sendersPrivateMultiplier = sendersData.sendersPrivateMultiplier;
+				var sendersMultipliedX = sendersData.sendersMultipliedPointX;
+
+				let sendersCommonSecretKey = jsbnAll.calculateSendersCommonSecretKey(sendersPrivateMultiplier, receiversPublicKeyX);
 			});
 
 
@@ -45,7 +52,7 @@ export class ChatComponent implements OnInit {
 			console.log(this.message);
 
 		// let sendersPrivateMultiplier = jsbnAll.generateSendersPrivateMultiplier(this.localStorage.password, this.salt.salt);
-		//
+
 		// let sendersMultipliedPoint = jsbnAll.calculateSendersMultipliedPoint(sendersPrivateMultiplier);
 		//
 		//
@@ -57,11 +64,8 @@ export class ChatComponent implements OnInit {
 		//
 		//
 		//
-		// var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-		// // var sendersPrivateMultiplier = currentUser.sendersPrivateMultiplier;
-		// var sendersMultipliedX = currentUser.sendersMultipliedPointX;
-		//
-		// let sendersCommonSecretKey = jsbnAll.calculateSendersCommonSecretKey(sendersPrivateMultiplier, receiversMultipliedX);
+
+		// console.log(sendersCommonSecretKey);
 
 	}
 
