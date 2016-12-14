@@ -77,6 +77,15 @@ try {
 	$reply->message = $typeError->getMessage();
 }
 
+//Creating functionality to retrieve sender/receiver IDs//
+
+//$idPair = $friendsArray[0];
+//$friendshipChat = new stdClass();
+//$friendshipChat -> sendersPublicKeyX = $friendsArray[0][2];
+//$reply->data = $friendshipChat;
+
+
+
 header("Content-type: application/json");
 if($reply->data === null) {
 	unset($reply->data);
