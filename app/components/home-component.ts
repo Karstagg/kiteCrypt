@@ -42,7 +42,7 @@ export class HomeComponent {
 				// console.log("Key X" + this.loginData.publicKeyX);
 				// console.log("\nKey Y" + this.loginData.publicKeyY);
 				// console.log("\nSalt" + this.loginData.salt);
-				// this.loginData.password = "I wish that shotgun was my penis";
+				// this.loginData.password = "123abc";
 
 				this.loginService.login(this.loginData)
 					.subscribe(currentStatus => {

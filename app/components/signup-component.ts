@@ -43,8 +43,8 @@ export class SignUpComponent {
 					this.signUpData.salt = this.salt.salt;
 					this.signUpData.publicKeyX = sendersMultipliedPoint[0];
 					this.signUpData.publicKeyY = sendersMultipliedPoint[1];
-						this.signUpData.password = "I wish that shotgun was my penis";
-						this.signUpData.passwordConfirm = "I wish that shotgun was my penis";
+						this.signUpData.password = "123abc";
+						this.signUpData.passwordConfirm = "123abc";
 
 					this.signUpService.signUp(this.signUpData)
 						.subscribe(signUpStatus => {
