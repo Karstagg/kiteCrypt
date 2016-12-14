@@ -83,8 +83,7 @@ try {
 		}
 
 //		If all username, public Key x, and public key Y match, send them to the chat page with friends list
-
-
+		$_SESSION["profile"] = $profileFromDatabase;
 	} else {
 		throw (new InvalidArgumentException("no post", $exceptionCode));
 	}

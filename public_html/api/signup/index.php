@@ -110,6 +110,7 @@ try {
 		// calls the INSERT method in $profile which inserts the object into the DataBase.
 		try {
 			$newProfile->insert($pdo);
+			$_SESSION["profile"] = $newProfile;
 		} catch (\PDOException $exception) {
 			throw(new \InvalidArgumentException("username already taken", $exceptionCode));
 		}

@@ -43,29 +43,24 @@ try {
 	} else if($method === "POST") {
 
 		verifyXsrf();
-		$requestContent = file_get_contents("php://input");
-		$requestObject = json_decode($requestContent);
-		if(empty($requestObject->keyHolderId) === true) {
-			throw(new \InvalidArgumentException ($exceptionMessage, $exceptionCode));
-		}
-		else {
-			$friendship = Profile::getFriendshipByProfileId($pdo, $requestObject->userId);
+
+			$friendship = Profile::getFriendshipByProfileId($pdo, $_SESSION["profile"]->getProfileId());
 			if(empty($friendship) === true) {
 				throw (new \InvalidArgumentException($exceptionMessage, $exceptionCode));
 			}
 			$friendsArray = [];
 			foreach ($friendship as $value) {
 
-				$friendsArray[] = $friendship->getProfileUserName();
+				$friendsArray[] = $friendship;
 			}
 			//Creating functionality to retrieve sender/receiver IDs//
 
-			$idPair = $friendsArray[0];
+			$idPair = $friendsArray[2];
 			$friendshipChat = new stdClass();
 			$friendshipChat -> sendersPublicKeyX = $friendsArray[0][2];
-			$reply->data = $friendshipChat;
+			$reply->data = print_r($friendshipChat);
 
-		}
+
 
 	} else if($method === "DELETE") {
 		verifyXsrf();

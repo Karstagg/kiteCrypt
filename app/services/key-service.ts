@@ -16,7 +16,7 @@ export class KeyService extends BaseService {
 
 	getKeys(keys : Keys) : Observable<Status> {
 		return(this.http.post(this.keysUrl, keys)
-			.map(this.extractMessage)
+			.map(this.extractData)
 			.catch(this.handleError));
 	}
 }
