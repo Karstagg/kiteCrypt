@@ -4,6 +4,7 @@ import {FormsModule} from "@angular/forms";
 import {HttpModule} from "@angular/http";
 import {AppComponent} from "./app.component";
 import {allAppComponents, appRoutingProviders, routing} from "./app.routes";
+import {ChatService} from "./services/chat-service";
 import {LoginService} from "./services/login-service";
 import {SignUpService} from "./services/signup-service";
 import {EqualValidator} from './directives/validate-equal.directive';
@@ -18,7 +19,7 @@ const moduleDeclarations = [AppComponent];
 	imports: [BrowserModule, FormsModule, HttpModule, routing, Ng2Webstorage],
 	declarations: [...moduleDeclarations, ...allAppComponents, EqualValidator],
 	bootstrap: [AppComponent],
-	providers: [appRoutingProviders, LoginService, PusherService, SaltService, SignUpService]
+	providers: [appRoutingProviders, ChatService, LoginService, PusherService, SaltService, SignUpService]
 })
 
 export class AppModule {}

@@ -95,6 +95,7 @@ try {
 
 		$message = new Message(null, null, $messageSenderId, $messageReceiverId, $messageText);
 		$message->insert($pdo);
+		$pusher->trigger("danielMinusMinus", "newMessage", ["message" => $messageText]);
 		$reply->message = "Message sent";
 
 
