@@ -406,7 +406,7 @@ exports.encryptMessage = function(sendersCommonSecretKey, messagePlainText) {
 	// After determining the block size, encrypt the message.
 	var commonSecretKeyXBigInteger = new exports.BigInteger(commonSecretKeyX, 16);
 	var commonSecretKeyYBigInteger = new exports.BigInteger(commonSecretKeyY, 16);
-	var cipherTextBlock = new exports.BigInteger.ZERO;
+	var cipherTextBlock = exports.BigInteger.ZERO;
 	var messageCipherText = "";
 
 	if(blockSize == 0) {
@@ -415,7 +415,7 @@ exports.encryptMessage = function(sendersCommonSecretKey, messagePlainText) {
 
 		// Encrypt the message (when the blockSize is the same as the message length).
 		exports.messageBlock = new exports.BigInteger(messageCipherTextHexString, 16);
-		exports.cipherTextBlock = messageBlock.add(commonSecretKeyXBigInteger);
+		exports.cipherTextBlock = exports.messageBlock.add(commonSecretKeyXBigInteger);
 		exports.cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);
 		messageCipherText = cipherTextBlock.toString(16);
 
@@ -439,7 +439,7 @@ exports.encryptMessage = function(sendersCommonSecretKey, messagePlainText) {
 
 			messageCipherTextHexSubstring = messageCipherTextHexString.substr(startOfSubstring, lengthOfSubstring);
 			exports.messageBlock = new exports.BigInteger(messageCipherTextHexSubstring, 16);
-			exports.cipherTextBlock = messageBlock.add(commonSecretKeyXBigInteger);
+			exports.cipherTextBlock = exports.messageBlock.add(commonSecretKeyXBigInteger);
 			exports.cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);
 
 			if(messageCipherText == "") {

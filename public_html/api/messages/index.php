@@ -76,17 +76,17 @@ try {
 
 
 		if(empty($_SESSION["profile"]) === true){
-			throw(new \InvalidArgumentException($exceptionMessage, $exceptionCode));
+			throw(new \InvalidArgumentException($exceptionMessage . "Error 1", $exceptionCode));
 		}
 
 		if(empty($requestObject->messageReceiverId) === true) {
-			throw(new \InvalidArgumentException($exceptionMessage, $exceptionCode));
+			throw(new \InvalidArgumentException($exceptionMessage . "Error 2", $exceptionCode));
 		} else {
 			$messageReceiverId = filter_var($requestObject->messageReceiverId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
 		if(empty($requestObject->messageText) === true) {
-			throw(new \InvalidArgumentException($exceptionMessage, $exceptionCode));
+			throw(new \InvalidArgumentException($exceptionMessage . "Error 3", $exceptionCode));
 		} else {
 			$messageText = filter_var($requestObject->messageText, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
