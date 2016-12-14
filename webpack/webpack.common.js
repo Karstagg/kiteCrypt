@@ -61,6 +61,10 @@ module.exports = {
 			"window.jQuery": "jquery"
 		}),
 
+		new webpack.ProvidePlugin({
+			Pusher: "pusher-js"
+		}),
+
 
 		new HtmlWebpackPlugin({
 			inject: 'head',

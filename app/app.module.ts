@@ -11,6 +11,7 @@ import {SaltService} from "./services/salt-service";  // import validator
 //importing session storage components////////////
 import {Ng2Webstorage} from 'ng2-webstorage';
 const moduleDeclarations = [AppComponent];
+// import {PubNub} from 'nativescript-pubnub';
 
 
 @NgModule({
