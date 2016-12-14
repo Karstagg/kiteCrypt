@@ -21,7 +21,7 @@ export function calculateSendersCommonSecretKey(sendersPrivateMultiplier: string
 export function generateReceiversPrivateMultiplier(receiversPassword: any, receiversSalt: any) : any;
 export function calculateReceiversMultipliedPoint(receiversPrivateMultiplier: any) : any;
 export function calculateReceiversCommonSecretKey() : any;
-export function encryptMessage(messagePlainText: any) : any;
+export function encryptMessage(sendersCommonSecretKey: string, messagePlainText: any) : any;
 export function decryptMessage(messageCipherText: any) : any;
 export function pick_rand() : any;
 export function getN(n: any) : any;

@@ -357,7 +357,7 @@ exports.calculateReceiversCommonSecretKey = function() {
  */
 
 
-exports.encryptMessage = function(messagePlainText) {
+exports.encryptMessage = function(sendersCommonSecretKey, messagePlainText) {
 
 	//messagePlainText = getN("messagePlainText").value; // We have to change this line to get the message from the chat box that's being sent to the friend.
 	//var eccP = getN("eccP").value;
@@ -453,6 +453,7 @@ exports.encryptMessage = function(messagePlainText) {
 	}
 
 
+	return (messageCipherText);
 };
 
 
@@ -684,7 +685,7 @@ exports.pointFpEquals = function(other) {
 
 exports.pointFpIsInfinity = function() {
 	if((this.x == null) && (this.y == null)) return true;
-	return this.z.equals(exports.BigInteger.ZERO) && !this.y.toBigInteger().equals(BigInteger.ZERO);
+	return this.z.equals(exports.BigInteger.ZERO) && !this.y.toBigInteger().equals(exports.BigInteger.ZERO);
 };
 
 exports.pointFpNegate = function() {

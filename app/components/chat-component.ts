@@ -12,44 +12,59 @@ import * as jsbnAll from "../../jsbn/jsbn-all";
 })
 
 export class ChatComponent implements OnInit {
-	@ViewChild("danielForm") danielForm : any;
-	message : Message = new Message(null, null);
-	status : Status = null;
-	keys : Keys[] = [];
+	@ViewChild("danielForm") danielForm: any;
+	message: Message = new Message(null, null);
+	status: Status = null;
+	keys: Keys[] = [];
+	receiversPublicKeyX: string = null;
+	sendersPrivateMultiplier: string = null;
+	sendersMultipliedX: string = null;
+	sendersCommonSecretKey: string = null;
+	cipherText: string = null;
 
 	// keyData: Keys = new Keys(0, "", "", "");
 	// keys : Keys = [];
 
-	constructor(protected chatService: ChatService, protected pusherService : PusherService, protected keyService: KeyService) {}
+	constructor(protected chatService: ChatService, protected pusherService: PusherService, protected keyService: KeyService) {
+	}
 
-	ngOnInit() : void {
+	ngOnInit(): void {
 		this.subscribeToTest();
 		this.keyChain();
 	}
 
 
-	subscribeToTest() : void {
+	subscribeToTest(): void {
 		this.pusherService.subscribeToTest();
 	}
-	keyChain () : void {
+
+	keyChain(): void {
 		this.keyService.getKeys()
 			.subscribe(keys => {
 				this.keys = keys;
 				// console.log(this.keys[0]["profilePublicKeyX"]);
-				let receiversPublicKeyX = this.keys[0]["profilePublicKeyX"];
-				var sendersData = JSON.parse(localStorage.getItem('sendersData'));
-				var sendersPrivateMultiplier = sendersData.sendersPrivateMultiplier;
-				var sendersMultipliedX = sendersData.sendersMultipliedPointX;
 
-				let sendersCommonSecretKey = jsbnAll.calculateSendersCommonSecretKey(sendersPrivateMultiplier, receiversPublicKeyX);
+				let sendersData = JSON.parse(localStorage.getItem('sendersData'));
+				this.sendersPrivateMultiplier = sendersData.sendersPrivateMultiplier;
+				this.sendersMultipliedX = sendersData.sendersMultipliedPointX;
+
 			});
 
-
 	}
-	danielMinusMinus() : void {
+
+	danielMinusMinus(): void {
+		this.receiversPublicKeyX = this.keys[0]["profilePublicKeyX"];
+		this.sendersCommonSecretKey = jsbnAll.calculateSendersCommonSecretKey(this.sendersPrivateMultiplier, this.receiversPublicKeyX);
+		this.cipherText = jsbnAll.encryptMessage(this.sendersCommonSecretKey, this.message);
+		console.log(this.cipherText);
+		this.message.messageText = this.cipherText;
 		this.chatService.chat(this.message)
-			.subscribe(status => this.status = status);
-			console.log(this.message);
+			.subscribe(status => {
+				this.status = status;
+				console.log(this.message);
+
+			});
+
 
 		// let sendersPrivateMultiplier = jsbnAll.generateSendersPrivateMultiplier(this.localStorage.password, this.salt.salt);
 
