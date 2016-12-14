@@ -27,9 +27,10 @@ PRIMARY KEY (invitationInviterId, invitationInviteeId)
 CREATE TABLE friendship (
 friendshipInviterId INT UNSIGNED NOT NULL,
 friendshipInviteeId INT UNSIGNED NOT NULL,
+friendshipId INT UNSIGNED NOT NULL,
 FOREIGN KEY(friendshipInviterId) REFERENCES profile(profileId),
 FOREIGN KEY(friendshipInviteeId) REFERENCES profile(profileId),
-PRIMARY KEY (friendshipInviterId, friendshipInviteeId)
+PRIMARY KEY(friendshipId)
 );
 
 CREATE TABLE message (
