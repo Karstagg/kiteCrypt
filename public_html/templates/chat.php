@@ -1,4 +1,4 @@
-<h1>KiteCrypt/h1>
+<h1>KiteCrypt</h1>
 <form class="form-horizontal" id="danielForm" name="danielForm" #danielForm="ngForm" (ngSubmit)="danielMinusMinus();" novalidate>
 	<h2>Welcome to your secure chat</h2>
 	<hr />
