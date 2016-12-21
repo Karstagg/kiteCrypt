@@ -4,7 +4,7 @@ import {Status} from "../classes/status";
 import {ChatService} from "../services/chat-service";
 import {PusherService} from "../services/pusher-service";
 import {KeyService} from "../services/key-service"
-import {Keys} from "../classes/keys";
+import {Keys} from "../classes/key";
 import * as jsbnAll from "../../jsbn/jsbn-all";
 
 @Component({

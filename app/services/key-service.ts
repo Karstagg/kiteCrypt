@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import {BaseService} from "./base-service";
-import {Keys} from "../classes/keys";
+import {Keys} from "../classes/key";
 import {KeyRequest} from "../classes/key-request";
 
 
