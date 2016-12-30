@@ -11,22 +11,16 @@ import {KeyService} from "./services/key-service";
 import {EqualValidator} from './directives/validate-equal.directive';
 import {SaltService} from "./services/salt-service";  // import validator
 //importing session storage components////////////
-import {Ng2Webstorage} from 'ng2-webstorage';
+// import {Ng2Webstorage} from 'ng2-webstorage';
 import {PusherService} from "./services/pusher-service";
 const moduleDeclarations = [AppComponent];
 
 
 @NgModule({
-	imports: [BrowserModule, FormsModule, HttpModule, routing, Ng2Webstorage],
+	imports: [BrowserModule, FormsModule, HttpModule, routing],
 	declarations: [...moduleDeclarations, ...allAppComponents, EqualValidator],
 	bootstrap: [AppComponent],
 	providers: [appRoutingProviders, ChatService, LoginService, PusherService, SaltService, SignUpService, KeyService]
 })
 
 export class AppModule {}
-
-
-
-
-
-
