@@ -36,7 +36,7 @@ module.exports = {
 			{
 				test: /\.css$/,
 				exclude: helpers.root('src', 'app'),
-				loader: ExtractTextPlugin.extract('style', 'css?sourceMap', {publicPath: '..'})
+				loader: ExtractTextPlugin.extract('style', 'css?sourceMap', {publicPath: '/dist'})
 			},
 			{
 				test: /\.css$/,
