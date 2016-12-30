@@ -291,7 +291,7 @@ exports.generateReceiversPrivateMultiplier = function() {
 };
 
 
-exports.calculateReceiversMultipliedPoint = function() {
+exports.calculateReceiversMultipliedPoint = function(receiversPrivateMultiplier) {
 
 	var curve = exports.get_curve();
 	var G = exports.get_G(curve);
@@ -312,7 +312,7 @@ exports.calculateReceiversMultipliedPoint = function() {
 };
 
 
-exports.calculateReceiversCommonSecretKey = function() {
+exports.calculateReceiversCommonSecretKey = function(receiversPrivateMultiplier, sendersMultipliedX, sendersMultipliedY) {
 
 	/*
 	 ----------------------------------------------------------------------------
@@ -357,12 +357,12 @@ exports.calculateReceiversCommonSecretKey = function() {
  */
 
 
-exports.encryptMessage = function(sendersCommonSecretKey, messagePlainText) {
+exports.encryptMessage = function(sendersCommonSecretKeyX, messagePlainText) {
 
 	//messagePlainText = getN("messagePlainText").value; // We have to change this line to get the message from the chat box that's being sent to the friend.
 	//var eccP = getN("eccP").value;
-	var commonSecretKeyX = exports.receiversCommonSecretKeyX;
-	var commonSecretKeyY = exports.receiversCommonSecretKeyY;
+	var commonSecretKeyX = exports.sendersCommonSecretKeyX;
+	//var commonSecretKeyY = exports.sendersCommonSecretKeyY;
 
 	var i;
 	//var messageCipherText = messagePlainText.split("").reverse().join("");
@@ -376,7 +376,7 @@ exports.encryptMessage = function(sendersCommonSecretKey, messagePlainText) {
 	// 	messageCipherTextUnicodeHexArray[i] = messageCipherTextUnicodeDecimalArray[i].toString(16);
 	// }
 	// var messageCipherTextHexString = messageCipherTextUnicodeHexArray.join("");
-	var messageCipherTextHexString = exports.convertStringToHex(messagePlainText);
+	var messageCipherTextHexString = exports.convertStringToHex(exports.messagePlainText);
 	//alert("Message plain text hex: " + messageCipherTextHexString); // Message. = 4d6573736167652e in plain text.
 
 	// Determine the size of the message block by finding the what number of characters
@@ -388,8 +388,8 @@ exports.encryptMessage = function(sendersCommonSecretKey, messagePlainText) {
 
 	for(i = 1; i < messageCipherTextHexString.length; i = i + 2) { // Step by two characters to get a complete 8-bit byte (an octet).
 
-		exports.messageBlock = new exports.BigInteger(messageCipherTextHexString.substr(0, i), 16);
-		exports.comparisonValue = exports.messageBlock.compareTo(eccPBigInteger);
+		messageBlock = new exports.BigInteger(messageCipherTextHexString.substr(0, i), 16);
+		comparisonValue = messageBlock.compareTo(eccPBigInteger);
 
 		if(messageBlock.compareTo(eccPBigInteger) >= 0) {
 			//blockSize = i - 2;
@@ -405,19 +405,19 @@ exports.encryptMessage = function(sendersCommonSecretKey, messagePlainText) {
 	//
 	// After determining the block size, encrypt the message.
 	var commonSecretKeyXBigInteger = new exports.BigInteger(commonSecretKeyX, 16);
-	var commonSecretKeyYBigInteger = new exports.BigInteger(commonSecretKeyY, 16);
+	//var commonSecretKeyYBigInteger = new exports.BigInteger(commonSecretKeyY, 16);
 	var cipherTextBlock = exports.BigInteger.ZERO;
-	var messageCipherText = "";
+	exports.messageCipherText = "";
 
 	if(blockSize == 0) {
 
 		blockSize = messageCipherTextHexString.length;
 
 		// Encrypt the message (when the blockSize is the same as the message length).
-		exports.messageBlock = new exports.BigInteger(messageCipherTextHexString, 16);
-		exports.cipherTextBlock = exports.messageBlock.add(commonSecretKeyXBigInteger);
-		exports.cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);
-		messageCipherText = cipherTextBlock.toString(16);
+		messageBlock = new exports.BigInteger(messageCipherTextHexString, 16);
+		cipherTextBlock = messageBlock.add(commonSecretKeyXBigInteger);
+		cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);
+		exports.messageCipherText = cipherTextBlock.toString(16);
 
 	} else {
 
@@ -438,41 +438,41 @@ exports.encryptMessage = function(sendersCommonSecretKey, messagePlainText) {
 			}
 
 			messageCipherTextHexSubstring = messageCipherTextHexString.substr(startOfSubstring, lengthOfSubstring);
-			exports.messageBlock = new exports.BigInteger(messageCipherTextHexSubstring, 16);
-			exports.cipherTextBlock = exports.messageBlock.add(commonSecretKeyXBigInteger);
-			exports.cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);
+			messageBlock = new exports.BigInteger(messageCipherTextHexSubstring, 16);
+			cipherTextBlock = messageBlock.add(commonSecretKeyXBigInteger);
+			cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);
 
 			if(messageCipherText == "") {
-				messageCipherText = cipherTextBlock.toString(16);
+				exports.messageCipherText = cipherTextBlock.toString(16);
 			} else {
-				messageCipherText = messageCipherText + "-" + cipherTextBlock.toString(16);
+				exports.messageCipherText = exports.messageCipherText + "-" + cipherTextBlock.toString(16);
 			}
 
 		}
 
 	}
 
+	return (exports.messageCipherText);
 
-	return (messageCipherText);
 };
 
 
-exports.decryptMessage = function(messageCipherText) {
+exports.decryptMessage = function(receiversCommonSecretKeyX, messageCipherText) {
 
 	//messageCipherText = getN("messageCipherText").value; // We have to change this line to get the incoming message ciphertext from the friend
 
 	//var eccP = getN("eccP").value;
-	var commonSecretKeyX = receiversCommonSecretKeyX;
-	var commonSecretKeyY = receiversCommonSecretKeyY;
+	var commonSecretKeyX = exports.receiversCommonSecretKeyX;
+	//var commonSecretKeyY = exports.receiversCommonSecretKeyY;
 
 	var eccPBigInteger = new exports.BigInteger(eccP, 16);
 	var commonSecretKeyXBigInteger = new exports.BigInteger(commonSecretKeyX, 16);  // 233977799535295621105177301016782318690314960717
-	var commonSecretKeyYBigInteger = new exports.BigInteger(commonSecretKeyY, 16);  // 610964657955290730928475511523514880516430485303
+	//var commonSecretKeyYBigInteger = new exports.BigInteger(commonSecretKeyY, 16);  // 610964657955290730928475511523514880516430485303
 
 
 	// The message blocks will be separated by hyphens "-", so split the cipher text
 	// at the hyphens. Then, store the number of blocks.
-	var messageCipherTextBlockArray = messageCipherText.split("-");
+	var messageCipherTextBlockArray = exports.messageCipherText.split("-");
 	var numberOfBlocks = messageCipherTextBlockArray.length;
 
 	// Decrypt each of the message blocks.
@@ -483,7 +483,7 @@ exports.decryptMessage = function(messageCipherText) {
 	var hexCodeOfCharacter;
 	var decimalCodeOfCharacter;
 	var singleCharacter;
-	decryptedMessage = "";
+	exports.decryptedMessage = "";
 	var j;
 
 
@@ -507,12 +507,13 @@ exports.decryptMessage = function(messageCipherText) {
 			hexCodeOfCharacter = plainTextHexBlock.substr(j, 2);
 			decimalCodeOfCharacter = parseInt(hexCodeOfCharacter, 16);
 			singleCharacter = String.fromCharCode(decimalCodeOfCharacter);
-			decryptedMessage = decryptedMessage + singleCharacter;
+			exports.decryptedMessage = exports.decryptedMessage + singleCharacter;
 
 		}
 
 	}
 
+	return (exports.decryptedMessage);
 
 };
 

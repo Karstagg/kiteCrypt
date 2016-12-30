@@ -25,6 +25,10 @@ Main style
 		height: 100%; /*body height*/
 	}
 }
+
+body {
+	background-image: url("img/kite-logo.png");
+}
 /*************************************************************
 styling for title text
 *************************************************************/
