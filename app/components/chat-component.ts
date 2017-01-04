@@ -7,6 +7,8 @@ import {PusherService} from "../services/pusher-service";
 import {KeyService} from "../services/key-service"
 import {Keys} from "../classes/key";
 import * as jsbnAll from "../../jsbn/jsbn-all";
+import {ReceivedMessage} from "../classes/received-message";
+
 
 @Component({
 	templateUrl: "./templates/chat.php"
@@ -24,6 +26,7 @@ export class ChatComponent implements OnInit {
 	sendersCommonSecretKey: string = null;
 	receiversCommonSecretKey: string = null;
 	cipherText: string = null;
+	newMessage: ReceivedMessage = new ReceivedMessage(null);
 
 	// keyData: Keys = new Keys(0, "", "", "");
 	// keys : Keys = [];
