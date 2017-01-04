@@ -63,7 +63,7 @@ export class ChatComponent implements OnInit {
 		console.log(this.sendersPrivateMultiplier);
 		this.sendersCommonSecretKey = jsbnAll.calculateSendersCommonSecretKey(this.sendersPrivateMultiplier, this.receiversPublicKeyX, this.receiversPublicKeyY);
 		console.log(this.sendersCommonSecretKey);
-		this.cipherText = jsbnAll.encryptMessage(this.sendersCommonSecretKey, this.message);
+		this.cipherText = jsbnAll.encryptMessage(this.sendersCommonSecretKey, this.message.messageText);
 		console.log(this.cipherText);
 		this.message.messageText = this.cipherText;
 		this.chatService.chat(this.message)

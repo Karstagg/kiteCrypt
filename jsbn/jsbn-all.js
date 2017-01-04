@@ -361,8 +361,8 @@ exports.encryptMessage = function(sendersCommonSecretKey, messagePlainText) {
 //comment
 	//messagePlainText = getN("messagePlainText").value; // We have to change this line to get the message from the chat box that's being sent to the friend.
 	//var eccP = getN("eccP").value;
-	var commonSecretKeyX = receiversCommonSecretKeyX;
-	var commonSecretKeyY = receiversCommonSecretKeyY;
+	var commonSecretKeyX = sendersCommonSecretKey;
+	//var commonSecretKeyY = receiversCommonSecretKeyY;
 
 	var i;
 	//var messageCipherText = messagePlainText.split("").reverse().join("");
@@ -405,7 +405,7 @@ exports.encryptMessage = function(sendersCommonSecretKey, messagePlainText) {
 	//
 	// After determining the block size, encrypt the message.
 	var commonSecretKeyXBigInteger = new exports.BigInteger(commonSecretKeyX, 16);
-	var commonSecretKeyYBigInteger = new exports.BigInteger(commonSecretKeyY, 16);
+	//var commonSecretKeyYBigInteger = new exports.BigInteger(commonSecretKeyY, 16);
 	var cipherTextBlock = exports.BigInteger.ZERO;
 	var messageCipherText = "";
 
