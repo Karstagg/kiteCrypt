@@ -1,4 +1,5 @@
 import {Component, OnInit, ViewChild} from "@angular/core";
+import {Router} from "@angular/router";
 import {Message} from "../classes/message";
 import {Status} from "../classes/status";
 import {ChatService} from "../services/chat-service";
@@ -21,6 +22,7 @@ export class ChatComponent implements OnInit {
 	sendersPrivateMultiplier: string = null;
 	sendersMultipliedX: string = null;
 	sendersCommonSecretKey: string = null;
+	receiversCommonSecretKey: string = null;
 	cipherText: string = null;
 
 	// keyData: Keys = new Keys(0, "", "", "");
