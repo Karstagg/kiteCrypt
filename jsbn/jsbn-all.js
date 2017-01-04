@@ -361,6 +361,11 @@ exports.encryptMessage = function(sendersCommonSecretKey, messagePlainText) {
 
 	console.log("JSBN sendersCommonSecretKey: " + sendersCommonSecretKey);
 	console.log("JSBN messagePlainText: " + messagePlainText);
+	var textOfMessage = messagePlainText.messageText; // Angular is sending the message object, which includes both the receiver's id and the message text. So extract just the text, and re-store it in the messagePlainText variable.
+	console.log("JSBN textOfMessage: " + textOfMessage);
+	messagePlainText = textOfMessage;
+	console.log("JSBN messagePlainText: " + messagePlainText);
+
 	//messagePlainText = getN("messagePlainText").value; // We have to change this line to get the message from the chat box that's being sent to the friend.
 	//var eccP = getN("eccP").value;
 	var commonSecretKeyX = sendersCommonSecretKey;
