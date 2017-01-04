@@ -358,7 +358,9 @@ exports.calculateReceiversCommonSecretKey = function() {
 
 //receiversCommonSecretKeys are undefined todo
 exports.encryptMessage = function(sendersCommonSecretKey, messagePlainText) {
-//comment
+
+	console.log("JSBN sendersCommonSecretKey: " + sendersCommonSecretKey);
+	console.log("JSBN messagePlainText: " + messagePlainText);
 	//messagePlainText = getN("messagePlainText").value; // We have to change this line to get the message from the chat box that's being sent to the friend.
 	//var eccP = getN("eccP").value;
 	var commonSecretKeyX = sendersCommonSecretKey;
