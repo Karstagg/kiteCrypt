@@ -15,7 +15,7 @@ import {ReceivedMessage} from "../classes/received-message";
 })
 
 export class ChatComponent implements OnInit {
-	@ViewChild("danielForm") danielForm: any;
+	@ViewChild("chatForm") chatForm: any;
 	message: Message = new Message(null, null);
 	status: Status = null;
 	keys: Keys[] = [];
@@ -35,14 +35,10 @@ export class ChatComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.subscribeToTest();
+		this.subscribeToFriendChannel();
 		this.keyChain();
 	}
 
-
-	subscribeToTest(): void {
-		this.pusherService.subscribeToTest();
-	}
 
 	keyChain(): void {
 		this.keyService.getKeys()
@@ -56,6 +52,10 @@ export class ChatComponent implements OnInit {
 
 			});
 
+	}
+
+	subscribeToFriendChannel(): void {
+		this.pusherService.subscribeToFriendChannel();
 	}
 
 	sendText(): void {

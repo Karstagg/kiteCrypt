@@ -13,4 +13,14 @@ export class PusherService {
 	subscribeToTest() : void {
 		this.pusher.subscribe("sendText");
 	}
+
+	subscribeToFriendChannel(firstFriend: number, secondFriend: number) {
+		let lower = Math.min(firstFriend, secondFriend);
+		let higher = Math.max(firstFriend, secondFriend);
+
+		// make a connection to the friends API and receive the friends list
+		// then put this.pusher.subscribe() within an Observable.subscribe()
+		// connect to pusher iff they're friends
+		this.pusher.subscribe("sendText-" + lower + "-" + higher);
+	}
 }

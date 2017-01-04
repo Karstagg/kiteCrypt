@@ -1,5 +1,5 @@
 <h1>KiteCrypt</h1>
-<form class="form-horizontal" id="danielForm" name="danielForm" #danielForm="ngForm" (ngSubmit)="danielMinusMinus();" novalidate>
+<form class="form-horizontal" id="chatForm" name="chatForm" #chatForm="ngForm" (ngSubmit)="sendText();" novalidate>
 	<h2>Welcome to your secure chat</h2>
 	<hr />
 
@@ -33,7 +33,7 @@
 			<p *ngIf="messageText.errors?.maxlength">Message text is too long.</p>
 		</div>
 	</div>
-	<button type="submit" class="btn btn-info btn-lg" [disabled]="danielForm.invalid"><i class="fa fa-paper-plane"></i> Send Message</button>
+	<button type="submit" class="btn btn-info btn-lg" [disabled]="chatForm.invalid"><i class="fa fa-paper-plane"></i> Send Message</button>
 	<button type="reset" class="btn btn-warning btn-lg"><i class="fa fa-ban"></i> Cancel</button>
 </form>
 <div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
