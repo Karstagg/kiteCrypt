@@ -55,7 +55,7 @@ export class ChatComponent implements OnInit {
 
 	}
 
-	danielMinusMinus(): void {
+	sendText(): void {
 		console.log(this.message.messageText);
 		this.receiversPublicKeyX = this.keys[0]["profilePublicKeyX"];
 		this.receiversPublicKeyY = this.keys[0]["profilePublicKeyY"];

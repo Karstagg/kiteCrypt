@@ -93,7 +93,7 @@ try {
 
 		$message = new Message(null, null, $_SESSION["profile"]->getProfileId(), $messageReceiverId, $messageText);
 		$message->insert($pdo);
-		$pusher->trigger("danielMinusMinus", "newMessage", ["message" => $messageText]);
+		$pusher->trigger("sendText", "newMessage", ["message" => $messageText]);
 		$reply->message = "Message sent";
 
 

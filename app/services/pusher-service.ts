@@ -11,6 +11,6 @@ export class PusherService {
 	}
 
 	subscribeToTest() : void {
-		this.pusher.subscribe("danielMinusMinus");
+		this.pusher.subscribe("sendText");
 	}
 }
