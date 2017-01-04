@@ -395,8 +395,8 @@ exports.encryptMessage = function(sendersCommonSecretKey, messagePlainText) {
 
 	for(i = 1; i < messageCipherTextHexString.length; i = i + 2) { // Step by two characters to get a complete 8-bit byte (an octet).
 
-		exports.messageBlock = new exports.BigInteger(messageCipherTextHexString.substr(0, i), 16);
-		exports.comparisonValue = exports.messageBlock.compareTo(eccPBigInteger);
+		messageBlock = new exports.BigInteger(messageCipherTextHexString.substr(0, i), 16);
+		comparisonValue = messageBlock.compareTo(eccPBigInteger);
 
 		if(messageBlock.compareTo(eccPBigInteger) >= 0) {
 			//blockSize = i - 2;
@@ -414,17 +414,17 @@ exports.encryptMessage = function(sendersCommonSecretKey, messagePlainText) {
 	var commonSecretKeyXBigInteger = new exports.BigInteger(commonSecretKeyX, 16);
 	//var commonSecretKeyYBigInteger = new exports.BigInteger(commonSecretKeyY, 16);
 	var cipherTextBlock = exports.BigInteger.ZERO;
-	var messageCipherText = "";
+	exports.messageCipherText = "";
 
 	if(blockSize == 0) {
 
 		blockSize = messageCipherTextHexString.length;
 
 		// Encrypt the message (when the blockSize is the same as the message length).
-		exports.messageBlock = new exports.BigInteger(messageCipherTextHexString, 16);
-		exports.cipherTextBlock = exports.messageBlock.add(commonSecretKeyXBigInteger);
-		exports.cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);
-		messageCipherText = cipherTextBlock.toString(16);
+		messageBlock = new exports.BigInteger(messageCipherTextHexString, 16);
+		cipherTextBlock = messageBlock.add(commonSecretKeyXBigInteger);
+		cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);
+		exports.messageCipherText = cipherTextBlock.toString(16);
 
 	} else {
 
@@ -445,14 +445,14 @@ exports.encryptMessage = function(sendersCommonSecretKey, messagePlainText) {
 			}
 
 			messageCipherTextHexSubstring = messageCipherTextHexString.substr(startOfSubstring, lengthOfSubstring);
-			exports.messageBlock = new exports.BigInteger(messageCipherTextHexSubstring, 16);
-			exports.cipherTextBlock = exports.messageBlock.add(commonSecretKeyXBigInteger);
-			exports.cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);
+			messageBlock = new exports.BigInteger(messageCipherTextHexSubstring, 16);
+			cipherTextBlock = messageBlock.add(commonSecretKeyXBigInteger);
+			cipherTextBlock = cipherTextBlock.mod(eccPBigInteger);
 
-			if(messageCipherText == "") {
-				messageCipherText = cipherTextBlock.toString(16);
+			if(exports.messageCipherText == "") {
+				exports.messageCipherText = cipherTextBlock.toString(16);
 			} else {
-				messageCipherText = messageCipherText + "-" + cipherTextBlock.toString(16);
+				exports.messageCipherText = exports.messageCipherText + "-" + cipherTextBlock.toString(16);
 			}
 
 		}
@@ -460,7 +460,7 @@ exports.encryptMessage = function(sendersCommonSecretKey, messagePlainText) {
 	}
 
 
-	return (messageCipherText);
+	return (exports.messageCipherText);
 };
 
 
