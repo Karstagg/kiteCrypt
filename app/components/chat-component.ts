@@ -7,7 +7,7 @@ import {PusherService} from "../services/pusher-service";
 import {KeyService} from "../services/key-service"
 import {Keys} from "../classes/key";
 import * as jsbnAll from "../../jsbn/jsbn-all";
-import {ReceivedMessage} from "../classes/received-message";
+
 
 
 @Component({
@@ -27,7 +27,7 @@ export class ChatComponent implements OnInit {
 	sendersId: number = null;
 	receiversCommonSecretKey: string = null;
 	cipherText: string = null;
-	newMessage: ReceivedMessage = new ReceivedMessage(null);
+	decryptedText: string = null;
 
 	// keyData: Keys = new Keys(0, "", "", "");
 	// keys : Keys = [];
@@ -70,6 +70,10 @@ export class ChatComponent implements OnInit {
 		this.cipherText = jsbnAll.encryptMessage(this.sendersCommonSecretKey, this.message.messageText);
 		console.log(this.cipherText);
 		this.message.messageText = this.cipherText;
+
+		this.decryptedText = jsbnAll.decryptMessage(this.sendersCommonSecretKey, this.cipherText);
+		console.log(this.decryptedText);
+
 		this.chatService.chat(this.message)
 			.subscribe(status => {
 				this.status = status;
