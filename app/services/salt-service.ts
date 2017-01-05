@@ -13,7 +13,7 @@ export class SaltService extends BaseService {
 
 	private saltUrl = "api/salt/";
 
-	salt(saltRequest: SaltRequest) : Observable<Salt> {
+	salt(saltRequest: SaltRequest) : Observable<Salt[]> {
 		return(this.http.post(this.saltUrl, saltRequest)
 			.map(this.extractData)
 			.catch(this.handleError));
