@@ -24,6 +24,7 @@ export class ChatComponent implements OnInit {
 	sendersPrivateMultiplier: string = null;
 	sendersMultipliedX: string = null;
 	sendersCommonSecretKey: string = null;
+	sendersId: number = null;
 	receiversCommonSecretKey: string = null;
 	cipherText: string = null;
 	newMessage: ReceivedMessage = new ReceivedMessage(null);
@@ -49,13 +50,13 @@ export class ChatComponent implements OnInit {
 				let sendersData = JSON.parse(localStorage.getItem('sendersData'));
 				this.sendersPrivateMultiplier = sendersData.sendersPrivateMultiplier;
 				this.sendersMultipliedX = sendersData.sendersMultipliedPointX;
-
+				this.sendersId = sendersData.sendersId;
 			});
 
 	}
 
 	subscribeToFriendChannel(): void {
-		this.pusherService.subscribeToFriendChannel();
+		this.pusherService.subscribeToFriendChannel(this.sendersId, this.keys[0]["profileId"]);
 	}
 
 	sendText(): void {

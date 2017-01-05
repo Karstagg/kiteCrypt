@@ -32,8 +32,8 @@ export class HomeComponent {
 				this.salt = salt;
 				this.loginData.salt = this.salt[0]["salt"];
 				this.loginData.userId = this.salt[0]["profileId"];;
-				console.log("salt: " + this.loginData.salt);
-				console.log("id: " + this.loginData.userId);
+				//console.log("salt: " + this.loginData.salt);
+				//console.log("id: " + this.loginData.userId);
 
 				let sendersPrivateMultiplier = jsbnAll.generateSendersPrivateMultiplier(this.loginData.password, this.loginData.salt);
 
@@ -52,7 +52,8 @@ export class HomeComponent {
 
 						if(this.loginStatus.status === 200) {
 							//	This is where we react to a successful login
-							localStorage.setItem('sendersData', JSON.stringify({ sendersPrivateMultiplier: sendersPrivateMultiplier, sendersMultipliedPointX: sendersMultipliedPoint[0], sendersMultipliedPointY: sendersMultipliedPoint[1] }));
+							localStorage.setItem('sendersData', JSON.stringify({ sendersPrivateMultiplier: sendersPrivateMultiplier, sendersMultipliedPointX: sendersMultipliedPoint[0], sendersMultipliedPointY: sendersMultipliedPoint[1],
+							sendersId: this.loginData.userId}));
 
 							this.router.navigate(["/chat/"]);
 						}
