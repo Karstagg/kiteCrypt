@@ -348,7 +348,11 @@ class Profile implements \JsonSerializable {
 
 	/**
 	 * profile User Name search
-	 */
+	 *
+	 * @param \PDO $pdo connection object
+	 * @param string $profileUserName profile username to search for
+	 * @return Profile|null array of profiles found or null if none found
+	 **/
 	public static function getProfileByUserName(\PDO $pdo, string $profileUserName) {
 		// sanitize the description before searching
 		$profileUserName = trim($profileUserName);
@@ -386,7 +390,7 @@ class Profile implements \JsonSerializable {
 	 * get public key X by public key
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $profilePublicKey to search
+	 * @param string $profilePublicKeyX to search
 	 * @return \SplFixArray SplFixedArray of public key found
 	 * @throw \PDOException when mySQL related errors occur
 	 * @throw \TypeError when variable are not the correct data type
@@ -526,7 +530,7 @@ class Profile implements \JsonSerializable {
 	 * getFriendship method
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $profilePublicKey to search
+	 * @param int $profileId to search
 	 * @return \SplFixArray SplFixedArray of public key found
 	 * @throw \PDOException when mySQL related errors occur
 	 * @throw \TypeError when variable are not the correct data type
