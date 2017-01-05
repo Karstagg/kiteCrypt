@@ -91,9 +91,16 @@ try {
 			$messageText = filter_var($requestObject->messageText, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
+		$chatChannel = "";
+		if ($messageSenderId < $messageReceiverId ) {
+			$chatChannel = "$messageSenderId$messageReceiverId";
+		} else {
+			$chatChannel = "$messageReceiverId$messageSenderId";
+		}
+
 		$message = new Message(null, null, $_SESSION["profile"]->getProfileId(), $messageReceiverId, $messageText);
 		$message->insert($pdo);
-		$pusher->trigger("sendText", "newMessage", ["message" => $messageText]);
+		$pusher->trigger($chatChannel, "newMessage", ["message" => $messageText]);
 		$reply->message = "Message sent";
 
 
