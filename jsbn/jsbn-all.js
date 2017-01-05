@@ -359,8 +359,8 @@ exports.calculateReceiversCommonSecretKey = function() {
 //receiversCommonSecretKeys are undefined todo
 exports.encryptMessage = function(sendersCommonSecretKey, messagePlainText) {
 
-	console.log("JSBN sendersCommonSecretKey: " + sendersCommonSecretKey);
-	console.log("JSBN messagePlainText: " + messagePlainText);
+	console.log("JSBN encrypt sendersCommonSecretKey: " + sendersCommonSecretKey);
+	console.log("JSBN encrypt messagePlainText: " + messagePlainText);
 	// var textOfMessage = messagePlainText.messageText; // Angular is sending the message object, which includes both the receiver's id and the message text. So extract just the text, and re-store it in the messagePlainText variable.
 	// console.log("JSBN textOfMessage: " + textOfMessage);
 	// messagePlainText = textOfMessage;
@@ -464,13 +464,17 @@ exports.encryptMessage = function(sendersCommonSecretKey, messagePlainText) {
 };
 
 
-exports.decryptMessage = function(messageCipherText) {
+exports.decryptMessage = function(sendersCommonSecretKey, messageCipherText) {
+
+	console.log("JSBN decrypt sendersCommonSecretKey: " + sendersCommonSecretKey);
+	console.log("JSBN decrypt messageCipherText: " + messageCipherText);
 
 	//messageCipherText = getN("messageCipherText").value; // We have to change this line to get the incoming message ciphertext from the friend
 
 	//var eccP = getN("eccP").value;
-	var commonSecretKeyX = receiversCommonSecretKeyX;
-	var commonSecretKeyY = receiversCommonSecretKeyY;
+	var commonSecretKeyX = sendersCommonSecretKey;
+	// var commonSecretKeyX = receiversCommonSecretKeyX;
+	// var commonSecretKeyY = receiversCommonSecretKeyY;
 
 	var eccPBigInteger = new exports.BigInteger(eccP, 16);
 	var commonSecretKeyXBigInteger = new exports.BigInteger(commonSecretKeyX, 16);  // 233977799535295621105177301016782318690314960717
@@ -490,7 +494,7 @@ exports.decryptMessage = function(messageCipherText) {
 	var hexCodeOfCharacter;
 	var decimalCodeOfCharacter;
 	var singleCharacter;
-	decryptedMessage = "";
+	exports.decryptedMessage = "";
 	var j;
 
 
@@ -514,13 +518,13 @@ exports.decryptMessage = function(messageCipherText) {
 			hexCodeOfCharacter = plainTextHexBlock.substr(j, 2);
 			decimalCodeOfCharacter = parseInt(hexCodeOfCharacter, 16);
 			singleCharacter = String.fromCharCode(decimalCodeOfCharacter);
-			decryptedMessage = decryptedMessage + singleCharacter;
+			exports.decryptedMessage = exports.decryptedMessage + singleCharacter;
 
 		}
 
 	}
 
-
+	return (exports.decryptedMessage);
 };
 
 

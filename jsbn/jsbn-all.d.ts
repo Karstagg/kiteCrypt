@@ -22,7 +22,7 @@ export function generateReceiversPrivateMultiplier(receiversPassword: any, recei
 export function calculateReceiversMultipliedPoint(receiversPrivateMultiplier: any) : any;
 export function calculateReceiversCommonSecretKey() : any;
 export function encryptMessage(sendersCommonSecretKey: string, messagePlainText: any) : any;
-export function decryptMessage(messageCipherText: any) : any;
+export function decryptMessage(sendersCommonSecretKey: string, messageCipherText: any) : any;
 export function pick_rand() : any;
 export function getN(n: any) : any;
 export function generateRandomString(len: number) : any;
