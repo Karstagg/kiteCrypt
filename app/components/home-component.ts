@@ -14,8 +14,8 @@ import * as jsbnAll from "../../jsbn/jsbn-all"
 
 export class HomeComponent {
 	@ViewChild("loginForm") loginForm: any;
-	loginData: Login = new Login("", "", "", "", "");
-	salt: Salt = null;
+	loginData: Login = new Login(null, "", "", "", "", "");
+	salt: Salt = new Salt(null, "");
 	loginStatus : Status = null;
 	saltRequest: SaltRequest = new SaltRequest("", false);
 	// localStorageService: LocalStorageService = new LocalStorageService("", "", "", "", "", "", "");
@@ -29,8 +29,10 @@ export class HomeComponent {
 		this.saltRequest.username = this.loginData.username;
 		this.SaltService.salt(this.saltRequest)
 			.subscribe(salt => {
-				this.salt = salt;
+				this.salt.salt = salt;
+				this.salt.id = id;
 				this.loginData.salt = this.salt.salt;
+				this.loginData.id = this.salt.id;
 				console.log(this.salt.salt);
 
 				let sendersPrivateMultiplier = jsbnAll.generateSendersPrivateMultiplier(this.loginData.password, this.salt.salt);

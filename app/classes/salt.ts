@@ -1,3 +1,3 @@
 export class Salt {
-	constructor(public salt: string) {}
+	constructor(public id: number, public salt: string) {}
 }

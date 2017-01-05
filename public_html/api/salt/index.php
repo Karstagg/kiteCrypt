@@ -72,6 +72,7 @@ try {
 			$singleProfile = $profile[0];
 			$pepper = new stdClass();
 			$pepper->salt = $singleProfile->getProfilePasswordSalt();
+			$pepper->id = $singleProfile->getProfileId();
 			$reply->data = $pepper;
 //
 ////			$reply->data = print_r($singleProfile);
