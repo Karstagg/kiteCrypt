@@ -74,7 +74,7 @@ try {
 //			$pepper->salt = $singleProfile->getProfilePasswordSalt();
 //			$pepper->id = $singleProfile->getProfileId();
 //			$reply->data = $pepper;
-			$reply->data = [ "userId" => $singleProfile->getProfileId(), "salt" => $singleProfile->getProfilePasswordSalt()];
+			$reply->data = [ "profileId" => $singleProfile->getProfileId(), "salt" => $singleProfile->getProfilePasswordSalt()];
 //
 ////			$reply->data = print_r($singleProfile);
 //			$reply->data = $singleProfile->getProfilePasswordSalt();
