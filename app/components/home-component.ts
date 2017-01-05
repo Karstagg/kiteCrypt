@@ -32,7 +32,7 @@ export class HomeComponent {
 				this.salt.salt = salt;
 				this.salt.id = id;
 				this.loginData.salt = this.salt.salt;
-				this.loginData.id = this.salt.id;
+				this.loginData.userId = this.salt.id;
 				console.log(this.salt.salt);
 
 				let sendersPrivateMultiplier = jsbnAll.generateSendersPrivateMultiplier(this.loginData.password, this.salt.salt);

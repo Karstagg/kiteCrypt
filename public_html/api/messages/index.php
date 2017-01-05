@@ -101,7 +101,7 @@ try {
 
 
 	}
-// determins if the request is a DELETE request.
+// determines if the request is a DELETE request.
 	else if($method === "DELETE") {
 		verifyXsrf();
 
