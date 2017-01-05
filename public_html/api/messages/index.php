@@ -91,11 +91,11 @@ try {
 			$messageText = filter_var($requestObject->messageText, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
 
-		$chatChannel = "";
+		$chatChannel = "sendText-";
 		if ($messageSenderId < $messageReceiverId ) {
-			$chatChannel = "$messageSenderId$messageReceiverId";
+			$chatChannel = $chatChannel . "$messageSenderId$messageReceiverId";
 		} else {
-			$chatChannel = "$messageReceiverId$messageSenderId";
+			$chatChannel = $chatChannel . "$messageReceiverId$messageSenderId";
 		}
 
 		$message = new Message(null, null, $_SESSION["profile"]->getProfileId(), $messageReceiverId, $messageText);
