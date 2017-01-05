@@ -478,7 +478,7 @@ exports.decryptMessage = function(sendersCommonSecretKey, messageCipherText) {
 
 	var eccPBigInteger = new exports.BigInteger(exports.eccP, 16);
 	var commonSecretKeyXBigInteger = new exports.BigInteger(commonSecretKeyX, 16);  // 233977799535295621105177301016782318690314960717
-	var commonSecretKeyYBigInteger = new exports.BigInteger(commonSecretKeyY, 16);  // 610964657955290730928475511523514880516430485303
+	// var commonSecretKeyYBigInteger = new exports.BigInteger(commonSecretKeyY, 16);  // 610964657955290730928475511523514880516430485303
 
 
 	// The message blocks will be separated by hyphens "-", so split the cipher text
