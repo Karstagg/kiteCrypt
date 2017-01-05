@@ -31,7 +31,7 @@ export class HomeComponent {
 			.subscribe(salt => {
 				this.salt = salt;
 				this.loginData.salt = this.salt[0]["salt"];
-				this.loginData.userId = this.salt[0]["profileId"];;
+				this.loginData.userId = this.salt[0]["profileId"];
 				//console.log("salt: " + this.loginData.salt);
 				//console.log("id: " + this.loginData.userId);
 
