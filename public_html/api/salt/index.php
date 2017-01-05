@@ -70,10 +70,11 @@ try {
 				throw (new \InvalidArgumentException($exceptionMessage, $exceptionCode));
 			}
 			$singleProfile = $profile[0];
-			$pepper = new stdClass();
-			$pepper->salt = $singleProfile->getProfilePasswordSalt();
-			$pepper->id = $singleProfile->getProfileId();
-			$reply->data = $pepper;
+//			$pepper = new stdClass();
+//			$pepper->salt = $singleProfile->getProfilePasswordSalt();
+//			$pepper->id = $singleProfile->getProfileId();
+//			$reply->data = $pepper;
+			$reply->data = $singleProfile->toArray();
 //
 ////			$reply->data = print_r($singleProfile);
 //			$reply->data = $singleProfile->getProfilePasswordSalt();
