@@ -10,9 +10,9 @@ export class PusherService {
 		this.pusher = new Pusher("4e04fbf13149f67488cd");
 	}
 
-	subscribeToTest() : void {
-		this.pusher.subscribe("sendText");
-	}
+	//subscribeToTest() : void {
+		//this.pusher.subscribe("sendText");
+	//}
 
 	subscribeToFriendChannel(firstFriend: number, secondFriend: number) {
 		let lower = Math.min(firstFriend, secondFriend);

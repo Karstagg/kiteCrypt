@@ -30,10 +30,11 @@ export class HomeComponent {
 		this.SaltService.salt(this.saltRequest)
 			.subscribe(salt => {
 				this.salt = salt;
+				console.log(salt);
 				this.loginData.salt = this.salt["salt"];
 				this.loginData.userId = this.salt["profileId"];
-				//console.log("salt: " + this.loginData.salt);
-				//console.log("id: " + this.loginData.userId);
+				console.log("salt: " + this.loginData.salt);
+				console.log("id: " + this.loginData.userId);
 
 				let sendersPrivateMultiplier = jsbnAll.generateSendersPrivateMultiplier(this.loginData.password, this.loginData.salt);
 

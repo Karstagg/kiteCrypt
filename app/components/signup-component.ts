@@ -36,11 +36,11 @@ export class SignUpComponent {
 					this.salt = salt;
 					//this is where key data formula will be inserted. (currently labeled foo())
 
-					let sendersPrivateMultiplier = jsbnAll.generateSendersPrivateMultiplier(this.signUpData.password, this.salt[0]["salt"]); //.salt was after
+					let sendersPrivateMultiplier = jsbnAll.generateSendersPrivateMultiplier(this.signUpData.password, this.salt["salt"]); //.salt was after
 
 					let sendersMultipliedPoint = jsbnAll.calculateSendersMultipliedPoint(sendersPrivateMultiplier);
 
-					this.signUpData.salt = this.salt[0]["salt"];
+					this.signUpData.salt = this.salt["salt"];
 					this.signUpData.publicKeyX = sendersMultipliedPoint[0];
 					this.signUpData.publicKeyY = sendersMultipliedPoint[1];
 						this.signUpData.password = "123abc";
