@@ -56,7 +56,7 @@ export class ChatComponent implements OnInit {
 	}
 
 	subscribeToFriendChannel(): void {
-		this.pusherService.subscribeToFriendChannel(this.sendersId, this.keys[0]["profileId"]);
+		this.pusherService.subscribeToFriendChannel(this.sendersId, this.keys["profileId"]);
 	}
 
 	sendText(): void {
