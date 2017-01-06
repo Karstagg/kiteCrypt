@@ -133,6 +133,7 @@ export class ChatComponent implements OnInit {
 	}
 
 	receiveText(): void {
+		console.log("receiveText function triggered");
 		console.log(this.message.messageText);
 		this.receiversPublicKeyX = this.keys[0]["profilePublicKeyX"];
 		this.receiversPublicKeyY = this.keys[0]["profilePublicKeyY"];
