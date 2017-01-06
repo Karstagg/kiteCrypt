@@ -40,25 +40,6 @@
 	<button type="button" class="close" aria-label="Close" (click)="status = null;"><span aria-hidden="true">&times;</span></button>
 	{{ status.message }}
 </div>
-<section>
-	<div class="container messages-container">
-		<div id="channels-list">
-			<div class="channel" *ngFor="let channel of channels">
-				<h3 class="white light">
-					Messages for {{ channel.term }}
-				</h3>
-				<div id="subscription-controls">
-					<button class="btn-white secondary" (click)="toggleSearch(channel)">
-						{{channel.active ? 'Stop' : 'Restart'}} Stream
-					</button>
-					<button class="btn-white secondary" (click)="clearSearch(channel)">
-						Remove Results
-					</button>
-				</div>
-				<subscription [search]="channel" [pusher]="pusher"></subscription>
-			</div>
-		</div>
-	</div>
-</section>
+
 
 <pre>{{message | json}}</pre>

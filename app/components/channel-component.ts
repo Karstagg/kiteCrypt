@@ -1,3 +1,4 @@
+declare var Pusher: any;
 import {
 	Component,
 	Input,

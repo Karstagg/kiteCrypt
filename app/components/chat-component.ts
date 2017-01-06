@@ -10,7 +10,7 @@ import * as jsbnAll from "../../jsbn/jsbn-all";
 import ChannelComponent from './channel-component';
 declare var Pusher: any;
 
-@Directive({ selector: '[ChannelComponent]' })
+//@Directive({ selector: '[ChannelComponent]' })
 
 @Component({
 	//moduleId: module.id,
@@ -19,7 +19,7 @@ declare var Pusher: any;
 
 export class ChatComponent implements OnInit {
 	@ViewChild("chatForm") chatForm: any;
-	directives: [ChannelComponent];
+	//directives: [ChannelComponent];
 	message: Message = new Message(null, null);
 	status: Status = null;
 	keys: Keys[] = [];
