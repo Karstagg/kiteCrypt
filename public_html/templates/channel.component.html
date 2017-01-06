@@ -1,0 +1,5 @@
+<ul class="channel-results channel-{{className}}">
+	<li *ngFor="let result of messages">
+		<p class="white" [innerHTML]="result.message.text"></p>
+	</li>
+</ul>

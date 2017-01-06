@@ -2,7 +2,9 @@ import {
 	Component,
 	Input,
 	AfterViewChecked,
-	OnInit
+	OnInit,
+	OnChanges,
+	OnDestroy
 } from '@angular/core';
 
 @Component({
@@ -12,13 +14,13 @@ import {
 
 })
 
-export default class ChannelComponent implements OnInit, AfterViewChecked {
+export default class ChannelComponent implements OnInit, OnChanges, OnDestroy, AfterViewChecked {
 	@Input() search: any;
 	@Input() pusher: any;
 	public messages : Object[];
 	private channel: any;
 	private className: String;
-	private subscribed: any;
+	private subscribed: boolean = false;
 
 	public ngOnInit() {
 		this.subscribeToChannel();
@@ -36,6 +38,21 @@ export default class ChannelComponent implements OnInit, AfterViewChecked {
 
 	private newMessage(data: Object) {
 		this.messages.push(data);
+	}
+
+	public ngOnChanges() {
+		console.log(this.search);
+		if (!this.search.active && this.subscribed) {
+			this.ngOnDestroy();
+		} else if (this.search.active && !this.subscribed) {
+			this.subscribeToChannel();
+		}
+	}
+
+	public ngOnDestroy() {
+		this.pusher.unsubscribe(btoa(this.search.term));
+		this.channel && this.channel.unbind();
+		this.subscribed = false;
 	}
 
 	public ngAfterViewChecked() {
