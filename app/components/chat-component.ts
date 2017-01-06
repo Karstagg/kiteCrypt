@@ -105,12 +105,12 @@ export class ChatComponent implements OnInit {
 		this.decryptedText = jsbnAll.decryptMessage(this.sendersCommonSecretKey, this.cipherText);
 		console.log(this.decryptedText);
 
-		this.chatService.chat(this.message)
-			.subscribe(status => {
-				this.status = status;
-				console.log(this.message);
-
-			});
+		// this.chatService.chat(this.message)
+		// 	.subscribe(status => {
+		// 		this.status = status;
+		// 		console.log(this.message);
+		//
+		// 	});
 
 		//put an ng for here to go throught the array of channels *ngFor these -maybe on the template
 
@@ -147,10 +147,10 @@ export class ChatComponent implements OnInit {
 		this.decryptedText = jsbnAll.decryptMessage(this.sendersCommonSecretKey, this.cipherText);
 		console.log(this.decryptedText);
 
-		this.chatService.chat(this.message)
+		this.chatService.chat(this.decryptedText)
 			.subscribe(status => {
 				this.status = status;
-				console.log(this.message);
+				console.log(this.decryptedText);
 
 			});
 	}
