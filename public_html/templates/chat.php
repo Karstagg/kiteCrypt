@@ -40,5 +40,11 @@
 	<button type="button" class="close" aria-label="Close" (click)="status = null;"><span aria-hidden="true">&times;</span></button>
 	{{ status.message }}
 </div>
+<div id="channels-list">
+	<div class="channel" *ngFor="let channel of channels">
+		<h3>Messages for {{ channel.term }}</h3>
+		<subscription [search]="channel" [pusher]="pusher"></subscription>
+	</div>
+</div>
 
 <pre>{{message | json}}</pre>

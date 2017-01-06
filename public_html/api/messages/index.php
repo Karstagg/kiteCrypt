@@ -84,6 +84,7 @@ try {
 		} else {
 			$messageReceiverId = filter_var($requestObject->messageReceiverId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
+		// FIXME: verify the bloody receiver is a bloody friend of the bloody sender!
 
 		if(empty($requestObject->messageText) === true) {
 			throw(new \InvalidArgumentException($exceptionMessage . "Error 3", $exceptionCode));
@@ -93,11 +94,11 @@ try {
 
 		$senderId = $_SESSION["profile"]->getProfileId();
 		$receiverId = $messageReceiverId;
-		$chatChannel = "sendText-";
-		if ( $senderId < $receiverId ) {
-			$chatChannel = $chatChannel . "$senderId" . "$receiverId";
+		$chatChannel = "sendText";
+		if ($senderId < $receiverId ) {
+			$chatChannel = "$chatChannel-$senderId-$receiverId";
 		} else {
-			$chatChannel = $chatChannel . "$receiverId" . "$senderId";
+			$chatChannel = "$chatChannel-$receiverId-$senderId";
 		}
 
 		$message = new Message(null, null, $_SESSION["profile"]->getProfileId(), $messageReceiverId, $messageText);

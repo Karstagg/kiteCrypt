@@ -81,6 +81,7 @@ export class ChatComponent implements OnInit {
 
 			});
 
+		//put an ng for here to go throught the array of channels *ngFor these -maybe on the template
 
 		// let sendersPrivateMultiplier = jsbnAll.generateSendersPrivateMultiplier(this.localStorage.password, this.salt.salt);
 
