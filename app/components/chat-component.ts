@@ -102,8 +102,8 @@ export class ChatComponent implements OnInit {
 		console.log(this.cipherText);
 		this.message.messageText = this.cipherText;
 
-		this.decryptedText = jsbnAll.decryptMessage(this.sendersCommonSecretKey, this.cipherText);
-		console.log(this.decryptedText);
+		// this.decryptedText = jsbnAll.decryptMessage(this.sendersCommonSecretKey, this.cipherText);
+		// console.log(this.decryptedText);
 
 		// this.chatService.chat(this.message)
 		// 	.subscribe(status => {
@@ -141,9 +141,6 @@ export class ChatComponent implements OnInit {
 		console.log(this.sendersPrivateMultiplier);
 		this.sendersCommonSecretKey = jsbnAll.calculateSendersCommonSecretKey(this.sendersPrivateMultiplier, this.receiversPublicKeyX, this.receiversPublicKeyY);
 		console.log(this.sendersCommonSecretKey);
-		this.cipherText = jsbnAll.encryptMessage(this.sendersCommonSecretKey, this.message.messageText);
-		console.log(this.cipherText);
-		this.message.messageText = this.cipherText;
 
 		this.decryptedText = jsbnAll.decryptMessage(this.sendersCommonSecretKey, this.cipherText);
 		console.log(this.decryptedText);
