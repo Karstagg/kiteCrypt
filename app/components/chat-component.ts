@@ -7,10 +7,13 @@ import {PusherService} from "../services/pusher-service";
 import {KeyService} from "../services/key-service"
 import {Keys} from "../classes/key";
 import * as jsbnAll from "../../jsbn/jsbn-all";
-
+import ChannelComponent from './channel-component';
+declare var Pusher: any;
 
 
 @Component({
+	moduleId: module.id,
+	directives: [ChannelComponent],
 	templateUrl: "./templates/chat.php"
 })
 
@@ -28,13 +31,37 @@ export class ChatComponent implements OnInit {
 	receiversCommonSecretKey: string = null;
 	cipherText: string = null;
 	decryptedText: string = null;
-
+	private newSearchTerm: string;
+	private pusher: any;
+	private channels: any[];
 	// keyData: Keys = new Keys(0, "", "", "");
 	// keys : Keys = [];
 
 	constructor(protected chatService: ChatService, protected pusherService: PusherService, protected keyService: KeyService) {
+		this.pusher = new Pusher("4e04fbf13149f67488cd");
+		this.channels = [];
 	}
 
+	public newSubscription() {
+		this.channels.push({term: this.newSearchTerm, active: true});
+		this.newSearchTerm = '';
+	}
+	public clearSearch(channel: any) {
+		this.channels = this.channels.filter((ch) => {
+			if (ch.term === channel.term) {
+				this.toggleSearch(channel);
+			}
+			return ch.term !== channel.term;
+		});
+	}
+	public toggleSearch(channel: any) {
+		for (let ch of this.channels) {
+			if (ch.term === channel.term) {
+				ch.active = !ch.active;
+				break;
+			}
+		}
+	}
 	ngOnInit(): void {
 		this.subscribeToFriendChannel();
 		this.keyChain();
