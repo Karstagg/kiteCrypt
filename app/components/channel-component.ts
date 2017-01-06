@@ -30,7 +30,7 @@ export default class ChannelComponent implements OnInit, OnChanges, OnDestroy, A
 
 	private subscribeToChannel() {
 		this.channel = this.pusher.subscribe(btoa(this.search.term));
-		this.channel.bind('new_message', (data: any) => {
+		this.channel.bind('newMessage', (data: any) => {
 			this.newMessage(data);
 		});
 		this.subscribed = true;
