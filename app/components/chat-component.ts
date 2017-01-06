@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from "@angular/core";
+import {Component, OnInit, ViewChild, Directive, Input} from "@angular/core";
 import {Router} from "@angular/router";
 import {Message} from "../classes/message";
 import {Status} from "../classes/status";
@@ -10,9 +10,10 @@ import * as jsbnAll from "../../jsbn/jsbn-all";
 import ChannelComponent from './channel-component';
 declare var Pusher: any;
 
+@Directive({ selector: '[ChannelComponent]' })
 
 @Component({
-	moduleId: module.id,
+	//moduleId: module.id,
 	templateUrl: "./templates/chat.php"
 })
 
@@ -34,6 +35,7 @@ export class ChatComponent implements OnInit {
 	private newSearchTerm: string;
 	private pusher: any;
 	private channels: any[];
+	//private viewContainer: ;
 	// keyData: Keys = new Keys(0, "", "", "");
 	// keys : Keys = [];
 
