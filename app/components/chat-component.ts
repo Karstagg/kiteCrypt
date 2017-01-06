@@ -7,7 +7,7 @@ import {PusherService} from "../services/pusher-service";
 import {KeyService} from "../services/key-service"
 import {Keys} from "../classes/key";
 import * as jsbnAll from "../../jsbn/jsbn-all";
-import ChannelComponent from './channel-component';
+// import ChannelComponent from './channel-component';
 declare var Pusher: any;
 
 
@@ -146,11 +146,12 @@ export class ChatComponent implements OnInit {
 
 		this.decryptedText = jsbnAll.decryptMessage(this.sendersCommonSecretKey, this.cipherText);
 		console.log(this.decryptedText);
+		this.message.messageText = this.decryptedText;
 
-		this.chatService.chat(this.decryptedText)
+		this.chatService.chat(this.message)
 			.subscribe(status => {
 				this.status = status;
-				console.log(this.decryptedText);
+				console.log(this.message);
 
 			});
 	}
