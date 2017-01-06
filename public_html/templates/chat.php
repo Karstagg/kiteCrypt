@@ -41,5 +41,6 @@
 	{{ status.message }}
 </div>
 
+<div (newMessage)="receiveText()"></div>
 
 <pre>{{message | json}}</pre>
