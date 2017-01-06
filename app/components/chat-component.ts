@@ -46,26 +46,7 @@ export class ChatComponent implements OnInit {
 		this.channels = [];
 	}
 
-	public newSubscription() {
-		this.channels.push({term: this.newSearchTerm, active: true});
-		this.newSearchTerm = '';
-	}
-	public clearSearch(channel: any) {
-		this.channels = this.channels.filter((ch) => {
-			if (ch.term === channel.term) {
-				this.toggleSearch(channel);
-			}
-			return ch.term !== channel.term;
-		});
-	}
-	public toggleSearch(channel: any) {
-		for (let ch of this.channels) {
-			if (ch.term === channel.term) {
-				ch.active = !ch.active;
-				break;
-			}
-		}
-	}
+
 	ngOnInit(): void {
 		this.subscribeToFriendChannel();
 		this.keyChain();
