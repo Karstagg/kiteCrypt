@@ -13,12 +13,12 @@ declare var Pusher: any;
 
 @Component({
 	moduleId: module.id,
-	directives: [ChannelComponent],
 	templateUrl: "./templates/chat.php"
 })
 
 export class ChatComponent implements OnInit {
 	@ViewChild("chatForm") chatForm: any;
+	directives: [ChannelComponent];
 	message: Message = new Message(null, null);
 	status: Status = null;
 	keys: Keys[] = [];
