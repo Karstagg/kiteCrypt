@@ -43,4 +43,4 @@
 
 <div (newMessage)="receiveText()"></div>
 
-<pre>{{message | json}}</pre>
+<pre (click)="receiveText()">{{message | json}}</pre>
