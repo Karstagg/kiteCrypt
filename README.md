@@ -8,8 +8,7 @@ The application is capable of logging in a new user, signing-in current users, e
 Due to the present, limited functionality, there are several things we plan to add. First, we want to retrieve messages from other user’s via Pusher. Second, we want add the ability for the user to friend and unfriend. Friending would be done using an invitation process with a secret passphrase the inviter must give to the invitee in order for them to become a friend. (Note that communication the passphrase would be done outside of kiteCrypt to preserve users' zero knowledge of other users unless they were explicitly invited.) Third, we want to create more pleasing user interaction and experience (UI/UX) by using a more conventional chat interface. Finally, we may potentially drop Angular2 for a more lightweight JavaScript framework. Our experience up to this point indicates that Angular2 is not optimal for our application.
 
 ## How to Use Current kitecrypt.com website
-* The user is able to sign-up and create a an account and generate a public key for encryption. The user can sign-up by clicking on the link on kitecrypt.com or going directly to url kitecrypt.com/signup. User will need to create a unique username and create a password, which cannot be blank. The password must be entered a second time on "Password Confirmation" input field, and both password fields must match.
-* The user is able to log-in to an active account. The site location for signing up is clicking on the link on kitecrypt.com. Users need to use their username and password which must match to access chat screen. 
+In order to log-in to website, go to (https://kitecrypt.com/). In username field, type "user", and type "user" again in password field to access chat section of app.
 
 ### Team Members
 Matt Fisher <br/> Juin "Jon" Sheafe <br/> Grant Wells <br/>Jonathan Guzman <br/>
