@@ -21,7 +21,7 @@ export class ChatService extends BaseService {
 	}
 
 	getChat() : Observable<RetrieveMessages[]> {
-		return(this.http.post(this.messageUrl)
+		return(this.http.post(this.messageUrl, "Requesting messages from server...")
 			.map(this.extractData)
 			.catch(this.handleError));
 	}
