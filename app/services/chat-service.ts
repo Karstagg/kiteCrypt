@@ -4,6 +4,7 @@ import {Observable} from "rxjs/Observable";
 import {BaseService} from "./base-service";
 import {Status} from "../classes/status";
 import {Message} from "../classes/message";
+import {RetrieveMessages} from "../classes/retrieveMessages";
 
 @Injectable()
 export class ChatService extends BaseService {
@@ -16,6 +17,12 @@ export class ChatService extends BaseService {
 	chat(message : Message) : Observable<Status> {
 		return(this.http.post(this.messageUrl, message)
 			.map(this.extractMessage)
+			.catch(this.handleError));
+	}
+
+	getChat() : Observable<RetrieveMessages[]> {
+		return(this.http.get(this.messageUrl)
+			.map(this.extractData)
 			.catch(this.handleError));
 	}
 }

@@ -7,6 +7,7 @@ import {PusherService} from "../services/pusher-service";
 import {KeyService} from "../services/key-service"
 import {Keys} from "../classes/key";
 import * as jsbnAll from "../../jsbn/jsbn-all";
+import {RetrieveMessages} from "../classes/retrieveMessages";
 // import ChannelComponent from './channel-component';
 declare var Pusher: any;
 
@@ -23,6 +24,7 @@ export class ChatComponent implements OnInit {
 	@ViewChild("chatForm") chatForm: any;
 	//directives: [ChannelComponent];
 	message: Message = new Message(null, null);
+	retrieveMessages: RetrieveMessages[] = [];
 	status: Status = null;
 	keys: Keys[] = [];
 	receiversPublicKeyX: string = null;
@@ -83,6 +85,13 @@ export class ChatComponent implements OnInit {
 		console.log(this.cipherText);
 		this.message.messageText = this.cipherText;
 
+		this.chatService.chat(this.message)
+			.subscribe(status => {
+				this.status = status;
+				console.log(this.message);
+
+			});
+
 		// this.decryptedText = jsbnAll.decryptMessage(this.sendersCommonSecretKey, this.cipherText);
 		// console.log(this.decryptedText);
 
@@ -114,6 +123,13 @@ export class ChatComponent implements OnInit {
 	}
 
 	receiveText(): void {
+		this.chatService.getChat()
+			.subscribe(retrieveMessages => {
+				this.retrieveMessages = retrieveMessages;
+				//this.keys = keys;
+				console.log(this.message);
+
+			});
 		console.log("receiveText function triggered");
 		console.log(this.message.messageText);
 		this.receiversPublicKeyX = this.keys[0]["profilePublicKeyX"];
@@ -127,12 +143,7 @@ export class ChatComponent implements OnInit {
 		console.log(this.decryptedText);
 		this.message.messageText = this.decryptedText;
 
-		this.chatService.chat(this.message)
-			.subscribe(status => {
-				this.status = status;
-				console.log(this.message);
 
-			});
 	}
 
 }
