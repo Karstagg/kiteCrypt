@@ -92,6 +92,7 @@ export class ChatComponent implements OnInit {
 
 			});
 
+
 		// this.decryptedText = jsbnAll.decryptMessage(this.sendersCommonSecretKey, this.cipherText);
 		// console.log(this.decryptedText);
 

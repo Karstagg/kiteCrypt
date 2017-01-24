@@ -146,7 +146,7 @@ try {
 	$reply->status = $typeError->getCode();
 	$reply->message = $typeError->getMessage();
 }
-
+header("Access-Control-Allow-Origin: *");
 header("Content-type: application/json");
 if($reply->data === null) {
 	unset($reply->data);

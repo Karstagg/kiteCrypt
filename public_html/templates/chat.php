@@ -44,3 +44,4 @@
 <div (newMessage)="receiveText()"></div>
 
 <pre (click)="receiveText()">{{message | json}}</pre>
+<subscription [search]="channel" [pusher]="pusher"></subscription>
